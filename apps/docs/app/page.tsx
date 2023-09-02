@@ -1,10 +1,10 @@
-import { Button, Header } from "@peakee/ui";
+import { Button, Header } from '@peakee/ui';
 
 export default function Page(): JSX.Element {
-  return (
-    <>
-      <Header text="Hello my docs" />
-      <Button />
-    </>
-  );
+	return (
+		<>
+			<Header text="Hello my docs" />
+			<Button />
+		</>
+	);
 }

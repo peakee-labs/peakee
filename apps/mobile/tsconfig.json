@@ -1,0 +1,3 @@
+{
+  "extends": "@peakee/tsconfig/application.json"
+}
