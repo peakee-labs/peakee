@@ -7,6 +7,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@peakee/eslint-config": "*",
+    "@peakee/tsconfig": "*",
     "eslint": "^8.48.0",
     "prettier": "^3.0.3",
     "tsconfig": "*",
