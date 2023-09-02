@@ -1,1 +1,3 @@
-# peakeechat
+# Peakee
+Monorepo for language learning platform
+
