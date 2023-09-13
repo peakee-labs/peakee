@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Colors, Header } from 'react-native/Libraries/NewAppScreen';
 
-function App(): JSX.Element {
+export function App(): JSX.Element {
 	const isDarkMode = useColorScheme() === 'dark';
 
 	const backgroundStyle = {
