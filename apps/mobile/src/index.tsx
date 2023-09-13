@@ -1,49 +1,27 @@
-import {
-	SafeAreaView,
-	ScrollView,
-	StatusBar,
-	StyleSheet,
-	Text,
-	useColorScheme,
-	View,
-} from 'react-native';
-import { Colors, Header } from 'react-native/Libraries/NewAppScreen';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export function App(): JSX.Element {
-	const isDarkMode = useColorScheme() === 'dark';
-
-	const backgroundStyle = {
-		backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-	};
-
 	return (
-		<SafeAreaView style={backgroundStyle}>
-			<StatusBar
-				barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-				backgroundColor={backgroundStyle.backgroundColor}
-			/>
-			<ScrollView
-				contentInsetAdjustmentBehavior="automatic"
-				style={backgroundStyle}
-			>
-				<Header />
-				<View
-					style={{
-						backgroundColor: isDarkMode
-							? Colors.black
-							: Colors.white,
-					}}
-				>
+		<View style={styles.app}>
+			<ScrollView contentContainerStyle={styles.container}>
+				<View>
 					<Text style={styles.h1}>Peakee</Text>
 				</View>
 			</ScrollView>
-		</SafeAreaView>
+		</View>
 	);
 }
 
 export default App;
 
 const styles = StyleSheet.create({
+	app: {
+		flex: 1,
+	},
+	container: {
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 	h1: {
 		fontSize: 50,
 		fontWeight: '600',
