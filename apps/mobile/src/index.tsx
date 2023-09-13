@@ -1,13 +1,11 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 export function App(): JSX.Element {
 	return (
 		<View style={styles.app}>
-			<ScrollView contentContainerStyle={styles.container}>
-				<View>
-					<Text style={styles.h1}>Peakee</Text>
-				</View>
-			</ScrollView>
+			<View style={styles.container}>
+				<Text style={styles.h1}>Hello Peakee</Text>
+			</View>
 		</View>
 	);
 }
@@ -19,6 +17,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	container: {
+		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
