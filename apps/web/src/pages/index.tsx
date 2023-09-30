@@ -1,7 +1,11 @@
 import { Text } from 'react-native';
 import { Button, Header } from '@peakee/ui';
 
+import { app } from '../utils/firebase';
+
 export default function Page(): JSX.Element {
+	console.log(app);
+
 	return (
 		<>
 			<Header text="Web" />
