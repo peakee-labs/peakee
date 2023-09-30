@@ -1,15 +1,11 @@
-'use client';
+import type { FC } from 'react';
+import type { TouchableOpacityProps } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
-export function Button(): JSX.Element {
-	return (
-		<button
-			onClick={(): void => {
-				// eslint-disable-next-line no-alert -- alert is being used for demo purposes only
-				alert('booped');
-			}}
-			type="button"
-		>
-			Boop
-		</button>
-	);
-}
+type Props = TouchableOpacityProps & {
+	title: string;
+};
+
+export const Button: FC<Props> = ({ title, ...props }) => {
+	return <TouchableOpacity {...props}>{title}</TouchableOpacity>;
+};
