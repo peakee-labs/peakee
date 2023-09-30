@@ -5,7 +5,10 @@
     "types": "./index.tsx",
     "license": "MIT",
     "scripts": {
-        "lint": "eslint ."
+        "lint": "eslint . --fix"
+    },
+    "dependencies": {
+        "react-native": "0.72.4"
     },
     "devDependencies": {
         "@types/node": "^20.5.2",
