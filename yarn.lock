@@ -2160,6 +2160,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@peakee/chat@workspace:packages/chat":
+  version: 0.0.0-use.local
+  resolution: "@peakee/chat@workspace:packages/chat"
+  dependencies:
+    "@types/node": ^20.5.2
+    "@types/react": ^18.2.0
+    "@types/react-dom": ^18.2.0
+    react: ^18.2.0
+    react-native: 0.72.4
+  languageName: unknown
+  linkType: soft
+
 "@peakee/docs@workspace:apps/landing":
   version: 0.0.0-use.local
   resolution: "@peakee/docs@workspace:apps/landing"
