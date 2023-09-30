@@ -1,11 +1,5 @@
 {
-  "extends": "@peakee/tsconfig/react-library.json",
-  "include": [
-    "."
-  ],
-  "exclude": [
-    "dist",
-    "build",
-    "node_modules"
-  ]
+    "extends": "@peakee/tsconfig/react-library.json",
+    "include": ["."],
+    "exclude": ["dist", "build", "node_modules"]
 }
