@@ -1,21 +1,21 @@
 {
-  "name": "peakee",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "private": true,
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint"
-  },
-  "devDependencies": {
-    "@peakee/eslint-config": "*",
-    "@peakee/tsconfig": "*",
-    "eslint": "8.38.0",
-    "prettier": "^2.8.7",
-    "turbo": "latest"
-  },
-  "packageManager": "yarn@3.6.1"
+    "name": "peakee",
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "private": true,
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "lint": "turbo run lint"
+    },
+    "devDependencies": {
+        "@peakee/eslint-config": "*",
+        "@peakee/tsconfig": "*",
+        "eslint": "8.38.0",
+        "prettier": "^2.8.7",
+        "turbo": "latest"
+    },
+    "packageManager": "yarn@3.6.3"
 }
