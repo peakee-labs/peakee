@@ -1,9 +1,13 @@
+import Config from 'react-native-config';
+import auth from '@react-native-firebase/auth';
 import {
 	GoogleSignin,
 	statusCodes,
 } from '@react-native-google-signin/google-signin';
 
-GoogleSignin.configure();
+GoogleSignin.configure({
+	webClientId: Config.WEB_CLIENT_ID,
+});
 
 type UnknownObject = Record<string, never>;
 
@@ -12,8 +16,20 @@ export const signIn = async () => {
 	try {
 		await GoogleSignin.hasPlayServices();
 		const userInfo = await GoogleSignin.signIn();
-		console.debug(userInfo, '<-- profile after sign in');
-		return userInfo;
+
+		const googleCredential = auth.GoogleAuthProvider.credential(
+			userInfo.idToken,
+		);
+
+		console.log(googleCredential, '<-- google credential');
+
+		const userCredential = await auth().signInWithCredential(
+			googleCredential,
+		);
+
+		console.debug(userCredential, '<-- profile after sign in');
+
+		return userCredential;
 	} catch (error) {
 		const err = error as UnknownObject;
 		if (err.code === statusCodes.SIGN_IN_CANCELLED) {
