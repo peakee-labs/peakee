@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { ChatBox } from '@peakee/chat';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
@@ -6,7 +6,7 @@ import { signIn } from './utils/auth';
 
 export function App(): JSX.Element {
 	return (
-		<View style={styles.app}>
+		<SafeAreaView style={styles.app}>
 			<View style={styles.container}>
 				<Text style={styles.h1}>Hello Peakee</Text>
 				<GoogleSigninButton
@@ -16,7 +16,7 @@ export function App(): JSX.Element {
 				/>
 				<ChatBox />
 			</View>
-		</View>
+		</SafeAreaView>
 	);
 }
 
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		flex: 1,
-		paddingTop: 20,
 	},
 	h1: {
 		fontSize: 50,
