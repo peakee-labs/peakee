@@ -2695,7 +2695,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@peakee/chat@workspace:packages/chat":
+"@peakee/chat@*, @peakee/chat@workspace:packages/chat":
   version: 0.0.0-use.local
   resolution: "@peakee/chat@workspace:packages/chat"
   dependencies:
@@ -2750,6 +2750,8 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
+    "@peakee/chat": "*"
+    "@peakee/ui": "*"
     "@react-native-firebase/app": ^18.5.0
     "@react-native-firebase/auth": ^18.5.0
     "@react-native-google-signin/google-signin": ^10.0.1
