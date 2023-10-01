@@ -2763,6 +2763,7 @@ __metadata:
     metro-react-native-babel-preset: 0.76.8
     react: 18.2.0
     react-native: 0.72.4
+    react-native-config: ^1.5.1
     react-test-renderer: 18.2.0
     typescript: ^4.5.3
   languageName: unknown
@@ -2791,6 +2792,7 @@ __metadata:
   resolution: "@peakee/web@workspace:apps/web"
   dependencies:
     "@next/eslint-plugin-next": ^13.4.19
+    "@peakee/chat": "*"
     "@peakee/eslint-config": "*"
     "@peakee/tsconfig": "*"
     "@peakee/ui": "*"
@@ -9409,6 +9411,18 @@ __metadata:
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
+  languageName: node
+  linkType: hard
+
+"react-native-config@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "react-native-config@npm:1.5.1"
+  peerDependencies:
+    react-native-windows: ">=0.61"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: ae17b750e445310573ce33798db67c9b8c50e55cb2ba136e9a9ef8372dd3f7669ce236bb18bf1fa8a426fd1aa9e6b516fb2f593767bd24688242f6847cd37712
   languageName: node
   linkType: hard
 
