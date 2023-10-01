@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { ChatBox } from '@peakee/chat';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
 import { signIn } from './utils/auth';
@@ -13,6 +14,7 @@ export function App(): JSX.Element {
 					color={GoogleSigninButton.Color.Dark}
 					onPress={signIn}
 				/>
+				<ChatBox />
 			</View>
 		</View>
 	);
@@ -26,8 +28,7 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
+		paddingTop: 20,
 	},
 	h1: {
 		fontSize: 50,

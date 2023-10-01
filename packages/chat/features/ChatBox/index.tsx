@@ -1,13 +1,21 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-const ChatBox = () => {
+export const ChatBox = () => {
 	return (
-		<View>
-			<Text>index</Text>
+		<View style={styles.container}>
+			<Text>Chat Box</Text>
 		</View>
 	);
 };
 
 export default ChatBox;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		margin: 10,
+		padding: 10,
+		borderWidth: 1,
+		borderRadius: 10,
+	},
+});

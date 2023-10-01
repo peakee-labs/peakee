@@ -1,5 +1,5 @@
-import { Text } from 'react-native';
-import { Button, Header } from '@peakee/ui';
+import { StyleSheet, Text, View } from 'react-native';
+import { ChatBox } from '@peakee/chat';
 
 import { app } from '../utils/firebase';
 
@@ -7,10 +7,19 @@ export default function Page(): JSX.Element {
 	console.log(app);
 
 	return (
-		<>
-			<Header text="Web" />
-			<Button style={{ width: 100 }} title="Hello web" />
-			<Text>Hello from new text 2</Text>
-		</>
+		<View style={styles.container}>
+			<Text style={styles.h1}>Peakee web</Text>
+			<ChatBox />
+		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	container: {
+		minHeight: '100vh' as never,
+	},
+	h1: {
+		fontSize: 40,
+		fontWeight: '500',
+	},
+});
