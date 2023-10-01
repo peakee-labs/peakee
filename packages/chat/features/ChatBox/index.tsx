@@ -13,7 +13,6 @@ export default ChatBox;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		margin: 10,
 		padding: 10,
 		borderWidth: 1,
 		borderRadius: 10,
