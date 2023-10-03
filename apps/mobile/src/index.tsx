@@ -8,7 +8,7 @@ export function App(): JSX.Element {
 	return (
 		<SafeAreaView style={styles.app}>
 			<View style={styles.container}>
-				<Text style={styles.h1}>Hello Peakee</Text>
+				<Text style={styles.h1}>Peakee</Text>
 				<GoogleSigninButton
 					size={GoogleSigninButton.Size.Wide}
 					color={GoogleSigninButton.Color.Dark}
@@ -28,10 +28,9 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		flex: 1,
-		padding: 10,
 	},
 	h1: {
-		fontSize: 50,
+		fontSize: 36,
 		fontWeight: '600',
 	},
 });
