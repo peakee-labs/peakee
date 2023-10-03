@@ -1,0 +1,19 @@
+{
+    "name": "@peakee/icons",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.tsx",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-native": "0.72.4",
+        "react-native-svg": "^13.14.0"
+    },
+    "devDependencies": {
+        "@types/react": "^18.2.0"
+    }
+}

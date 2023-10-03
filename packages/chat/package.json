@@ -8,6 +8,7 @@
         "lint": "eslint . --fix"
     },
     "dependencies": {
+        "@peakee/icons": "*",
         "react": "^18.2.0",
         "react-native": "0.72.4"
     },
