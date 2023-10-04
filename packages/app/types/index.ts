@@ -13,15 +13,17 @@ export interface UserChatData {
 	email: string;
 	imageUrl: string;
 	firebaseUid: string;
-	friends: Array<string>;
+	friends: string[];
+	chatRooms: string[];
 }
 
 export interface ChatRoom {
 	id: string;
-	name: string;
-	imageUrl: string;
-	latestMessage: Message;
-	messages?: Message[];
+	type: 'group' | 'individual';
+	members: string[];
+	name?: string;
+	imageUrl?: string;
+	latestMessage?: Message;
 }
 
 export interface Message {

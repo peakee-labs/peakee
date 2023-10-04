@@ -28,8 +28,13 @@ export const userSlice = createSlice({
 			console.log('Set friends');
 			state.friends = action.payload;
 		},
+		setChatRooms: (state, action: PayloadAction<ChatRoom[]>) => {
+			console.log('Set chat rooms', action.payload.length);
+			state.chatRooms = action.payload;
+		},
 	},
 });
 
-export const { setProfile, setChatData, setFriends } = userSlice.actions;
+export const { setProfile, setChatData, setFriends, setChatRooms } =
+	userSlice.actions;
 export const userReducer = userSlice.reducer;
