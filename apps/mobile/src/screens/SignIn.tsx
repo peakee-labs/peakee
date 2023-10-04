@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@peakee/app/state';
 import { setProfile } from '@peakee/app/state/user';

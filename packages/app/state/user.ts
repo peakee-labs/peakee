@@ -1,10 +1,11 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { UserProfile } from '../types';
+import type { ChatRoom, UserProfile } from '../types';
 
 export interface UserState {
 	profile?: UserProfile;
+	chatRooms?: [ChatRoom];
 }
 
 const initialState: UserState = {};
