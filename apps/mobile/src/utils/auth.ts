@@ -11,7 +11,7 @@ GoogleSignin.configure({
 
 type UnknownObject = Record<string, never>;
 
-export const signIn = async () => {
+export const signInWithGoogle = async () => {
 	console.debug('start sign in');
 	try {
 		await GoogleSignin.hasPlayServices();
