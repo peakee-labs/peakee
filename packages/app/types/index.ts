@@ -6,6 +6,7 @@ export interface UserProfile {
 }
 
 export interface UserChatData {
+	id: string;
 	name: string;
 	email: string;
 	firebaseUid: string;

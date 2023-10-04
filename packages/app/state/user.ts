@@ -26,5 +26,5 @@ export const userSlice = createSlice({
 	},
 });
 
-export const { setProfile } = userSlice.actions;
+export const { setProfile, setChatData } = userSlice.actions;
 export const userReducer = userSlice.reducer;

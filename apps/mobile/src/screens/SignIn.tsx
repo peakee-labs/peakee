@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@peakee/app/state';
-import { setProfile } from '@peakee/app/state/user';
+import { setProfile } from '@peakee/app/state';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { useNavigation } from '@react-navigation/native';
 
