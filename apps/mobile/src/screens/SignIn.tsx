@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { signInWithGoogle } from '../utils/auth';
 import { fetchUserChatData } from '../utils/firestore';
 
-const SignIn = () => {
+const SignInScreen = () => {
 	const userProfile = useSelector((state: RootState) => state.user.profile);
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
@@ -48,7 +48,7 @@ const SignIn = () => {
 	);
 };
 
-export default SignIn;
+export default SignInScreen;
 
 const styles = StyleSheet.create({
 	container: {

@@ -1,9 +1,9 @@
 import { ChatBox } from '@peakee/chat';
 
-const ChatRoom = () => {
+const ChatRoomScreen = () => {
 	return <ChatBox />;
 };
 
-export default ChatRoom;
+export default ChatRoomScreen;
 
 // const styles = StyleSheet.create({});

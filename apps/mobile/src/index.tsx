@@ -4,9 +4,9 @@ import { store } from '@peakee/app/state';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import ChatRoom from './screens/ChatRoom';
-import Home from './screens/Home';
-import SignIn from './screens/SignIn';
+import ChatRoomScreen from './screens/ChatRoom';
+import HomeScreen from './screens/Home';
+import SignInScreen from './screens/SignIn';
 import { withAuth } from './utils/hoc';
 
 const Stack = createNativeStackNavigator();
@@ -19,17 +19,17 @@ export function App(): JSX.Element {
 					<Stack.Navigator>
 						<Stack.Screen
 							name="Home"
-							component={withAuth(Home)}
+							component={withAuth(HomeScreen)}
 							options={{ headerShown: false }}
 						/>
 						<Stack.Screen
 							name="SignIn"
-							component={SignIn}
+							component={SignInScreen}
 							options={{ headerShown: false }}
 						/>
 						<Stack.Screen
 							name="ChatRoom"
-							component={ChatRoom}
+							component={ChatRoomScreen}
 							options={{ headerShown: false }}
 						/>
 					</Stack.Navigator>
