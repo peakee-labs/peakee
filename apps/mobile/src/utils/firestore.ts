@@ -198,10 +198,13 @@ export const createNewChatRoom = async (options: {
 	}
 
 	const res = await chatRoomsCollection.add(room);
-	const userChatData = store.getState().user.chatData;
-	await usersCollection.doc(userChatData?.id).update({
-		chatRooms: [...(userChatData?.chatRooms || []), res.id],
+
+	const promises = options.members.map((id) => {
+		return usersCollection.doc(id).update({
+			chatRooms: firestore.FieldValue.arrayUnion(res.id),
+		});
 	});
+	await Promise.all(promises);
 
 	room.id = res.id;
 
