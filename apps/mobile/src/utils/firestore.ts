@@ -4,37 +4,37 @@ import firestore from '@react-native-firebase/firestore';
 
 export const usersCollection = firestore().collection('Users');
 
-export const fetchUserData = async (profile: UserProfile) => {
+export const fetchUserChatData = async (
+	profile: UserProfile,
+	option?: { listen: boolean },
+) => {
 	try {
-		const userDocs = await usersCollection
+		const usersQuery = await usersCollection
 			.where('firebaseUid', '==', profile.uid)
 			.get();
 
-		if (userDocs.docs.length == 0) {
-			console.log('Not found this user', profile.email);
-			console.log('-> Init user to firestore');
+		let userChatDataId: string;
 
+		if (usersQuery.docs.length == 0) {
+			console.log('Not found this user -> init', profile.email);
 			const userDoc: Partial<UserChatData> = {
 				name: profile.name,
+				fullName: profile.fullName,
 				email: profile.email,
+				imageUrl: profile.imageUrl,
 				firebaseUid: profile.uid,
 				friends: [],
 			};
 
 			const res = await usersCollection.add(userDoc);
-			userDoc.id = res.id;
-			store.dispatch(setChatData(userDoc as UserChatData));
-		} else if (userDocs.docs.length == 1) {
-			console.log('Found in firestore');
-
-			const chatData = {
-				id: userDocs.docs[0].id,
-				...userDocs.docs[0].data(),
-			} as UserChatData;
-
-			store.dispatch(setChatData(chatData));
+			userChatDataId = res.id;
 		} else {
-			console.log('Found duplication', userDocs.docs.length);
+			console.log('Found in firestore', profile.email);
+			userChatDataId = usersQuery.docs[0].id;
+		}
+
+		if (option?.listen) {
+			listenUserChatData(userChatDataId);
 		}
 	} catch (e) {
 		console.log(e, '<-- Firestore error');
