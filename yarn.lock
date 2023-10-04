@@ -2775,6 +2775,7 @@ __metadata:
     "@peakee/ui": "*"
     "@react-native-firebase/app": ^18.5.0
     "@react-native-firebase/auth": ^18.5.0
+    "@react-native-firebase/firestore": ^18.5.0
     "@react-native-google-signin/google-signin": ^10.0.1
     "@react-native/metro-config": ^0.72.11
     "@react-navigation/native": ^6.1.8
@@ -3135,6 +3136,15 @@ __metadata:
     expo:
       optional: true
   checksum: 32df9f93b3b0d0b081a9767521b7019bb9edb896fda6934683a3319bf18cfd8c951b117613fb8ce25f7cf54e5b0ad81a2a75d83469986743e81268fbd51cb806
+  languageName: node
+  linkType: hard
+
+"@react-native-firebase/firestore@npm:^18.5.0":
+  version: 18.5.0
+  resolution: "@react-native-firebase/firestore@npm:18.5.0"
+  peerDependencies:
+    "@react-native-firebase/app": 18.5.0
+  checksum: 5de39d5aecae58553e571f0779704d6258d823236acb2f49ebcf466c463f73f949b654f23ba0ac622f71b5f79ac015947f319e6d0b5e36be20000093e2176d6f
   languageName: node
   linkType: hard
 
