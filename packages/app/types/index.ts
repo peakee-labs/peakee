@@ -20,5 +20,15 @@ export interface ChatRoom {
 	id: string;
 	name: string;
 	imageUrl: string;
-	type: 'group' | 'individual';
+	latestMessage: Message;
+	messages?: Message[];
+}
+
+export interface Message {
+	id: string;
+	content: string;
+	senderId: string;
+	roomId: string;
+	time: Date;
+	sent?: boolean;
 }
