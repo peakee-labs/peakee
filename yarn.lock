@@ -2695,7 +2695,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@peakee/app@workspace:packages/app":
+"@peakee/app@*, @peakee/app@workspace:packages/app":
   version: 0.0.0-use.local
   resolution: "@peakee/app@workspace:packages/app"
   dependencies:
@@ -2708,6 +2708,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@peakee/chat@workspace:packages/chat"
   dependencies:
+    "@peakee/app": "*"
     "@peakee/icons": "*"
     "@peakee/ui": "*"
     "@types/node": ^20.5.2

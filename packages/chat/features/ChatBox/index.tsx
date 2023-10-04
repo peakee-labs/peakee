@@ -8,19 +8,24 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
+import type { Message } from '@peakee/app';
 import { SendIcon } from '@peakee/icons';
 
 import { Header, ReceivedMessage, SentMessage } from './components';
 
 interface Props {
+	myId: string;
 	roomName: string;
 	roomDescription: string;
 	roomImage: string;
+	messages: Message[];
 	onPressBack: () => void;
 	sendMessage: (message: string) => void;
 }
 
 export const ChatBox: FC<Props> = ({
+	myId,
+	messages,
 	roomName,
 	roomDescription,
 	roomImage,
@@ -43,19 +48,23 @@ export const ChatBox: FC<Props> = ({
 				contentContainerStyle={styles.chatContainer}
 			>
 				<View style={styles.messagesContainer}>
-					<SentMessage message="Hello Tan, Nice to meet you" />
-					<SentMessage message="We have met at Peakee" />
-					<ReceivedMessage message="Hi, great! I love your presentation" />
-					<ReceivedMessage message="And can you talk more about it?" />
-					<SentMessage message="Sure! Peakee is ..." />
-					<SentMessage message="A Chat Application which is designed for learning language, like English" />
-					<ReceivedMessage message="Wowwwww" />
-					<ReceivedMessage message="I'll tell with my friend" />
-					<SentMessage message="Yeah! let's do it" />
-					<SentMessage message="A Chat Application which is designed for learning language, like English" />
-					<ReceivedMessage message="Wowwwww" />
-					<ReceivedMessage message="I'll tell with my friend" />
-					<SentMessage message="Yeah! let's do it 2" />
+					{messages.map((message, index) => {
+						if (message.id === myId) {
+							return (
+								<SentMessage
+									key={index}
+									message={message.content}
+								/>
+							);
+						} else {
+							return (
+								<ReceivedMessage
+									key={index}
+									message={message.content}
+								/>
+							);
+						}
+					})}
 				</View>
 
 				<View style={styles.inputContainer}>
