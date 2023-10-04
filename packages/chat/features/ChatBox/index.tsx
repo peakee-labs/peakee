@@ -1,3 +1,4 @@
+import type { FC } from 'react';
 import {
 	KeyboardAvoidingView,
 	Platform,
@@ -9,15 +10,38 @@ import {
 } from 'react-native';
 import { SendIcon } from '@peakee/icons';
 
-import { ReceivedMessage, SentMessage } from './components';
+import { Header, ReceivedMessage, SentMessage } from './components';
 
-export const ChatBox = () => {
+interface Props {
+	roomName: string;
+	roomDescription: string;
+	roomImage: string;
+	onPressBack: () => void;
+	sendMessage: (message: string) => void;
+}
+
+export const ChatBox: FC<Props> = ({
+	roomName,
+	roomDescription,
+	roomImage,
+	onPressBack,
+}) => {
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 			style={styles.container}
 		>
-			<ScrollView contentContainerStyle={styles.chatContainer}>
+			<Header
+				name={roomName}
+				description={roomDescription}
+				imageUrl={roomImage}
+				onPressBack={onPressBack}
+			/>
+
+			<ScrollView
+				style={styles.wrapChatContainer}
+				contentContainerStyle={styles.chatContainer}
+			>
 				<View style={styles.messagesContainer}>
 					<SentMessage message="Hello Tan, Nice to meet you" />
 					<SentMessage message="We have met at Peakee" />
@@ -54,6 +78,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
+	wrapChatContainer: {},
 	chatContainer: {
 		flex: 1,
 		flexGrow: 1,
@@ -62,16 +87,17 @@ const styles = StyleSheet.create({
 	messagesContainer: {
 		rowGap: 10,
 		paddingHorizontal: 14,
+		paddingBottom: 12,
+		borderTopWidth: 1,
+		borderBottomWidth: 1,
+		borderColor: '#ECEBEB',
 	},
 	inputContainer: {
-		marginTop: 20,
 		gap: 12,
 		flexDirection: 'row',
 		paddingHorizontal: 14,
 		paddingVertical: 10,
 		alignItems: 'center',
-		borderColor: '#EEFAF8',
-		borderTopWidth: 1,
 		backgroundColor: '#FFFFFF',
 	},
 	input: {
