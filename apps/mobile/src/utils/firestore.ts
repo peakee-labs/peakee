@@ -81,6 +81,8 @@ export const fetchFriends = async (friendsIds: string[]) => {
 };
 
 export const addFriend = async (email: string) => {
+	if (!email) return false;
+
 	const friendsQuery = await usersCollection
 		.where('email', '==', email)
 		.get();
