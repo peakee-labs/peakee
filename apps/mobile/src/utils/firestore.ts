@@ -41,6 +41,45 @@ export const fetchUserChatData = async (
 	}
 };
 
+export const listenUserChatData = (id: string) => {
+	usersCollection.doc(id).onSnapshot(async (doc) => {
+		const friendsIds = doc.data()?.friends as string[];
+
+		// Need to optimize if any profiles are already fetched
+		if (
+			friendsIds.toString() !==
+			store.getState().user.chatData?.friends.toString()
+		) {
+			fetchFriends(friendsIds);
+		}
+
+		store.dispatch(
+			setChatData({
+				id,
+				...doc.data(),
+			} as UserChatData),
+		);
+	});
+};
+
+export const fetchFriends = async (friendsIds: string[]) => {
+	if (friendsIds.length === 0) return;
+	const friendsQuery = await usersCollection
+		.where(firestore.FieldPath.documentId(), 'in', friendsIds)
+		.get();
+
+	store.dispatch(
+		setFriends(
+			friendsQuery.docs.map((ele) => {
+				return {
+					id: ele.id,
+					...ele.data(),
+				} as UserChatData;
+			}),
+		),
+	);
+};
+
 export const addFriend = async (email: string) => {
 	const friendsQuery = await usersCollection
 		.where('email', '==', email)
