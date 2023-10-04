@@ -12,7 +12,6 @@ GoogleSignin.configure({
 type UnknownObject = Record<string, never>;
 
 export const signInWithGoogle = async () => {
-	console.debug('start sign in');
 	try {
 		await GoogleSignin.hasPlayServices();
 		const userInfo = await GoogleSignin.signIn();
@@ -21,25 +20,21 @@ export const signInWithGoogle = async () => {
 			userInfo.idToken,
 		);
 
-		console.log(googleCredential, '<-- google credential');
-
 		const userCredential = await auth().signInWithCredential(
 			googleCredential,
 		);
-
-		console.debug(userCredential, '<-- profile after sign in');
 
 		return userCredential;
 	} catch (error) {
 		const err = error as UnknownObject;
 		if (err.code === statusCodes.SIGN_IN_CANCELLED) {
-			console.debug('cancelled sign in');
+			console.debug('Cancelled sign in');
 		} else if (err.code === statusCodes.IN_PROGRESS) {
-			console.debug('sign in in progress');
+			console.debug('Sign in in progress');
 		} else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-			console.debug('play services not available');
+			console.debug('Play services not available');
 		} else {
-			console.debug('unknown error', err);
+			console.debug('Unknown error', err);
 		}
 	}
 };

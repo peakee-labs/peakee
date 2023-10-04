@@ -5,6 +5,13 @@ export interface UserProfile {
 	imageUrl: string;
 }
 
+export interface UserChatData {
+	name: string;
+	email: string;
+	firebaseUid: string;
+	friends: Array<string>;
+}
+
 export interface ChatRoom {
 	id: string;
 	name: string;

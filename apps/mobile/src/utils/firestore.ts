@@ -1,21 +1,31 @@
-import type { UserProfile } from '@peakee/app/types';
+import type { UserChatData, UserProfile } from '@peakee/app/types';
 import firestore from '@react-native-firebase/firestore';
 
 export const usersCollection = firestore().collection('Users');
 
 export const fetchUserData = async (profile: UserProfile) => {
 	try {
-		const userDoc = await firestore()
-			.collection('Users')
+		const userDocs = await usersCollection
 			.where('firebaseUid', '==', profile.uid)
 			.get();
 
-		if (userDoc.docs.length == 0) {
-			console.log('not found this user');
-		}
+		if (userDocs.docs.length == 0) {
+			console.log('Not found this user', profile.email);
+			console.log('-> Init user to firestore');
+			const userDoc: UserChatData = {
+				name: profile.name,
+				email: profile.email,
+				firebaseUid: profile.uid,
+				friends: [],
+			};
 
-		console.log(userDoc, '<-- users');
+			await usersCollection.add(userDoc);
+		} else if (userDocs.docs.length == 1) {
+			console.log('Found in firestore');
+		} else {
+			console.log('Found duplication', userDocs.docs.length);
+		}
 	} catch (e) {
-		console.log(e, '<-- firestore error');
+		console.log(e, '<-- Firestore error');
 	}
 };
