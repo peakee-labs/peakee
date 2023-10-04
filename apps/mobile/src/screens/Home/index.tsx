@@ -4,7 +4,7 @@ import type { RootState } from '@peakee/app/state';
 
 import { AddFriend, Friends, Profile } from './components';
 
-const Home = () => {
+const HomeScreen = () => {
 	const userProfile = useSelector((state: RootState) => state.user.profile);
 	const friends = useSelector((state: RootState) => state.user.friends);
 
@@ -33,7 +33,7 @@ const Home = () => {
 	);
 };
 
-export default Home;
+export default HomeScreen;
 
 const styles = StyleSheet.create({
 	container: {
