@@ -1,4 +1,4 @@
-import { setChatData, store } from '@peakee/app/state';
+import { setChatData, setFriends, store } from '@peakee/app/state';
 import type { UserChatData, UserProfile } from '@peakee/app/types';
 import firestore from '@react-native-firebase/firestore';
 
@@ -95,7 +95,7 @@ export const addFriend = async (email: string) => {
 		}
 
 		const friendId = friendsQuery.docs[0].id;
-		if (!data.friends.includes(friendId)) {
+		if (data.friends.includes(friendId)) {
 			console.log('Already added');
 			return false;
 		}
@@ -103,6 +103,8 @@ export const addFriend = async (email: string) => {
 		await usersCollection.doc(data.id).update({
 			friends: [...data.friends, friendId],
 		});
+
+		console.log('Added', email);
 
 		return true;
 	}
