@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ChatRoom from './screens/ChatRoom';
 import Home from './screens/Home';
 import SignIn from './screens/SignIn';
+import { withAuth } from './utils/hoc';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,13 +18,13 @@ export function App(): JSX.Element {
 				<SafeAreaView style={styles.app}>
 					<Stack.Navigator>
 						<Stack.Screen
-							name="SignIn"
-							component={SignIn}
+							name="Home"
+							component={withAuth(Home)}
 							options={{ headerShown: false }}
 						/>
 						<Stack.Screen
-							name="Home"
-							component={Home}
+							name="SignIn"
+							component={SignIn}
 							options={{ headerShown: false }}
 						/>
 						<Stack.Screen
