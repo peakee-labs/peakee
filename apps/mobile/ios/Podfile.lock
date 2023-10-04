@@ -1343,6 +1343,8 @@ PODS:
   - RNScreens (3.25.0):
     - React-Core
     - React-RCTImage
+  - RNSVG (13.14.0):
+    - React-Core
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -1421,6 +1423,7 @@ DEPENDENCIES:
   - "RNFBFirestore (from `../../../node_modules/@react-native-firebase/firestore`)"
   - "RNGoogleSignin (from `../../../node_modules/@react-native-google-signin/google-signin`)"
   - RNScreens (from `../../../node_modules/react-native-screens`)
+  - RNSVG (from `../../../node_modules/react-native-svg`)
   - Yoga (from `../../../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1554,6 +1557,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/@react-native-google-signin/google-signin"
   RNScreens:
     :path: "../../../node_modules/react-native-screens"
+  RNSVG:
+    :path: "../../../node_modules/react-native-svg"
   Yoga:
     :path: "../../../node_modules/react-native/ReactCommon/yoga"
 
@@ -1637,6 +1642,7 @@ SPEC CHECKSUMS:
   RNFBFirestore: a9837bc0c4d0911ade436787e995fa20a12a77b0
   RNGoogleSignin: ccaa4a81582cf713eea562c5dd9dc1961a715fd0
   RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa
+  RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 3efc43e0d48686ce2e8c60f99d4e6bd349aff981
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a

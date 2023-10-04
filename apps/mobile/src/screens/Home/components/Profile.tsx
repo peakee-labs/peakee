@@ -1,5 +1,6 @@
 import type { FC } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Avatar } from '@peakee/ui';
 
 interface Props {
 	id: string;
@@ -10,7 +11,7 @@ interface Props {
 export const Profile: FC<Props> = ({ name, image, id }) => {
 	return (
 		<View style={styles.container}>
-			<Image style={styles.avatar} source={{ uri: image }} />
+			<Avatar imageUrl={image} />
 			<View>
 				<Text style={styles.name}>{name}</Text>
 				<Text style={styles.id}>{id}</Text>
@@ -26,12 +27,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		columnGap: 10,
-	},
-	avatar: {
-		height: 50,
-		width: 50,
-		borderRadius: 25,
-		borderWidth: 0.4,
 	},
 	name: {
 		fontSize: 16,
