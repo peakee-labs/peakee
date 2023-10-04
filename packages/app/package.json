@@ -1,0 +1,15 @@
+{
+    "name": "@peakee/app",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@reduxjs/toolkit": "^1.9.6",
+        "react-redux": "^8.1.3"
+    }
+}

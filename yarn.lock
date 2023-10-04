@@ -2695,6 +2695,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@peakee/app@workspace:packages/app":
+  version: 0.0.0-use.local
+  resolution: "@peakee/app@workspace:packages/app"
+  dependencies:
+    "@reduxjs/toolkit": ^1.9.6
+    react-redux: ^8.1.3
+  languageName: unknown
+  linkType: soft
+
 "@peakee/chat@*, @peakee/chat@workspace:packages/chat":
   version: 0.0.0-use.local
   resolution: "@peakee/chat@workspace:packages/chat"

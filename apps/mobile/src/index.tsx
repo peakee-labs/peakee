@@ -1,12 +1,12 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
+import { store } from '@peakee/app/state';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import ChatRoom from './screens/ChatRoom';
 import Home from './screens/Home';
 import SignIn from './screens/SignIn';
-import { store } from './state/store';
 
 const Stack = createNativeStackNavigator();
 
