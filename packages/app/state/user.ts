@@ -6,7 +6,8 @@ import type { ChatRoom, UserChatData, UserProfile } from '../types';
 export interface UserState {
 	profile?: UserProfile;
 	chatData?: UserChatData;
-	chatRooms?: [ChatRoom];
+	chatRooms?: ChatRoom[];
+	friends?: UserChatData[];
 }
 
 const initialState: UserState = {};
@@ -23,8 +24,12 @@ export const userSlice = createSlice({
 			console.log('Set user chat data', action.payload.email);
 			state.chatData = action.payload;
 		},
+		setFriends: (state, action: PayloadAction<UserChatData[]>) => {
+			console.log('Set friends');
+			state.friends = action.payload;
+		},
 	},
 });
 
-export const { setProfile, setChatData } = userSlice.actions;
+export const { setProfile, setChatData, setFriends } = userSlice.actions;
 export const userReducer = userSlice.reducer;

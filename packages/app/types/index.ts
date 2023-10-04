@@ -1,5 +1,6 @@
 export interface UserProfile {
 	name: string;
+	fullName: string;
 	email: string;
 	uid: string;
 	imageUrl: string;
@@ -8,7 +9,9 @@ export interface UserProfile {
 export interface UserChatData {
 	id: string;
 	name: string;
+	fullName: string;
 	email: string;
+	imageUrl: string;
 	firebaseUid: string;
 	friends: Array<string>;
 }
