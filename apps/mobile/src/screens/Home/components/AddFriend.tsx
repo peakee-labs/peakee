@@ -7,8 +7,7 @@ export const AddFriend = () => {
 	const [friendEmail, setFriendEmail] = useState('');
 
 	const handlePressAddFriend = () => {
-		console.log(friendEmail);
-		addFriend(friendEmail);
+		addFriend(friendEmail.toLowerCase());
 	};
 
 	return (

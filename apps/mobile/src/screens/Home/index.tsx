@@ -2,11 +2,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@peakee/app/state';
 
-import Friends from './components/Friends';
-import { AddFriend, Profile } from './components';
+import { AddFriend, Friends, Profile } from './components';
 
 const Home = () => {
 	const userProfile = useSelector((state: RootState) => state.user.profile);
+	const friends = useSelector((state: RootState) => state.user.friends);
 
 	return (
 		<View style={styles.container}>
@@ -15,7 +15,7 @@ const Home = () => {
 			{userProfile ? (
 				<Profile
 					id={userProfile.email}
-					name={userProfile.name}
+					name={userProfile.fullName}
 					image={userProfile.imageUrl}
 				/>
 			) : (
@@ -23,7 +23,7 @@ const Home = () => {
 			)}
 
 			<Text style={styles.h2}>Friends</Text>
-			<Friends />
+			<Friends profiles={friends || []} />
 
 			<Text style={styles.h3}>Add Friends</Text>
 			<AddFriend />

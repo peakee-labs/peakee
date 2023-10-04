@@ -7,7 +7,7 @@ import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { useNavigation } from '@react-navigation/native';
 
 import { signInWithGoogle } from '../utils/auth';
-import { fetchUserData } from '../utils/firestore';
+import { fetchUserChatData } from '../utils/firestore';
 
 const SignIn = () => {
 	const userProfile = useSelector((state: RootState) => state.user.profile);
@@ -19,10 +19,12 @@ const SignIn = () => {
 		if (userCredential) {
 			dispatch(
 				setProfile({
+					uid: userCredential.user.uid,
+					name: userCredential.additionalUserInfo?.profile
+						?.given_name as string,
+					fullName: userCredential.user.displayName as string,
 					email: userCredential.user.email as string,
 					imageUrl: userCredential.user.photoURL as string,
-					name: userCredential.user.displayName as string,
-					uid: userCredential.user.uid,
 				}),
 			);
 
@@ -31,7 +33,7 @@ const SignIn = () => {
 	};
 
 	useEffect(() => {
-		if (userProfile) fetchUserData(userProfile);
+		if (userProfile) fetchUserChatData(userProfile, { listen: true });
 	}, [userProfile]);
 
 	return (
