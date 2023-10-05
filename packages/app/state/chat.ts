@@ -26,11 +26,36 @@ export const chatSlice = createSlice({
 				message: Message;
 			}>,
 		) => {
-			state[action.payload.roomId].messages.push(action.payload.message);
+			if (state[action.payload.roomId].messages) {
+				state[action.payload.roomId].messages.push(
+					action.payload.message,
+				);
+			} else {
+				console.log(
+					'Cannot append messages, not found this chat room from map',
+				);
+			}
+		},
+		addMessages: (
+			state,
+			action: PayloadAction<{
+				roomId: string;
+				messages: Message[];
+			}>,
+		) => {
+			if (state[action.payload.roomId].messages) {
+				state[action.payload.roomId].messages.push(
+					...action.payload.messages,
+				);
+			} else {
+				console.log(
+					'Cannot append messages, not found this chat room from map',
+				);
+			}
 		},
 	},
 });
 
-export const { addMessage, setMessages } = chatSlice.actions;
+export const { setMessages, addMessage, addMessages } = chatSlice.actions;
 
 export const chatReducer = chatSlice.reducer;
