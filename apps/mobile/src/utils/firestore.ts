@@ -122,7 +122,10 @@ export const fetchRooms = async (roomsIds: string[]) => {
 
 export const fetchMessages = async (roomId: string) => {
 	const messagesQuery = await chatRoomsCollection
-		.where(firestore.FieldPath.documentId(), '==', roomId)
+		.doc(roomId)
+		.collection('Messages')
+		.orderBy('time')
+		.limitToLast(10)
 		.get();
 
 	const messages = messagesQuery.docs.map((ele) => {
@@ -131,6 +134,8 @@ export const fetchMessages = async (roomId: string) => {
 			...ele.data(),
 		} as Message;
 	});
+
+	console.log('Fetched Messages', messages);
 
 	store.dispatch(
 		setMessages({
@@ -209,4 +214,9 @@ export const createNewChatRoom = async (options: {
 	room.id = res.id;
 
 	return room as ChatRoom;
+};
+
+export const sendMessage = (message: Partial<Message>) => {
+	message.time = new Date();
+	chatRoomsCollection.doc(message.roomId).collection('Messages').add(message);
 };

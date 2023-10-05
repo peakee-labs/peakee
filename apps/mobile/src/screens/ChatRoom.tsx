@@ -4,7 +4,7 @@ import type { RootState } from '@peakee/app/state';
 import { ChatBox } from '@peakee/chat';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import { fetchMessages } from '../utils/firestore';
+import { fetchMessages, sendMessage } from '../utils/firestore';
 
 const ChatRoomScreen = () => {
 	const route = useRoute();
@@ -17,12 +17,18 @@ const ChatRoomScreen = () => {
 	);
 	const room = useSelector((state: RootState) => state.chat[roomId]);
 
+	console.log('Room for map', room);
+
 	const handleGoBack = () => {
 		navigation.goBack();
 	};
 
-	const sendMessage = (message: string) => {
-		console.log(message);
+	const handleSendMessage = (message: string) => {
+		sendMessage({
+			roomId: roomId,
+			senderId: user?.id as string,
+			content: message,
+		});
 	};
 
 	useEffect(() => {
@@ -50,7 +56,7 @@ const ChatRoomScreen = () => {
 			roomDescription={roomDescription}
 			roomImage={roomImage}
 			onPressBack={handleGoBack}
-			sendMessage={sendMessage}
+			sendMessage={handleSendMessage}
 		/>
 	);
 };

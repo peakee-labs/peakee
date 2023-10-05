@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useState } from 'react';
 import {
 	KeyboardAvoidingView,
 	Platform,
@@ -30,7 +31,15 @@ export const ChatBox: FC<Props> = ({
 	roomDescription,
 	roomImage,
 	onPressBack,
+	sendMessage,
 }) => {
+	const [message, setMessage] = useState('');
+
+	const handleSendMessage = () => {
+		sendMessage(message);
+		setMessage('');
+	};
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -49,7 +58,7 @@ export const ChatBox: FC<Props> = ({
 			>
 				<View style={styles.messagesContainer}>
 					{messages.map((message, index) => {
-						if (message.id === myId) {
+						if (message.senderId === myId) {
 							return (
 								<SentMessage
 									key={index}
@@ -69,10 +78,15 @@ export const ChatBox: FC<Props> = ({
 
 				<View style={styles.inputContainer}>
 					<TextInput
+						value={message}
+						onChangeText={setMessage}
 						style={styles.input}
 						placeholder="Type a message..."
 					/>
-					<TouchableOpacity style={styles.sendButton}>
+					<TouchableOpacity
+						style={styles.sendButton}
+						onPress={handleSendMessage}
+					>
 						<SendIcon size={20} color={'#FFFFFF'} />
 					</TouchableOpacity>
 				</View>
