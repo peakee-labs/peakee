@@ -17,8 +17,6 @@ const ChatRoomScreen = () => {
 	);
 	const room = useSelector((state: RootState) => state.chat[roomId]);
 
-	console.log('Room for map', room);
-
 	const handleGoBack = () => {
 		navigation.goBack();
 	};
@@ -62,5 +60,3 @@ const ChatRoomScreen = () => {
 };
 
 export default ChatRoomScreen;
-
-// const styles = StyleSheet.create({});
