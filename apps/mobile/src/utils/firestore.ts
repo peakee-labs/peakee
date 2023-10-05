@@ -1,4 +1,5 @@
 import type { ChatState } from '@peakee/app/state';
+import { addMessages } from '@peakee/app/state';
 import {
 	setChatData,
 	setChatRooms,
@@ -121,30 +122,42 @@ export const fetchRooms = async (roomsIds: string[]) => {
 };
 
 export const fetchMessages = async (roomId: string) => {
-	const messagesQuery = await chatRoomsCollection
+	chatRoomsCollection
 		.doc(roomId)
 		.collection('Messages')
 		.orderBy('time')
 		.limitToLast(10)
-		.get();
+		.onSnapshot((doc) => {
+			const messages = doc.docs.map((ele) => {
+				const id = ele.id;
+				const data = ele.data();
+				// data.time = data.time.toDate(); -> error with non-serialized state
+				return {
+					id,
+					content: data.content,
+					roomId: data.roomId,
+					senderId: data.senderId,
+				} as Message;
+			});
 
-	const messages = messagesQuery.docs.map((ele) => {
-		return {
-			id: ele.id,
-			...ele.data(),
-		} as Message;
-	});
-
-	console.log('Fetched Messages', messages);
-
-	store.dispatch(
-		setMessages({
-			info: store
-				.getState()
-				.user.chatRooms?.find((ele) => ele.id === roomId),
-			messages,
-		} as ChatState),
-	);
+			if (store.getState().chat[roomId]) {
+				store.dispatch(
+					addMessages({
+						roomId,
+						messages,
+					}),
+				);
+			} else {
+				store.dispatch(
+					setMessages({
+						info: store
+							.getState()
+							.user.chatRooms?.find((ele) => ele.id === roomId),
+						messages,
+					} as ChatState),
+				);
+			}
+		});
 };
 
 export const addFriend = async (email: string) => {
