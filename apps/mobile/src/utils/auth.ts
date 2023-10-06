@@ -1,4 +1,5 @@
 import Config from 'react-native-config';
+import { resetChatState, resetUserState, store } from '@peakee/app/state';
 import auth from '@react-native-firebase/auth';
 import {
 	GoogleSignin,
@@ -37,4 +38,13 @@ export const signInWithGoogle = async () => {
 			console.debug('Unknown error', err);
 		}
 	}
+};
+
+export const signOut = async () => {
+	await auth()
+		.signOut()
+		.then(() => console.log('User signed out!'));
+
+	store.dispatch(resetUserState());
+	store.dispatch(resetChatState());
 };

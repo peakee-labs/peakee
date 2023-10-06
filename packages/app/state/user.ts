@@ -16,6 +16,7 @@ export const userSlice = createSlice({
 	name: 'user',
 	initialState,
 	reducers: {
+		reset: () => initialState,
 		setProfile: (state, action: PayloadAction<UserProfile>) => {
 			console.log('Set user profile', action.payload.email);
 			state.profile = action.payload;
@@ -35,6 +36,11 @@ export const userSlice = createSlice({
 	},
 });
 
-export const { setProfile, setChatData, setFriends, setChatRooms } =
-	userSlice.actions;
+export const {
+	setProfile,
+	setChatData,
+	setFriends,
+	setChatRooms,
+	reset: resetUserState,
+} = userSlice.actions;
 export const userReducer = userSlice.reducer;
