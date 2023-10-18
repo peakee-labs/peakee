@@ -4,9 +4,24 @@ const { DefinePlugin } = require('webpack');
 module.exports = {
 	swcMinify: true,
 	reactStrictMode: true,
-	transpilePackages: ['@peakee/ui', 'react', 'react-native'],
+	transpilePackages: [
+		'@peakee/ui',
+		'@peakee/icons',
+		'react',
+		'react-native',
+		'react-native-svg',
+	],
 	webpack: (config) => {
 		config.resolve.alias['react-native$'] = 'react-native-web';
+
+		// These config make react-native-svg works on web
+		config.resolve.extensions = [
+			'.web.js',
+			'.web.jsx',
+			'.web.ts',
+			'.web.tsx',
+			...config.resolve.extensions,
+		];
 
 		const environments = [
 			'API_KEY',
