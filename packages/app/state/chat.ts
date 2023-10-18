@@ -1,7 +1,6 @@
+import type { ChatRoom, Message } from '@peakee/db/types';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-
-import type { ChatRoom, Message } from '../types';
 
 export interface ChatState {
 	info: ChatRoom;
