@@ -41,7 +41,7 @@ export const injectFirestoreDB = () => {
 };
 
 const createNewUserImpl: CreateNewUserFunction = async (user) => {
-	const { id } = await usersCollection;
+	const { id } = await addDoc(usersCollection, user);
 	return { id, ...user };
 };
 
@@ -56,7 +56,7 @@ const getUserByIDImpl: GetUserByIDFunction = async (id) => {
 };
 
 const getUserByFirebaseUIDImpl: GetUserByFirebaseUIDFunction = async (uid) => {
-	const usersQuery = query(usersCollection, where('firebaseUID', '==', uid));
+	const usersQuery = query(usersCollection, where('firebaseUid', '==', uid));
 	const userDocs = await getDocs(usersQuery);
 	if (userDocs.docs.length === 0) return;
 
