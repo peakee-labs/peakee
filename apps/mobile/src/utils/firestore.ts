@@ -21,10 +21,11 @@ export const listenMessagesInChatRoom = async (roomId: string) => {
 		.limitToLast(10)
 		.onSnapshot(({ docs }) => {
 			const messages = docs.map((ele) => {
+				const data = ele.data();
+				data.time = data.time.toString();
 				return {
 					id: ele.id,
-					...ele.data(),
-					time: new Date(), // -> error with non-serialized state
+					...data,
 				} as Message;
 			});
 
