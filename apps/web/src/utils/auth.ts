@@ -1,3 +1,4 @@
+import { setProfile, store } from '@peakee/app/state';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
@@ -13,17 +14,22 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
-const auth = getAuth();
+export const auth = getAuth();
 
-export const signIn = () => {
-	signInWithPopup(auth, provider)
-		.then((result) => {
-			const credential = GoogleAuthProvider.credentialFromResult(result);
-			const token = credential?.accessToken;
-			const user = result.user;
-			console.log({ token, user }, '<-- signed in');
-		})
-		.catch((error) => {
-			console.log(error, 'sign in error');
-		});
+export const signIn = async () => {
+	try {
+		const userCredential = await signInWithPopup(auth, provider);
+		const user = userCredential.user;
+		store.dispatch(
+			setProfile({
+				uid: user.uid,
+				name: user.displayName as string,
+				fullName: user.displayName as string,
+				email: user.email as string,
+				imageUrl: user.photoURL as string,
+			}),
+		);
+	} catch (e) {
+		console.log('Sign in error', e);
+	}
 };
