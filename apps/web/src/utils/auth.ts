@@ -11,8 +11,7 @@ const firebaseConfig = {
 	messagingSenderId: MESSAGING_SENDER_ID,
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
