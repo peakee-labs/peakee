@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
-
-import { addFriend } from '../../../utils/firestore';
+import { addFriend } from '@peakee/app/utils';
 
 export const AddFriend = () => {
 	const [friendEmail, setFriendEmail] = useState('');

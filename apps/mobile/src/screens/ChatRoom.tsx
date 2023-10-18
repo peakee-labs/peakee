@@ -2,41 +2,41 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@peakee/app/state';
 import { ChatBox } from '@peakee/chat';
+import { createNewMessage } from '@peakee/db';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import { fetchMessages, sendMessage } from '../utils/firestore';
+import { listenMessagesInChatRoom } from '../utils/firestore';
 
 const ChatRoomScreen = () => {
 	const route = useRoute();
 	const navigation = useNavigation();
 	const { roomId, receiverId } = route.params as never;
 
+	const room = useSelector((state: RootState) => state.chat[roomId]);
 	const user = useSelector((state: RootState) => state.user.chatData);
 	const receiver = useSelector((state: RootState) =>
 		state.user.friends?.find((ele) => (ele.id = receiverId)),
 	);
-	const room = useSelector((state: RootState) => state.chat[roomId]);
 
 	const handleGoBack = () => {
 		navigation.goBack();
 	};
 
 	const handleSendMessage = (message: string) => {
-		sendMessage({
+		createNewMessage({
 			roomId: roomId,
 			senderId: user?.id as string,
 			content: message,
+			time: new Date(),
 		});
 	};
 
 	useEffect(() => {
-		console.log(roomId, '<-- mount room id');
-		if (!room) {
-			try {
-				fetchMessages(roomId);
-			} catch (e) {
-				console.log(e);
-			}
+		if (room) return;
+		try {
+			listenMessagesInChatRoom(roomId);
+		} catch (e) {
+			console.log(e);
 		}
 	}, []);
 

@@ -3,11 +3,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@peakee/app/state';
 import { setProfile } from '@peakee/app/state';
+import { initUserChatData } from '@peakee/app/utils';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { useNavigation } from '@react-navigation/native';
 
 import { signInWithGoogle } from '../utils/auth';
-import { fetchUserChatData } from '../utils/firestore';
+import { listenUserChatData } from '../utils/firestore';
 
 const SignInScreen = () => {
 	const userProfile = useSelector((state: RootState) => state.user.profile);
@@ -33,7 +34,10 @@ const SignInScreen = () => {
 	};
 
 	useEffect(() => {
-		if (userProfile) fetchUserChatData(userProfile, { listen: true });
+		if (!userProfile) return;
+		initUserChatData(userProfile).then((user) => {
+			listenUserChatData(user.id);
+		});
 	}, [userProfile]);
 
 	return (

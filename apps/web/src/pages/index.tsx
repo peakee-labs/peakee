@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { ChatBox } from '@peakee/chat';
+// import { ChatBox } from '@peakee/chat';
 import { Button } from '@peakee/ui';
 
 import { signIn } from '../utils/firebase';
@@ -13,7 +13,7 @@ export default function Page(): JSX.Element {
 				title="Sign in with Google"
 				onPress={signIn}
 			/>
-			<ChatBox />
+			{/* <ChatBox /> */}
 		</View>
 	);
 }

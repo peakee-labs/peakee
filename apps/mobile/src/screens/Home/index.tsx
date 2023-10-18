@@ -1,6 +1,9 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@peakee/app/state';
+import { store } from '@peakee/app/state';
+import { createNewChatRoom } from '@peakee/db';
+import type { UserChatData } from '@peakee/db/types';
 import { useNavigation } from '@react-navigation/native';
 
 import { signOut } from '../../utils/auth';
@@ -15,6 +18,34 @@ const HomeScreen = () => {
 	const handleSignOut = () => {
 		signOut();
 		navigation.navigate('SignIn' as never);
+	};
+
+	const handlePressFriend = async (friend: UserChatData) => {
+		let room = store
+			.getState()
+			.user.chatRooms?.find(
+				(ele) =>
+					ele.members.includes(friend.id) &&
+					ele.type === 'individual',
+			);
+
+		if (!room) {
+			room = await createNewChatRoom({
+				type: 'individual',
+				members: [
+					store.getState().user.chatData?.id as string,
+					friend.id,
+				],
+			});
+		}
+
+		navigation.navigate(
+			'ChatRoom' as never,
+			{
+				roomId: room.id,
+				receiverId: friend.id,
+			} as never,
+		);
 	};
 
 	return (
@@ -36,7 +67,10 @@ const HomeScreen = () => {
 
 			<Text style={styles.h2}>Friends</Text>
 			<View style={styles.friendsContainer}>
-				<Friends profiles={friends || []} />
+				<Friends
+					profiles={friends || []}
+					onPressFriend={handlePressFriend}
+				/>
 			</View>
 
 			<AddFriend />
