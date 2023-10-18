@@ -10,8 +10,8 @@ import {
 import {
 	createNewUser,
 	getChatRooms,
+	getUserByEmail,
 	getUserByFirebaseUID,
-	getUserByID,
 	getUsers,
 	updateFriend,
 } from '@peakee/db';
@@ -39,13 +39,14 @@ export const initUserChatData = async (profile: UserProfile) => {
 
 export const addFriend = async (email: string) => {
 	const user = store.getState().user.chatData;
+	console.log(email, '<-- email');
 	if (!user) throw Error('Not found user chat data');
 	else if (user.friends.includes(email)) {
 		console.log('Friend already added', email);
 		return false;
 	}
 
-	const friend = await getUserByID(email);
+	const friend = await getUserByEmail(email);
 	if (!friend) {
 		console.log('Friend not found', email);
 		return false;

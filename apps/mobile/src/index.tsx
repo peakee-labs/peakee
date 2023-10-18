@@ -17,13 +17,13 @@ export function App(): JSX.Element {
 				<SafeAreaView style={styles.app}>
 					<Stack.Navigator>
 						<Stack.Screen
-							name="Home"
-							component={HomeScreen}
+							name="SignIn"
+							component={SignInScreen}
 							options={{ headerShown: false }}
 						/>
 						<Stack.Screen
-							name="SignIn"
-							component={SignInScreen}
+							name="Home"
+							component={HomeScreen}
 							options={{ headerShown: false }}
 						/>
 						<Stack.Screen

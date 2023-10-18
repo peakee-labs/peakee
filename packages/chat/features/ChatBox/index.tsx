@@ -9,7 +9,7 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import type { Message } from '@peakee/app';
+import type { Message } from '@peakee/db/types';
 import { SendIcon } from '@peakee/icons';
 
 import { Header, ReceivedMessage, SentMessage } from './components';
@@ -20,7 +20,7 @@ interface Props {
 	roomDescription: string;
 	roomImage: string;
 	messages: Message[];
-	onPressBack: () => void;
+	onPressBack?: () => void;
 	sendMessage: (message: string) => void;
 }
 
@@ -34,6 +34,13 @@ export const ChatBox: FC<Props> = ({
 	sendMessage,
 }) => {
 	const [message, setMessage] = useState('');
+
+	const handlePressBack = () => {
+		if (onPressBack) onPressBack();
+		else {
+			console.log('Press back');
+		}
+	};
 
 	const handleSendMessage = () => {
 		sendMessage(message);
@@ -49,7 +56,7 @@ export const ChatBox: FC<Props> = ({
 				name={roomName}
 				description={roomDescription}
 				imageUrl={roomImage}
-				onPressBack={onPressBack}
+				onPressBack={handlePressBack}
 			/>
 
 			<ScrollView

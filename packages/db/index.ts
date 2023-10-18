@@ -38,6 +38,7 @@ export const injectFirestoreFunctions = (functions: InjectedFunctions) => {
 	createNewUser = functions.createNewUser;
 	getUserByID = functions.getUserByID;
 	getUserByFirebaseUID = functions.getUserByFirebaseUID;
+	getUserByEmail = functions.getUserByEmail;
 	getUsers = functions.getUsers;
 	updateFriend = functions.updateFriend;
 	createNewChatRoom = functions.createNewChatRoom;

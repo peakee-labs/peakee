@@ -4,12 +4,14 @@ import type { RootState } from '@peakee/app/state';
 import { store } from '@peakee/app/state';
 import { createNewChatRoom } from '@peakee/db';
 import type { UserChatData } from '@peakee/db/types';
+import { useRouter } from 'next/router';
 
 import { AddFriend, Friends, Profile } from './components';
 
 const HomeScreen = () => {
 	const userProfile = useSelector((state: RootState) => state.user.profile);
 	const friends = useSelector((state: RootState) => state.user.friends);
+	const router = useRouter();
 
 	const handlePressFriend = async (friend: UserChatData) => {
 		let room = store
@@ -29,6 +31,8 @@ const HomeScreen = () => {
 				],
 			});
 		}
+
+		router.push(`/chat/${room.id}`);
 	};
 
 	return (
