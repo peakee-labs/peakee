@@ -12,7 +12,7 @@ import type {
 	Message,
 	UserChatData,
 	UserProfile,
-} from '@peakee/app/types';
+} from '@peakee/db/types';
 import firestore from '@react-native-firebase/firestore';
 
 export const usersCollection = firestore().collection('Users');

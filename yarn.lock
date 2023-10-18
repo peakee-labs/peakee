@@ -2709,6 +2709,7 @@ __metadata:
   resolution: "@peakee/chat@workspace:packages/chat"
   dependencies:
     "@peakee/app": "*"
+    "@peakee/db": "*"
     "@peakee/icons": "*"
     "@peakee/ui": "*"
     "@types/node": ^20.5.2
@@ -2716,6 +2717,12 @@ __metadata:
     "@types/react-dom": ^18.2.0
     react: ^18.2.0
     react-native: 0.72.4
+  languageName: unknown
+  linkType: soft
+
+"@peakee/db@*, @peakee/db@workspace:packages/db":
+  version: 0.0.0-use.local
+  resolution: "@peakee/db@workspace:packages/db"
   languageName: unknown
   linkType: soft
 
@@ -2773,7 +2780,9 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
+    "@peakee/app": "*"
     "@peakee/chat": "*"
+    "@peakee/db": "*"
     "@peakee/ui": "*"
     "@react-native-firebase/app": ^18.5.0
     "@react-native-firebase/auth": ^18.5.0
@@ -2823,7 +2832,9 @@ __metadata:
   resolution: "@peakee/web@workspace:apps/web"
   dependencies:
     "@next/eslint-plugin-next": ^13.4.19
+    "@peakee/app": "*"
     "@peakee/chat": "*"
+    "@peakee/db": "*"
     "@peakee/eslint-config": "*"
     "@peakee/tsconfig": "*"
     "@peakee/ui": "*"

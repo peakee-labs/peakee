@@ -1,7 +1,6 @@
+import type { ChatRoom, UserChatData, UserProfile } from '@peakee/db/types';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-
-import type { ChatRoom, UserChatData, UserProfile } from '../types';
 
 export interface UserState {
 	profile?: UserProfile;

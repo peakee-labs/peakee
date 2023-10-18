@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { store } from '@peakee/app/state';
-import type { UserChatData } from '@peakee/app/types';
+import type { UserChatData } from '@peakee/db/types';
 import { Avatar } from '@peakee/ui';
 import { useNavigation } from '@react-navigation/native';
 

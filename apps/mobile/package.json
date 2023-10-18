@@ -10,7 +10,9 @@
         "test": "jest"
     },
     "dependencies": {
+        "@peakee/app": "*",
         "@peakee/chat": "*",
+        "@peakee/db": "*",
         "@peakee/ui": "*",
         "@react-native-firebase/app": "^18.5.0",
         "@react-native-firebase/auth": "^18.5.0",
