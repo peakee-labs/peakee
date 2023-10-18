@@ -60,7 +60,6 @@ export const handleChangeUser = async (user: UserChatData) => {
 
 	if (user.friends.toString() !== (currentUser?.friends || []).toString()) {
 		const friends = await getUsers(user.friends);
-		console.log(user, friends, '<--');
 		store.dispatch(setFriends(friends));
 	}
 

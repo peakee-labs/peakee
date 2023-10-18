@@ -7,7 +7,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ChatRoomScreen from './screens/ChatRoom';
 import HomeScreen from './screens/Home';
 import SignInScreen from './screens/SignIn';
-import { withAuth } from './utils/hoc';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +18,7 @@ export function App(): JSX.Element {
 					<Stack.Navigator>
 						<Stack.Screen
 							name="Home"
-							component={withAuth(HomeScreen)}
+							component={HomeScreen}
 							options={{ headerShown: false }}
 						/>
 						<Stack.Screen
