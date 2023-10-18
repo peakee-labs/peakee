@@ -3,19 +3,16 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { withAuth } from '../utils/hoc';
 
-const Home: FC = () => {
+const Chat: FC = () => {
 	return (
-		<View>
-			<Text style={styles.h1}>Peakee web</Text>
+		<View style={styles.container}>
+			<Text>Chat</Text>
 		</View>
 	);
 };
 
-export default withAuth(Home);
+export default withAuth(Chat);
 
 const styles = StyleSheet.create({
-	h1: {
-		fontSize: 40,
-		fontWeight: '500',
-	},
+	container: {},
 });
