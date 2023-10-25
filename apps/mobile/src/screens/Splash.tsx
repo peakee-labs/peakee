@@ -1,10 +1,39 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { useEffect } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import Animated, {
+	runOnJS,
+	useAnimatedStyle,
+	useSharedValue,
+	withSpring,
+} from 'react-native-reanimated';
+import { useNavigation } from '@react-navigation/native';
 
 const Splash = () => {
+	const mountOffset = useSharedValue(-100);
+	const navigation = useNavigation();
+
+	const animatedStyle = useAnimatedStyle(() => {
+		return {
+			transform: [{ translateY: mountOffset.value }],
+		};
+	});
+
+	useEffect(() => {
+		mountOffset.value = withSpring(
+			0,
+			{},
+			runOnJS(() => {
+				setTimeout(() => {
+					navigation.navigate('SignIn' as never);
+				}, 1500);
+			})() as never,
+		);
+	}, []);
+
 	return (
 		<View style={styles.container}>
-			<Image
-				style={styles.mascotImage}
+			<Animated.Image
+				style={[styles.mascotImage, animatedStyle]}
 				source={require('assets/peakee-mascot.png')}
 				resizeMode="cover"
 			/>

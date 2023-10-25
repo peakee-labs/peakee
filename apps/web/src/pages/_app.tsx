@@ -26,6 +26,6 @@ export default PeakeeApp;
 
 const styles = StyleSheet.create({
 	container: {
-		minHeight: '100vh' as never,
+		height: '100vh' as never,
 	},
 });
