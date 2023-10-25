@@ -17,5 +17,8 @@
         "prettier": "^2.8.7",
         "turbo": "latest"
     },
-    "packageManager": "yarn@3.6.3"
+    "packageManager": "yarn@3.6.3",
+    "dependencies": {
+        "babel-plugin-module-resolver": "^5.0.0"
+    }
 }
