@@ -3,10 +3,10 @@ import { Provider } from 'react-redux';
 import { store } from '@peakee/app/state';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import ChatRoomScreen from './screens/ChatRoom';
-import HomeScreen from './screens/Home';
-import SignInScreen from './screens/SignIn';
+import ChatRoomScreen from 'screens/ChatRoom';
+import HomeScreen from 'screens/Home';
+import SignInScreen from 'screens/SignIn';
+import Splash from 'screens/Splash';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +16,11 @@ export function App(): JSX.Element {
 			<NavigationContainer>
 				<SafeAreaView style={styles.app}>
 					<Stack.Navigator>
+						<Stack.Screen
+							name="Splash"
+							component={Splash}
+							options={{ headerShown: false }}
+						/>
 						<Stack.Screen
 							name="SignIn"
 							component={SignInScreen}
