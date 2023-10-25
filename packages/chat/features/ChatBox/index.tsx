@@ -1,6 +1,8 @@
 import type { FC } from 'react';
+import { useRef } from 'react';
 import { useState } from 'react';
 import {
+	Keyboard,
 	KeyboardAvoidingView,
 	Platform,
 	ScrollView,
@@ -34,6 +36,7 @@ export const ChatBox: FC<Props> = ({
 	sendMessage,
 }) => {
 	const [message, setMessage] = useState('');
+	const scrollViewRef = useRef<ScrollView>(null);
 
 	const handlePressBack = () => {
 		if (onPressBack) onPressBack();
@@ -43,6 +46,7 @@ export const ChatBox: FC<Props> = ({
 	};
 
 	const handleSendMessage = () => {
+		if (message.length === 0) return;
 		sendMessage(message);
 		setMessage('');
 	};
@@ -61,9 +65,18 @@ export const ChatBox: FC<Props> = ({
 
 			<ScrollView
 				style={styles.wrapChatContainer}
+				ref={scrollViewRef}
 				contentContainerStyle={styles.chatContainer}
+				keyboardShouldPersistTaps="always"
+				keyboardDismissMode="interactive"
+				onContentSizeChange={() =>
+					scrollViewRef.current?.scrollToEnd({ animated: true })
+				}
 			>
-				<View style={styles.messagesContainer}>
+				<View
+					style={styles.messagesContainer}
+					onTouchStart={Keyboard.dismiss}
+				>
 					{messages.map((message, index) => {
 						if (message.senderId === myId) {
 							return (
@@ -82,22 +95,25 @@ export const ChatBox: FC<Props> = ({
 						}
 					})}
 				</View>
-
-				<View style={styles.inputContainer}>
-					<TextInput
-						value={message}
-						onChangeText={setMessage}
-						style={styles.input}
-						placeholder="Type a message..."
-					/>
-					<TouchableOpacity
-						style={styles.sendButton}
-						onPress={handleSendMessage}
-					>
-						<SendIcon size={20} color={'#FFFFFF'} />
-					</TouchableOpacity>
-				</View>
 			</ScrollView>
+
+			<View style={styles.inputContainer}>
+				<TextInput
+					value={message}
+					onChangeText={setMessage}
+					style={styles.input}
+					placeholder="Type a message..."
+					onSubmitEditing={handleSendMessage}
+					blurOnSubmit={false}
+					enablesReturnKeyAutomatically={true}
+				/>
+				<TouchableOpacity
+					style={styles.sendButton}
+					onPress={handleSendMessage}
+				>
+					<SendIcon size={20} color={'#FFFFFF'} />
+				</TouchableOpacity>
+			</View>
 		</KeyboardAvoidingView>
 	);
 };
@@ -108,9 +124,10 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
-	wrapChatContainer: {},
-	chatContainer: {
+	wrapChatContainer: {
 		flex: 1,
+	},
+	chatContainer: {
 		flexGrow: 1,
 		justifyContent: 'flex-end', // Content will be at the bottom when the keyboard is open
 	},
