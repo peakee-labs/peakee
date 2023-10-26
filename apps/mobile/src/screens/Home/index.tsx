@@ -5,8 +5,7 @@ import { store } from '@peakee/app/state';
 import { createNewChatRoom } from '@peakee/db';
 import type { UserChatData } from '@peakee/db/types';
 import { useNavigation } from '@react-navigation/native';
-
-import { signOut } from '../../utils/auth';
+import { signOut } from 'utils/auth';
 
 import { AddFriend, Friends, Profile } from './components';
 

@@ -4,8 +4,7 @@ import type { RootState } from '@peakee/app/state';
 import { ChatBox } from '@peakee/chat';
 import { createNewMessage } from '@peakee/db';
 import { useNavigation, useRoute } from '@react-navigation/native';
-
-import { listenMessagesInChatRoom } from '../utils/firestore';
+import { listenMessagesInChatRoom } from 'utils/firestore';
 
 const ChatRoomScreen = () => {
 	const route = useRoute();

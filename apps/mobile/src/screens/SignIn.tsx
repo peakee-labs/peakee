@@ -6,9 +6,8 @@ import { setProfile } from '@peakee/app/state';
 import { initUserChatData } from '@peakee/app/utils';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { useNavigation } from '@react-navigation/native';
-
-import { signInWithGoogle } from '../utils/auth';
-import { listenUserChatData } from '../utils/firestore';
+import { signInWithGoogle } from 'utils/auth';
+import { listenUserChatData } from 'utils/firestore';
 
 const SignInScreen = () => {
 	const userProfile = useSelector((state: RootState) => state.user.profile);
