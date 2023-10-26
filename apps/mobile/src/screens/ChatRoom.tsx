@@ -15,7 +15,7 @@ const ChatRoomScreen = () => {
 	const room = useSelector((state: RootState) => state.chat[roomId]);
 	const user = useSelector((state: RootState) => state.user.chatData);
 	const receiver = useSelector((state: RootState) =>
-		state.user.friends?.find((ele) => (ele.id = receiverId)),
+		state.user.friends?.find((ele) => ele.id === receiverId),
 	);
 
 	const handleGoBack = () => {
