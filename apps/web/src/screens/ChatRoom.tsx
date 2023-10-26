@@ -61,6 +61,7 @@ const ChatRoomScreen = () => {
 					roomDescription={roomDescription}
 					roomImage={roomImage}
 					sendMessage={handleSendMessage}
+					onPressBack={router.back}
 				/>
 			) : (
 				<View>Loading...</View>
