@@ -8,7 +8,9 @@ interface Props {
 export const ReceivedMessage: FC<Props> = ({ message }) => {
 	return (
 		<View style={styles.container}>
-			<Text style={styles.text}>{message}</Text>
+			<View style={styles.textContainer}>
+				<Text style={styles.text}>{message}</Text>
+			</View>
 		</View>
 	);
 };
@@ -17,14 +19,17 @@ export default ReceivedMessage;
 
 const styles = StyleSheet.create({
 	container: {
+		alignSelf: 'flex-start',
+	},
+	textContainer: {
 		backgroundColor: '#F2F7FB',
-		padding: 13,
-		borderRadius: 10,
-		borderTopLeftRadius: 0,
-		marginRight: 'auto',
+		paddingVertical: 10,
+		paddingHorizontal: 18,
+		borderRadius: 20,
+		marginRight: 50,
 	},
 	text: {
-		fontSize: 14,
+		fontSize: 16,
 		color: '#000000',
 	},
 });

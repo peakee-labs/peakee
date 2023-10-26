@@ -12,7 +12,7 @@ import {
 	View,
 } from 'react-native';
 import type { Message } from '@peakee/db/types';
-import { SendIcon } from '@peakee/icons';
+import { ChevronRight, SendIcon } from '@peakee/icons';
 
 import { Header, ReceivedMessage, SentMessage } from './components';
 
@@ -98,6 +98,7 @@ export const ChatBox: FC<Props> = ({
 			</ScrollView>
 
 			<View style={styles.inputContainer}>
+				<ChevronRight size={24} color="#000000" />
 				<TextInput
 					value={message}
 					onChangeText={setMessage}
@@ -111,7 +112,7 @@ export const ChatBox: FC<Props> = ({
 					style={styles.sendButton}
 					onPress={handleSendMessage}
 				>
-					<SendIcon size={20} color={'#FFFFFF'} />
+					<SendIcon size={24} color={'#000000'} />
 				</TouchableOpacity>
 			</View>
 		</KeyboardAvoidingView>
@@ -123,6 +124,7 @@ export default ChatBox;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: '#FFFFFF',
 	},
 	wrapChatContainer: {
 		flex: 1,
@@ -133,11 +135,9 @@ const styles = StyleSheet.create({
 	},
 	messagesContainer: {
 		rowGap: 10,
-		paddingHorizontal: 14,
-		paddingBottom: 12,
-		borderTopWidth: 1,
-		borderBottomWidth: 1,
-		borderColor: '#ECEBEB',
+		paddingHorizontal: 10,
+		paddingVertical: 12,
+		backgroundColor: '#FFFFFF',
 	},
 	inputContainer: {
 		gap: 12,
@@ -150,8 +150,8 @@ const styles = StyleSheet.create({
 	input: {
 		flex: 1,
 		backgroundColor: '#F3F6F6',
-		padding: 16,
-		borderRadius: 12,
+		padding: 10,
+		borderRadius: 18,
 	},
 	sendButton: {
 		height: 40,
@@ -159,6 +159,5 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: '#20A090',
 	},
 });

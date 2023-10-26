@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ChevronLeft } from '@peakee/icons';
+import { MoveLeft, Phone, VerticalDots } from '@peakee/icons';
 import { Avatar } from '@peakee/ui';
 
 interface Props {
@@ -16,16 +16,33 @@ export const Header: FC<Props> = ({
 	imageUrl,
 	onPressBack,
 }) => {
+	const getUsername = (text: string) => {
+		if (text.includes('@')) {
+			return text.substring(0, text.indexOf('@'));
+		}
+		return text;
+	};
+
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity style={styles.backButton} onPress={onPressBack}>
-				<ChevronLeft size={24} color={'#000000'} />
+				<MoveLeft size={24} color={'#000000'} />
 			</TouchableOpacity>
-			<View style={styles.textContainer}>
-				<Text style={styles.name}>{name}</Text>
-				<Text style={styles.description}>{description}</Text>
+
+			<View style={styles.infoBlock}>
+				<Avatar imageUrl={imageUrl} />
+				<View style={styles.textContainer}>
+					<Text style={styles.name}>{name}</Text>
+					<Text style={styles.description}>
+						{getUsername(description)}
+					</Text>
+				</View>
 			</View>
-			<Avatar imageUrl={imageUrl} />
+
+			<View style={styles.iconsBlock}>
+				<Phone size={24} color="#000000" />
+				<VerticalDots size={24} color="#000000" />
+			</View>
 		</View>
 	);
 };
@@ -36,7 +53,6 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'space-between',
 		backgroundColor: '#FFFFFF',
 		paddingVertical: 8,
 		paddingRight: 10,
@@ -47,17 +63,25 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	textContainer: {
+	infoBlock: {
+		flexDirection: 'row',
 		alignItems: 'center',
+		gap: 6,
+	},
+	textContainer: {
 		gap: 2,
 	},
 	name: {
-		fontSize: 16,
+		fontSize: 18,
 		fontWeight: '600',
 		color: '#000000',
 	},
 	description: {
 		fontSize: 14,
 		color: '#7A7A7A',
+	},
+	iconsBlock: {
+		flexDirection: 'row',
+		marginLeft: 'auto',
 	},
 });
