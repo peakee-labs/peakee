@@ -1,21 +1,23 @@
 import type { FC } from 'react';
-import { Path, Svg } from 'react-native-svg';
+import { Circle, Svg } from 'react-native-svg';
 
 import type { IconProps } from './types';
 
-export const ChevronLeft: FC<IconProps> = ({ size, color, strokeWidth }) => {
+export const VerticalDots: FC<IconProps> = ({ size, color, strokeWidth }) => {
 	return (
 		<Svg
 			width={size}
 			height={size}
-			stroke={color}
 			viewBox="0 0 24 24"
 			fill="none"
+			stroke={color}
 			strokeWidth={strokeWidth || '1'}
 			strokeLinecap="round"
 			strokeLinejoin="round"
 		>
-			<Path d="m15 18-6-6 6-6" />
+			<Circle cx="12" cy="12" r="1" />
+			<Circle cx="12" cy="5" r="1" />
+			<Circle cx="12" cy="19" r="1" />
 		</Svg>
 	);
 };

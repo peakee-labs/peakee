@@ -3,7 +3,7 @@ import { Path, Svg } from 'react-native-svg';
 
 import type { IconProps } from './types';
 
-export const SendIcon: FC<IconProps> = ({ size, color }) => {
+export const SendIcon: FC<IconProps> = ({ size, color, strokeWidth }) => {
 	return (
 		<Svg
 			width={size}
@@ -11,7 +11,7 @@ export const SendIcon: FC<IconProps> = ({ size, color }) => {
 			stroke={color}
 			viewBox="0 0 24 24"
 			fill="none"
-			strokeWidth="2"
+			strokeWidth={strokeWidth || '1'}
 			strokeLinecap="round"
 			strokeLinejoin="round"
 		>

@@ -13,9 +13,8 @@ export default Avatar;
 
 const styles = StyleSheet.create({
 	avatar: {
-		height: 50,
-		width: 50,
+		height: 40,
+		width: 40,
 		borderRadius: 25,
-		borderWidth: 0.4,
 	},
 });
