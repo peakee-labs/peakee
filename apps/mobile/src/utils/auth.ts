@@ -1,10 +1,19 @@
 import Config from 'react-native-config';
-import { resetChatState, resetUserState, store } from '@peakee/app/state';
+import {
+	resetChatState,
+	resetUserState,
+	setProfile,
+	store,
+} from '@peakee/app/state';
+import { initUserChatData } from '@peakee/app/utils';
+import type { UserProfile } from '@peakee/db/types';
 import auth from '@react-native-firebase/auth';
 import {
 	GoogleSignin,
 	statusCodes,
 } from '@react-native-google-signin/google-signin';
+
+import { listenUserChatData } from './firestore';
 
 GoogleSignin.configure({
 	webClientId: Config.WEB_CLIENT_ID,
@@ -44,7 +53,24 @@ export const signOut = async () => {
 	await auth()
 		.signOut()
 		.then(() => console.log('User signed out!'));
-
-	store.dispatch(resetUserState());
-	store.dispatch(resetChatState());
 };
+
+auth().onAuthStateChanged((user) => {
+	if (!user) {
+		store.dispatch(resetUserState());
+		store.dispatch(resetChatState());
+	} else {
+		const userProfile: UserProfile = {
+			uid: user.uid,
+			name: user.displayName as string,
+			fullName: user.displayName as string,
+			email: user.email as string,
+			imageUrl: user.photoURL as string,
+		};
+		store.dispatch(setProfile(userProfile));
+
+		initUserChatData(userProfile).then((user) => {
+			listenUserChatData(user.id);
+		});
+	}
+});

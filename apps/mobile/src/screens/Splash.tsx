@@ -6,7 +6,10 @@ import Animated, {
 	useSharedValue,
 	withSpring,
 } from 'react-native-reanimated';
+import { store } from '@peakee/app/state';
 import { useNavigation } from '@react-navigation/native';
+
+import 'utils/auth';
 
 const Splash = () => {
 	const mountOffset = useSharedValue(-100);
@@ -24,7 +27,11 @@ const Splash = () => {
 			{},
 			runOnJS(() => {
 				setTimeout(() => {
-					navigation.navigate('SignIn' as never);
+					if (store.getState().user.profile) {
+						navigation.navigate('Home' as never);
+					} else {
+						navigation.navigate('SignIn' as never);
+					}
 				}, 1500);
 			})() as never,
 		);

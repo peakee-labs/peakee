@@ -1,43 +1,17 @@
-import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import type { RootState } from '@peakee/app/state';
-import { setProfile } from '@peakee/app/state';
-import { initUserChatData } from '@peakee/app/utils';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { useNavigation } from '@react-navigation/native';
 import { signInWithGoogle } from 'utils/auth';
-import { listenUserChatData } from 'utils/firestore';
 
 const SignInScreen = () => {
-	const userProfile = useSelector((state: RootState) => state.user.profile);
-	const dispatch = useDispatch();
 	const navigation = useNavigation();
 
 	const handleSignIn = async () => {
 		const userCredential = await signInWithGoogle();
 		if (userCredential) {
-			dispatch(
-				setProfile({
-					uid: userCredential.user.uid,
-					name: userCredential.additionalUserInfo?.profile
-						?.given_name as string,
-					fullName: userCredential.user.displayName as string,
-					email: userCredential.user.email as string,
-					imageUrl: userCredential.user.photoURL as string,
-				}),
-			);
-
 			navigation.navigate('Home' as never);
 		}
 	};
-
-	useEffect(() => {
-		if (!userProfile) return;
-		initUserChatData(userProfile).then((user) => {
-			listenUserChatData(user.id);
-		});
-	}, [userProfile]);
 
 	return (
 		<View style={styles.container}>
