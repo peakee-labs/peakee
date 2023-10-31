@@ -98,7 +98,7 @@ export const ChatBox: FC<Props> = ({
 			</ScrollView>
 
 			<View style={styles.inputContainer}>
-				<ChevronRight size={24} color="#000000" />
+				<ChevronRight size={20} color="#000000" />
 				<TextInput
 					value={message}
 					onChangeText={setMessage}
@@ -112,7 +112,7 @@ export const ChatBox: FC<Props> = ({
 					style={styles.sendButton}
 					onPress={handleSendMessage}
 				>
-					<SendIcon size={24} color={'#000000'} />
+					<SendIcon size={20} color={'#000000'} />
 				</TouchableOpacity>
 			</View>
 		</KeyboardAvoidingView>
@@ -150,12 +150,13 @@ const styles = StyleSheet.create({
 	input: {
 		flex: 1,
 		backgroundColor: '#F3F6F6',
-		padding: 10,
+		paddingVertical: 8,
+		paddingHorizontal: 10,
 		borderRadius: 18,
 	},
 	sendButton: {
-		height: 40,
-		width: 40,
+		height: 32,
+		width: 32,
 		borderRadius: 20,
 		justifyContent: 'center',
 		alignItems: 'center',

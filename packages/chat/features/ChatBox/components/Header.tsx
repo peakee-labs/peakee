@@ -26,7 +26,7 @@ export const Header: FC<Props> = ({
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity style={styles.backButton} onPress={onPressBack}>
-				<MoveLeft size={24} color={'#000000'} />
+				<MoveLeft size={20} color={'#000000'} />
 			</TouchableOpacity>
 
 			<View style={styles.infoBlock}>
@@ -40,8 +40,8 @@ export const Header: FC<Props> = ({
 			</View>
 
 			<View style={styles.iconsBlock}>
-				<Phone size={24} color="#000000" />
-				<VerticalDots size={24} color="#000000" />
+				<Phone size={20} color="#000000" />
+				<VerticalDots size={20} color="#000000" />
 			</View>
 		</View>
 	);
