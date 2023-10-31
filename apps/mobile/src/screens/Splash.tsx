@@ -27,12 +27,12 @@ const Splash = () => {
 			{},
 			runOnJS(() => {
 				setTimeout(() => {
-					if (store.getState().user.profile) {
+					if (store.getState().user.chatData) {
 						navigation.navigate('Home' as never);
 					} else {
 						navigation.navigate('SignIn' as never);
 					}
-				}, 1500);
+				}, 2000);
 			})() as never,
 		);
 	}, []);

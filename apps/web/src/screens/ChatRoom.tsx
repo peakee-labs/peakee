@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@peakee/app/state';
@@ -6,8 +5,6 @@ import { store } from '@peakee/app/state';
 import { ChatBox } from '@peakee/chat';
 import { createNewMessage } from '@peakee/db';
 import { useRouter } from 'next/router';
-
-import { listenMessagesInChatRoom } from '../utils/firestore';
 
 const ChatRoomScreen = () => {
 	const router = useRouter();
@@ -24,15 +21,6 @@ const ChatRoomScreen = () => {
 			time: new Date(),
 		});
 	};
-
-	useEffect(() => {
-		if (room) return;
-		try {
-			listenMessagesInChatRoom(roomId);
-		} catch (e) {
-			console.log(e);
-		}
-	}, []);
 
 	let roomName: string;
 	let roomDescription: string;

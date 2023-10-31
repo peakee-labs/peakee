@@ -18,7 +18,7 @@ export const Friends: FC<Props> = ({ profiles, onPressFriend }) => {
 						style={styles.profileContainer}
 						onPress={() => onPressFriend(p)}
 					>
-						<Avatar imageUrl={p.imageUrl} />
+						<Avatar source={{ uri: p.imageUrl }} />
 						<Text>{p.name}</Text>
 					</TouchableOpacity>
 				);
