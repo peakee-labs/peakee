@@ -1,4 +1,5 @@
 import type { ChatState } from '@peakee/app/state';
+import { setLatestMessageOfChatRoom } from '@peakee/app/state';
 import {
 	addMessages,
 	setChatData,
@@ -39,7 +40,6 @@ export const initUserChatData = async (profile: UserProfile) => {
 
 export const addFriend = async (email: string) => {
 	const user = store.getState().user.chatData;
-	console.log(email, '<-- email');
 	if (!user) throw Error('Not found user chat data');
 	else if (user.friends.includes(email)) {
 		console.log('Friend already added', email);
@@ -81,10 +81,14 @@ export const handleIncomingMessages = (roomId: string, messages: Message[]) => {
 		const lastMessageIdx = messages.findIndex(
 			(ele) => ele.id === lastMessageId,
 		);
+		const incomingMessages = messages.slice(lastMessageIdx + 1);
+		store.dispatch(
+			setLatestMessageOfChatRoom(messages[messages.length - 1]),
+		);
 		store.dispatch(
 			addMessages({
 				roomId,
-				messages: messages.slice(lastMessageIdx + 1),
+				messages: incomingMessages,
 			}),
 		);
 	} else {
