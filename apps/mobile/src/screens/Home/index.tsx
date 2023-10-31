@@ -33,10 +33,7 @@ const HomeScreen = () => {
 		if (!room) {
 			room = await createNewChatRoom({
 				type: 'individual',
-				members: [
-					store.getState().user.chatData?.id as string,
-					friend.id,
-				],
+				members: [user?.id as string, friend.id],
 			});
 		}
 

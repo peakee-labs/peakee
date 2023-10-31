@@ -1,4 +1,10 @@
-import type { ChatRoom, UserChatData, UserProfile } from '@peakee/db/types';
+import { listenToMessagesOfChatRoom } from '@peakee/db';
+import type {
+	ChatRoom,
+	Message,
+	UserChatData,
+	UserProfile,
+} from '@peakee/db/types';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -30,7 +36,27 @@ export const userSlice = createSlice({
 		},
 		setChatRooms: (state, action: PayloadAction<ChatRoom[]>) => {
 			console.log('Set chat rooms', action.payload.length);
-			state.chatRooms = action.payload;
+			const chatRooms = action.payload;
+			state.chatRooms = chatRooms;
+			Promise.all(
+				chatRooms.map((room) => {
+					listenToMessagesOfChatRoom(room.id);
+				}),
+			);
+		},
+		setLatestMessageOfChatRoom: (state, action: PayloadAction<Message>) => {
+			if (!state.chatRooms) {
+				console.log('Chat room is not initialized to receive message');
+				return;
+			}
+
+			const roomIdx = state.chatRooms.findIndex(
+				(room) => room.id === action.payload.roomId,
+			);
+
+			if (roomIdx !== -1) {
+				state.chatRooms[roomIdx].latestMessage = action.payload;
+			}
 		},
 	},
 });
@@ -41,5 +67,6 @@ export const {
 	setFriends,
 	setChatRooms,
 	reset: resetUserState,
+	setLatestMessageOfChatRoom,
 } = userSlice.actions;
 export const userReducer = userSlice.reducer;

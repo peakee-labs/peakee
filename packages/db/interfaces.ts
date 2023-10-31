@@ -32,3 +32,5 @@ export type GetChatRoomsFunction = (ids: string[]) => Promise<ChatRoom[]>;
 export type CreateNewMessageFunction = (
 	user: Omit<Message, 'id'>,
 ) => Promise<Message>;
+
+export type ListenMessagesOfChatRoomFunction = (roomId: string) => void;

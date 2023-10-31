@@ -13,7 +13,11 @@ import { injectFirestoreFunctions } from '@peakee/db';
 import type { ChatRoom, Message, UserChatData } from '@peakee/db/types';
 import firestore from '@react-native-firebase/firestore';
 
-import { chatRoomsCollection, usersCollection } from '../firestore';
+import {
+	chatRoomsCollection,
+	listenMessagesInChatRoom,
+	usersCollection,
+} from '../firestore';
 
 export const injectFirestoreDB = () => {
 	injectFirestoreFunctions({
@@ -26,6 +30,7 @@ export const injectFirestoreDB = () => {
 		createNewChatRoom: createNewChatRoomImpl,
 		getChatRooms: getChatRoomsImpl,
 		createNewMessage: createNewMessageImpl,
+		listenMessagesOfChatRoom: listenMessagesInChatRoom,
 	});
 };
 

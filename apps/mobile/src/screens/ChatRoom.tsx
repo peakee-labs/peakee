@@ -1,10 +1,8 @@
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@peakee/app/state';
 import { ChatBox } from '@peakee/chat';
 import { createNewMessage } from '@peakee/db';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { listenMessagesInChatRoom } from 'utils/firestore';
 
 const ChatRoomScreen = () => {
 	const route = useRoute();
@@ -29,15 +27,6 @@ const ChatRoomScreen = () => {
 			time: new Date(),
 		});
 	};
-
-	useEffect(() => {
-		if (room) return;
-		try {
-			listenMessagesInChatRoom(roomId);
-		} catch (e) {
-			console.log(e);
-		}
-	}, []);
 
 	const roomName = room?.info.name || receiver?.name || 'Unknown';
 	const roomDescription = room?.info.name

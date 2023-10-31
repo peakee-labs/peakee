@@ -7,6 +7,7 @@ import type {
 	GetUserByFirebaseUIDFunction,
 	GetUserByIDFunction,
 	GetUsersFunction,
+	ListenMessagesOfChatRoomFunction,
 	UpdateFriendFunction,
 } from './interfaces';
 
@@ -20,6 +21,7 @@ type InjectedFunctions = {
 	createNewChatRoom: CreateNewChatRoomFunction;
 	getChatRooms: GetChatRoomsFunction;
 	createNewMessage: CreateNewMessageFunction;
+	listenMessagesOfChatRoom: ListenMessagesOfChatRoomFunction;
 };
 
 export * from './interfaces';
@@ -32,6 +34,7 @@ export let updateFriend: UpdateFriendFunction;
 export let createNewChatRoom: CreateNewChatRoomFunction;
 export let getChatRooms: GetChatRoomsFunction;
 export let createNewMessage: CreateNewMessageFunction;
+export let listenToMessagesOfChatRoom: ListenMessagesOfChatRoomFunction;
 
 export const injectFirestoreFunctions = (functions: InjectedFunctions) => {
 	console.log('Injecting db functions');
@@ -44,4 +47,5 @@ export const injectFirestoreFunctions = (functions: InjectedFunctions) => {
 	createNewChatRoom = functions.createNewChatRoom;
 	getChatRooms = functions.getChatRooms;
 	createNewMessage = functions.createNewMessage;
+	listenToMessagesOfChatRoom = functions.listenMessagesOfChatRoom;
 };

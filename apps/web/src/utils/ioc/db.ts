@@ -24,7 +24,11 @@ import {
 	where,
 } from 'firebase/firestore';
 
-import { chatRoomsCollection, usersCollection } from '../firestore';
+import {
+	chatRoomsCollection,
+	listenMessagesInChatRoom,
+	usersCollection,
+} from '../firestore';
 
 export const injectFirestoreDB = () => {
 	injectFirestoreFunctions({
@@ -37,6 +41,7 @@ export const injectFirestoreDB = () => {
 		createNewChatRoom: createNewChatRoomImpl,
 		getChatRooms: getChatRoomsImpl,
 		createNewMessage: createNewMessageImpl,
+		listenMessagesOfChatRoom: listenMessagesInChatRoom,
 	});
 };
 
