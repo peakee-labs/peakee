@@ -17,6 +17,7 @@ export const AddFriend = () => {
 				onChangeText={setFriendEmail}
 				placeholder="Type your friend's email"
 				textContentType="emailAddress"
+				autoCapitalize="none"
 			></TextInput>
 			<Button onPress={handlePressAddFriend} title="Add" />
 		</View>
