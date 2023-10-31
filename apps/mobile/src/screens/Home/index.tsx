@@ -13,7 +13,9 @@ const HomeScreen = () => {
 	const user = useSelector((state: RootState) => state.user.chatData);
 	const friends = useSelector((state: RootState) => state.user.friends) || [];
 	const chatRooms =
-		useSelector((state: RootState) => state.user.chatRooms) || [];
+		useSelector((state: RootState) => state.user.chatRooms)?.filter(
+			(room) => room.latestMessage,
+		) || [];
 	const navigation = useNavigation();
 
 	const handleSignOut = () => {

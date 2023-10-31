@@ -76,12 +76,17 @@ export const handleChangeUser = async (user: UserChatData) => {
 
 export const handleIncomingMessages = (roomId: string, messages: Message[]) => {
 	const room = store.getState().chat[roomId];
-	if (room) {
-		const lastMessageId = room.messages[room.messages.length - 1].id;
-		const lastMessageIdx = messages.findIndex(
-			(ele) => ele.id === lastMessageId,
-		);
-		const incomingMessages = messages.slice(lastMessageIdx + 1);
+	if (room && messages.length > 0) {
+		let incomingMessages: Message[];
+		if (room.messages.length > 0) {
+			const lastMessageId = room.messages[room.messages.length - 1].id;
+			const lastMessageIdx = messages.findIndex(
+				(ele) => ele.id === lastMessageId,
+			);
+			incomingMessages = messages.slice(lastMessageIdx + 1);
+		} else {
+			incomingMessages = messages;
+		}
 		store.dispatch(
 			setLatestMessageOfChatRoom(messages[messages.length - 1]),
 		);
