@@ -13,7 +13,7 @@ interface Props {
 	user: UserChatData;
 	chatRooms: ChatRoom[];
 	friends: UserChatData[];
-	onPressRoom: (room: ChatRoom, receiver: UserChatData) => void;
+	onPressRoom: (room: ChatRoom) => void;
 }
 
 export const ChatRooms: FC<Props> = ({
@@ -36,7 +36,7 @@ export const ChatRooms: FC<Props> = ({
 					<TouchableOpacity
 						style={styles.roomContainer}
 						onPress={() => {
-							onPressRoom(room, receiver as UserChatData);
+							onPressRoom(room);
 						}}
 						key={index}
 					>

@@ -37,23 +37,11 @@ const HomeScreen = () => {
 			});
 		}
 
-		navigation.navigate(
-			'ChatRoom' as never,
-			{
-				roomId: room.id,
-				receiverId: friend.id,
-			} as never,
-		);
+		navigation.navigate('ChatRoom' as never, { roomId: room.id } as never);
 	};
 
-	const handlePressRoom = (room: ChatRoom, receiver: UserChatData) => {
-		navigation.navigate(
-			'ChatRoom' as never,
-			{
-				roomId: room.id,
-				receiverId: receiver.id,
-			} as never,
-		);
+	const handlePressRoom = (room: ChatRoom) => {
+		navigation.navigate('ChatRoom' as never, { roomId: room.id } as never);
 	};
 
 	return (

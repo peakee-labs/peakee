@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import type { RootState } from '@peakee/app/state';
+import { store } from '@peakee/app/state';
 import { ChatBox } from '@peakee/chat';
 import { createNewMessage } from '@peakee/db';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -7,13 +8,10 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 const ChatRoomScreen = () => {
 	const route = useRoute();
 	const navigation = useNavigation();
-	const { roomId, receiverId } = route.params as never;
+	const { roomId } = route.params as never;
 
 	const room = useSelector((state: RootState) => state.chat[roomId]);
 	const user = useSelector((state: RootState) => state.user.chatData);
-	const receiver = useSelector((state: RootState) =>
-		state.user.friends?.find((ele) => ele.id === receiverId),
-	);
 
 	const handleGoBack = () => {
 		navigation.goBack();
@@ -28,11 +26,22 @@ const ChatRoomScreen = () => {
 		});
 	};
 
-	const roomName = room?.info.name || receiver?.name || 'Unknown';
-	const roomDescription = room?.info.name
-		? 'Group chat'
-		: (receiver?.email as string);
-	const roomImage = room?.info.imageUrl || (receiver?.imageUrl as string);
+	let roomName: string;
+	let roomDescription: string;
+	let roomImage: string;
+	if (room?.info.type === 'group') {
+		roomName = room?.info.name || 'Unknown group';
+		roomDescription = 'Group chat';
+		roomImage = room?.info.imageUrl as string;
+	} else {
+		const receiver = store
+			.getState()
+			.user.friends?.find((ele) => room?.info.members.includes(ele.id));
+
+		roomName = receiver?.name || 'Unknown receiver';
+		roomDescription = receiver?.email || '';
+		roomImage = receiver?.imageUrl as string;
+	}
 
 	return (
 		<ChatBox
