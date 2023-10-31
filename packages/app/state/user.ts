@@ -57,6 +57,13 @@ export const userSlice = createSlice({
 			if (roomIdx !== -1) {
 				state.chatRooms[roomIdx].latestMessage = action.payload;
 			}
+
+			state.chatRooms.sort((r1, r2) => {
+				const r1LastedDate = new Date(r1.latestMessage?.time || 0);
+				const r2LastedDate = new Date(r2.latestMessage?.time || 0);
+
+				return r1LastedDate < r2LastedDate ? 1 : -1;
+			});
 		},
 	},
 });

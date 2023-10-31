@@ -22,7 +22,7 @@ export const listenMessagesInChatRoom = async (roomId: string) => {
 		.onSnapshot(({ docs }) => {
 			const messages = docs.map((ele) => {
 				const data = ele.data();
-				data.time = data.time.toString();
+				data.time = data.time.toDate().toString();
 				return {
 					id: ele.id,
 					...data,
