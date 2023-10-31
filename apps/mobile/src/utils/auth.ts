@@ -55,11 +55,15 @@ export const signOut = async () => {
 		.then(() => console.log('User signed out!'));
 };
 
+let authEmailCache: string;
+
 auth().onAuthStateChanged((user) => {
 	if (!user) {
+		authEmailCache = '';
 		store.dispatch(resetUserState());
 		store.dispatch(resetChatState());
-	} else {
+	} else if (user.email !== authEmailCache) {
+		authEmailCache = user.email as string;
 		const userProfile: UserProfile = {
 			uid: user.uid,
 			name: user.displayName as string,
