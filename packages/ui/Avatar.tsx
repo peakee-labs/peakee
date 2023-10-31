@@ -1,20 +1,20 @@
 import type { FC } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import type { ImageSourcePropType, ImageStyle } from 'react-native';
+import { Image } from 'react-native';
 
 interface Props {
-	imageUrl: string;
+	source: ImageSourcePropType;
+	size?: number;
 }
 
-export const Avatar: FC<Props> = ({ imageUrl }) => {
-	return <Image style={styles.avatar} source={{ uri: imageUrl }} />;
+export const Avatar: FC<Props> = ({ source, size }) => {
+	const style: ImageStyle = {
+		height: size || 40,
+		width: size || 40,
+		borderRadius: size ? size / 2 : 20,
+	};
+
+	return <Image style={style} source={source} />;
 };
 
 export default Avatar;
-
-const styles = StyleSheet.create({
-	avatar: {
-		height: 40,
-		width: 40,
-		borderRadius: 25,
-	},
-});

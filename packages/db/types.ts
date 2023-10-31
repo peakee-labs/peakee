@@ -31,6 +31,6 @@ export interface Message {
 	content: string;
 	senderId: string;
 	roomId: string;
-	time: Date;
+	time: Date | string;
 	sent?: boolean;
 }

@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		gap: 10,
-		paddingHorizontal: 10,
 	},
 	input: {
 		flex: 1,

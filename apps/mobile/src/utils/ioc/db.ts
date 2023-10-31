@@ -10,7 +10,7 @@ import type {
 	UpdateFriendFunction,
 } from '@peakee/db';
 import { injectFirestoreFunctions } from '@peakee/db';
-import type { ChatRoom, UserChatData } from '@peakee/db/types';
+import type { ChatRoom, Message, UserChatData } from '@peakee/db/types';
 import firestore from '@react-native-firebase/firestore';
 
 import { chatRoomsCollection, usersCollection } from '../firestore';
@@ -105,9 +105,29 @@ const getChatRoomsImpl: GetChatRoomsFunction = async (ids: string[]) => {
 		.where(firestore.FieldPath.documentId(), 'in', ids)
 		.get();
 
-	return chatRoomsQuery.docs.map((ele) => {
-		return { id: ele.id, ...ele.data() } as ChatRoom;
+	const chatRoomsPromises = chatRoomsQuery.docs.map(async (ele) => {
+		const latestMessages = await ele.ref
+			.collection('Messages')
+			.orderBy('time', 'desc')
+			.limit(1)
+			.get();
+		let latestMessage: Message | undefined = undefined;
+		if (latestMessages.docs.length > 0) {
+			latestMessage = {
+				id: latestMessages.docs[0].id,
+				...latestMessages.docs[0].data(),
+				time: latestMessages.docs[0].data().time.toDate().toString(),
+			} as Message;
+		}
+
+		return {
+			id: ele.id,
+			...ele.data(),
+			latestMessage,
+		} as ChatRoom;
 	});
+
+	return Promise.all(chatRoomsPromises);
 };
 
 const createNewMessageImpl: CreateNewMessageFunction = async (message) => {

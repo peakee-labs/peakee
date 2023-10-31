@@ -11,7 +11,7 @@ interface Props {
 export const Profile: FC<Props> = ({ name, image, id }) => {
 	return (
 		<View style={styles.container}>
-			<Avatar imageUrl={image} />
+			<Avatar source={{ uri: image }} />
 			<View>
 				<Text style={styles.name}>{name}</Text>
 				<Text style={styles.id}>{id}</Text>

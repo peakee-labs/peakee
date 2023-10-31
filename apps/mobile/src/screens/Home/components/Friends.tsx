@@ -18,7 +18,7 @@ export const Friends: FC<Props> = ({ profiles, onPressFriend }) => {
 						style={styles.profileContainer}
 						onPress={() => onPressFriend(p)}
 					>
-						<Avatar imageUrl={p.imageUrl} />
+						<Avatar size={50} source={{ uri: p.imageUrl }} />
 						<Text>{p.name}</Text>
 					</TouchableOpacity>
 				);
@@ -32,14 +32,9 @@ export default Friends;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
+		gap: 20,
 	},
 	profileContainer: {
 		alignItems: 'center',
-	},
-	avatar: {
-		height: 50,
-		width: 50,
-		borderRadius: 25,
-		borderWidth: 0.4,
 	},
 });

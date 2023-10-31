@@ -3,15 +3,17 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '@peakee/app/state';
 import { store } from '@peakee/app/state';
 import { createNewChatRoom } from '@peakee/db';
-import type { UserChatData } from '@peakee/db/types';
+import type { ChatRoom, UserChatData } from '@peakee/db/types';
 import { useNavigation } from '@react-navigation/native';
 import { signOut } from 'utils/auth';
 
-import { AddFriend, Friends, Profile } from './components';
+import { AddFriend, ChatRooms, Friends, Profile } from './components';
 
 const HomeScreen = () => {
-	const userProfile = useSelector((state: RootState) => state.user.profile);
-	const friends = useSelector((state: RootState) => state.user.friends);
+	const user = useSelector((state: RootState) => state.user.chatData);
+	const friends = useSelector((state: RootState) => state.user.friends) || [];
+	const chatRooms =
+		useSelector((state: RootState) => state.user.chatRooms) || [];
 	const navigation = useNavigation();
 
 	const handleSignOut = () => {
@@ -47,16 +49,24 @@ const HomeScreen = () => {
 		);
 	};
 
+	const handlePressRoom = (room: ChatRoom, receiver: UserChatData) => {
+		navigation.navigate(
+			'ChatRoom' as never,
+			{
+				roomId: room.id,
+				receiverId: receiver.id,
+			} as never,
+		);
+	};
+
 	return (
 		<View style={styles.container}>
-			<Text style={styles.h1}>Peakee</Text>
-
-			{userProfile ? (
+			{user ? (
 				<View style={styles.profileContainer}>
 					<Profile
-						id={userProfile.email}
-						name={userProfile.fullName}
-						image={userProfile.imageUrl}
+						id={user.email}
+						name={user.fullName}
+						image={user.imageUrl}
 					/>
 					<Button onPress={handleSignOut} title="Sign out" />
 				</View>
@@ -64,17 +74,16 @@ const HomeScreen = () => {
 				<Text>not sign-in</Text>
 			)}
 
-			<Text style={styles.h2}>Friends</Text>
-			<View style={styles.friendsContainer}>
-				<Friends
-					profiles={friends || []}
-					onPressFriend={handlePressFriend}
-				/>
-			</View>
-
 			<AddFriend />
 
-			<Text style={styles.h2}>Chat Rooms</Text>
+			<Friends profiles={friends} onPressFriend={handlePressFriend} />
+
+			<ChatRooms
+				user={user as UserChatData}
+				friends={friends}
+				chatRooms={chatRooms}
+				onPressRoom={handlePressRoom}
+			/>
 		</View>
 	);
 };
@@ -84,11 +93,12 @@ export default HomeScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		gap: 10,
+		gap: 16,
+		padding: 10,
+		backgroundColor: '#FFFFFF',
 	},
 	profileContainer: {
 		flexDirection: 'row',
-		padding: 10,
 		justifyContent: 'space-between',
 		alignItems: 'center',
 	},
@@ -96,9 +106,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	friendsContainer: {
-		padding: 10,
-	},
+	chatRoomsContainer: {},
 	h1: {
 		fontSize: 40,
 		fontWeight: '700',

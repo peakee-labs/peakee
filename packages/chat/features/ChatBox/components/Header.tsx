@@ -30,7 +30,7 @@ export const Header: FC<Props> = ({
 			</TouchableOpacity>
 
 			<View style={styles.infoBlock}>
-				<Avatar imageUrl={imageUrl} />
+				<Avatar source={{ uri: imageUrl }} />
 				<View style={styles.textContainer}>
 					<Text style={styles.name}>{name}</Text>
 					<Text style={styles.description}>
