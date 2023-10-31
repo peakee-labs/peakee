@@ -3,8 +3,6 @@ import { useRef } from 'react';
 import { useState } from 'react';
 import {
 	Keyboard,
-	KeyboardAvoidingView,
-	Platform,
 	ScrollView,
 	StyleSheet,
 	TextInput,
@@ -52,8 +50,8 @@ export const ChatBox: FC<Props> = ({
 	};
 
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+		<View
+			// behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 			style={styles.container}
 		>
 			<Header
@@ -115,7 +113,7 @@ export const ChatBox: FC<Props> = ({
 					<SendIcon size={20} color={'#000000'} />
 				</TouchableOpacity>
 			</View>
-		</KeyboardAvoidingView>
+		</View>
 	);
 };
 
