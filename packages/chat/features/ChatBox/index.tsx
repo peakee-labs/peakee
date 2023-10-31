@@ -22,6 +22,7 @@ interface Props {
 	messages: Message[];
 	onPressBack?: () => void;
 	sendMessage: (message: string) => void;
+	children?: string | boolean | JSX.Element | JSX.Element[];
 }
 
 export const ChatBox: FC<Props> = ({
@@ -32,6 +33,7 @@ export const ChatBox: FC<Props> = ({
 	roomImage,
 	onPressBack,
 	sendMessage,
+	children,
 }) => {
 	const [message, setMessage] = useState('');
 	const scrollViewRef = useRef<ScrollView>(null);
@@ -67,32 +69,30 @@ export const ChatBox: FC<Props> = ({
 				contentContainerStyle={styles.chatContainer}
 				keyboardShouldPersistTaps="always"
 				keyboardDismissMode="interactive"
-				onContentSizeChange={() =>
-					scrollViewRef.current?.scrollToEnd({ animated: true })
-				}
+				onTouchStart={Keyboard.dismiss}
+				onContentSizeChange={() => {
+					console.log('scroll');
+					scrollViewRef.current?.scrollToEnd({ animated: true });
+				}}
 			>
-				<View
-					style={styles.messagesContainer}
-					onTouchStart={Keyboard.dismiss}
-				>
-					{messages.map((message, index) => {
-						if (message.senderId === myId) {
-							return (
-								<SentMessage
-									key={index}
-									message={message.content}
-								/>
-							);
-						} else {
-							return (
-								<ReceivedMessage
-									key={index}
-									message={message.content}
-								/>
-							);
-						}
-					})}
-				</View>
+				{messages.map((message, index) => {
+					if (message.senderId === myId) {
+						return (
+							<SentMessage
+								key={index}
+								message={message.content}
+							/>
+						);
+					} else {
+						return (
+							<ReceivedMessage
+								key={index}
+								message={message.content}
+							/>
+						);
+					}
+				})}
+				{children}
 			</ScrollView>
 
 			<View style={styles.inputContainer}>
@@ -130,12 +130,9 @@ const styles = StyleSheet.create({
 	chatContainer: {
 		flexGrow: 1,
 		justifyContent: 'flex-end', // Content will be at the bottom when the keyboard is open
-	},
-	messagesContainer: {
 		rowGap: 10,
 		paddingHorizontal: 10,
 		paddingVertical: 12,
-		backgroundColor: '#FFFFFF',
 	},
 	inputContainer: {
 		gap: 12,

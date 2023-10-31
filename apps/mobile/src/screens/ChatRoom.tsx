@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import type { RootState } from '@peakee/app/state';
 import { store } from '@peakee/app/state';
-import { ChatBox } from '@peakee/chat';
+import { ChatBox, Suggestions } from '@peakee/chat';
 import { createNewMessage } from '@peakee/db';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -52,7 +52,9 @@ const ChatRoomScreen = () => {
 			roomImage={roomImage}
 			onPressBack={handleGoBack}
 			sendMessage={handleSendMessage}
-		/>
+		>
+			<Suggestions />
+		</ChatBox>
 	);
 };
 
