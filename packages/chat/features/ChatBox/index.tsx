@@ -51,6 +51,10 @@ export const ChatBox: FC<Props> = ({
 		setMessage('');
 	};
 
+	const handleScrollContentChange = () => {
+		scrollViewRef.current?.scrollToEnd({ animated: true });
+	};
+
 	return (
 		<View
 			// behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -70,10 +74,7 @@ export const ChatBox: FC<Props> = ({
 				keyboardShouldPersistTaps="always"
 				keyboardDismissMode="interactive"
 				onTouchStart={Keyboard.dismiss}
-				onContentSizeChange={() => {
-					console.log('scroll');
-					scrollViewRef.current?.scrollToEnd({ animated: true });
-				}}
+				onContentSizeChange={handleScrollContentChange}
 			>
 				{messages.map((message, index) => {
 					if (message.senderId === myId) {
