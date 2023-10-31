@@ -10,6 +10,7 @@ module.exports = {
 		'react',
 		'react-native',
 		'react-native-svg',
+		'react-native-reanimated',
 	],
 	webpack: (config) => {
 		config.resolve.alias['react-native$'] = 'react-native-web';
@@ -38,6 +39,7 @@ module.exports = {
 
 		config.plugins.push(
 			new DefinePlugin({
+				__DEV__: process.env.NODE_ENV !== 'production' || true,
 				...environments,
 			}),
 		);
