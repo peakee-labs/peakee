@@ -75,6 +75,7 @@ export const ChatBox: FC<Props> = ({
 				keyboardDismissMode="interactive"
 				onTouchStart={Keyboard.dismiss}
 				onContentSizeChange={handleScrollContentChange}
+				showsVerticalScrollIndicator={false}
 			>
 				{messages.map((message, index) => {
 					if (message.senderId === myId) {

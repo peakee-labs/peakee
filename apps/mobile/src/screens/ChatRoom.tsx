@@ -1,14 +1,17 @@
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@peakee/app/state';
 import { store } from '@peakee/app/state';
 import { ChatBox, Suggestions } from '@peakee/chat';
 import { createNewMessage } from '@peakee/db';
+import type { Message } from '@peakee/db/types';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 const ChatRoomScreen = () => {
 	const route = useRoute();
 	const navigation = useNavigation();
 	const { roomId } = route.params as never;
+	const [incomingMessages, setIncomingMessages] = useState<Message[]>([]);
 
 	const room = useSelector((state: RootState) => state.chat[roomId]);
 	const user = useSelector((state: RootState) => state.user.chatData);
@@ -43,6 +46,15 @@ const ChatRoomScreen = () => {
 		roomImage = receiver?.imageUrl as string;
 	}
 
+	useEffect(() => {
+		const lastMessage = room.messages[room.messages.length - 1];
+		if (lastMessage.senderId !== user?.id) {
+			setIncomingMessages([...incomingMessages, lastMessage]);
+		} else {
+			setIncomingMessages([]);
+		}
+	}, [room.messages]);
+
 	return (
 		<ChatBox
 			myId={user?.id as string}
@@ -53,7 +65,9 @@ const ChatRoomScreen = () => {
 			onPressBack={handleGoBack}
 			sendMessage={handleSendMessage}
 		>
-			<Suggestions />
+			<Suggestions
+				incomingMessages={incomingMessages.map((ele) => ele.content)}
+			/>
 		</ChatBox>
 	);
 };
