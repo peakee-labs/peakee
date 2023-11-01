@@ -5,10 +5,12 @@ node_modules
 .pnp
 .pnp.js
 
-# testing
-coverage
+# sst
+.sst
+.build
 
 # next.js
+.open-next
 .next/
 out/
 build
