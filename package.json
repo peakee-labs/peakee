@@ -28,7 +28,6 @@
     },
     "packageManager": "yarn@3.6.3",
     "dependencies": {
-        "babel-plugin-module-resolver": "^5.0.0",
-        "react-native-web": "^0.18.12"
+        "babel-plugin-module-resolver": "^5.0.0"
     }
 }
