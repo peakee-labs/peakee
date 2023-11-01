@@ -21,7 +21,7 @@ export default {
 
 			stack.addOutputs({
 				url: peakeeApp.url,
-				customDomain: 'app.peakee.co',
+				customDomain: peakeeApp.customDomainUrl,
 			});
 		};
 
@@ -33,7 +33,7 @@ export default {
 
 			stack.addOutputs({
 				url: peakeeLanding.url,
-				customDomain: 'peakee.co',
+				customDomain: peakeeLanding.customDomainUrl,
 			});
 		};
 
