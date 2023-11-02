@@ -2,7 +2,8 @@ import type { FC } from 'react';
 import { useRef } from 'react';
 import { useState } from 'react';
 import {
-	Keyboard,
+	KeyboardAvoidingView,
+	Platform,
 	ScrollView,
 	StyleSheet,
 	TextInput,
@@ -56,8 +57,9 @@ export const ChatBox: FC<Props> = ({
 	};
 
 	return (
-		<View
-			// behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+		<KeyboardAvoidingView
+			behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+			keyboardVerticalOffset={Platform.OS === 'ios' ? 58 : 0}
 			style={styles.container}
 		>
 			<Header
@@ -69,13 +71,12 @@ export const ChatBox: FC<Props> = ({
 
 			<ScrollView
 				style={styles.wrapChatContainer}
-				ref={scrollViewRef}
 				contentContainerStyle={styles.chatContainer}
-				keyboardShouldPersistTaps="always"
-				keyboardDismissMode="interactive"
-				onTouchStart={Keyboard.dismiss}
-				onContentSizeChange={handleScrollContentChange}
+				ref={scrollViewRef}
 				showsVerticalScrollIndicator={false}
+				keyboardShouldPersistTaps="handled"
+				keyboardDismissMode="interactive"
+				onContentSizeChange={handleScrollContentChange}
 			>
 				{messages.map((message, index) => {
 					if (message.senderId === myId) {
@@ -115,7 +116,7 @@ export const ChatBox: FC<Props> = ({
 					<SendIcon size={20} color={'#000000'} />
 				</TouchableOpacity>
 			</View>
-		</View>
+		</KeyboardAvoidingView>
 	);
 };
 
@@ -147,9 +148,10 @@ const styles = StyleSheet.create({
 	input: {
 		flex: 1,
 		backgroundColor: '#F3F6F6',
-		paddingVertical: 8,
+		paddingVertical: 4,
 		paddingHorizontal: 10,
 		borderRadius: 18,
+		height: 30,
 	},
 	sendButton: {
 		height: 32,
