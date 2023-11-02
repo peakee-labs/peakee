@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import Animated, { Layout, ZoomIn, ZoomOut } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 
 interface Props {
 	suggestions: string[];
@@ -9,10 +9,9 @@ interface Props {
 export const SuggestionsBox: FC<Props> = ({ suggestions }) => {
 	return (
 		<Animated.View
-			style={[styles.container]}
-			entering={ZoomIn}
-			exiting={ZoomOut}
-			layout={Layout}
+			style={styles.container}
+			entering={FadeInDown}
+			exiting={FadeOutDown}
 		>
 			<Text style={styles.title}>Suggestions</Text>
 			{suggestions.map((ele, index) => (
@@ -35,6 +34,7 @@ const styles = StyleSheet.create({
 		marginBottom: 10,
 	},
 	title: {
+		fontSize: 12,
 		fontWeight: '500',
 		color: '#000000',
 		marginBottom: 4,

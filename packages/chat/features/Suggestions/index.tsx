@@ -1,12 +1,7 @@
 import type { FC } from 'react';
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useState } from 'react';
-import {
-	ActivityIndicator,
-	StyleSheet,
-	TouchableOpacity,
-	View,
-} from 'react-native';
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { GPT } from '@peakee/icons';
 import { throttle } from 'lodash';
 
@@ -40,13 +35,12 @@ export const Suggestions: FC<Props> = ({ incomingMessages }) => {
 	};
 
 	useEffect(() => {
-		console.log('change incoming messages');
 		setSuggestions([]);
 		setOpen(true);
 	}, [incomingMessages]);
 
 	return (
-		<View>
+		<Fragment>
 			{((open && suggestions?.length) || 0) > 0 && (
 				<SuggestionsBox suggestions={suggestions || []} />
 			)}
@@ -57,17 +51,20 @@ export const Suggestions: FC<Props> = ({ incomingMessages }) => {
 			>
 				{loading ? <ActivityIndicator /> : <GPT />}
 			</TouchableOpacity>
-		</View>
+		</Fragment>
 	);
 };
 
 export default Suggestions;
 
 const styles = StyleSheet.create({
+	container: {
+		backgroundColor: '#yellow',
+	},
 	suggestButton: {
 		position: 'absolute',
-		bottom: -12,
-		right: -2,
+		bottom: 0,
+		right: 0,
 		height: 36,
 		width: 36,
 	},

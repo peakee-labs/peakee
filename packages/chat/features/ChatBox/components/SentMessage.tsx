@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Animated, { Layout } from 'react-native-reanimated';
 
 interface Props {
 	message: string;
@@ -7,11 +8,11 @@ interface Props {
 
 export const SentMessage: FC<Props> = ({ message }) => {
 	return (
-		<View style={styles.container}>
+		<Animated.View layout={Layout} style={styles.container}>
 			<View style={styles.textContainer}>
 				<Text style={styles.text}>{message}</Text>
 			</View>
-		</View>
+		</Animated.View>
 	);
 };
 
