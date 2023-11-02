@@ -72,12 +72,11 @@ const styles = StyleSheet.create({
 		gap: 2,
 	},
 	name: {
-		fontSize: 18,
 		fontWeight: '600',
 		color: '#000000',
 	},
 	description: {
-		fontSize: 14,
+		fontSize: 12,
 		color: '#7A7A7A',
 	},
 	iconsBlock: {
