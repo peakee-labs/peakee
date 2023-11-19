@@ -1,6 +1,8 @@
+import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
 import { StyleSheet } from 'react-native';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import type { BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
+import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { uiStore } from '../state';
 import { type ModalConfig, hideModalAction } from '../state/modal';
@@ -25,10 +27,17 @@ const ModalContainer = (config: ModalConfig) => {
 			snapPoints={['60%', '80%']}
 			onDismiss={handleDismiss}
 			handleIndicatorStyle={styles.handleIndicator}
+			backdropComponent={CustomBackdrop}
 			{...bottomSheetConfig}
 		>
 			<Component />
 		</BottomSheetModal>
+	);
+};
+
+const CustomBackdrop: FC<BottomSheetBackdropProps> = (props) => {
+	return (
+		<BottomSheetBackdrop {...props} opacity={0.3} disappearsOnIndex={-1} />
 	);
 };
 
