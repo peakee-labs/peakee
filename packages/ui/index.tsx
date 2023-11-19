@@ -1,3 +1,3 @@
-export * from './Avatar';
-export * from './button';
-export * from './header';
+export * from './components/Avatar';
+export * from './components/Button';
+export * from './components/Header';
