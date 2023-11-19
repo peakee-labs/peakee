@@ -1,13 +1,14 @@
-import { type ReactNode, useRef } from 'react';
-import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { type ReactNode } from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import {
 	gestureHandlerRootHOC,
 	GestureHandlerRootView,
 } from 'react-native-gesture-handler';
-import {
-	BottomSheetModal,
-	BottomSheetModalProvider,
-} from '@gorhom/bottom-sheet';
+import { Provider as ReduxProvider } from 'react-redux';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+
+import { uiStore } from '../state';
+import ModalManager from '../utils/ModalManager';
 
 type UIProviderProps = {
 	children: ReactNode;
@@ -15,33 +16,13 @@ type UIProviderProps = {
 
 export const UIProvider = gestureHandlerRootHOC<UIProviderProps>(
 	({ children }) => {
-		const handlePresentModalPress = () => {
-			bottomSheetModalRef.current?.present();
-		};
-
-		const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
 		return (
 			<GestureHandlerRootView style={styles.app}>
 				<BottomSheetModalProvider>
-					<SafeAreaView style={styles.app}>
-						<Button
-							title="Press me"
-							onPress={handlePresentModalPress}
-						/>
-
-						{children}
-
-						<BottomSheetModal
-							ref={bottomSheetModalRef}
-							index={1}
-							snapPoints={['25%', '50%']}
-						>
-							<View>
-								<Text>Awesome 🎉</Text>
-							</View>
-						</BottomSheetModal>
-					</SafeAreaView>
+					<SafeAreaView style={styles.app}>{children}</SafeAreaView>
+					<ReduxProvider store={uiStore}>
+						<ModalManager />
+					</ReduxProvider>
 				</BottomSheetModalProvider>
 			</GestureHandlerRootView>
 		);
