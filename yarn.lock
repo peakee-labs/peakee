@@ -3304,6 +3304,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@egjs/hammerjs@npm:^2.0.17":
+  version: 2.0.17
+  resolution: "@egjs/hammerjs@npm:2.0.17"
+  dependencies:
+    "@types/hammerjs": ^2.0.36
+  checksum: 8945137cec5837edd70af3f2e0ea621543eb0aa3b667e6269ec6485350f4d120c2434b37c7c30b1cf42a65275dd61c1f24626749c616696d3956ac0c008c4766
+  languageName: node
+  linkType: hard
+
 "@envelop/core@npm:^3.0.4":
   version: 3.0.6
   resolution: "@envelop/core@npm:3.0.6"
@@ -4051,6 +4060,40 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@gorhom/bottom-sheet@npm:^4":
+  version: 4.5.1
+  resolution: "@gorhom/bottom-sheet@npm:4.5.1"
+  dependencies:
+    "@gorhom/portal": 1.0.14
+    invariant: ^2.2.4
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-native": "*"
+    react: "*"
+    react-native: "*"
+    react-native-gesture-handler: ">=1.10.1"
+    react-native-reanimated: ">=2.2.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-native":
+      optional: true
+  checksum: dbfc900b7111f723ae1ef9e36facba8779b917427d3fc820172a9547dc94ccf359bf96f66c521aa838379d0371c30ed7933e8ed241929cb01b7a801ad8757f47
+  languageName: node
+  linkType: hard
+
+"@gorhom/portal@npm:1.0.14":
+  version: 1.0.14
+  resolution: "@gorhom/portal@npm:1.0.14"
+  dependencies:
+    nanoid: ^3.3.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 227bb96a2db854ab29bb9da8d4f3823c7f7448358de459709dd1b78522110da564c9a8734c6bc7d7153ed7c99320e0fb5d60b420c2ebb75ecaf2f0d757f410f9
+  languageName: node
+  linkType: hard
+
 "@graphql-tools/executor@npm:^0.0.18":
   version: 0.0.18
   resolution: "@graphql-tools/executor@npm:0.0.18"
@@ -4725,6 +4768,7 @@ __metadata:
     "@peakee/db": "*"
     "@peakee/icons": "*"
     "@peakee/ui": "*"
+    "@peakee/utils": "*"
     "@types/lodash": ^4.14.200
     "@types/node": ^20.5.2
     "@types/react": ^18.2.0
@@ -4796,6 +4840,7 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
+    "@gorhom/bottom-sheet": ^4
     "@peakee/app": "*"
     "@peakee/chat": "*"
     "@peakee/db": "*"
@@ -4817,6 +4862,7 @@ __metadata:
     react: 18.2.0
     react-native: 0.72.4
     react-native-config: ^1.5.1
+    react-native-gesture-handler: ^2.13.4
     react-native-reanimated: ^3.5.4
     react-native-safe-area-context: ^4.7.2
     react-native-screens: ^3.25.0
@@ -4838,11 +4884,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@peakee/ui@workspace:packages/ui"
   dependencies:
+    "@gorhom/bottom-sheet": ^4
     "@types/node": ^20.5.2
     "@types/react": ^18.2.0
     "@types/react-dom": ^18.2.0
     react: ^18.2.0
     react-native: 0.72.4
+    react-native-gesture-handler: ^2.13.4
+  languageName: unknown
+  linkType: soft
+
+"@peakee/utils@*, @peakee/utils@workspace:packages/utils":
+  version: 0.0.0-use.local
+  resolution: "@peakee/utils@workspace:packages/utils"
   languageName: unknown
   linkType: soft
 
@@ -6080,6 +6134,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 6e1ee9c119e075134696171b680fee7b627f3e077ec5e5ad9ba9359f1688a84fa35ea6804f96922c43ca30ab8d4ca9531a526b64f57fa13e1d721bf741884829
+  languageName: node
+  linkType: hard
+
+"@types/hammerjs@npm:^2.0.36":
+  version: 2.0.44
+  resolution: "@types/hammerjs@npm:2.0.44"
+  checksum: fb0a1ad24e189fb478cd39a5f93b4fad636522c4e0907f40caa329627cba267de5397c1bddcdabb431f85638a3671e8b0f22fc11347846a7be107a67007cd496
   languageName: node
   linkType: hard
 
@@ -13228,6 +13289,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nanoid@npm:^3.3.1":
+  version: 3.3.7
+  resolution: "nanoid@npm:3.3.7"
+  bin:
+    nanoid: bin/nanoid.cjs
+  checksum: d36c427e530713e4ac6567d488b489a36582ef89da1d6d4e3b87eded11eb10d7042a877958c6f104929809b2ab0bafa17652b076cdf84324aa75b30b722204f2
+  languageName: node
+  linkType: hard
+
 "natural-compare-lite@npm:^1.4.0":
   version: 1.4.0
   resolution: "natural-compare-lite@npm:1.4.0"
@@ -14129,7 +14199,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:*, prop-types@npm:^15.8.1":
+"prop-types@npm:*, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -14355,6 +14425,22 @@ __metadata:
     react-native-windows:
       optional: true
   checksum: ae17b750e445310573ce33798db67c9b8c50e55cb2ba136e9a9ef8372dd3f7669ce236bb18bf1fa8a426fd1aa9e6b516fb2f593767bd24688242f6847cd37712
+  languageName: node
+  linkType: hard
+
+"react-native-gesture-handler@npm:^2.13.4":
+  version: 2.13.4
+  resolution: "react-native-gesture-handler@npm:2.13.4"
+  dependencies:
+    "@egjs/hammerjs": ^2.0.17
+    hoist-non-react-statics: ^3.3.0
+    invariant: ^2.2.4
+    lodash: ^4.17.21
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 32d704d16270eefedc596b198063943bd9d539e66605ae135550f70c551c6a0a060dfa9b973b651c47e845632d55a78f321245d979107d4f6669e788d4a6582d
   languageName: node
   linkType: hard
 
