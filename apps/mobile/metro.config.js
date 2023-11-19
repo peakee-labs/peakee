@@ -7,6 +7,7 @@ const monoPackages = {
 	'@peakee/db': path.resolve(__dirname, '../../packages/db'),
 	'@peakee/ui': path.resolve(__dirname, '../../packages/ui'),
 	'@peakee/icons': path.resolve(__dirname, '../../packages/icons'),
+	'@peakee/utils': path.resolve(__dirname, '../../packages/utils'),
 };
 
 /**

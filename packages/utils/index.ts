@@ -1,5 +1,5 @@
 export type TranslateFunction = (text: string, code: 'en-vi' | 'vi-en') => void;
-export let translate: TranslateFunction;
+export let translate: TranslateFunction | undefined;
 
 type InjectProps = {
 	translate: TranslateFunction;

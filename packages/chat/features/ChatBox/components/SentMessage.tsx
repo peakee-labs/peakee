@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { Layout } from 'react-native-reanimated';
+import { translate } from '@peakee/utils';
 
 interface Props {
 	message: string;
@@ -10,7 +11,12 @@ export const SentMessage: FC<Props> = ({ message }) => {
 	return (
 		<Animated.View layout={Layout} style={styles.container}>
 			<View style={styles.textContainer}>
-				<Text style={styles.text}>{message}</Text>
+				<Text
+					style={styles.text}
+					onLongPress={() => translate?.(message, 'en-vi')}
+				>
+					{message}
+				</Text>
 			</View>
 		</Animated.View>
 	);
