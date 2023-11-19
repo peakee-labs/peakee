@@ -45,12 +45,14 @@ export const Suggestions: FC<Props> = ({ incomingMessages }) => {
 				<SuggestionsBox suggestions={suggestions || []} />
 			)}
 
-			<TouchableOpacity
-				onPress={throttle(handlePressGPT, 2000)}
-				style={styles.suggestButton}
-			>
-				{loading ? <ActivityIndicator /> : <GPT />}
-			</TouchableOpacity>
+			{(incomingMessages?.length || 0 > 0) && (
+				<TouchableOpacity
+					onPress={throttle(handlePressGPT, 2000)}
+					style={styles.suggestButton}
+				>
+					{loading ? <ActivityIndicator /> : <GPT />}
+				</TouchableOpacity>
+			)}
 		</Fragment>
 	);
 };

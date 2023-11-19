@@ -75,7 +75,6 @@ export const ChatBox: FC<Props> = ({
 				ref={scrollViewRef}
 				showsVerticalScrollIndicator={false}
 				keyboardShouldPersistTaps="handled"
-				keyboardDismissMode="interactive"
 				onContentSizeChange={handleScrollContentChange}
 			>
 				{messages.map((message, index) => {
