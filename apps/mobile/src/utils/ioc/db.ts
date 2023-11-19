@@ -143,3 +143,16 @@ const createNewMessageImpl: CreateNewMessageFunction = async (message) => {
 
 	return { id: res.id, ...message };
 };
+
+injectFirestoreFunctions({
+	createNewUser: createNewUserImpl,
+	getUserByID: getUserByIDImpl,
+	getUserByFirebaseUID: getUserByFirebaseUIDImpl,
+	getUserByEmail: getUserByEmailImpl,
+	getUsers: getUsersImpl,
+	updateFriend: updateFriendImpl,
+	createNewChatRoom: createNewChatRoomImpl,
+	getChatRooms: getChatRoomsImpl,
+	createNewMessage: createNewMessageImpl,
+	listenMessagesOfChatRoom: listenMessagesInChatRoom,
+});
