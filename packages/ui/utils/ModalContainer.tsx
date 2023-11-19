@@ -1,12 +1,18 @@
 import { useEffect, useRef } from 'react';
+import { StyleSheet } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import type { ModalConfig } from '../state/modal';
+import { uiStore } from '../state';
+import { type ModalConfig, hideModalAction } from '../state/modal';
 
 const ModalContainer = (config: ModalConfig) => {
-	const { id, Component, ...bottomSheetConfig } = config;
+	const { id, Component, onDismiss, ...bottomSheetConfig } = config;
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-	console.log('mount modal', id);
+
+	const handleDismiss = () => {
+		onDismiss?.();
+		uiStore.dispatch(hideModalAction({ id }));
+	};
 
 	useEffect(() => {
 		bottomSheetModalRef.current?.present();
@@ -17,6 +23,8 @@ const ModalContainer = (config: ModalConfig) => {
 			ref={bottomSheetModalRef}
 			index={0}
 			snapPoints={['60%', '80%']}
+			onDismiss={handleDismiss}
+			handleIndicatorStyle={styles.handleIndicator}
 			{...bottomSheetConfig}
 		>
 			<Component />
@@ -25,3 +33,9 @@ const ModalContainer = (config: ModalConfig) => {
 };
 
 export default ModalContainer;
+
+const styles = StyleSheet.create({
+	handleIndicator: {
+		height: 0,
+	},
+});
