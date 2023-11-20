@@ -8,7 +8,7 @@ import { uiStore } from '../state';
 import { type ModalConfig, hideModalAction } from '../state/modal';
 
 const ModalContainer = (config: ModalConfig) => {
-	const { id, Component, onDismiss, ...bottomSheetConfig } = config;
+	const { id, context, Component, onDismiss, ...bottomSheetConfig } = config;
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
 	const handleDismiss = () => {
@@ -30,7 +30,7 @@ const ModalContainer = (config: ModalConfig) => {
 			backdropComponent={CustomBackdrop}
 			{...bottomSheetConfig}
 		>
-			<Component />
+			<Component context={context} />
 		</BottomSheetModal>
 	);
 };

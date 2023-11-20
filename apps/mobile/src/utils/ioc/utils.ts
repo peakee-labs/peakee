@@ -8,6 +8,7 @@ injectUtils({
 		showModal({
 			id: 'translate',
 			Component: TranslateModal,
+			context: { text },
 		});
 	},
 });

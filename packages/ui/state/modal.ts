@@ -3,9 +3,12 @@ import type { BottomSheetModalProps } from '@gorhom/bottom-sheet';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
+export type ModalContext<T = Record<string, unknown>> = T;
+
 export type ModalConfig = Omit<BottomSheetModalProps, 'ref' | 'children'> & {
 	id: string;
-	Component: FC;
+	Component: FC<{ context?: ModalContext }>;
+	context?: ModalContext;
 };
 
 export type ModalState = {
