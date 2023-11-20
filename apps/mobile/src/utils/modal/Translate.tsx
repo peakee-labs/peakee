@@ -57,6 +57,7 @@ const TranslateModal: FC<{
 				onChangeText={handleChangeText}
 				placeholder="Type to translate..."
 				multiline
+				autoFocus
 			/>
 
 			<View style={styles.indicator}></View>
