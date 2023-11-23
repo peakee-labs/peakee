@@ -6,4 +6,5 @@ export * from './components/MoveLeft';
 export * from './components/Phone';
 export * from './components/SendIcon';
 export * from './components/Speaker';
+export * from './components/Switch';
 export * from './components/VerticalDots';

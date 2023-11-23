@@ -1,7 +1,13 @@
 import { type FC, useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import {
+	ActivityIndicator,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { Copy, Speaker } from '@peakee/icons';
+import { Copy, Speaker, Switch } from '@peakee/icons';
 import axios from 'axios';
 import { throttle } from 'lodash';
 
@@ -22,14 +28,15 @@ const TranslateModal: FC<{
 	const { text: initText, languages: initLanguages } = context;
 	const [loading, setLoading] = useState(true);
 	const [text, setText] = useState(initText);
-	const [languages, setLanguages] = useState(initLanguages);
 	const [translated, setTranslated] = useState('');
+	const [from, setFrom] = useState(initLanguages.split('-')[0]);
+	const [to, setTo] = useState(initLanguages.split('-')[1]);
 
 	const fetchTranslation = useCallback(
 		throttle(async (text: string) => {
 			const res = await axios.get<TranslateResponse>(
 				'https://api.peakee.co/v1/translation',
-				{ params: { text, languages } },
+				{ params: { text, languages: from + '-' + to } },
 			);
 			setTranslated(res.data.translated);
 		}, 3000),
@@ -43,6 +50,13 @@ const TranslateModal: FC<{
 		}
 	};
 
+	const switchLanguages = () => {
+		setFrom(to);
+		setTo(from);
+		setText('');
+		setTranslated('');
+	};
+
 	useEffect(() => {
 		setLoading(true);
 		fetchTranslation(text)?.then(() => setLoading(false));
@@ -51,8 +65,13 @@ const TranslateModal: FC<{
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<Text style={styles.title}>English</Text>
+				<Text style={styles.title}>
+					{from == 'en' ? 'English' : 'Vietnamese'}
+				</Text>
 				<View style={styles.icons}>
+					<TouchableOpacity onPress={switchLanguages}>
+						<Switch size={18} color={'#000000'} strokeWidth="1.5" />
+					</TouchableOpacity>
 					<Copy size={18} color={'#000000'} strokeWidth="1.5" />
 					<Speaker size={18} color={'#000000'} strokeWidth="1.5" />
 				</View>
@@ -69,7 +88,9 @@ const TranslateModal: FC<{
 			<View style={styles.indicator}></View>
 
 			<View style={styles.header}>
-				<Text style={styles.title}>Vietnamese</Text>
+				<Text style={styles.title}>
+					{to == 'en' ? 'English' : 'Vietnamese'}
+				</Text>
 				<View style={styles.icons}>
 					<Copy size={18} color={'#000000'} strokeWidth="1.5" />
 					<Speaker size={18} color={'#000000'} strokeWidth="1.5" />
@@ -95,7 +116,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 	},
 	title: {
-		fontSize: 16,
+		fontSize: 14,
 	},
 	header: {
 		flexDirection: 'row',
@@ -103,7 +124,7 @@ const styles = StyleSheet.create({
 	},
 	icons: {
 		flexDirection: 'row',
-		gap: 8,
+		gap: 12,
 	},
 	indicator: {
 		alignSelf: 'center',
@@ -115,7 +136,7 @@ const styles = StyleSheet.create({
 		margin: 50,
 	},
 	content: {
-		fontSize: 30,
+		fontSize: 24,
 		marginVertical: 20,
 	},
 });
