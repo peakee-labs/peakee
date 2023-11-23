@@ -16,6 +16,7 @@ const ModalContainer = (config: ModalConfig) => {
 		onDismiss,
 		snapPoints,
 		useBackdrop = true,
+		backgroundStyle,
 		...bottomSheetConfig
 	} = config;
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -37,6 +38,7 @@ const ModalContainer = (config: ModalConfig) => {
 			onDismiss={handleDismiss}
 			handleIndicatorStyle={styles.handleIndicator}
 			backdropComponent={useBackdrop ? CustomBackdrop : null}
+			backgroundStyle={[styles.background, backgroundStyle]}
 			{...bottomSheetConfig}
 		>
 			<Component context={context} />
@@ -55,5 +57,14 @@ export default ModalContainer;
 const styles = StyleSheet.create({
 	handleIndicator: {
 		height: 0,
+	},
+	background: {
+		shadowOffset: {
+			width: 1,
+			height: 1,
+		},
+		elevation: 8,
+		shadowOpacity: 0.5,
+		shadowColor: '#000000',
 	},
 });
