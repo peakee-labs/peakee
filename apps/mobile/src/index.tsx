@@ -10,6 +10,7 @@ import HomeScreen from 'screens/Home';
 import SignInScreen from 'screens/SignIn';
 import Splash from 'screens/Splash';
 
+import 'utils/auth';
 import 'react-native-url-polyfill/auto';
 
 const Stack = createNativeStackNavigator();
