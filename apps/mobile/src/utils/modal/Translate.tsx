@@ -1,6 +1,7 @@
 import { type FC, useCallback, useEffect, useState } from 'react';
 import {
 	ActivityIndicator,
+	Clipboard,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
@@ -66,6 +67,10 @@ const TranslateModal: FC<{
 		setTranslated('');
 	};
 
+	const copy = (text: string) => {
+		Clipboard.getString(text);
+	};
+
 	useEffect(() => {
 		setLoading(true);
 		fetchTranslation(text)?.then(() => setLoading(false));
@@ -81,7 +86,9 @@ const TranslateModal: FC<{
 					<TouchableOpacity onPress={switchLanguages}>
 						<Switch size={18} color={'#000000'} strokeWidth="1.5" />
 					</TouchableOpacity>
-					<Copy size={18} color={'#000000'} strokeWidth="1.5" />
+					<TouchableOpacity onPress={() => copy(text)}>
+						<Copy size={18} color={'#000000'} strokeWidth="1.5" />
+					</TouchableOpacity>
 					<Speaker size={18} color={'#000000'} strokeWidth="1.5" />
 				</View>
 			</View>
@@ -104,7 +111,9 @@ const TranslateModal: FC<{
 					{to == 'en' ? 'English' : 'Vietnamese'}
 				</Text>
 				<View style={styles.icons}>
-					<Copy size={18} color={'#000000'} strokeWidth="1.5" />
+					<TouchableOpacity onPress={() => copy(translated)}>
+						<Copy size={18} color={'#000000'} strokeWidth="1.5" />
+					</TouchableOpacity>
 					<Speaker size={18} color={'#000000'} strokeWidth="1.5" />
 				</View>
 			</View>
