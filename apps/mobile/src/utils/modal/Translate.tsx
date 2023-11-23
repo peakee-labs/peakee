@@ -71,6 +71,11 @@ const TranslateModal: FC<{
 		Clipboard.setString(text);
 	};
 
+	const clearText = () => {
+		setText('');
+		setTranslated('');
+	};
+
 	useEffect(() => {
 		setLoading(true);
 		fetchTranslation(text)?.then(() => setLoading(false));
@@ -94,16 +99,26 @@ const TranslateModal: FC<{
 				</View>
 			</View>
 
-			<TextInput
-				style={styles.textInput}
-				value={text}
-				onChangeText={handleChangeText}
-				placeholder="Type to translate..."
-				multiline
-				autoCorrect={false}
-				autoCapitalize="none"
-				autoComplete="off"
-			/>
+			<View style={styles.textInputContainer}>
+				<TextInput
+					style={styles.textInput}
+					value={text}
+					onChangeText={handleChangeText}
+					placeholder="Type to translate..."
+					multiline
+					autoCorrect={false}
+					autoCapitalize="none"
+					autoComplete="off"
+				/>
+				{text.length > 0 && (
+					<TouchableOpacity
+						style={styles.clearButton}
+						onPress={clearText}
+					>
+						<Text style={styles.clearText}>Clear</Text>
+					</TouchableOpacity>
+				)}
+			</View>
 
 			<View style={styles.indicator}></View>
 
@@ -164,9 +179,20 @@ const styles = StyleSheet.create({
 	content: {
 		fontSize: 24,
 	},
+	textInputContainer: {
+		minHeight: 50,
+	},
 	textInput: {
 		fontSize: 24,
 		paddingHorizontal: 0,
 		paddingVertical: 0,
+	},
+	clearButton: {
+		position: 'absolute',
+		bottom: -20,
+		right: 0,
+	},
+	clearText: {
+		color: '#000000',
 	},
 });
