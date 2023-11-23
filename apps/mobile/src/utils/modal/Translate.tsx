@@ -34,25 +34,34 @@ const TranslateModal: FC<{
 
 	const fetchTranslation = useCallback(
 		throttle(async (text: string) => {
-			const res = await axios.get<TranslateResponse>(
-				'https://api.peakee.co/v1/translation',
-				{ params: { text, languages: from + '-' + to } },
-			);
-			setTranslated(res.data.translated);
-		}, 3000),
-		[],
+			try {
+				const languages = `${from}-${to}`;
+				const res = await axios.get<TranslateResponse>(
+					'https://api.peakee.co/v1/translation',
+					{ params: { text, languages } },
+				);
+				setTranslated(res.data.translated);
+			} catch (e) {
+				console.log('translate error', e);
+			}
+		}, 1000),
+		[from, to],
 	);
 
 	const handleChangeText = async (text: string) => {
 		setText(text);
 		if (text !== '') {
 			fetchTranslation(text);
+		} else {
+			setTranslated('');
 		}
 	};
 
 	const switchLanguages = () => {
-		setFrom(to);
-		setTo(from);
+		const newTo = from;
+		const newFrom = to;
+		setFrom(newFrom);
+		setTo(newTo);
 		setText('');
 		setTranslated('');
 	};
@@ -83,6 +92,9 @@ const TranslateModal: FC<{
 				placeholder="Type to translate..."
 				multiline
 				autoFocus
+				autoCorrect={false}
+				autoCapitalize="none"
+				autoComplete="off"
 			/>
 
 			<View style={styles.indicator}></View>
@@ -100,7 +112,9 @@ const TranslateModal: FC<{
 			{loading ? (
 				<ActivityIndicator />
 			) : (
-				<Text style={styles.content}>{translated}</Text>
+				<Text style={styles.content} selectable={true}>
+					{translated}
+				</Text>
 			)}
 		</View>
 	);
