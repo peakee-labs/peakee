@@ -65,7 +65,7 @@ export const ChatBox: FC<Props> = ({
 				showsVerticalScrollIndicator={false}
 				keyboardShouldPersistTaps="handled"
 				onContentSizeChange={handleScrollContentChange}
-				onLayout={handleScrollContentChange}
+				// onLayout={handleScrollContentChange}
 			>
 				{messages.map((message, index) => {
 					if (message.senderId === myId) {
