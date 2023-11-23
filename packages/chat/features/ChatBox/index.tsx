@@ -1,19 +1,14 @@
 import type { FC } from 'react';
 import { useRef } from 'react';
-import { useState } from 'react';
 import {
 	KeyboardAvoidingView,
 	Platform,
 	ScrollView,
 	StyleSheet,
-	TextInput,
-	TouchableOpacity,
-	View,
 } from 'react-native';
 import type { Message } from '@peakee/db/types';
-import { ChevronRight, SendIcon } from '@peakee/icons';
 
-import { Header, ReceivedMessage, SentMessage } from './components';
+import { Header, Input, ReceivedMessage, SentMessage } from './components';
 
 interface Props {
 	myId: string;
@@ -36,20 +31,14 @@ export const ChatBox: FC<Props> = ({
 	sendMessage,
 	children,
 }) => {
-	const [message, setMessage] = useState('');
 	const scrollViewRef = useRef<ScrollView>(null);
 
 	const handlePressBack = () => {
-		if (onPressBack) onPressBack();
-		else {
-			console.log('Press back');
-		}
+		onPressBack?.();
 	};
 
-	const handleSendMessage = () => {
-		if (message.length === 0) return;
-		sendMessage(message);
-		setMessage('');
+	const handleSendMessage = (message: string) => {
+		if (message.length > 0) sendMessage(message);
 	};
 
 	const handleScrollContentChange = () => {
@@ -97,24 +86,7 @@ export const ChatBox: FC<Props> = ({
 				{children}
 			</ScrollView>
 
-			<View style={styles.inputContainer}>
-				<ChevronRight size={20} color="#000000" />
-				<TextInput
-					value={message}
-					onChangeText={setMessage}
-					style={styles.input}
-					placeholder="Type a message..."
-					onSubmitEditing={handleSendMessage}
-					blurOnSubmit={false}
-					enablesReturnKeyAutomatically
-				/>
-				<TouchableOpacity
-					style={styles.sendButton}
-					onPress={handleSendMessage}
-				>
-					<SendIcon size={20} color={'#000000'} />
-				</TouchableOpacity>
-			</View>
+			<Input onPressSend={handleSendMessage} />
 		</KeyboardAvoidingView>
 	);
 };
@@ -130,33 +102,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	chatContainer: {
-		flexGrow: 1,
-		justifyContent: 'flex-end', // Content will be at the bottom when the keyboard is open
+		flex: 1,
+		justifyContent: 'flex-end',
 		rowGap: 10,
 		paddingHorizontal: 10,
 		paddingVertical: 12,
-	},
-	inputContainer: {
-		gap: 12,
-		flexDirection: 'row',
-		paddingHorizontal: 14,
-		paddingVertical: 10,
-		alignItems: 'center',
-		backgroundColor: '#FFFFFF',
-	},
-	input: {
-		flex: 1,
-		backgroundColor: '#F3F6F6',
-		paddingVertical: 4,
-		paddingHorizontal: 10,
-		borderRadius: 18,
-		height: 30,
-	},
-	sendButton: {
-		height: 32,
-		width: 32,
-		borderRadius: 20,
-		justifyContent: 'center',
-		alignItems: 'center',
 	},
 });
