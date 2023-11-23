@@ -2,7 +2,6 @@ import { type FC, useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { Copy, Speaker } from '@peakee/icons';
-import type { ModalContext } from '@peakee/ui/state/modal';
 import axios from 'axios';
 import { throttle } from 'lodash';
 
@@ -12,18 +11,25 @@ type TranslateResponse = {
 	languages: string;
 };
 
+export type TranslateContext = {
+	text: string;
+	languages: 'en-vi' | 'vi-en';
+};
+
 const TranslateModal: FC<{
-	context?: ModalContext;
+	context: TranslateContext;
 }> = ({ context }) => {
+	const { text: initText, languages: initLanguages } = context;
 	const [loading, setLoading] = useState(true);
-	const [text, setText] = useState((context?.text as string) || '');
+	const [text, setText] = useState(initText);
+	const [languages, setLanguages] = useState(initLanguages);
 	const [translated, setTranslated] = useState('');
 
 	const fetchTranslation = useCallback(
 		throttle(async (text: string) => {
 			const res = await axios.get<TranslateResponse>(
 				'https://api.peakee.co/v1/translation',
-				{ params: { text } },
+				{ params: { text, languages } },
 			);
 			setTranslated(res.data.translated);
 		}, 3000),
