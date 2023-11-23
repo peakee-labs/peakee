@@ -19,15 +19,15 @@ type TranslateResponse = {
 };
 
 export type TranslateContext = {
-	text: string;
+	text?: string;
 	languages: 'en-vi' | 'vi-en';
 };
 
 const TranslateModal: FC<{
 	context: TranslateContext;
 }> = ({ context }) => {
-	const { text: initText, languages: initLanguages } = context;
-	const [loading, setLoading] = useState(true);
+	const { text: initText = '', languages: initLanguages } = context;
+	const [loading, setLoading] = useState(false);
 	const [text, setText] = useState(initText);
 	const [translated, setTranslated] = useState('');
 	const [from, setFrom] = useState(initLanguages.split('-')[0]);
@@ -77,8 +77,10 @@ const TranslateModal: FC<{
 	};
 
 	useEffect(() => {
-		setLoading(true);
-		fetchTranslation(text)?.then(() => setLoading(false));
+		if (text.length > 0) {
+			setLoading(true);
+			fetchTranslation(text)?.then(() => setLoading(false));
+		}
 	}, []);
 
 	return (

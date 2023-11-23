@@ -1,6 +1,6 @@
 export type TranslateFunction = (
-	text: string,
-	languages: 'en-vi' | 'vi-en',
+	text?: string,
+	languages?: 'en-vi' | 'vi-en',
 ) => void;
 export let translate: TranslateFunction | undefined;
 

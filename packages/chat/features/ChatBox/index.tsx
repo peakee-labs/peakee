@@ -48,7 +48,7 @@ export const ChatBox: FC<Props> = ({
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-			keyboardVerticalOffset={Platform.OS === 'ios' ? 58 : 0}
+			keyboardVerticalOffset={Platform.OS === 'ios' ? 18 : 0}
 			style={styles.container}
 		>
 			<Header

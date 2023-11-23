@@ -1,7 +1,14 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
-import { ChevronRight, SendIcon } from '@peakee/icons';
+import {
+	Camera,
+	ChevronRight,
+	Photo,
+	SendIcon,
+	Translate,
+} from '@peakee/icons';
+import { translate } from '@peakee/utils';
 
 interface Props {
 	onPressSend: (message: string) => void;
@@ -14,24 +21,65 @@ export const Input: FC<Props> = ({ onPressSend }) => {
 		setMessage('');
 	};
 
+	const openFeatures = () => {
+		setRenderFeatures(true);
+	};
+
+	const closeFeatures = () => {
+		setRenderFeatures(false);
+	};
+
+	const handlePressTranslate = () => {
+		translate?.();
+	};
+
+	const [renderFeatures, setRenderFeatures] = useState(false);
+
 	return (
 		<View style={styles.container}>
-			<ChevronRight size={20} color="#000000" />
-			<TextInput
-				value={message}
-				onChangeText={setMessage}
-				style={styles.input}
-				placeholder="Type a message..."
-				onSubmitEditing={handleSendMessage}
-				blurOnSubmit={false}
-				enablesReturnKeyAutomatically
-			/>
-			<TouchableOpacity
-				style={styles.sendButton}
-				onPress={handleSendMessage}
-			>
-				<SendIcon size={20} color={'#000000'} />
-			</TouchableOpacity>
+			{renderFeatures && (
+				<View style={styles.featuresContainer}>
+					<TouchableOpacity onPress={handlePressTranslate}>
+						<Translate
+							size={20}
+							color="#000000"
+							strokeWidth="1.6"
+						/>
+					</TouchableOpacity>
+					<Camera size={20} color="#000000" strokeWidth="1.6" />
+					<Photo size={20} color="#000000" strokeWidth="1.6" />
+				</View>
+			)}
+
+			<View style={styles.inputContainer}>
+				{!renderFeatures && (
+					<TouchableOpacity onPress={openFeatures}>
+						<ChevronRight
+							size={20}
+							color="#000000"
+							strokeWidth="1.6"
+						/>
+					</TouchableOpacity>
+				)}
+
+				<TextInput
+					value={message}
+					onChangeText={setMessage}
+					style={styles.input}
+					placeholder="Type a message..."
+					onSubmitEditing={handleSendMessage}
+					blurOnSubmit={false}
+					enablesReturnKeyAutomatically
+					onFocus={closeFeatures}
+					onPressIn={closeFeatures}
+				/>
+				<TouchableOpacity
+					style={styles.sendButton}
+					onPress={handleSendMessage}
+				>
+					<SendIcon size={20} color={'#000000'} strokeWidth="1.6" />
+				</TouchableOpacity>
+			</View>
 		</View>
 	);
 };
@@ -44,6 +92,17 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		paddingHorizontal: 14,
 		paddingVertical: 10,
+		alignItems: 'center',
+		backgroundColor: '#FFFFFF',
+	},
+	featuresContainer: {
+		flexDirection: 'row',
+		gap: 8,
+	},
+	inputContainer: {
+		flex: 1,
+		gap: 12,
+		flexDirection: 'row',
 		alignItems: 'center',
 		backgroundColor: '#FFFFFF',
 	},
