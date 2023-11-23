@@ -95,7 +95,7 @@ const TranslateModal: FC<{
 			</View>
 
 			<TextInput
-				style={styles.content}
+				style={styles.textInput}
 				value={text}
 				onChangeText={handleChangeText}
 				placeholder="Type to translate..."
@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
 	header: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		marginBottom: 20,
 	},
 	icons: {
 		flexDirection: 'row',
@@ -162,6 +163,10 @@ const styles = StyleSheet.create({
 	},
 	content: {
 		fontSize: 24,
-		marginVertical: 20,
+	},
+	textInput: {
+		fontSize: 24,
+		paddingHorizontal: 0,
+		paddingVertical: 0,
 	},
 });
