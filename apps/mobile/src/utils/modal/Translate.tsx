@@ -1,7 +1,6 @@
 import { type FC, useCallback, useEffect, useState } from 'react';
 import {
 	ActivityIndicator,
-	Clipboard,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
@@ -9,6 +8,7 @@ import {
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { Copy, Speaker, Switch } from '@peakee/icons';
+import Clipboard from '@react-native-community/clipboard';
 import axios from 'axios';
 import { throttle } from 'lodash';
 
@@ -68,7 +68,7 @@ const TranslateModal: FC<{
 	};
 
 	const copy = (text: string) => {
-		Clipboard.getString(text);
+		Clipboard.setString(text);
 	};
 
 	useEffect(() => {
@@ -82,6 +82,7 @@ const TranslateModal: FC<{
 				<Text style={styles.title}>
 					{from == 'en' ? 'English' : 'Vietnamese'}
 				</Text>
+
 				<View style={styles.icons}>
 					<TouchableOpacity onPress={switchLanguages}>
 						<Switch size={18} color={'#000000'} strokeWidth="1.5" />
@@ -92,6 +93,7 @@ const TranslateModal: FC<{
 					<Speaker size={18} color={'#000000'} strokeWidth="1.5" />
 				</View>
 			</View>
+
 			<TextInput
 				style={styles.content}
 				value={text}
@@ -110,6 +112,7 @@ const TranslateModal: FC<{
 				<Text style={styles.title}>
 					{to == 'en' ? 'English' : 'Vietnamese'}
 				</Text>
+
 				<View style={styles.icons}>
 					<TouchableOpacity onPress={() => copy(translated)}>
 						<Copy size={18} color={'#000000'} strokeWidth="1.5" />

@@ -4845,6 +4845,7 @@ __metadata:
     "@peakee/chat": "*"
     "@peakee/db": "*"
     "@peakee/ui": "*"
+    "@react-native-community/clipboard": ^1.5.1
     "@react-native-firebase/app": ^18.5.0
     "@react-native-firebase/auth": ^18.5.0
     "@react-native-firebase/firestore": ^18.5.0
@@ -5230,6 +5231,16 @@ __metadata:
   bin:
     react-native: build/bin.js
   checksum: 06b81dc118020285caefa9a47ff94f2494679745686643f49e5feb1a8a193e13129ffc3a4fe831dfea6570bd300d3bef26cb2bb718950171d3ca111e80966a91
+  languageName: node
+  linkType: hard
+
+"@react-native-community/clipboard@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "@react-native-community/clipboard@npm:1.5.1"
+  peerDependencies:
+    react: ">=16.0"
+    react-native: ">=0.57.0"
+  checksum: 61f993b864804ef43de3a4b33b080d2310d491d7d13bc504e75326a841e0f2715b7c65212cae420fa200688be8881ed4b6731e0f4bad8de2d340c401f598bcea
   languageName: node
   linkType: hard
 
