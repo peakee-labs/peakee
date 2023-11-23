@@ -8,7 +8,16 @@ import { uiStore } from '../state';
 import { type ModalConfig, hideModalAction } from '../state/modal';
 
 const ModalContainer = (config: ModalConfig) => {
-	const { id, context, Component, onDismiss, ...bottomSheetConfig } = config;
+	const {
+		id,
+		index,
+		context,
+		Component,
+		onDismiss,
+		snapPoints,
+		useBackdrop = true,
+		...bottomSheetConfig
+	} = config;
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
 	const handleDismiss = () => {
@@ -22,12 +31,12 @@ const ModalContainer = (config: ModalConfig) => {
 
 	return (
 		<BottomSheetModal
+			index={index || 0}
 			ref={bottomSheetModalRef}
-			index={0}
-			snapPoints={['60%', '80%']}
+			snapPoints={snapPoints || ['60%', '80%']}
 			onDismiss={handleDismiss}
 			handleIndicatorStyle={styles.handleIndicator}
-			backdropComponent={CustomBackdrop}
+			backdropComponent={useBackdrop ? CustomBackdrop : null}
 			{...bottomSheetConfig}
 		>
 			<Component context={context} />

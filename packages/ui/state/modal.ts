@@ -8,6 +8,7 @@ export type ModalConfig<T extends object = object> = Omit<
 	'ref' | 'children'
 > & {
 	id: string;
+	useBackdrop?: boolean;
 	Component: FC<{ context: T }>;
 	context: T;
 };
