@@ -106,7 +106,7 @@ export const ChatBox: FC<Props> = ({
 					placeholder="Type a message..."
 					onSubmitEditing={handleSendMessage}
 					blurOnSubmit={false}
-					enablesReturnKeyAutomatically={true}
+					enablesReturnKeyAutomatically
 				/>
 				<TouchableOpacity
 					style={styles.sendButton}

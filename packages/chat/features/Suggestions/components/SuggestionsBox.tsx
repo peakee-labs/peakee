@@ -1,6 +1,8 @@
 import type { FC } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
+
+import { TranslatableText } from '../../components';
 
 interface Props {
 	suggestions: string[];
@@ -13,11 +15,13 @@ export const SuggestionsBox: FC<Props> = ({ suggestions }) => {
 			entering={FadeInDown}
 			exiting={FadeOutDown}
 		>
-			<Text style={styles.title}>Suggestions</Text>
+			<TranslatableText style={styles.title}>
+				Suggestions
+			</TranslatableText>
 			{suggestions.map((ele, index) => (
-				<Text style={styles.suggestion} key={index}>
+				<TranslatableText style={styles.suggestion} key={index}>
 					{ele}
-				</Text>
+				</TranslatableText>
 			))}
 		</Animated.View>
 	);
@@ -28,16 +32,23 @@ export default SuggestionsBox;
 const styles = StyleSheet.create({
 	container: {
 		borderRadius: 10,
-		borderWidth: 0.4,
 		padding: 8,
 		backgroundColor: '#FFFFFF',
 		marginBottom: 10,
+		shadowOffset: {
+			width: 1,
+			height: 1,
+		},
+		elevation: 2,
+		shadowOpacity: 0.2,
+		shadowColor: '#000000',
 	},
 	title: {
 		fontSize: 12,
 		fontWeight: '500',
 		color: '#000000',
 		marginBottom: 4,
+		opacity: 0.5,
 	},
 	suggestion: {
 		fontSize: 16,

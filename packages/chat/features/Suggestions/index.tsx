@@ -60,10 +60,8 @@ export const Suggestions: FC<Props> = ({ incomingMessages }) => {
 export default Suggestions;
 
 const styles = StyleSheet.create({
-	container: {
-		backgroundColor: '#yellow',
-	},
 	suggestButton: {
+		zIndex: 1,
 		position: 'absolute',
 		bottom: 0,
 		right: 0,

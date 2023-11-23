@@ -100,7 +100,6 @@ const TranslateModal: FC<{
 				onChangeText={handleChangeText}
 				placeholder="Type to translate..."
 				multiline
-				autoFocus
 				autoCorrect={false}
 				autoCapitalize="none"
 				autoComplete="off"
