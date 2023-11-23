@@ -65,6 +65,7 @@ export const ChatBox: FC<Props> = ({
 				showsVerticalScrollIndicator={false}
 				keyboardShouldPersistTaps="handled"
 				onContentSizeChange={handleScrollContentChange}
+				onLayout={handleScrollContentChange}
 			>
 				{messages.map((message, index) => {
 					if (message.senderId === myId) {
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	chatContainer: {
-		flex: 1,
+		flexGrow: 1,
 		justifyContent: 'flex-end',
 		rowGap: 10,
 		paddingHorizontal: 10,
