@@ -48,7 +48,7 @@ const ChatRoomScreen = () => {
 
 	useEffect(() => {
 		const lastMessage = room.messages[room.messages.length - 1];
-		if (lastMessage.senderId !== user?.id) {
+		if (lastMessage && lastMessage.senderId !== user?.id) {
 			setIncomingMessages([...incomingMessages, lastMessage]);
 		} else {
 			setIncomingMessages([]);
@@ -66,7 +66,12 @@ const ChatRoomScreen = () => {
 			sendMessage={handleSendMessage}
 		>
 			<Suggestions
-				incomingMessages={incomingMessages.map((ele) => ele.content)}
+				user={user}
+				incomingMessages={
+					incomingMessages.length >= 5
+						? incomingMessages.slice(-5)
+						: incomingMessages
+				}
 			/>
 		</ChatBox>
 	);
