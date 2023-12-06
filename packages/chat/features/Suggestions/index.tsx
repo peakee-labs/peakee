@@ -1,63 +1,20 @@
 import type { FC } from 'react';
-import { Fragment, useEffect } from 'react';
-import { useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
-import type { Message, UserChatData } from '@peakee/db/types';
+import type { Message } from '@peakee/db/types';
 import { GPT } from '@peakee/icons';
+import { handleGetIdToken } from '@peakee/utils';
 import { throttle } from 'lodash';
+
+import { getChatSuggestion } from '../../utils/suggest';
 
 import { SuggestionsBox } from './components';
 
 interface Props {
-	incomingMessages: Message[];
-	user: UserChatData | undefined;
+	recentMessages: Message[];
 }
 
-type suggestionResponse = {
-	suggestions: string[];
-};
-
-const handleGetChatSuggestion = async (
-	user: UserChatData,
-	messages: Message[],
-): Promise<suggestionResponse> => {
-	const request = {
-		userId: user.id,
-		messages: messages,
-	};
-
-	const response: suggestionResponse = await fetch(
-		'https://i0e7ns9jr3.execute-api.ap-south-1.amazonaws.com/chat',
-		{
-			method: 'POST',
-			headers: {
-				ContentType: 'application/json',
-				Accept: 'application/json',
-			},
-			body: JSON.stringify(request),
-		},
-	)
-		.then(async (response) => {
-			if (response.ok) {
-				return response.json();
-			}
-			const text = await response.text();
-			throw new Error(text);
-		})
-		.then((json) => {
-			const responseJSON = json as suggestionResponse;
-			return responseJSON;
-		})
-		.catch((err) => {
-			console.log(
-				`suggestion: cann't get chat suggestions from serve, err: ${err}`,
-			);
-			return { suggestions: [] } as suggestionResponse;
-		});
-	return response;
-};
-
-export const Suggestions: FC<Props> = ({ user, incomingMessages }) => {
+export const Suggestions: FC<Props> = ({ recentMessages }) => {
 	const [suggestions, setSuggestions] = useState<string[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(true);
@@ -67,18 +24,19 @@ export const Suggestions: FC<Props> = ({ user, incomingMessages }) => {
 			setOpen((value) => !value);
 		} else {
 			setLoading(true);
-			const messagesCount = incomingMessages?.length || 0;
-			if (!user) {
-				console.log('user chat data empty');
+			const token = await handleGetIdToken();
+			if (!token) {
+				console.log('empty token');
 				setLoading(false);
 				return;
 			}
+			const messagesCount = recentMessages?.length || 0;
 			if (messagesCount > 0) {
-				const res = await handleGetChatSuggestion(
-					user,
-					incomingMessages,
+				const suggestions = await getChatSuggestion(
+					recentMessages,
+					token,
 				);
-				setSuggestions(res.suggestions);
+				setSuggestions(suggestions);
 			} else {
 				console.log('empty incoming messages');
 			}
@@ -89,7 +47,7 @@ export const Suggestions: FC<Props> = ({ user, incomingMessages }) => {
 	useEffect(() => {
 		setSuggestions([]);
 		setOpen(true);
-	}, [incomingMessages]);
+	}, [recentMessages]);
 
 	return (
 		<Fragment>
@@ -97,7 +55,7 @@ export const Suggestions: FC<Props> = ({ user, incomingMessages }) => {
 				<SuggestionsBox suggestions={suggestions} />
 			)}
 
-			{(incomingMessages?.length || 0 > 0) && (
+			{(recentMessages?.length || 0 > 0) && (
 				<TouchableOpacity
 					onPress={throttle(handlePressGPT, 2000)}
 					style={styles.suggestButton}

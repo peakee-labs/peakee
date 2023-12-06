@@ -11,3 +11,5 @@ type InjectProps = {
 export const injectUtils = (utils: InjectProps) => {
 	translate = utils.translate;
 };
+
+export * from './firestore.ts';
