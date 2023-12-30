@@ -17,7 +17,7 @@ export const Container: FC<Props> = ({ className, children }) => {
 export default Container;
 
 const Wrapper = styled.div`
-	max-width: 1400px;
+	max-width: 1280px;
 	margin-left: auto;
 	margin-right: auto;
 	padding-left: 32px;
