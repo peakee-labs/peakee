@@ -10,8 +10,9 @@ export const initOpenAIClient = (apiKey: string) => {
 export const getSuggestions = async (incomingMessages: string[]) => {
 	const content = `Messages: [${incomingMessages.join(
 		',',
-	)}]. Give me 2 instinct English sentences to reply to the above messages. Format: [{"s": ""}]`;
-	console.log({ content });
+	)}]. Give me 2 short instinct English sentences to reply to the above messages. Format: [{"s": ""}]`;
+
+	// return ['Hehe! there is no message here', 'Hehe no gpt here bro'];
 
 	try {
 		const chatCompletion = await openai.chat.completions.create({

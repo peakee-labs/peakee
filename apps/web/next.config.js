@@ -11,6 +11,7 @@ module.exports = {
 		'react-native',
 		'react-native-svg',
 		'react-native-reanimated',
+		'react-native-gesture-handler',
 	],
 	webpack: (config) => {
 		config.resolve.alias['react-native$'] = 'react-native-web';
