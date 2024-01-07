@@ -1,10 +1,14 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 
-import { Container, HorizontalBox } from '@/components';
+import { Container, HorizontalBox, PrimaryButton } from '@/components';
 import { headerItems } from '@/config/content';
 
 export const Header = () => {
+	const launchApp = () => {
+		window.open('https://app.peakee.co', '_blank', 'noopener,noreferrer');
+	};
+
 	return (
 		<Wrapper>
 			<HeaderContainer>
@@ -17,7 +21,8 @@ export const Header = () => {
 							</Link>
 						);
 					})}
-					<button>Launch App</button>
+
+					<PrimaryButton title="Launch App" onClick={launchApp} />
 				</HeaderItems>
 			</HeaderContainer>
 		</Wrapper>
@@ -40,6 +45,7 @@ const AppName = styled.h1`
 
 const HeaderItems = styled(HorizontalBox)`
 	gap: 30px;
+	align-items: center;
 `;
 
 const HeaderText = styled.p`

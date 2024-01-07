@@ -2,9 +2,23 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import styled from 'styled-components';
 
-import { Box, Container, HorizontalBox } from '@/components';
+import {
+	Box,
+	Container,
+	HorizontalBox,
+	PrimaryButton,
+	SecondaryButton,
+} from '@/components';
 
 export const MainSection = () => {
+	const launchApp = () => {
+		window.open('https://app.peakee.co', '_blank', 'noopener,noreferrer');
+	};
+
+	const joinWaitlist = () => {
+		window.open('https://app.peakee.co', '_blank', 'noopener,noreferrer');
+	};
+
 	return (
 		<Wrapper>
 			<MainContainer>
@@ -14,14 +28,16 @@ export const MainSection = () => {
 						by <Highlight>Chatting</Highlight>
 					</BigTitle>
 					<SubTitle>
-						Peakee helps you learn English by chatting with in-app
-						translation, AI suggestions and more
+						Peakee helps you to chat in English by supporting AI
+						suggestions, in-app translation and more...
 					</SubTitle>
-					<HorizontalBox>
-						<Button>Web</Button>
-						<Button>iOS</Button>
-						<Button>Android</Button>
-					</HorizontalBox>
+					<ButtonsBox>
+						<PrimaryButton title="Launch App" onClick={launchApp} />
+						<SecondaryButton
+							title="Join waitlist"
+							onClick={joinWaitlist}
+						/>
+					</ButtonsBox>
 				</TitleBox>
 
 				<ImageContainer
@@ -96,11 +112,8 @@ const SubTitle = styled.p`
 	margin-bottom: 20px;
 `;
 
-const Button = styled.button`
-	margin-right: 20px;
-	min-width: 120px;
-	padding-top: 10px;
-	padding-bottom: 10px;
+const ButtonsBox = styled(HorizontalBox)`
+	gap: 10px;
 `;
 
 const ImageContainer = styled(motion.div)`

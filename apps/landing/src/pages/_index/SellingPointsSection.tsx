@@ -1,20 +1,20 @@
 import styled from 'styled-components';
 
-import { Box } from '@/components';
+import { Container } from '@/components';
 
 export const SellingPointsSection = () => {
 	return (
-		<Container>
+		<Wrapper>
 			<h1>The best way to learn English is use it!</h1>
-			<p>Use to learn</p>
+			{/* <p>Use to learn</p>
 			<p>Connect learners</p>
-			<p>Practice on usage</p>
-		</Container>
+			<p>Practice on usage</p> */}
+		</Wrapper>
 	);
 };
 
 export default SellingPointsSection;
 
-const Container = styled(Box)`
+const Wrapper = styled(Container)`
 	height: 100vh;
 `;
