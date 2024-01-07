@@ -5,11 +5,11 @@ type HeaderItem = {
 
 export const headerItems: HeaderItem[] = [
 	{
-		title: 'Web App',
-		link: 'https://app.peakee.co',
+		title: 'About',
+		link: '/about',
 	},
 	{
-		title: 'About Us',
+		title: 'Community',
 		link: '/about',
 	},
 	{
