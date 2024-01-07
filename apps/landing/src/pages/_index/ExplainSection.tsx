@@ -2,18 +2,17 @@ import styled from 'styled-components';
 
 import { Box } from '@/components';
 
-export const MethodologySection = () => {
+export const ExplainSection = () => {
 	return (
 		<Container>
 			<Title>
-				People learn English, but they{' '}
-				<RedHighlight>{"don't use"}</RedHighlight> it!
+				We help people <BlueHighlight>use</BlueHighlight> English
 			</Title>
 		</Container>
 	);
 };
 
-export default MethodologySection;
+export default ExplainSection;
 
 const Container = styled(Box)`
 	height: 100vh;
@@ -26,6 +25,6 @@ const Title = styled.h2`
 	font-weight: 400;
 `;
 
-const RedHighlight = styled.strong`
-	color: #e15869;
+const BlueHighlight = styled.strong`
+	color: #5f4dff;
 `;
