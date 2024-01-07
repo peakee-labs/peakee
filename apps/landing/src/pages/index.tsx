@@ -1,12 +1,10 @@
 import { Montserrat } from 'next/font/google';
 import Head from 'next/head';
 
-import {
-	Header,
-	MainSection,
-	MethodologySection,
-	SellingPointsSection,
-} from './_index';
+import Header from './_index/Header';
+import MainSection from './_index/MainSection';
+import MethodologySection from './_index/MethodologySection';
+import SellingPointsSection from './_index/SellingPointsSection';
 
 import { Container } from '@/components';
 
