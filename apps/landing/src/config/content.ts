@@ -5,7 +5,7 @@ type HeaderItem = {
 
 export const headerItems: HeaderItem[] = [
 	{
-		title: 'Peakee App',
+		title: 'Web App',
 		link: 'https://app.peakee.co',
 	},
 	{
