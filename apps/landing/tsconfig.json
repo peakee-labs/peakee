@@ -10,6 +10,7 @@
     "paths": {
       "@/components": ["./src/components"],
       "@/components/*": ["./src/components/*"],
+      "@/features/*": ["./src/features/*"],
       "@/config/*": ["./src/config/*"],
       "@/assets/*": ["./public/*"]
     }
