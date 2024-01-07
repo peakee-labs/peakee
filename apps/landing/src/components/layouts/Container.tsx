@@ -17,13 +17,14 @@ export const Container: FC<Props> = ({ className, children }) => {
 export default Container;
 
 const Wrapper = styled.div`
+	width: 100%;
+`;
+
+const ContentContainer = styled.div`
 	max-width: 1280px;
+	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
 	padding-left: 32px;
 	padding-right: 32px;
-`;
-
-const ContentContainer = styled.div`
-	width: 100%;
 `;
