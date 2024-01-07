@@ -5,11 +5,19 @@ type Props = {
 	title?: string;
 	children?: ReactNode;
 	onClick?: () => void;
+	className?: string;
 };
 
-export const PrimaryButton: FC<Props> = ({ title, children, onClick }) => {
+export const PrimaryButton: FC<Props> = ({
+	title,
+	children,
+	onClick,
+	className,
+}) => {
 	return (
-		<ButtonContainer onClick={onClick}>{title || children}</ButtonContainer>
+		<ButtonContainer className={className} onClick={onClick}>
+			{title || children}
+		</ButtonContainer>
 	);
 };
 

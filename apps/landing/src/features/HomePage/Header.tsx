@@ -2,7 +2,9 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 import { Container, HorizontalBox, PrimaryButton } from '@/components';
+import BurgerIcon from '@/components/icons/BurgerIcon';
 import { headerItems } from '@/config/content';
+import { devices } from '@/config/responsive';
 
 export const Header = () => {
 	const launchApp = () => {
@@ -13,6 +15,11 @@ export const Header = () => {
 		<Wrapper>
 			<HeaderContainer>
 				<AppName>Peakee</AppName>
+
+				<MenuButton>
+					<BurgerIcon />
+				</MenuButton>
+
 				<HeaderItems>
 					{headerItems.map(({ link, title }, idx) => {
 						return (
@@ -46,6 +53,18 @@ const AppName = styled.h1`
 const HeaderItems = styled(HorizontalBox)`
 	gap: 30px;
 	align-items: center;
+
+	display: none;
+
+	@media ${devices.md} {
+		display: flex;
+	}
+`;
+
+const MenuButton = styled.div`
+	@media ${devices.md} {
+		display: none;
+	}
 `;
 
 const HeaderText = styled.p`
