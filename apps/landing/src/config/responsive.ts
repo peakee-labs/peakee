@@ -1,4 +1,5 @@
-export const sizes = {
+const sizes = {
+	ss: '380px',
 	sm: '500px',
 	md: '768px',
 	lg: '992px',
@@ -7,6 +8,7 @@ export const sizes = {
 };
 
 export const devices = {
+	ss: `(min-width: ${sizes.ss})`,
 	sm: `(min-width: ${sizes.sm})`,
 	md: `(min-width: ${sizes.md})`,
 	lg: `(min-width: ${sizes.lg})`,
