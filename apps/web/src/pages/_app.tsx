@@ -17,7 +17,7 @@ const PeakeeApp = ({ Component, pageProps }: AppProps) => {
 
 	return (
 		<Provider store={store}>
-			<View style={{ height: height || ('100vh' as never) }}>
+			<View style={{ height: height || ('100dvh' as never) }}>
 				<Component {...pageProps} />
 			</View>
 		</Provider>
