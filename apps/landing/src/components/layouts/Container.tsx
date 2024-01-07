@@ -25,6 +25,6 @@ const ContentContainer = styled.div`
 	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
-	padding-left: 32px;
-	padding-right: 32px;
+	padding-left: 14px;
+	padding-right: 14px;
 `;
