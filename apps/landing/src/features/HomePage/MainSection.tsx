@@ -71,7 +71,7 @@ export default MainSection;
 const Wrapper = styled(Container)``;
 
 const MainContainer = styled(Box)`
-	height: calc(200vh - 60px);
+	height: calc(180vh - 60px);
 
 	@media ${devices.lg} {
 		flex-direction: row;
@@ -84,13 +84,17 @@ const TitleBox = styled(Box)`
 	max-width: 500px;
 	align-self: center;
 	justify-content: center;
-	min-height: 600px;
+	min-height: 500px;
 `;
 
 const BigTitle = styled.h1`
-	font-size: 52px;
+	font-size: 42px;
 	font-weight: 700;
 	text-align: center;
+
+	@media ${devices.sm} {
+		font-size: 52px;
+	}
 
 	@media ${devices.md} {
 		text-align: left;
@@ -129,8 +133,8 @@ const ImageContainer = styled(motion.div)`
 	margin-top: 30px;
 	margin-bottom: 50px;
 	max-height: 800px;
-	margin-left: 80px;
-	margin-right: 80px;
+	margin-left: 20px;
+	margin-right: 20px;
 `;
 
 const ContainedImage = styled(Image)`
@@ -139,13 +143,13 @@ const ContainedImage = styled(Image)`
 
 const SuggestionBox = styled(motion.div)`
 	position: absolute;
-	width: 250px;
-	height: 125px;
-	top: 100px;
-	left: -60px;
+	width: 200px;
+	height: 100px;
+	top: 96px;
+	left: -20px;
 
-	@media ${devices.lg} {
-		left: -40px;
+	@media ${devices.sm} {
+		left: 0px;
 		top: 70px;
 		width: 300px;
 		height: 150px;
@@ -154,15 +158,15 @@ const SuggestionBox = styled(motion.div)`
 
 const TranslationBox = styled(motion.div)`
 	position: absolute;
-	width: 270px;
-	height: 270px;
-	bottom: 110px;
-	right: -60px;
+	width: 200px;
+	height: 200px;
+	bottom: 90px;
+	right: -20px;
 
-	@media ${devices.lg} {
+	@media ${devices.sm} {
 		width: 300px;
 		height: 300px;
 		bottom: 30px;
-		right: -60px;
+		right: 0px;
 	}
 `;
