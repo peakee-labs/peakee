@@ -72,9 +72,11 @@ const Wrapper = styled(Container)``;
 
 const MainContainer = styled(Box)`
 	height: calc(180vh - 60px);
+	max-height: 1624px;
 
 	@media ${devices.lg} {
 		flex-direction: row;
+		max-height: 1024px;
 		height: calc(100vh - 60px);
 	}
 `;
@@ -130,9 +132,10 @@ const ButtonsBox = styled(HorizontalBox)`
 const ImageContainer = styled(motion.div)`
 	flex: 1;
 	position: relative;
-	margin-top: 30px;
-	margin-bottom: 50px;
+	height: 94%;
 	max-height: 800px;
+	margin-top: auto;
+	margin-bottom: auto;
 	margin-left: 20px;
 	margin-right: 20px;
 
