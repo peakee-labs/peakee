@@ -71,8 +71,8 @@ export default MainSection;
 const Wrapper = styled(Container)``;
 
 const MainContainer = styled(Box)`
-	height: calc(180vh - 60px);
-	max-height: 1624px;
+	height: 140vh;
+	max-height: 1524px;
 
 	@media ${devices.lg} {
 		flex-direction: row;
