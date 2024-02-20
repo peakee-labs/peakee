@@ -1,7 +1,15 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+	Button,
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import type { UserExplore, UserProfile } from '@peakee/db/types';
 
 import ExploreProfile from './components/ExploreProfile';
+import QuoteBanner from './components/quoteBanner';
 
 export interface UserExploreData {
 	profile: UserProfile;
@@ -11,6 +19,7 @@ export interface UserExploreData {
 const ExploreScreen = () => {
 	return (
 		<View style={styles.container}>
+			<QuoteBanner />
 			<Text style={styles.h2}>Who&apos;s around the corner</Text>
 			<ScrollView
 				contentContainerStyle={styles.exploreList}
@@ -26,6 +35,9 @@ const ExploreScreen = () => {
 					);
 				})}
 			</ScrollView>
+			<TouchableOpacity style={styles.randomChatButton}>
+				<Text style={styles.randomChatButtonText}>Random Chat</Text>
+			</TouchableOpacity>
 		</View>
 	);
 };
@@ -59,6 +71,19 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		fontWeight: '600',
 		color: '#000000',
+	},
+	randomChatButton: {
+		backgroundColor: '#FE9E00',
+		height: 50,
+		width: '100%',
+		borderRadius: 20,
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	randomChatButtonText: {
+		color: '#f9f9f8',
+		fontSize: 16,
 	},
 });
 
