@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -17,7 +17,11 @@ const ExploreProfile: FC<Props> = ({ profile, explore }) => {
 				<View style={styles.avatarContainer}>
 					<Avatar source={{ uri: profile.imageUrl }} size={60} />
 					<View style={styles.heartCount}>
-						<FontAwesomeIcon icon={faHeart} color="#D10C0F" />
+						<FontAwesomeIcon
+							icon={faHeart}
+							color="#D10C0F"
+							size={10}
+						/>
 						<Text>{explore.like}</Text>
 					</View>
 				</View>
@@ -59,9 +63,9 @@ const ExploreProfile: FC<Props> = ({ profile, explore }) => {
 					</View>
 				</View>
 			</View>
-			<Pressable style={styles.chatButton}>
-				<Text style={{ color: '#FEA91A' }}>Chat</Text>
-			</Pressable>
+			<TouchableOpacity style={styles.chatButton}>
+				<Text style={{ color: '#fea91a' }}>Chat</Text>
+			</TouchableOpacity>
 		</View>
 	);
 };
@@ -71,24 +75,28 @@ const styles = StyleSheet.create({
 	container: {
 		display: 'flex',
 		flexDirection: 'row',
-		height: 80,
+		height: 100,
 		width: '100%',
 		alignItems: 'center',
 		justifyContent: 'space-between',
+		borderBottomWidth: 1.5,
+		paddingBottom: 10,
+		borderColor: '#F5F4F4',
 	},
 	leftCol: {
 		display: 'flex',
 		flexDirection: 'row',
-		gap: 10,
 		height: '100%',
+		gap: 10,
 		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	avatarContainer: {
 		display: 'flex',
 		height: '100%',
 		gap: 7,
 		flexDirection: 'column',
-		justifyContent: 'space-between',
+		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	heartCount: {
