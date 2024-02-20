@@ -10,6 +10,12 @@
         "test": "jest"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^6.5.1",
+        "@fortawesome/fontawesome-svg-core": "^6.5.1",
+        "@fortawesome/free-brands-svg-icons": "^6.5.1",
+        "@fortawesome/free-regular-svg-icons": "^6.5.1",
+        "@fortawesome/free-solid-svg-icons": "^6.5.1",
+        "@fortawesome/react-native-fontawesome": "^0.3.0",
         "@gorhom/bottom-sheet": "^4",
         "@peakee/app": "*",
         "@peakee/chat": "*",
@@ -28,11 +34,12 @@
         "react": "18.2.0",
         "react-native": "0.72.4",
         "react-native-config": "^1.5.1",
+        "react-native-country-flag": "^2.0.2",
         "react-native-gesture-handler": "^2.13.4",
         "react-native-reanimated": "^3.5.4",
         "react-native-safe-area-context": "^4.7.2",
         "react-native-screens": "^3.25.0",
-        "react-native-svg": "^13.14.0",
+        "react-native-svg": "^14.1.0",
         "react-native-url-polyfill": "^2.0.0",
         "react-redux": "^8.1.3"
     },

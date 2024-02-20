@@ -6,6 +6,7 @@ import { UIProvider } from '@peakee/ui';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ChatRoomScreen from 'screens/ChatRoom';
+import ExploreScreen from 'screens/explore';
 import HomeScreen from 'screens/Home';
 import SignInScreen from 'screens/SignIn';
 import Splash from 'screens/Splash';
@@ -22,13 +23,17 @@ function App(): JSX.Element {
 		<Provider store={store}>
 			<UIProvider>
 				<NavigationContainer>
-					<Stack.Navigator screenOptions={{ headerShown: false }}>
+					<Stack.Navigator screenOptions={{ headerShown: true }}>
 						<Stack.Screen name="Splash" component={Splash} />
 						<Stack.Screen name="SignIn" component={SignInScreen} />
 						<Stack.Screen name="Home" component={HomeScreen} />
 						<Stack.Screen
 							name="ChatRoom"
 							component={ChatRoomScreen}
+						/>
+						<Stack.Screen
+							name="Explore"
+							component={ExploreScreen}
 						/>
 					</Stack.Navigator>
 				</NavigationContainer>

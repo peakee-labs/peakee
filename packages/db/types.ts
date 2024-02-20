@@ -17,6 +17,14 @@ export interface UserChatData {
 	chatRooms: string[];
 }
 
+export interface UserExplore {
+	major: string;
+	country: string;
+	learning: string[];
+	interests?: string[];
+	like: number;
+}
+
 export interface ChatRoom {
 	id: string;
 	type: 'group' | 'individual';
