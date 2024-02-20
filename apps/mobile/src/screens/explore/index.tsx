@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { UserExplore, UserProfile } from '@peakee/db/types';
 
 import ExploreProfile from './components/ExploreProfile';
@@ -11,7 +11,7 @@ export interface UserExploreData {
 const ExploreScreen = () => {
 	return (
 		<View style={styles.container}>
-			<Text>Explore Screen</Text>
+			<Text style={styles.h2}>Who&apos;s around the corner</Text>
 			<ScrollView
 				contentContainerStyle={styles.exploreList}
 				showsVerticalScrollIndicator={false}
@@ -37,12 +37,12 @@ const styles = StyleSheet.create({
 		flex: 1,
 		gap: 16,
 		backgroundColor: '#FFFFFF',
+		paddingHorizontal: 10,
 	},
 	exploreList: {
 		flexDirection: 'column',
-		gap: 15,
-		paddingHorizontal: 10,
-		justifyContent: 'space-between',
+		gap: 20,
+		justifyContent: 'flex-start',
 		alignItems: 'center',
 	},
 	h1: {
