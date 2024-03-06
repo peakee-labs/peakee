@@ -26,8 +26,8 @@
         "turbo": "latest",
         "typescript": "^5.2.2"
     },
-    "packageManager": "yarn@3.6.3",
     "dependencies": {
         "babel-plugin-module-resolver": "^5.0.0"
-    }
+    },
+    "packageManager": "yarn@4.1.1"
 }
