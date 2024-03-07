@@ -11,5 +11,6 @@ module.exports = {
 		navigator: true,
 		fetch: true,
 		WebAssembly: true,
+		chrome: 'readonly',
 	},
 };
