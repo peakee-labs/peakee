@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 	},
 	signInText: {
 		flex: 1,
-		fontSize: 18,
+		fontSize: 16,
 		textAlign: 'center',
 	},
 	googleImage: {
