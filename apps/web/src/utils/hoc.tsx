@@ -18,7 +18,7 @@ export function withAuth<P>(WrappedComponent: ComponentType<P>) {
 			}
 		}, [user, loading]);
 
-		return loading ? (
+		return loading || !user ? (
 			<View style={styles.container}>
 				<ActivityIndicator />
 			</View>

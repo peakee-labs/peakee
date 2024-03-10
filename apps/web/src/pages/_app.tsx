@@ -4,10 +4,16 @@ import { Provider } from 'react-redux';
 import { store } from '@peakee/app/state';
 import type { AppProps } from 'next/app';
 
+import { initApp } from '../utils/bootstrap';
+
 import '../../global.css';
 
 const App = ({ Component, pageProps }: AppProps) => {
 	const { height } = useWrappedWindowDimensions();
+
+	useEffect(() => {
+		initApp();
+	}, []);
 
 	return (
 		<Provider store={store}>

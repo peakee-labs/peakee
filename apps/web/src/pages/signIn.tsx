@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Button } from '@peakee/ui';
+import SignInFeature from '@peakee/app/features/SignIn';
 import { useRouter } from 'next/router';
 
 import { signIn } from '../utils/auth';
@@ -15,29 +14,7 @@ const SignIn: FC = () => {
 		if (user) router.push('/');
 	}, [user]);
 
-	return (
-		<View style={styles.container}>
-			<Text style={styles.h1}>Peakee web</Text>
-			<Button
-				style={{ marginBottom: 10 }}
-				title="Sign in with Google"
-				onPress={signIn}
-			/>
-		</View>
-	);
+	return <SignInFeature onPressSignIn={signIn} />;
 };
 
 export default SignIn;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		gap: 20,
-	},
-	h1: {
-		fontSize: 30,
-		fontWeight: '500',
-	},
-});
