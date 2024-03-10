@@ -12,9 +12,7 @@ const SignIn: FC = () => {
 	const router = useRouter();
 
 	useEffect(() => {
-		if (user) {
-			router.push('/');
-		}
+		if (user) router.push('/');
 	}, [user]);
 
 	return (

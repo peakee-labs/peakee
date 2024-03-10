@@ -1,19 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from '@peakee/app/state';
 import type { AppProps } from 'next/app';
 
-import { injectIOC } from '../utils/ioc';
-
 import '../../global.css';
 
-const PeakeeApp = ({ Component, pageProps }: AppProps) => {
-	const { height } = useWindowDimensions();
-
-	useEffect(() => {
-		injectIOC();
-	}, []);
+const App = ({ Component, pageProps }: AppProps) => {
+	const { height } = useWrappedWindowDimensions();
 
 	return (
 		<Provider store={store}>
@@ -24,4 +18,19 @@ const PeakeeApp = ({ Component, pageProps }: AppProps) => {
 	);
 };
 
-export default PeakeeApp;
+export default App;
+
+const useWrappedWindowDimensions = () => {
+	const [wrappedWidth, setWrappedWidth] = useState(0);
+	const [wrappedHeight, setWrappedHeight] = useState(0);
+	const { width, height } = useWindowDimensions();
+
+	useEffect(() => {
+		if (window) {
+			setWrappedWidth(width);
+			setWrappedHeight(height);
+		}
+	}, []);
+
+	return { width: wrappedWidth, height: wrappedHeight };
+};
