@@ -23,15 +23,12 @@ export const userSlice = createSlice({
 	reducers: {
 		reset: () => initialState,
 		setProfile: (state, action: PayloadAction<UserProfile>) => {
-			console.log('Set user profile', action.payload.email);
 			state.profile = action.payload;
 		},
 		setChatData: (state, action: PayloadAction<UserChatData>) => {
-			console.log('Set user chat data', action.payload.email);
 			state.chatData = action.payload;
 		},
 		setFriends: (state, action: PayloadAction<UserChatData[]>) => {
-			console.log('Set friends');
 			state.friends = action.payload;
 		},
 		setChatRooms: (state, action: PayloadAction<ChatRoom[]>) => {

@@ -56,8 +56,10 @@ export const addFriend = async (email: string) => {
 	}
 };
 
+// FIX: when home pages fetch new user while this function running => user.chatData will be undefined
 export const handleChangeUser = async (user: UserChatData) => {
 	const currentUser = store.getState().user.chatData;
+	store.dispatch(setChatData(user));
 
 	if (user.friends.toString() !== (currentUser?.friends || []).toString()) {
 		const friends = await getUsers(user.friends);
@@ -70,11 +72,10 @@ export const handleChangeUser = async (user: UserChatData) => {
 		const chatRooms = await getChatRooms(user.chatRooms);
 		store.dispatch(setChatRooms(chatRooms));
 	}
-
-	store.dispatch(setChatData(user));
 };
 
 export const handleIncomingMessages = (roomId: string, messages: Message[]) => {
+	console.log('incoming messages', roomId, messages);
 	const room = store.getState().chat[roomId];
 	if (room && messages.length > 0) {
 		let incomingMessages: Message[];
@@ -100,6 +101,7 @@ export const handleIncomingMessages = (roomId: string, messages: Message[]) => {
 		const info = store
 			.getState()
 			.user.chatRooms?.find((ele) => ele.id === roomId);
+		console.log('new room', info, messages);
 
 		store.dispatch(setMessages({ info, messages } as ChatState));
 	}
