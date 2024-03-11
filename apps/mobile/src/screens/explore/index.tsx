@@ -11,8 +11,8 @@ import { type RootState, store } from '@peakee/app/state';
 import { createNewChatRoom, getUserByFirebaseUID } from '@peakee/db';
 import type { UserExplore, UserProfile } from '@peakee/db/types';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
 import { throttle } from 'lodash';
+import axiosInstance from 'utils/axios';
 
 import ExploreProfile from './components/ExploreProfile';
 import QuoteBanner from './components/quoteBanner';
@@ -56,13 +56,13 @@ const ExploreScreen = () => {
 
 	const handleGetSuggestUser = throttle(async () => {
 		try {
-			const res = await axios.get<{ matchs: Array<UserExplore> }>(
-				'http://localhost:8080/match/suggest',
-				{
-					params: { user: user?.firebaseUid },
-				},
-			);
-			const exploreList: Array<UserExploreData> = res.data.matchs.map(
+			const res = await axiosInstance.get<{
+				matches: Array<UserExplore>;
+			}>('http://localhost:8080/match/suggest', {
+				params: { user: user?.firebaseUid },
+				// hel
+			});
+			const exploreList: Array<UserExploreData> = res.data.matches.map(
 				(explore) => {
 					// TODO: profile should be requested from user service.
 					return { profile: MockProfile, explore: explore };
@@ -114,12 +114,12 @@ const styles = StyleSheet.create({
 		flex: 1,
 		gap: 16,
 		backgroundColor: '#FFFFFF',
-		paddingHorizontal: 10,
+		paddingHorizontal: 20,
 		paddingTop: 5,
 	},
 	exploreList: {
 		flexDirection: 'column',
-		gap: 20,
+		gap: 18,
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 	},
