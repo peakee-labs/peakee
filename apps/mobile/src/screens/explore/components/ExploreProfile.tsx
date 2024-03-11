@@ -1,5 +1,11 @@
 import type { FC } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -9,8 +15,12 @@ import { Avatar } from '@peakee/ui';
 interface Props {
 	profile: UserProfile;
 	explore: UserExplore;
+	onPressChat: (user: UserExplore) => void;
 }
-const ExploreProfile: FC<Props> = ({ profile, explore }) => {
+const ExploreProfile: FC<Props> = ({ profile, explore, onPressChat }) => {
+	const handlePressChat = () => {
+		onPressChat(explore);
+	};
 	return (
 		<View style={styles.container}>
 			<View style={styles.leftCol}>
@@ -22,32 +32,46 @@ const ExploreProfile: FC<Props> = ({ profile, explore }) => {
 							color="#D10C0F"
 							size={10}
 						/>
-						<Text>{explore.like}</Text>
+						<Text>{explore.like | 0}</Text>
 					</View>
 				</View>
 				<View style={styles.inforContainer}>
 					<View style={styles.infoHeader}>
-						<Text style={styles.name}> {profile.name}</Text>
+						<Text style={styles.name}> {explore.name}</Text>
 						<CountryFlag
 							isoCode={explore.country}
 							size={15}
 							style={styles.flag}
 						/>
 					</View>
-					<View style={styles.flexRow}>
-						{explore.learning.map((lang, idx) => {
-							return (
-								<View
-									style={styles.languageContainer}
-									key={idx}
-								>
-									<Text style={styles.languageText}>
-										{lang}
-									</Text>
-								</View>
-							);
-						})}
-					</View>
+					<ScrollView
+						horizontal
+						scrollEnabled
+						showsHorizontalScrollIndicator={false}
+						style={{
+							flex: 1,
+						}}
+						contentContainerStyle={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}
+					>
+						<View style={styles.flexRow}>
+							{explore.learnings.map((lang, idx) => {
+								return (
+									<View
+										style={styles.languageContainer}
+										key={idx}
+									>
+										<Text style={styles.languageText}>
+											{lang}
+										</Text>
+									</View>
+								);
+							})}
+						</View>
+					</ScrollView>
 					<View style={styles.flexRow}>
 						<Text style={styles.infoText}>{explore.major}</Text>
 						<Text style={styles.infoText}>-</Text>
@@ -63,7 +87,10 @@ const ExploreProfile: FC<Props> = ({ profile, explore }) => {
 					</View>
 				</View>
 			</View>
-			<TouchableOpacity style={styles.chatButton}>
+			<TouchableOpacity
+				style={styles.chatButton}
+				onPress={handlePressChat}
+			>
 				<Text style={{ color: '#fea91a' }}>Chat</Text>
 			</TouchableOpacity>
 		</View>
@@ -76,6 +103,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		height: 100,
+		gap: 10,
 		width: '100%',
 		alignItems: 'center',
 		justifyContent: 'space-between',
@@ -88,6 +116,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		height: '100%',
 		gap: 10,
+		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
@@ -110,6 +139,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'column',
 		height: '100%',
+		flex: 1,
 		justifyContent: 'space-between',
 	},
 	infoHeader: {
@@ -162,5 +192,9 @@ const styles = StyleSheet.create({
 		borderRadius: 15,
 		borderWidth: 0,
 		backgroundColor: '#FEEDCC',
+	},
+	languagesBar: {
+		width: 'auto',
+		overflow: 'scroll',
 	},
 });

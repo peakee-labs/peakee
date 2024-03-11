@@ -18,9 +18,12 @@ export interface UserChatData {
 }
 
 export interface UserExplore {
+	id: string;
+	name: string;
+	gender: string;
 	major: string;
 	country: string;
-	learning: string[];
+	learnings: string[];
 	interests?: string[];
 	like: number;
 }

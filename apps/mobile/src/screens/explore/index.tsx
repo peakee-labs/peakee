@@ -1,12 +1,18 @@
+import { useEffect, useState } from 'react';
 import {
-	Button,
 	ScrollView,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
 	View,
 } from 'react-native';
+import { useSelector } from 'react-redux';
+import { type RootState, store } from '@peakee/app/state';
+import { createNewChatRoom, getUserByFirebaseUID } from '@peakee/db';
 import type { UserExplore, UserProfile } from '@peakee/db/types';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { throttle } from 'lodash';
 
 import ExploreProfile from './components/ExploreProfile';
 import QuoteBanner from './components/quoteBanner';
@@ -17,6 +23,61 @@ export interface UserExploreData {
 }
 
 const ExploreScreen = () => {
+	const user = useSelector((state: RootState) => state.user.chatData);
+	const navigation = useNavigation();
+	const [exploreUsers, setExploreUsers] = useState<Array<UserExploreData>>(
+		[],
+	);
+
+	const handlePressChat = async (friend: UserExplore) => {
+		const firebaseFriend = await getUserByFirebaseUID(friend.id);
+
+		if (!firebaseFriend) {
+			console.log('user not found');
+			return;
+		}
+
+		let room = store
+			.getState()
+			.user.chatRooms?.find(
+				(ele) =>
+					ele.members.includes(friend.id) &&
+					ele.type === 'individual',
+			);
+
+		if (!room) {
+			room = await createNewChatRoom({
+				type: 'individual',
+				members: [user?.id as string, firebaseFriend?.id],
+			});
+		}
+		navigation.navigate('ChatRoom' as never, { roomId: room.id } as never);
+	};
+
+	const handleGetSuggestUser = throttle(async () => {
+		try {
+			const res = await axios.get<{ matchs: Array<UserExplore> }>(
+				'http://localhost:8080/match/suggest',
+				{
+					params: { user: user?.firebaseUid },
+				},
+			);
+			const exploreList: Array<UserExploreData> = res.data.matchs.map(
+				(explore) => {
+					// TODO: profile should be requested from user service.
+					return { profile: MockProfile, explore: explore };
+				},
+			);
+			setExploreUsers(exploreList);
+		} catch (e) {
+			console.log('get explore error', e);
+		}
+	});
+
+	useEffect(() => {
+		handleGetSuggestUser();
+	}, []);
+
 	return (
 		<View style={styles.container}>
 			<QuoteBanner />
@@ -25,17 +86,21 @@ const ExploreScreen = () => {
 				contentContainerStyle={styles.exploreList}
 				showsVerticalScrollIndicator={false}
 			>
-				{MockUser.map((user, idx) => {
+				{exploreUsers.map((user, idx) => {
 					return (
 						<ExploreProfile
 							key={idx}
 							profile={user.profile}
 							explore={user.explore}
+							onPressChat={handlePressChat}
 						></ExploreProfile>
 					);
 				})}
 			</ScrollView>
-			<TouchableOpacity style={styles.randomChatButton}>
+			<TouchableOpacity
+				style={styles.randomChatButton}
+				onPress={handleGetSuggestUser}
+			>
 				<Text style={styles.randomChatButtonText}>Random Chat</Text>
 			</TouchableOpacity>
 		</View>
@@ -50,6 +115,7 @@ const styles = StyleSheet.create({
 		gap: 16,
 		backgroundColor: '#FFFFFF',
 		paddingHorizontal: 10,
+		paddingTop: 5,
 	},
 	exploreList: {
 		flexDirection: 'column',
@@ -87,181 +153,10 @@ const styles = StyleSheet.create({
 	},
 });
 
-const MockUser: Array<UserExploreData> = [
-	{
-		profile: {
-			name: 'Hihi',
-			fullName: 'minhdat nguyen dinh',
-			email: 'email',
-			uid: 'uid',
-			imageUrl: 'https://github.com/hnimtadd.png',
-		},
-		explore: {
-			major: 'student',
-			country: 'vn',
-			learning: ['vietnamese', 'english'],
-			interests: ['football', 'running'],
-			like: 10,
-		},
-	},
-	{
-		profile: {
-			name: 'Hihi',
-			fullName: 'minhdat nguyen dinh',
-			email: 'email',
-			uid: 'uid',
-			imageUrl: 'https://github.com/hnimtadd.png',
-		},
-		explore: {
-			major: 'student',
-			country: 'vn',
-			learning: ['vietnamese', 'english'],
-			interests: ['football', 'running'],
-			like: 10,
-		},
-	},
-	{
-		profile: {
-			name: 'Hihi',
-			fullName: 'minhdat nguyen dinh',
-			email: 'email',
-			uid: 'uid',
-			imageUrl: 'https://github.com/hnimtadd.png',
-		},
-		explore: {
-			major: 'student',
-			country: 'vn',
-			learning: ['vietnamese', 'english'],
-			interests: ['football', 'running'],
-			like: 10,
-		},
-	},
-	{
-		profile: {
-			name: 'Hihi',
-			fullName: 'minhdat nguyen dinh',
-			email: 'email',
-			uid: 'uid',
-			imageUrl: 'https://github.com/hnimtadd.png',
-		},
-		explore: {
-			major: 'student',
-			country: 'vn',
-			learning: ['vietnamese', 'english'],
-			interests: ['football', 'running'],
-			like: 10,
-		},
-	},
-	{
-		profile: {
-			name: 'Hihi',
-			fullName: 'minhdat nguyen dinh',
-			email: 'email',
-			uid: 'uid',
-			imageUrl: 'https://github.com/hnimtadd.png',
-		},
-		explore: {
-			major: 'student',
-			country: 'vn',
-			learning: ['vietnamese', 'english'],
-			interests: ['football', 'running'],
-			like: 10,
-		},
-	},
-	{
-		profile: {
-			name: 'Hihi',
-			fullName: 'minhdat nguyen dinh',
-			email: 'email',
-			uid: 'uid',
-			imageUrl: 'https://github.com/hnimtadd.png',
-		},
-		explore: {
-			major: 'student',
-			country: 'vn',
-			learning: ['vietnamese', 'english'],
-			interests: ['football', 'running'],
-			like: 10,
-		},
-	},
-	{
-		profile: {
-			name: 'Hihi',
-			fullName: 'minhdat nguyen dinh',
-			email: 'email',
-			uid: 'uid',
-			imageUrl: 'https://github.com/hnimtadd.png',
-		},
-		explore: {
-			major: 'student',
-			country: 'vn',
-			learning: ['vietnamese', 'english'],
-			interests: ['football', 'running'],
-			like: 10,
-		},
-	},
-	{
-		profile: {
-			name: 'Hihi',
-			fullName: 'minhdat nguyen dinh',
-			email: 'email',
-			uid: 'uid',
-			imageUrl: 'https://github.com/hnimtadd.png',
-		},
-		explore: {
-			major: 'student',
-			country: 'vn',
-			learning: ['vietnamese', 'english'],
-			interests: ['football', 'running'],
-			like: 10,
-		},
-	},
-	{
-		profile: {
-			name: 'Hihi',
-			fullName: 'minhdat nguyen dinh',
-			email: 'email',
-			uid: 'uid',
-			imageUrl: 'https://github.com/hnimtadd.png',
-		},
-		explore: {
-			major: 'student',
-			country: 'vn',
-			learning: ['vietnamese', 'english'],
-			interests: ['football', 'running'],
-			like: 10,
-		},
-	},
-	{
-		profile: {
-			name: 'Hihi',
-			fullName: 'minhdat nguyen dinh',
-			email: 'email',
-			uid: 'uid',
-			imageUrl: 'https://github.com/hnimtadd.png',
-		},
-		explore: {
-			major: 'student',
-			country: 'vn',
-			learning: ['vietnamese', 'english'],
-			interests: ['football', 'running'],
-			like: 10,
-		},
-	},
-	{
-		profile: {
-			name: 'Hihi',
-			fullName: 'minhdat nguyen dinh',
-			email: 'email',
-			uid: 'uid',
-			imageUrl: 'https://github.com/hnimtadd.png',
-		},
-		explore: {
-			major: 'student',
-			country: 'vn',
-			learning: ['vietnamese', 'english'],
-			interests: ['football', 'running'],
-			like: 10,
-		},
-	},
-];
+const MockProfile: UserProfile = {
+	name: 'Hihi',
+	fullName: 'minhdat nguyen dinh',
+	email: 'email',
+	uid: 'uid',
+	imageUrl: 'https://github.com/hnimtadd.png',
+};
