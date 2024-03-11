@@ -79,15 +79,6 @@ const getUsersImpl: GetUsersFunction = async (ids) => {
 
 		const usersQuery = querySnapshots.flatMap((snap) => snap.docs);
 
-		// const chatRoomsQuery = await chatRoomsCollection
-		// 	.where(firestore.FieldPath.documentId(), 'in', ids)
-		// 	.get();
-		//
-
-		// const usersQuery = await usersCollection
-		// 	.where(firestore.FieldPath.documentId(), 'in', ids)
-		// 	.get();
-
 		return usersQuery.map((doc) => {
 			return {
 				id: doc.id,
@@ -141,10 +132,6 @@ const getChatRoomsImpl: GetChatRoomsFunction = async (ids: string[]) => {
 
 		const chatRoomsQuery = querySnapshots.flatMap((snap) => snap.docs);
 
-		// const chatRoomsQuery = await chatRoomsCollection
-		// 	.where(firestore.FieldPath.documentId(), 'in', ids)
-		// 	.get();
-		//
 		const chatRoomsPromises = chatRoomsQuery.map(async (ele) => {
 			const latestMessages = await ele.ref
 				.collection('Messages')
