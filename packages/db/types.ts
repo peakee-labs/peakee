@@ -45,3 +45,8 @@ export interface Message {
 	time: Date | string;
 	sent?: boolean;
 }
+
+export interface AuthData {
+	token: string;
+	expiredAt: number; // unixtimestamp mili second
+}

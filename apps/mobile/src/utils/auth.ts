@@ -5,8 +5,9 @@ import {
 	setProfile,
 	store,
 } from '@peakee/app/state';
+import { setAuth } from '@peakee/app/state/auth';
 import { initUserChatData } from '@peakee/app/utils';
-import type { UserProfile } from '@peakee/db/types';
+import type { AuthData, UserProfile } from '@peakee/db/types';
 import auth from '@react-native-firebase/auth';
 import {
 	GoogleSignin,
@@ -57,15 +58,21 @@ export const signOut = async () => {
 
 let authEmailCache: string;
 
-auth().onAuthStateChanged((user) => {
+auth().onAuthStateChanged(async (user) => {
 	if (!user) {
 		console.log('signout in authstatechange');
 		authEmailCache = '';
 		store.dispatch(resetUserState());
 		store.dispatch(resetChatState());
 	} else if (user.email !== authEmailCache) {
+		const token = await user.getIdTokenResult();
 		console.log('signin in authstatechange');
 		authEmailCache = user.email as string;
+		const authData: AuthData = {
+			token: token.token,
+			expiredAt: new Date(token.expirationTime).getTime(),
+		};
+		store.dispatch(setAuth(authData));
 		const userProfile: UserProfile = {
 			uid: user.uid,
 			name: user.displayName as string,
