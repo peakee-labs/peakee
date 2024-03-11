@@ -10,7 +10,6 @@ import ExploreScreen from 'screens/explore';
 import HomeScreen from 'screens/Home';
 import SignInScreen from 'screens/SignIn';
 import Splash from 'screens/Splash';
-import { setupAxios } from 'utils/axios';
 
 import 'utils/auth';
 import 'react-native-url-polyfill/auto';
@@ -20,7 +19,6 @@ const Stack = createNativeStackNavigator();
 initOpenAIClient(Config.OPENAI_API_KEY as string);
 
 function App(): JSX.Element {
-
 	return (
 		<Provider store={store}>
 			<UIProvider>
