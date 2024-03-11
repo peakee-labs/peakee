@@ -59,10 +59,12 @@ let authEmailCache: string;
 
 auth().onAuthStateChanged((user) => {
 	if (!user) {
+		console.log('signout in authstatechange');
 		authEmailCache = '';
 		store.dispatch(resetUserState());
 		store.dispatch(resetChatState());
 	} else if (user.email !== authEmailCache) {
+		console.log('signin in authstatechange');
 		authEmailCache = user.email as string;
 		const userProfile: UserProfile = {
 			uid: user.uid,

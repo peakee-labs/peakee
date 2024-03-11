@@ -12,6 +12,7 @@ import type {
 import { injectFirestoreFunctions } from '@peakee/db';
 import type { ChatRoom, Message, UserChatData } from '@peakee/db/types';
 import firestore from '@react-native-firebase/firestore';
+import { chunk } from 'utils/array';
 
 import {
 	chatRoomsCollection,
@@ -66,16 +67,38 @@ const getUserByEmailImpl: GetUserByEmailFunction = async (email) => {
 
 const getUsersImpl: GetUsersFunction = async (ids) => {
 	if (ids.length === 0) return [];
-	const usersQuery = await usersCollection
-		.where(firestore.FieldPath.documentId(), 'in', ids)
-		.get();
+	// FIX: Error: firebase.firestore().collection().where(_, _, *) 'value' is invalid. 'in' filters support a maximum of 10 elements in the value array.
+	try {
+		const querySnapshots = await Promise.all(
+			chunk(ids, 10).map((chunkedArray) => {
+				return usersCollection
+					.where(firestore.FieldPath.documentId(), 'in', chunkedArray)
+					.get();
+			}),
+		);
 
-	return usersQuery.docs.map((doc) => {
-		return {
-			id: doc.id,
-			...doc.data(),
-		} as unknown as UserChatData;
-	});
+		const usersQuery = querySnapshots.flatMap((snap) => snap.docs);
+
+		// const chatRoomsQuery = await chatRoomsCollection
+		// 	.where(firestore.FieldPath.documentId(), 'in', ids)
+		// 	.get();
+		//
+
+		// const usersQuery = await usersCollection
+		// 	.where(firestore.FieldPath.documentId(), 'in', ids)
+		// 	.get();
+
+		return usersQuery.map((doc) => {
+			return {
+				id: doc.id,
+				...doc.data(),
+			} as unknown as UserChatData;
+		});
+	} catch (e) {
+		console.log(e);
+		console.log('debug user');
+		return [];
+	}
 };
 
 const updateFriendImpl: UpdateFriendFunction = async (user, friend) => {
@@ -106,33 +129,53 @@ const createNewChatRoomImpl: CreateNewChatRoomFunction = async (room) => {
 
 const getChatRoomsImpl: GetChatRoomsFunction = async (ids: string[]) => {
 	if (ids.length === 0) return [];
-	const chatRoomsQuery = await chatRoomsCollection
-		.where(firestore.FieldPath.documentId(), 'in', ids)
-		.get();
+	try {
+		// FIX: Error: firebase.firestore().collection().where(_, _, *) 'value' is invalid. 'in' filters support a maximum of 10 elements in the value array.
+		const querySnapshots = await Promise.all(
+			chunk(ids, 10).map((chunkedArray) => {
+				return chatRoomsCollection
+					.where(firestore.FieldPath.documentId(), 'in', chunkedArray)
+					.get();
+			}),
+		);
 
-	const chatRoomsPromises = chatRoomsQuery.docs.map(async (ele) => {
-		const latestMessages = await ele.ref
-			.collection('Messages')
-			.orderBy('time', 'desc')
-			.limit(1)
-			.get();
-		let latestMessage: Message | undefined = undefined;
-		if (latestMessages.docs.length > 0) {
-			latestMessage = {
-				id: latestMessages.docs[0].id,
-				...latestMessages.docs[0].data(),
-				time: latestMessages.docs[0].data().time.toDate().toString(),
-			} as Message;
-		}
+		const chatRoomsQuery = querySnapshots.flatMap((snap) => snap.docs);
 
-		return {
-			id: ele.id,
-			...ele.data(),
-			latestMessage,
-		} as ChatRoom;
-	});
+		// const chatRoomsQuery = await chatRoomsCollection
+		// 	.where(firestore.FieldPath.documentId(), 'in', ids)
+		// 	.get();
+		//
+		const chatRoomsPromises = chatRoomsQuery.map(async (ele) => {
+			const latestMessages = await ele.ref
+				.collection('Messages')
+				.orderBy('time', 'desc')
+				.limit(1)
+				.get();
+			let latestMessage: Message | undefined = undefined;
+			if (latestMessages.docs.length > 0) {
+				latestMessage = {
+					id: latestMessages.docs[0].id,
+					...latestMessages.docs[0].data(),
+					time: latestMessages.docs[0]
+						.data()
+						.time.toDate()
+						.toString(),
+				} as Message;
+			}
 
-	return Promise.all(chatRoomsPromises);
+			return {
+				id: ele.id,
+				...ele.data(),
+				latestMessage,
+			} as ChatRoom;
+		});
+
+		return Promise.all(chatRoomsPromises);
+	} catch (e) {
+		console.log('debug');
+		console.log(e);
+		return [];
+	}
 };
 
 const createNewMessageImpl: CreateNewMessageFunction = async (message) => {
