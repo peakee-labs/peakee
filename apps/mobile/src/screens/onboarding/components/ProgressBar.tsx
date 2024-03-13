@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Dimensions } from 'react-native';
 
 const dimension = Dimensions.get('window');
