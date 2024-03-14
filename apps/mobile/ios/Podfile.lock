@@ -1212,6 +1212,8 @@ PODS:
     - react-native-config/App (= 1.5.1)
   - react-native-config/App (1.5.1):
     - React-Core
+  - react-native-date-picker (4.4.0):
+    - React-Core
   - react-native-safe-area-context (4.7.4):
     - React-Core
   - React-NativeModulesApple (0.72.4):
@@ -1377,7 +1379,7 @@ PODS:
   - RNScreens (3.27.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNSVG (13.14.0):
+  - RNSVG (14.1.0):
     - React-Core
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
@@ -1434,6 +1436,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../../../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../../../node_modules/react-native/ReactCommon/logger`)
   - react-native-config (from `../../../node_modules/react-native-config`)
+  - react-native-date-picker (from `../../../node_modules/react-native-date-picker`)
   - react-native-safe-area-context (from `../../../node_modules/react-native-safe-area-context`)
   - React-NativeModulesApple (from `../../../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../../../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -1548,6 +1551,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native/ReactCommon/logger"
   react-native-config:
     :path: "../../../node_modules/react-native-config"
+  react-native-date-picker:
+    :path: "../../../node_modules/react-native-date-picker"
   react-native-safe-area-context:
     :path: "../../../node_modules/react-native-safe-area-context"
   React-NativeModulesApple:
@@ -1661,6 +1666,7 @@ SPEC CHECKSUMS:
   React-jsinspector: aaed4cf551c4a1c98092436518c2d267b13a673f
   React-logger: da1ebe05ae06eb6db4b162202faeafac4b435e77
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
+  react-native-date-picker: ebcb936d72fc3bbde0dea47c6641e913523231ca
   react-native-safe-area-context: 2cd91d532de12acdb0a9cbc8d43ac72a8e4c897c
   React-NativeModulesApple: edb5ace14f73f4969df6e7b1f3e41bef0012740f
   React-perflogger: 496a1a3dc6737f964107cb3ddae7f9e265ddda58
@@ -1688,11 +1694,11 @@ SPEC CHECKSUMS:
   RNGoogleSignin: a6a612cce56a45ab701c5c5c6e36f5390522d100
   RNReanimated: 9633f8c2e214b721e35e371b473fbf3a1522948d
   RNScreens: 3c2d122f5e08c192e254c510b212306da97d2581
-  RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
+  RNSVG: ba3e7232f45e34b7b47e74472386cf4e1a676d0a
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 3efc43e0d48686ce2e8c60f99d4e6bd349aff981
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
 PODFILE CHECKSUM: 4945a8a5de5f60acd063d9dd30db16c3ae07dd99
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.15.2

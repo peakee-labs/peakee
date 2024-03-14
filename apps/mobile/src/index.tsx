@@ -8,6 +8,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ChatRoomScreen from 'screens/ChatRoom';
 import ExploreScreen from 'screens/explore';
 import HomeScreen from 'screens/Home';
+import OnboardingScreen, {
+	OnboardingStep1,
+	OnboardingStep2,
+	OnboardingStep3,
+	OnboardingStep3a,
+} from 'screens/onboarding';
 import SignInScreen from 'screens/SignIn';
 import Splash from 'screens/Splash';
 
@@ -34,6 +40,26 @@ function App(): JSX.Element {
 						<Stack.Screen
 							name="Explore"
 							component={ExploreScreen}
+						/>
+						<Stack.Screen
+							name="Onboarding"
+							component={OnboardingScreen}
+						/>
+						<Stack.Screen
+							name="OnboardingStep1"
+							component={OnboardingStep1}
+						/>
+						<Stack.Screen
+							name="OnboardingStep2"
+							component={OnboardingStep2}
+						/>
+						<Stack.Screen
+							name="OnboardingStep3"
+							component={OnboardingStep3}
+						/>
+						<Stack.Screen
+							name="OnboardingStep3a"
+							component={OnboardingStep3a}
 						/>
 					</Stack.Navigator>
 				</NavigationContainer>
