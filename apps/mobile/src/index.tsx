@@ -9,10 +9,14 @@ import ChatRoomScreen from 'screens/ChatRoom';
 import ExploreScreen from 'screens/explore';
 import HomeScreen from 'screens/Home';
 import OnboardingScreen, {
+	OnboardingDone,
 	OnboardingStep1,
 	OnboardingStep2,
 	OnboardingStep3,
-	OnboardingStep3a,
+	OnboardingStep4,
+	OnboardingStep5,
+	OnboardingStep6,
+	OnboardingStep6a,
 } from 'screens/onboarding';
 import SignInScreen from 'screens/SignIn';
 import Splash from 'screens/Splash';
@@ -58,8 +62,24 @@ function App(): JSX.Element {
 							component={OnboardingStep3}
 						/>
 						<Stack.Screen
-							name="OnboardingStep3a"
-							component={OnboardingStep3a}
+							name="OnboardingStep4"
+							component={OnboardingStep4}
+						/>
+						<Stack.Screen
+							name="OnboardingStep5"
+							component={OnboardingStep5}
+						/>
+						<Stack.Screen
+							name="OnboardingStep6"
+							component={OnboardingStep6}
+						/>
+						<Stack.Screen
+							name="OnboardingStep6a"
+							component={OnboardingStep6a}
+						/>
+						<Stack.Screen
+							name="OnboardingDone"
+							component={OnboardingDone}
 						/>
 					</Stack.Navigator>
 				</NavigationContainer>

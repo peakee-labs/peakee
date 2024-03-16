@@ -1,12 +1,10 @@
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
-import type { OnboardingValue } from '../store';
-import { FormState } from '../store';
 
 import BackgroundImage from './../../../../assets/onboarding-background.png';
 import BackgroundMessage from './../../../../assets/onboarding-message.png';
 import { NavigateBar, ProgressBar } from './../components';
+import { type OnboardingValue, FormState } from './../store';
 
 const OnboardingExercise = () => {
 	const navigation = useNavigation();
@@ -15,7 +13,7 @@ const OnboardingExercise = () => {
 		FormState.update((s: OnboardingValue) => {
 			s.progress += 1;
 		});
-		navigation.navigate('OnboardingStep3a' as never);
+		navigation.navigate('OnboardingStep6a' as never);
 	};
 	const onBack = () => {
 		FormState.update((s: OnboardingValue) => {
@@ -31,10 +29,10 @@ const OnboardingExercise = () => {
 				max={FormState.getRawState().progress}
 			/>
 			<View style={styles.contentContainer}>
-				<Text style={styles.title}>access your skills set</Text>
+				<Text style={styles.title}>Access your skills set</Text>
 				<Text style={styles.titleContent}>
-					Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-					Recusandae minima suscipit porro iste ipsam natus corporis
+					Let&apos;s tailor your learning experience. Take a quick
+					5-minute test to determine your current English level.
 				</Text>
 			</View>
 			<Image
@@ -42,7 +40,7 @@ const OnboardingExercise = () => {
 				source={BackgroundMessage}
 			/>
 			<Image style={styles.backgroundImage} source={BackgroundImage} />
-			<NavigateBar onPrev={onBack} onNext={onBack} />
+			<NavigateBar onPrev={onBack} onNext={onSubmit} />
 		</View>
 	);
 };
@@ -72,7 +70,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		left: 0,
 		height: 500,
-		bottom: 200,
+		bottom: 100,
 		zIndex: 2,
 		width: 300,
 		resizeMode: 'contain',

@@ -1,5 +1,3 @@
-import { useRef } from 'react';
-import type { FieldErrors } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
 import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
@@ -40,7 +38,7 @@ const OnboardingName = () => {
 	return (
 		<View style={styles.container}>
 			<ProgressBar current={FormState.getRawState().progress} max={3} />
-			<Text style={styles.title}>What is your name?</Text>
+			<Text style={styles.title}>My name is...</Text>
 			<View style={styles.contentContainer}>
 				<View style={styles.inputContainer}>
 					<Controller

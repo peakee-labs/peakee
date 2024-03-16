@@ -5,6 +5,13 @@ import Background from '../../../assets/onboarding-start.png';
 
 import { Button } from './components';
 const dimension = Dimensions.get('window');
+export const OnboardingFlow = [
+	'Onboarding',
+	'OnboardingStep1',
+	'OnboardingStep2',
+	'OnboardinStep3',
+	'OnboardingStep4',
+];
 
 const OnboardingScreen = () => {
 	const navigation = useNavigation();
@@ -15,9 +22,14 @@ const OnboardingScreen = () => {
 				<Text style={styles.titleDescription}>
 					Let&apos;s get you set up
 				</Text>
+				<Text style={styles.titleContent}>
+					Your info helps us make learning fun and find stuff
+					you&apos;ll love. Let&apos;s dive in and get you learning
+					with a twist!
+				</Text>
 				<Image source={Background} style={styles.image} />
 			</View>
-			<Text style={styles.titleContent}>
+			<Text style={styles.footerDescription}>
 				Tap the &apos;Start&apos; to set up your information and
 				we&apos;take it from there.
 			</Text>
@@ -45,6 +57,7 @@ const styles = StyleSheet.create({
 	contentContainer: {
 		flex: 1,
 		width: 'auto',
+		gap: 20,
 	},
 	title: {
 		color: '#ffffff',
@@ -57,7 +70,7 @@ const styles = StyleSheet.create({
 	},
 	titleDescription: {
 		color: '#ffffff',
-		fontSize: 26,
+		fontSize: 20,
 		textAlign: 'center',
 		fontWeight: '600',
 	},
@@ -66,9 +79,19 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		fontSize: 14,
 	},
+	footerDescription: {
+		color: '#ffffff',
+		textAlign: 'center',
+		fontSize: 14,
+	},
 });
+
 export default OnboardingScreen;
 export { default as OnboardingStep2 } from './age';
-export { default as OnboardingStep3 } from './exercise';
-export { default as OnboardingStep3a } from './exercise/test';
+export { default as OnboardingDone } from './done';
+export { default as OnboardingStep6 } from './exercise';
+export { default as OnboardingStep6a } from './exercise/test';
+export { default as OnboardingStep3 } from './language';
+export { default as OnboardingStep4 } from './language/learning';
+export { default as OnboardingStep5 } from './major';
 export { default as OnboardingStep1 } from './name';
