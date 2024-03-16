@@ -11,7 +11,7 @@ import { NavigateBar, ProgressBar } from '../components';
 import { type FormDob, type OnboardingValue, FormState } from '../store';
 
 const dimension = Dimensions.get('window');
-const OnboardingAge = () => {
+const OnboardingDob = () => {
 	const {
 		control,
 		handleSubmit,
@@ -31,7 +31,6 @@ const OnboardingAge = () => {
 			});
 			return;
 		}
-		console.log('update dob', data.dob);
 		FormState.update((s: OnboardingValue) => {
 			s.progress += 1;
 			s.dob = data.dob;
@@ -49,7 +48,7 @@ const OnboardingAge = () => {
 	return (
 		<View style={styles.container}>
 			<ProgressBar current={FormState.getRawState().progress} max={3} />
-			<Text style={styles.title}>What is your age?</Text>
+			<Text style={styles.title}>My birthday is on...</Text>
 			<View style={styles.contentContainer}>
 				<View style={styles.inputContainer}>
 					<Controller
@@ -67,17 +66,6 @@ const OnboardingAge = () => {
 						)}
 						name="dob"
 					/>
-					{errors.dob && (
-						<View style={styles.error}>
-							<Text>
-								Age is required,{' '}
-								{errors.dob.message
-									? errors.dob?.message
-									: 'hehe'}
-							</Text>
-							<FontAwesomeIcon icon={faCircleExclamation} />
-						</View>
-					)}
 				</View>
 			</View>
 			<View style={styles.footer}>
@@ -130,4 +118,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default OnboardingAge;
+export default OnboardingDob;
