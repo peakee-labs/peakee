@@ -1,9 +1,11 @@
 export interface UserProfile {
+	id: string;
 	name: string;
-	fullName: string;
 	email: string;
-	uid: string;
 	imageUrl: string;
+	createdAt: string;
+	updatedAt: string;
+	friends: string[];
 }
 
 export interface UserChatData {

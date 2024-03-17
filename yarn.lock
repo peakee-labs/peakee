@@ -4924,6 +4924,7 @@ __metadata:
     "@types/node": "npm:^20.5.2"
     "@types/react": "npm:^18.2.0"
     "@types/react-dom": "npm:^18.2.0"
+    axios: "npm:^1.6.8"
     firebase: "npm:^10.4.0"
     next: "npm:^13.4.19"
     react: "npm:^18.2.0"
@@ -7199,7 +7200,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.0, axios@npm:^1.6.2":
+"axios@npm:^1.6.0, axios@npm:^1.6.2, axios@npm:^1.6.8":
   version: 1.6.8
   resolution: "axios@npm:1.6.8"
   dependencies:

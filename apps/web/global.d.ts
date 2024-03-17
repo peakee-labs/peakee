@@ -5,3 +5,5 @@ declare const STORAGE_BUCKET: string;
 declare const MESSAGING_SENDER_ID: string;
 declare const APP_ID: string;
 declare const MEASUREMENT_ID: string;
+declare const PEAKEE_WS_URL: string;
+declare const PEAKEE_API_URL: string;

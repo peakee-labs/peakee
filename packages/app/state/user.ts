@@ -1,12 +1,9 @@
 import { listenToMessagesOfChatRoom } from '@peakee/db';
-import type {
-	ChatRoom,
-	Message,
-	UserChatData,
-	UserProfile,
-} from '@peakee/db/types';
+import type { ChatRoom, Message, UserChatData } from '@peakee/db/types';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+
+import type { UserProfile } from './types';
 
 export interface UserState {
 	profile?: UserProfile;
