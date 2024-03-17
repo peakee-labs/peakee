@@ -3,16 +3,19 @@ import type { ChatRoom, Message, UserChatData } from '@peakee/db/types';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { UserProfile } from './types';
+import type { UserProfile } from '../types';
 
 export interface UserState {
 	profile?: UserProfile;
+	profileLoading: boolean;
 	chatData?: UserChatData;
 	chatRooms?: ChatRoom[];
 	friends?: UserChatData[];
 }
 
-const initialState: UserState = {};
+const initialState: UserState = {
+	profileLoading: true,
+} as UserState;
 
 export const userSlice = createSlice({
 	name: 'user',
@@ -22,6 +25,9 @@ export const userSlice = createSlice({
 		setProfile: (state, action: PayloadAction<UserProfile>) => {
 			console.log('Set user profile', action.payload.email);
 			state.profile = action.payload;
+		},
+		setProfileLoading: (state, action: PayloadAction<boolean>) => {
+			state.profileLoading = action.payload;
 		},
 		setChatData: (state, action: PayloadAction<UserChatData>) => {
 			console.log('Set user chat data', action.payload.email);
@@ -67,6 +73,7 @@ export const userSlice = createSlice({
 
 export const {
 	setProfile,
+	setProfileLoading,
 	setChatData,
 	setFriends,
 	setChatRooms,

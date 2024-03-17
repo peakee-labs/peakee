@@ -1,11 +1,13 @@
 import { initWebsocketWithProfile } from '@peakee/app';
-import { resetUserState, setProfile, store } from '@peakee/app/state';
-import type { AxiosError } from 'axios';
-import { isAxiosError } from 'axios';
+import { getOrInitUserProfile } from '@peakee/app/api';
+import {
+	resetUserState,
+	setProfile,
+	setProfileLoading,
+	store,
+} from '@peakee/app/state';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-
-import { axios } from './axios';
 
 const firebaseConfig = {
 	appId: APP_ID,
@@ -17,55 +19,12 @@ const firebaseConfig = {
 	messagingSenderId: MESSAGING_SENDER_ID,
 };
 
-export const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
-export const auth = getAuth();
-
-type UserProfile = {
-	id: string;
-	email: string;
-	name: string;
-	imageUrl: string;
-	friends: string[];
-	createdAt: string;
-	updatedAt: string;
-};
+const auth = getAuth();
 
 export const signIn = async () => {
-	const userCredential = await signInWithPopup(auth, provider);
-	const firebaseUser = userCredential.user;
-	const jwt = await firebaseUser.getIdToken();
-
-	let user: UserProfile | null = null;
-	try {
-		const res = await axios.get<UserProfile>('/users/self', {
-			headers: { Authorization: 'Bearer ' + jwt },
-		});
-		user = res.data;
-	} catch (error) {
-		const isUserNotInitialized =
-			isAxiosError(error) &&
-			(error as AxiosError).response?.status == 404;
-
-		if (isUserNotInitialized) {
-			const newUserProfile = {
-				name: firebaseUser.displayName,
-				email: firebaseUser.email,
-				imageUrl: firebaseUser.photoURL,
-			};
-			const res = await axios.post<UserProfile>(
-				'/users/self',
-				newUserProfile,
-				{
-					headers: { Authorization: 'Bearer ' + jwt },
-				},
-			);
-
-			user = res.data;
-		}
-	}
-
-	if (user) store.dispatch(setProfile(user));
+	await signInWithPopup(auth, provider);
 };
 
 export const signOut = async () => {
@@ -75,10 +34,17 @@ export const signOut = async () => {
 
 auth.onAuthStateChanged(async (firebaseUser) => {
 	if (firebaseUser) {
-		initWebsocketWithProfile(
-			PEAKEE_WS_URL,
-			firebaseUser.uid,
-			await firebaseUser.getIdToken(),
-		);
+		const jwt = await firebaseUser.getIdToken();
+		initWebsocketWithProfile(firebaseUser.uid, jwt);
+
+		const user = await getOrInitUserProfile(jwt, {
+			name: firebaseUser.displayName as string,
+			email: firebaseUser.email as string,
+			imageUrl: firebaseUser.photoURL as string,
+		});
+
+		if (user) store.dispatch(setProfile(user));
 	}
+
+	store.dispatch(setProfileLoading(false));
 });

@@ -4752,6 +4752,7 @@ __metadata:
     "@react-native-async-storage/async-storage": "npm:^1.22.3"
     "@reduxjs/toolkit": "npm:^1.9.6"
     "@types/react": "npm:^18.2.0"
+    axios: "npm:^1.6.8"
     react: "npm:^18.2.0"
     react-native: "npm:0.72.4"
     react-redux: "npm:^8.1.3"
