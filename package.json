@@ -24,7 +24,7 @@
         "prettier": "^2.8.7",
         "sst": "2.24.17",
         "turbo": "latest",
-        "typescript": "^5.2.2"
+        "typescript": "^5.4.0"
     },
     "dependencies": {
         "babel-plugin-module-resolver": "^5.0.0"
