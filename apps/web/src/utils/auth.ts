@@ -1,5 +1,5 @@
 import { initWebsocketWithProfile } from '@peakee/app';
-import { getOrInitUserProfile } from '@peakee/app/api';
+import { getOrInitUserProfile, setJWT } from '@peakee/app/api';
 import {
 	resetUserState,
 	setProfile,
@@ -35,15 +35,19 @@ export const signOut = async () => {
 auth.onAuthStateChanged(async (firebaseUser) => {
 	if (firebaseUser) {
 		const jwt = await firebaseUser.getIdToken();
+		setJWT(jwt);
+
 		initWebsocketWithProfile(firebaseUser.uid, jwt);
 
-		const user = await getOrInitUserProfile(jwt, {
+		const user = await getOrInitUserProfile({
 			name: firebaseUser.displayName as string,
 			email: firebaseUser.email as string,
 			imageUrl: firebaseUser.photoURL as string,
 		});
 
 		if (user) store.dispatch(setProfile(user));
+	} else {
+		setJWT('');
 	}
 
 	store.dispatch(setProfileLoading(false));
