@@ -9,7 +9,6 @@
     },
     "dependencies": {
         "@peakee/app": "*",
-        "@peakee/db": "*",
         "@peakee/icons": "*",
         "@peakee/ui": "*",
         "@peakee/utils": "*",

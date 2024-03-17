@@ -13,7 +13,6 @@
         "@gorhom/bottom-sheet": "^4",
         "@peakee/app": "*",
         "@peakee/chat": "*",
-        "@peakee/db": "*",
         "@peakee/ui": "*",
         "@react-native-community/clipboard": "^1.5.1",
         "@react-native-firebase/app": "^18.5.0",

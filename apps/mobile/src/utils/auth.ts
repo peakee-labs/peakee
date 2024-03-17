@@ -6,7 +6,6 @@ import {
 	store,
 } from '@peakee/app/state';
 import { initUserChatData } from '@peakee/app/utils';
-import type { UserProfile } from '@peakee/db/types';
 import auth from '@react-native-firebase/auth';
 import {
 	GoogleSignin,
