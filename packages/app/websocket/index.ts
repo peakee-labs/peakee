@@ -1,3 +1,5 @@
+import { config } from '../utils';
+
 export function initWebsocket(endpoint: string, token: string) {
 	const ws = new WebSocket(`${endpoint}?token=${token}`);
 
@@ -18,18 +20,14 @@ enum WS_TYPE {
 
 export const wsMap: Map<WS_TYPE, { ws: WebSocket; id: string }> = new Map();
 
-export const initWebsocketWithProfile = (
-	endpoint: string,
-	userId: string,
-	jwt: string,
-) => {
+export const initWebsocketWithProfile = (userId: string, jwt: string) => {
 	if (wsMap.has(WS_TYPE.DEFAULT)) {
 		wsMap.get(WS_TYPE.DEFAULT)?.ws.close();
 		wsMap.delete(WS_TYPE.DEFAULT);
 	}
 
 	wsMap.set(WS_TYPE.DEFAULT, {
-		ws: initWebsocket(endpoint, jwt),
+		ws: initWebsocket(config().PEAKEE_WS_URL, jwt),
 		id: userId,
 	});
 };
