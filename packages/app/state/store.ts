@@ -4,6 +4,8 @@ import { chatReducer } from './chat';
 import { notificationsReducer } from './notifications';
 import { userReducer } from './user';
 
+// TODO: for public users' profiles, we could create a slice for mutual use of profiles
+
 export const store = configureStore({
 	reducer: {
 		user: userReducer,

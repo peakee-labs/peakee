@@ -4,8 +4,7 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Avatar, Button } from '@peakee/ui';
 
-import { respondFriendRequest } from '../../api';
-import { getPublicProfileOfUser } from '../../api/users';
+import { getPublicProfileOfUser, respondFriendRequest } from '../../api';
 import {
 	removeFriendRequest,
 	updateUserProfileOfFriendRequest,
