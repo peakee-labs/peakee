@@ -43,8 +43,8 @@ const HomeScreen = () => {
 				<View style={styles.profileContainer}>
 					<Profile
 						id={userProfile.email}
-						name={userProfile.fullName}
-						image={userProfile.imageUrl}
+						name={userProfile.name}
+						image={userProfile.imageURL}
 					/>
 				</View>
 			) : (

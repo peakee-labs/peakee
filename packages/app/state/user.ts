@@ -21,7 +21,7 @@ export const userSlice = createSlice({
 	name: 'user',
 	initialState,
 	reducers: {
-		reset: () => initialState,
+		reset: () => ({} as UserState),
 		setProfile: (state, action: PayloadAction<UserProfile>) => {
 			console.log('Set user profile', action.payload.email);
 			state.profile = action.payload;

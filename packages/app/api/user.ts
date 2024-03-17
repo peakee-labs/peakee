@@ -13,7 +13,7 @@ type InitUser = {
 
 export async function getOrInitUserProfile(jwt: string, initUser?: InitUser) {
 	try {
-		const res = await axios.get<UserProfile>('/users/self', {
+		const res = await axios().get<UserProfile>('/users/self', {
 			headers: { Authorization: 'Bearer ' + jwt },
 		});
 
@@ -29,7 +29,7 @@ export async function getOrInitUserProfile(jwt: string, initUser?: InitUser) {
 				email: initUser.email,
 				imageUrl: initUser.imageUrl,
 			};
-			const res = await axios.post<UserProfile>(
+			const res = await axios().post<UserProfile>(
 				'/users/self',
 				newUserProfile,
 				{

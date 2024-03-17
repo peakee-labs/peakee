@@ -2,7 +2,7 @@ export interface UserProfile {
 	id: string;
 	name: string;
 	email: string;
-	imageUrl: string;
+	imageURL: string;
 	createdAt: string;
 	updatedAt: string;
 	friends: string[];

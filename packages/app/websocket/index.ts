@@ -11,6 +11,10 @@ export function initWebsocket(endpoint: string, token: string) {
 		console.log('Connected to websocket');
 	};
 
+	ws.onclose = (e) => {
+		console.log('Socket is closed.', e.reason);
+	};
+
 	return ws;
 }
 
