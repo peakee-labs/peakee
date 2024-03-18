@@ -1,30 +1,28 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Button } from '@peakee/ui';
+import { StyleSheet, View } from 'react-native';
+import SignInFeature from '@peakee/app/features/SignIn';
 import { useRouter } from 'next/router';
 
 import { signIn } from '../utils/auth';
 import { useAuth } from '../utils/hooks';
+import { useWrappedDimensions } from '../utils/hooks';
 
 const SignIn: FC = () => {
 	const { user } = useAuth();
 	const router = useRouter();
+	const { width } = useWrappedDimensions();
+
+	const containerStyle =
+		width < 500 ? styles.fullContainer : styles.boxContainer;
 
 	useEffect(() => {
-		if (user) {
-			router.push('/');
-		}
+		if (user) router.push('/');
 	}, [user]);
 
 	return (
-		<View style={styles.container}>
-			<Text style={styles.h1}>Peakee web</Text>
-			<Button
-				style={{ marginBottom: 10 }}
-				title="Sign in with Google"
-				onPress={signIn}
-			/>
+		<View style={containerStyle}>
+			<SignInFeature onPressSignIn={signIn} />
 		</View>
 	);
 };
@@ -32,14 +30,15 @@ const SignIn: FC = () => {
 export default SignIn;
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		gap: 20,
+	boxContainer: {
+		paddingVertical: 100,
+		borderWidth: 1,
+		borderColor: '#B1B6C1',
+		borderRadius: 20,
+		alignSelf: 'center',
+		marginVertical: 'auto',
 	},
-	h1: {
-		fontSize: 30,
-		fontWeight: '500',
+	fullContainer: {
+		flex: 1,
 	},
 });

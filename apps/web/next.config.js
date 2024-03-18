@@ -34,6 +34,8 @@ module.exports = {
 			'MESSAGING_SENDER_ID',
 			'APP_ID',
 			'MEASUREMENT_ID',
+			'PEAKEE_WS_URL',
+			'PEAKEE_API_URL',
 		].reduce((acc, cur) => {
 			acc[cur] = JSON.stringify(process.env[cur]);
 			return acc;

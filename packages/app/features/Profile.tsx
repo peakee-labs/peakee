@@ -1,26 +1,27 @@
 import type { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import { Avatar } from '@peakee/ui';
 
-interface Props {
-	id: string;
-	name: string;
-	image: string;
-}
+import type { RootState } from '../state';
 
-export const Profile: FC<Props> = ({ name, image, id }) => {
+export const ProfileFeature: FC = () => {
+	const user = useSelector((state: RootState) => state.user.profile);
+
+	if (!user) return null;
+
 	return (
 		<View style={styles.container}>
-			<Avatar source={{ uri: image }} />
+			<Avatar source={{ uri: user.imageURL }} />
 			<View>
-				<Text style={styles.name}>{name}</Text>
-				<Text style={styles.id}>{id}</Text>
+				<Text style={styles.name}>{user.name}</Text>
+				<Text style={styles.id}>{user.email}</Text>
 			</View>
 		</View>
 	);
 };
 
-export default Profile;
+export default ProfileFeature;
 
 const styles = StyleSheet.create({
 	container: {

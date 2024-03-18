@@ -4,7 +4,6 @@ const path = require('path');
 const monoPackages = {
 	'@peakee/app': path.resolve(__dirname, '../../packages/app'),
 	'@peakee/chat': path.resolve(__dirname, '../../packages/chat'),
-	'@peakee/db': path.resolve(__dirname, '../../packages/db'),
 	'@peakee/ui': path.resolve(__dirname, '../../packages/ui'),
 	'@peakee/icons': path.resolve(__dirname, '../../packages/icons'),
 	'@peakee/utils': path.resolve(__dirname, '../../packages/utils'),

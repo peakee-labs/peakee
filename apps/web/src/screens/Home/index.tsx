@@ -1,65 +1,18 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import type { RootState } from '@peakee/app/state';
-import { store } from '@peakee/app/state';
-import { createNewChatRoom } from '@peakee/db';
-import type { UserChatData } from '@peakee/db/types';
-import { useRouter } from 'next/router';
-
-import { AddFriend, Friends, Profile } from './components';
+import FriendsFeature from '@peakee/app/features/Friends';
+import ProfileFeature from '@peakee/app/features/Profile';
 
 const HomeScreen = () => {
-	const userProfile = useSelector((state: RootState) => state.user.profile);
-	const friends = useSelector((state: RootState) => state.user.friends);
-	const router = useRouter();
-
-	const handlePressFriend = async (friend: UserChatData) => {
-		let room = store
-			.getState()
-			.user.chatRooms?.find(
-				(ele) =>
-					ele.members.includes(friend.id) &&
-					ele.type === 'individual',
-			);
-
-		if (!room) {
-			room = await createNewChatRoom({
-				type: 'individual',
-				members: [
-					store.getState().user.chatData?.id as string,
-					friend.id,
-				],
-			});
-		}
-
-		router.push(`/chat/${room.id}`);
-	};
-
 	return (
 		<View style={styles.container}>
 			<Text style={styles.h1}>Peakee</Text>
 
-			{userProfile ? (
-				<View style={styles.profileContainer}>
-					<Profile
-						id={userProfile.email}
-						name={userProfile.fullName}
-						image={userProfile.imageUrl}
-					/>
-				</View>
-			) : (
-				<Text>not sign-in</Text>
-			)}
+			<ProfileFeature />
 
 			<Text style={styles.h2}>Friends</Text>
 			<View style={styles.friendsContainer}>
-				<Friends
-					profiles={friends || []}
-					onPressFriend={handlePressFriend}
-				/>
+				<FriendsFeature />
 			</View>
-
-			<AddFriend />
 
 			<Text style={styles.h2}>Chat Rooms</Text>
 		</View>

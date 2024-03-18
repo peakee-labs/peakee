@@ -11,9 +11,9 @@
     "dependencies": {
         "@peakee/app": "*",
         "@peakee/chat": "*",
-        "@peakee/db": "*",
         "@peakee/ui": "*",
         "@reduxjs/toolkit": "^1.9.6",
+        "axios": "^1.6.8",
         "firebase": "^10.4.0",
         "next": "^13.4.19",
         "react": "^18.2.0",
