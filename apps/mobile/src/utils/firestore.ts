@@ -1,5 +1,4 @@
 import { handleChangeUser, handleIncomingMessages } from '@peakee/app/utils';
-import type { Message, UserChatData } from '@peakee/db/types';
 import firestore from '@react-native-firebase/firestore';
 
 export const usersCollection = firestore().collection('Users');

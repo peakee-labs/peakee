@@ -1,66 +1,15 @@
-import type { ChatRoom, Message } from '@peakee/db/types';
-import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface ChatState {
-	info: ChatRoom;
-	messages: Message[];
-}
-
-export type ChatMap = Record<string, ChatState>;
-
-const initialState: ChatMap = {};
+const initialState = {};
 
 export const chatSlice = createSlice({
 	name: 'chat',
 	initialState,
 	reducers: {
 		reset: () => initialState,
-		setMessages: (state, action: PayloadAction<ChatState>) => {
-			state[action.payload.info.id] = action.payload;
-		},
-		addMessage: (
-			state,
-			action: PayloadAction<{
-				roomId: string;
-				message: Message;
-			}>,
-		) => {
-			if (state[action.payload.roomId].messages) {
-				state[action.payload.roomId].messages.push(
-					action.payload.message,
-				);
-			} else {
-				console.log(
-					'Cannot append messages, not found this chat room from map',
-				);
-			}
-		},
-		addMessages: (
-			state,
-			action: PayloadAction<{
-				roomId: string;
-				messages: Message[];
-			}>,
-		) => {
-			if (state[action.payload.roomId].messages) {
-				state[action.payload.roomId].messages.push(
-					...action.payload.messages,
-				);
-			} else {
-				console.log(
-					'Cannot append messages, not found this chat room from map',
-				);
-			}
-		},
 	},
 });
 
-export const {
-	setMessages,
-	addMessage,
-	addMessages,
-	reset: resetChatState,
-} = chatSlice.actions;
+export const { reset: resetChatState } = chatSlice.actions;
 
 export const chatReducer = chatSlice.reducer;

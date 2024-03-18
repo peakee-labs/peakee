@@ -1,1 +1,2 @@
-export * from './handlers';
+export * from './assets';
+export * from './config';

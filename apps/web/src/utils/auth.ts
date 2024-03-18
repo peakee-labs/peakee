@@ -1,4 +1,11 @@
-import { setProfile, store } from '@peakee/app/state';
+import { initWebsocketWithProfile } from '@peakee/app';
+import { getOrInitUserProfile, setJWT } from '@peakee/app/api';
+import {
+	resetUserState,
+	setProfile,
+	setProfileLoading,
+	store,
+} from '@peakee/app/state';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
@@ -12,24 +19,36 @@ const firebaseConfig = {
 	messagingSenderId: MESSAGING_SENDER_ID,
 };
 
-export const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
-export const auth = getAuth();
+const auth = getAuth();
 
 export const signIn = async () => {
-	try {
-		const userCredential = await signInWithPopup(auth, provider);
-		const user = userCredential.user;
-		store.dispatch(
-			setProfile({
-				uid: user.uid,
-				name: user.displayName as string,
-				fullName: user.displayName as string,
-				email: user.email as string,
-				imageUrl: user.photoURL as string,
-			}),
-		);
-	} catch (e) {
-		console.log('Sign in error', e);
-	}
+	await signInWithPopup(auth, provider);
 };
+
+export const signOut = async () => {
+	await auth.signOut();
+	store.dispatch(resetUserState());
+};
+
+auth.onAuthStateChanged(async (firebaseUser) => {
+	if (firebaseUser) {
+		const jwt = await firebaseUser.getIdToken();
+		setJWT(jwt);
+
+		initWebsocketWithProfile(firebaseUser.uid, jwt);
+
+		const user = await getOrInitUserProfile({
+			name: firebaseUser.displayName as string,
+			email: firebaseUser.email as string,
+			imageUrl: firebaseUser.photoURL as string,
+		});
+
+		if (user) store.dispatch(setProfile(user));
+	} else {
+		setJWT('');
+	}
+
+	store.dispatch(setProfileLoading(false));
+});

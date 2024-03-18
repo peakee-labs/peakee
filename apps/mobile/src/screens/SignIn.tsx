@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import { StyleSheet, View } from 'react-native';
+import SignInFeature from '@peakee/app/features/SignIn';
 import { useNavigation } from '@react-navigation/native';
 import { signInWithGoogle } from 'utils/auth';
 
@@ -15,12 +15,7 @@ const SignInScreen = () => {
 
 	return (
 		<View style={styles.container}>
-			<Text>Sign In</Text>
-			<GoogleSigninButton
-				size={GoogleSigninButton.Size.Wide}
-				color={GoogleSigninButton.Color.Dark}
-				onPress={handleSignIn}
-			/>
+			<SignInFeature onPressSignIn={handleSignIn} />
 		</View>
 	);
 };

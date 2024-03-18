@@ -6,7 +6,6 @@ import {
 	ScrollView,
 	StyleSheet,
 } from 'react-native';
-import type { Message } from '@peakee/db/types';
 
 import { Header, Input, ReceivedMessage, SentMessage } from './components';
 

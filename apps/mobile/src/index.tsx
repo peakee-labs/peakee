@@ -1,7 +1,5 @@
-import Config from 'react-native-config';
 import { Provider } from 'react-redux';
 import { store } from '@peakee/app/state';
-import { initOpenAIClient } from '@peakee/chat';
 import { UIProvider } from '@peakee/ui';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -25,8 +23,6 @@ import 'utils/auth';
 import 'react-native-url-polyfill/auto';
 
 const Stack = createNativeStackNavigator();
-
-initOpenAIClient(Config.OPENAI_API_KEY as string);
 
 function App(): JSX.Element {
 	return (

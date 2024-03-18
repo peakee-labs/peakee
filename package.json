@@ -1,33 +1,33 @@
 {
-  "name": "peakee",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "private": true,
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "deploy": "sst deploy",
-    "remove": "sst remove",
-    "console": "sst console",
-    "typecheck": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "@peakee/eslint-config": "*",
-    "@peakee/tsconfig": "*",
-    "@tsconfig/node18": "^18.2.2",
-    "aws-cdk-lib": "2.101.1",
-    "constructs": "10.2.69",
-    "eslint": "8.38.0",
-    "prettier": "^2.8.7",
-    "sst": "2.24.17",
-    "turbo": "latest",
-    "typescript": "^5.2.2"
-  },
-  "packageManager": "yarn@3.6.3",
-  "dependencies": {
-    "babel-plugin-module-resolver": "^5.0.0"
-  }
+    "name": "peakee",
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "private": true,
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "lint": "turbo run lint",
+        "deploy": "sst deploy",
+        "remove": "sst remove",
+        "console": "sst console",
+        "typecheck": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "@peakee/eslint-config": "*",
+        "@peakee/tsconfig": "*",
+        "@tsconfig/node18": "^18.2.2",
+        "aws-cdk-lib": "2.101.1",
+        "constructs": "10.2.69",
+        "eslint": "8.38.0",
+        "prettier": "^2.8.7",
+        "sst": "2.24.17",
+        "turbo": "latest",
+        "typescript": "^5.4.0"
+    },
+    "dependencies": {
+        "babel-plugin-module-resolver": "^5.0.0"
+    },
+    "packageManager": "yarn@4.1.1"
 }
