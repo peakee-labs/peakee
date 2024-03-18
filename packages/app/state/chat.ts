@@ -1,12 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {};
+import type { Conversation } from '../types';
+
+export type ChatState = {
+	conversationsMap: Record<string, Conversation>;
+	conversationsLoading: boolean;
+};
+
+const initialState: ChatState = {
+	conversationsMap: {},
+	conversationsLoading: true,
+};
 
 export const chatSlice = createSlice({
 	name: 'chat',
 	initialState,
 	reducers: {
-		reset: () => initialState,
+		reset: () => ({ ...initialState, conversationsLoading: false }),
 	},
 });
 
