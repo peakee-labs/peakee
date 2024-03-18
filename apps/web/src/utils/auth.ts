@@ -32,7 +32,7 @@ export const signOut = async () => {
 	store.dispatch(resetUserState());
 };
 
-auth.onAuthStateChanged(async (firebaseUser) => {
+auth.onIdTokenChanged(async (firebaseUser) => {
 	if (firebaseUser) {
 		const jwt = await firebaseUser.getIdToken();
 		setJWT(jwt);
