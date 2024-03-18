@@ -46,18 +46,27 @@ export type Conversation = {
 		name: string;
 		image: string;
 	};
+	/**
+	 * this flag is used to indicate if the conversation is not initialized
+	 * and use this one to send a create conversation request before sending messages
+	 */
+	isNotInitialized?: boolean;
 };
 
 export type Message = {
 	id: string;
 	senderId: string;
 	conversationId: string;
-	replyTo: string;
+	replyTo?: string;
 	content: string;
-	status: 'pending' | 'sent' | 'delivered' | 'read';
+	status: 'initial' | 'pending' | 'sent' | 'delivered' | 'read';
 	createdAt: string;
 	updatedAt: string;
-	emotions: MessageEmotion[];
+	emotions?: MessageEmotion[];
+	/**
+	 * use to resolve the message via the websocket after receiving resolve sending message event
+	 */
+	resolveId: string;
 };
 
 export type MessageEmotion = {
