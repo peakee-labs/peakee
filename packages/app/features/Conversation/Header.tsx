@@ -37,13 +37,13 @@ export const Header: FC<Props> = ({ conversation, onPressBack }) => {
 
 			setLoading(true);
 			getFriendProfileWithState(friendId).then((friend) => {
-				if (!friend) throw Error("Can't find friend");
-
-				setMetadata({
-					name: friend.name,
-					description: getUsername(friend.email),
-					image: friend.imageURL,
-				});
+				if (friend) {
+					setMetadata({
+						name: friend.name,
+						description: getUsername(friend.email),
+						image: friend.imageURL,
+					});
+				}
 				setLoading(false);
 			});
 		} else {
@@ -68,15 +68,21 @@ export const Header: FC<Props> = ({ conversation, onPressBack }) => {
 						<MoveLeft size={20} color={'#000000'} />
 					</TouchableOpacity>
 
-					<View style={styles.infoBlock}>
-						<Avatar source={{ uri: metadata?.image }} />
-						<View style={styles.textContainer}>
-							<Text style={styles.name}>{metadata?.name}</Text>
-							<Text style={styles.description}>
-								{metadata?.description}
-							</Text>
+					{metadata ? (
+						<View style={styles.infoBlock}>
+							<Avatar source={{ uri: metadata?.image }} />
+							<View style={styles.textContainer}>
+								<Text style={styles.name}>
+									{metadata?.name}
+								</Text>
+								<Text style={styles.description}>
+									{metadata?.description}
+								</Text>
+							</View>
 						</View>
-					</View>
+					) : (
+						<Text>Unknown</Text>
+					)}
 
 					<View style={styles.iconsBlock}>
 						<Phone size={20} color="#000000" />
