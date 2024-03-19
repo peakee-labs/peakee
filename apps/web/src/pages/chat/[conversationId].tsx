@@ -59,8 +59,9 @@ export const Chat: FC = () => {
 				}
 			});
 		} else {
-			getConversationWithState(conversationId);
-			setReady(true);
+			getConversationWithState(conversationId).then(() => {
+				setReady(true);
+			});
 		}
 	}, []);
 
