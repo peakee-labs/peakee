@@ -43,7 +43,6 @@ const FriendsFeature = () => {
 				getPublicProfileOfUser(id).then((user) => {
 					if (user) {
 						dispatch(setFriendProfile(user));
-						console.log('Set friend profile', user);
 						setLoading(false);
 					}
 				});

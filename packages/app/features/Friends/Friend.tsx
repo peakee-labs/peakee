@@ -25,10 +25,4 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		maxHeight: 120,
 	},
-	avatar: {
-		height: 50,
-		width: 50,
-		borderRadius: 25,
-		borderWidth: 0.4,
-	},
 });

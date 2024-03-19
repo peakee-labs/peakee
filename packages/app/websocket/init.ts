@@ -1,7 +1,7 @@
-import { resolveMessage, store } from '../state';
+import { addMessage, resolveMessage, store } from '../state';
 import { config } from '../utils';
 
-import type { AckSendMessagePayload } from './events';
+import type { AckSendMessagePayload, NewMessagePayload } from './events';
 import { type EventPayload, EventType } from './events';
 
 function initWebsocket(endpoint: string, token: string) {
@@ -14,6 +14,14 @@ function initWebsocket(endpoint: string, token: string) {
 			const payload = data as AckSendMessagePayload;
 			payload.message.resolveId = payload.resolveId;
 			store.dispatch(resolveMessage(payload.message));
+		} else if (data.type === EventType.SERVER_SEND_MESSAGE) {
+			const payload = data as NewMessagePayload;
+			store.dispatch(
+				addMessage({
+					conversationId: payload.message.conversationId,
+					message: payload.message,
+				}),
+			);
 		}
 	};
 
