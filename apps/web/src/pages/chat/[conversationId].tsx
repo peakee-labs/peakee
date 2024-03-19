@@ -67,9 +67,7 @@ export const Chat: FC = () => {
 
 	useEffect(() => {
 		if (conversation && conversation.id !== conversationId) {
-			router.push(`/chat/${conversationId}`, undefined, {
-				shallow: true,
-			});
+			router.push(`/chat/${conversation.id}`);
 		}
 	}, [conversation]);
 
