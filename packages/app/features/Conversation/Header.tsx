@@ -1,61 +1,90 @@
-import { type FC, useMemo } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { type FC, Fragment, useEffect, useState } from 'react';
+import {
+	ActivityIndicator,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { MoveLeft, Phone, VerticalDots } from '@peakee/icons';
 import { Avatar } from '@peakee/ui';
 
 import { store } from '../../state';
 import type { Conversation } from '../../types';
-import { getUsername } from '../../utils';
+import { getFriendProfileWithState, getUsername } from '../../utils';
 
 interface Props {
 	conversation: Conversation;
 	onPressBack?: () => void;
 }
 
+type Metadata = {
+	name: string;
+	description: string;
+	image: string;
+};
+
 export const Header: FC<Props> = ({ conversation, onPressBack }) => {
-	const { name, description, image } = useMemo(() => {
+	const [metadata, setMetadata] = useState<Metadata>();
+	const [loading, setLoading] = useState(false);
+
+	useEffect(() => {
 		if (conversation.type === 'individual') {
 			const userId = store.getState().user.profile?.id;
 			const friendId = conversation.members.find(
 				(member) => member.userId !== userId,
 			)?.userId as string;
 
-			const friend = store.getState().user.friends[friendId];
-			if (!friend) throw Error("Can't find friend");
+			setLoading(true);
+			getFriendProfileWithState(friendId).then((friend) => {
+				if (!friend) throw Error("Can't find friend");
 
-			return {
-				name: friend.name,
-				description: getUsername(friend.email),
-				image: friend.imageURL,
-			};
+				setMetadata({
+					name: friend.name,
+					description: getUsername(friend.email),
+					image: friend.imageURL,
+				});
+				setLoading(false);
+			});
 		} else {
-			return {
+			setMetadata({
 				name: conversation.metadata?.name as string,
 				description: 'Group chat',
 				image: conversation.metadata?.image as string,
-			};
+			});
 		}
 	}, [conversation]);
 
 	return (
-		<View style={styles.container}>
-			<TouchableOpacity style={styles.backButton} onPress={onPressBack}>
-				<MoveLeft size={20} color={'#000000'} />
-			</TouchableOpacity>
+		<Fragment>
+			{loading ? (
+				<ActivityIndicator style={styles.loading} />
+			) : (
+				<View style={styles.container}>
+					<TouchableOpacity
+						style={styles.backButton}
+						onPress={onPressBack}
+					>
+						<MoveLeft size={20} color={'#000000'} />
+					</TouchableOpacity>
 
-			<View style={styles.infoBlock}>
-				<Avatar source={{ uri: image }} />
-				<View style={styles.textContainer}>
-					<Text style={styles.name}>{name}</Text>
-					<Text style={styles.description}>{description}</Text>
+					<View style={styles.infoBlock}>
+						<Avatar source={{ uri: metadata?.image }} />
+						<View style={styles.textContainer}>
+							<Text style={styles.name}>{metadata?.name}</Text>
+							<Text style={styles.description}>
+								{metadata?.description}
+							</Text>
+						</View>
+					</View>
+
+					<View style={styles.iconsBlock}>
+						<Phone size={20} color="#000000" />
+						<VerticalDots size={20} color="#000000" />
+					</View>
 				</View>
-			</View>
-
-			<View style={styles.iconsBlock}>
-				<Phone size={20} color="#000000" />
-				<VerticalDots size={20} color="#000000" />
-			</View>
-		</View>
+			)}
+		</Fragment>
 	);
 };
 
@@ -67,6 +96,10 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingVertical: 8,
 		paddingRight: 10,
+	},
+	loading: {
+		marginTop: 20,
+		alignSelf: 'center',
 	},
 	backButton: {
 		width: 50,
