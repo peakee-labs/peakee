@@ -35,11 +35,15 @@ const FriendsFeature = () => {
 	);
 
 	useEffect(() => {
-		if (profile?.friends) {
+		if (!profile?.friends) return;
+		if (profile.friends.length === 0) {
+			setLoading(false);
+		} else {
 			profile.friends.map((id) => {
 				getPublicProfileOfUser(id).then((user) => {
 					if (user) {
 						dispatch(setFriendProfile(user));
+						console.log('Set friend profile', user);
 						setLoading(false);
 					}
 				});
