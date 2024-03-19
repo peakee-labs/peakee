@@ -44,7 +44,7 @@ export const chatSlice = createSlice({
 			const { conversationId, index, message } = payload;
 			const messages = state.conversationsMap[conversationId].messages;
 			if (!messages) return;
-			for (const key in Object.keys(message)) {
+			for (const key of Object.keys(message)) {
 				messages[index][key as keyof Message] = message[key as never];
 			}
 		},
