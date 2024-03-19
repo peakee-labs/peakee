@@ -1,5 +1,9 @@
-import { getPublicProfileOfUser } from '../api';
-import { setFriendProfile, store } from '../state';
+import {
+	getConversationById,
+	getConversations,
+	getPublicProfileOfUser,
+} from '../api';
+import { addConversation, setFriendProfile, store } from '../state';
 
 /**
  * first check if this friend is queried in friends state
@@ -15,4 +19,39 @@ export async function getFriendProfileWithState(id: string) {
 	}
 
 	return friend;
+}
+
+export async function getConversationWithState(id: string) {
+	const conversation = store.getState().chat.conversationsMap[id];
+	if (conversation) return conversation;
+
+	const loadedConversation = await getConversationById(id);
+	if (loadedConversation) {
+		store.dispatch(addConversation(loadedConversation));
+		return loadedConversation;
+	}
+}
+
+export async function getFriendConversationWithState(friendId: string) {
+	const conversation = Object.values(
+		store.getState().chat.conversationsMap,
+	).find((c) => {
+		return (
+			c.type === 'individual' &&
+			c.members.find((m) => m.userId === friendId)
+		);
+	});
+	console.log(conversation, '<-- conversation from state');
+
+	if (conversation) return conversation;
+
+	const conversations = await getConversations({
+		type: 'individual',
+		friendId,
+	});
+
+	if (conversations.length > 0) {
+		store.dispatch(addConversation(conversations[0]));
+		return conversations[0];
+	}
 }
