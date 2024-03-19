@@ -1,4 +1,5 @@
-import { type FC, useEffect, useRef } from 'react';
+import type { FC } from 'react';
+import { useRef } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import {
 	FlatList,
@@ -55,7 +56,12 @@ export const ConversationFeature: FC<Props> = ({ id, style }) => {
 		};
 
 		if (conversation.isNotInitialized && !initializePromise.current) {
-			initializePromise.current = createConversation();
+			initializePromise.current = createConversation().then(
+				(conversation) => {
+					if (!conversation) return;
+					resolveInitialMessages(conversation.id);
+				},
+			);
 		}
 
 		if (!conversation.isNotInitialized) {
@@ -81,16 +87,44 @@ export const ConversationFeature: FC<Props> = ({ id, style }) => {
 				friendId,
 			);
 
-			dispatch(
-				resolveNewConversation({
-					oldId: id,
-					conversation: newConversation,
-				}),
-			);
+			if (newConversation) {
+				dispatch(
+					resolveNewConversation({
+						oldId: id,
+						conversation: newConversation,
+					}),
+				);
+			}
+
+			return newConversation;
 		} else {
 			console.log("Can't create conversation of type", conversation.type);
 			return;
 		}
+	};
+
+	const resolveInitialMessages = (conversationId: string) => {
+		const updatedConversation =
+			store.getState().chat.conversationsMap[conversationId];
+		updatedConversation.messages?.map((message, index) => {
+			if (message.status !== 'initial') return;
+			sendMessage({
+				content: message.content,
+				conversationId: updatedConversation.id,
+				resolveId: message.resolveId,
+			});
+
+			dispatch(
+				updateMessage({
+					conversationId: updatedConversation.id,
+					index,
+					message: {
+						status: 'pending',
+						conversationId: updatedConversation.id,
+					},
+				}),
+			);
+		});
 	};
 
 	const renderMessage = ({ item: message }: { item: Message }) => {
@@ -100,31 +134,6 @@ export const ConversationFeature: FC<Props> = ({ id, style }) => {
 			return <ReceivedMessage message={message.content} />;
 		}
 	};
-
-	useEffect(() => {
-		const afterInitializeConversation =
-			initializePromise.current && id !== conversation.id;
-		if (afterInitializeConversation) {
-			conversation.messages?.map((message, index) => {
-				sendMessage({
-					content: message.content,
-					conversationId: conversation.id,
-					resolveId: message.resolveId,
-				});
-
-				dispatch(
-					updateMessage({
-						conversationId: conversation.id,
-						index,
-						message: {
-							status: 'pending',
-							conversationId: conversation.id,
-						},
-					}),
-				);
-			});
-		}
-	}, [conversation]);
 
 	return (
 		<KeyboardAvoidingView
