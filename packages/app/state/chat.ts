@@ -48,6 +48,9 @@ export const chatSlice = createSlice({
 				messages[index][key as keyof Message] = message[key as never];
 			}
 		},
+		addConversation: (state, { payload }: PayloadAction<Conversation>) => {
+			state.conversationsMap[payload.id] = payload;
+		},
 		resolveNewConversation: (
 			state,
 			{
@@ -66,6 +69,7 @@ export const {
 	reset: resetChatState,
 	addMessage,
 	updateMessage,
+	addConversation,
 	resolveNewConversation,
 } = chatSlice.actions;
 
