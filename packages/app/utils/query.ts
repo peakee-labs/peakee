@@ -41,7 +41,6 @@ export async function getFriendConversationWithState(friendId: string) {
 			c.members.find((m) => m.userId === friendId)
 		);
 	});
-	console.log(conversation, '<-- conversation from state');
 
 	if (conversation) return conversation;
 

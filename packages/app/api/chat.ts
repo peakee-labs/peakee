@@ -49,8 +49,6 @@ export async function getConversations(
 			`/conversations?${query}`,
 		);
 
-		console.log(conversations, '<-- conversations from api');
-
 		return conversations;
 	} catch (error) {
 		console.log('Error getting conversations', error);

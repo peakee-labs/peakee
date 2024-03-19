@@ -49,7 +49,6 @@ export const Chat: FC = () => {
 		if (isNewConversation) {
 			const friendId = conversationId.split('-')[1];
 			getFriendConversationWithState(friendId).then((conversation) => {
-				console.log({ conversation });
 				if (conversation) {
 					console.log('push');
 					router.push(`/chat/${conversation.id}`);
