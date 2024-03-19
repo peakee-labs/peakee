@@ -22,16 +22,15 @@ export enum WS_TYPE {
 	DEFAULT,
 }
 
-export const wsMap: Map<WS_TYPE, WebSocket & { id: string }> = new Map();
+export const wsMap: Map<WS_TYPE, { connection: WebSocket; id: string }> =
+	new Map();
 
 export const initWebsocketWithProfile = (userId: string, jwt: string) => {
 	if (wsMap.has(WS_TYPE.DEFAULT)) {
-		wsMap.get(WS_TYPE.DEFAULT)?.close();
+		wsMap.get(WS_TYPE.DEFAULT)?.connection.close();
 		wsMap.delete(WS_TYPE.DEFAULT);
 	}
 
-	wsMap.set(WS_TYPE.DEFAULT, {
-		...initWebsocket(config().PEAKEE_WS_URL, jwt),
-		id: userId,
-	});
+	const ws = initWebsocket(config().PEAKEE_WS_URL, jwt);
+	wsMap.set(WS_TYPE.DEFAULT, { connection: ws, id: userId });
 };

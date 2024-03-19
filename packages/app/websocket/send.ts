@@ -11,7 +11,7 @@ export function sendMessage(message: SendMessagePayload) {
 	const ws = wsMap.get(WS_TYPE.DEFAULT);
 	if (!ws) throw Error("Websocket isn't initialized");
 
-	ws.send(
+	ws.connection.send(
 		JSON.stringify({
 			action: 'chat',
 			type: 'USER:SEND_MESSAGE',
