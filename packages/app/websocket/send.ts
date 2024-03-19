@@ -1,3 +1,4 @@
+import { EventType } from './events';
 import { WS_TYPE, wsMap } from './init';
 
 export type SendMessagePayload = {
@@ -14,7 +15,7 @@ export function sendMessage(message: SendMessagePayload) {
 	ws.connection.send(
 		JSON.stringify({
 			action: 'chat',
-			type: 'USER:SEND_MESSAGE',
+			type: EventType.USER_SEND_MESSAGE,
 			content: message.content,
 			conversationId: message.conversationId,
 			replyTo: message.replyTo,

@@ -1,10 +1,20 @@
+import { resolveMessage, store } from '../state';
 import { config } from '../utils';
+
+import type { AckSendMessagePayload } from './events';
+import { type EventPayload, EventType } from './events';
 
 function initWebsocket(endpoint: string, token: string) {
 	const ws = new WebSocket(`${endpoint}?token=${token}`);
 
 	ws.onmessage = (event) => {
-		console.log(event.data);
+		const data = JSON.parse(event.data) as EventPayload;
+		console.log('Received message: ', data.type);
+		if (data.type === EventType.SERVER_ACK_SEND_MESSAGE) {
+			const payload = data as AckSendMessagePayload;
+			payload.message.resolveId = payload.resolveId;
+			store.dispatch(resolveMessage(payload.message));
+		}
 	};
 
 	ws.onopen = () => {

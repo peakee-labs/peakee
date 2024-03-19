@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import {
 	FlatList,
@@ -9,13 +9,14 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { createNewIndividualConversation } from '../../api';
+import { createNewIndividualConversation, getMessages } from '../../api';
 import type { RootState } from '../../state';
 import {
 	addMessage,
 	resolveNewConversation,
 	store,
 	updateMessage,
+	updateMessagesOfConversation,
 } from '../../state';
 import type { Message } from '../../types';
 import { createRandomString } from '../../utils';
@@ -35,15 +36,17 @@ type Props = {
  * Always make sure that the conversation state is available
  */
 export const ConversationFeature: FC<Props> = ({ id, style }) => {
+	const userId = store.getState().user.profile?.id;
+	if (!userId) throw Error('User not logged in');
+
 	const conversation = useSelector(
 		(state: RootState) => state.chat.conversationsMap[id],
 	);
 	const initializePromise = useRef<Promise<void>>();
 	const dispatch = useDispatch();
-	const userId = store.getState().user.profile?.id;
-	if (!userId) throw Error('User not logged in');
 
 	const handleSendMessage = async (content: string) => {
+		if (content.length < 1) return;
 		const message: Message = {
 			id: createRandomString(),
 			content,
@@ -129,11 +132,28 @@ export const ConversationFeature: FC<Props> = ({ id, style }) => {
 
 	const renderMessage = ({ item: message }: { item: Message }) => {
 		if (message.senderId === userId) {
-			return <SentMessage message={message.content} />;
+			return (
+				<SentMessage
+					message={message.content}
+					status={message.status as never}
+				/>
+			);
 		} else {
 			return <ReceivedMessage message={message.content} />;
 		}
 	};
+
+	useEffect(() => {
+		if (conversation.isNotInitialized) return;
+		getMessages(conversation.id).then((messages) => {
+			dispatch(
+				updateMessagesOfConversation({
+					conversationId: conversation.id,
+					messages,
+				}),
+			);
+		});
+	}, []);
 
 	return (
 		<KeyboardAvoidingView
@@ -168,5 +188,6 @@ const styles = StyleSheet.create({
 	},
 	flatListContentContainer: {
 		flex: 1,
+		gap: 2,
 	},
 });

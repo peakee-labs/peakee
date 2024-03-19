@@ -1,4 +1,4 @@
-import type { Conversation } from '../types';
+import type { Conversation, Message } from '../types';
 
 import { axios } from './axios';
 
@@ -52,6 +52,19 @@ export async function getConversations(
 		return conversations;
 	} catch (error) {
 		console.log('Error getting conversations', error);
+		return [];
+	}
+}
+
+export async function getMessages(conversationId: string): Promise<Message[]> {
+	try {
+		const { data: messages } = await axios().get<Message[]>(
+			`/conversations/${conversationId}/messages`,
+		);
+
+		return messages;
+	} catch (error) {
+		console.log('Error getting messages', error);
 		return [];
 	}
 }

@@ -28,8 +28,23 @@ export const chatSlice = createSlice({
 			if (!state.conversationsMap[conversationId].messages) {
 				state.conversationsMap[conversationId].messages = [message];
 			} else {
-				state.conversationsMap[conversationId].messages?.push(message);
+				state.conversationsMap[conversationId].messages?.unshift(
+					message,
+				);
 			}
+		},
+		resolveMessage: (
+			state,
+			{ payload: message }: PayloadAction<Message>,
+		) => {
+			const messages =
+				state.conversationsMap[message.conversationId].messages;
+			if (!messages) return;
+
+			const targetMessageIndex = messages?.findIndex((m) => {
+				return m.resolveId === message.resolveId;
+			});
+			messages[targetMessageIndex] = message;
 		},
 		updateMessage: (
 			state,
@@ -62,15 +77,26 @@ export const chatSlice = createSlice({
 			state.conversationsMap[oldId] = conversation;
 			state.conversationsMap[conversation.id] = conversation;
 		},
+		updateMessagesOfConversation: (
+			state,
+			{
+				payload,
+			}: PayloadAction<{ conversationId: string; messages: Message[] }>,
+		) => {
+			const { conversationId, messages } = payload;
+			state.conversationsMap[conversationId].messages = messages;
+		},
 	},
 });
 
 export const {
 	reset: resetChatState,
 	addMessage,
+	resolveMessage,
 	updateMessage,
 	addConversation,
 	resolveNewConversation,
+	updateMessagesOfConversation,
 } = chatSlice.actions;
 
 export const chatReducer = chatSlice.reducer;
