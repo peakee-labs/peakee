@@ -1,8 +1,9 @@
 name: Eslint
 on:
+  push:
+    branches: ["main", "dev"]
   pull_request:
-    branches:
-      - main
+    branches: ["main", "dev"]
     
 jobs:
   lint:
