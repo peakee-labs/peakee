@@ -2,5 +2,9 @@
   "hosted-zone:account=585732647569:domainName=peakee.co:region=ap-south-1": {
     "Id": "/hostedzone/Z07531032TFU6JNQWKS2X",
     "Name": "peakee.co."
+  },
+  "hosted-zone:account=471112925263:domainName=peakee.co:region=ap-south-1": {
+    "Id": "/hostedzone/Z040811225XQGK8EPMXHK",
+    "Name": "peakee.co."
   }
 }

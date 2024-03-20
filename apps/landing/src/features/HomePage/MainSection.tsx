@@ -17,7 +17,11 @@ export const MainSection = () => {
 	};
 
 	const joinWaitlist = () => {
-		window.open('https://app.peakee.co', '_blank', 'noopener,noreferrer');
+		window.open(
+			'https://forms.gle/d6DU1YKV6NjJkr9h9',
+			'_blank',
+			'noopener,noreferrer',
+		);
 	};
 
 	return (
