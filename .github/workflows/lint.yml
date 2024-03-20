@@ -18,7 +18,7 @@ jobs:
           node-version: 20
 
       - name: Setup Yarn
-        run: npm install -g yarn && corepack enable & yarn set version stable
+        run: corepack enable && yarn set version stable
 
       - name: Install dependencies
         run: yarn
