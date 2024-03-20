@@ -6,8 +6,7 @@
         "android": "react-native run-android",
         "ios": "react-native run-ios",
         "lint": "eslint . --fix",
-        "start": "react-native start",
-        "test": "jest"
+        "start": "react-native start"
     },
     "dependencies": {
         "@gorhom/bottom-sheet": "^4",
