@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	flatListContentContainer: {
-		flex: 1,
+		flexGrow: 1,
 		gap: 2,
 	},
 });
