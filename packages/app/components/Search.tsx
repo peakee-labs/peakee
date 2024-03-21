@@ -4,15 +4,17 @@ import { Search as SearchIcon } from '@peakee/icons';
 
 type Props = {
 	placeHolder?: string;
+	onChangeText?: (text: string) => void;
 };
 
-export const Search: FC<Props> = ({ placeHolder = 'Search' }) => {
+export const Search: FC<Props> = ({ placeHolder = 'Search', onChangeText }) => {
 	return (
 		<View style={styles.container}>
 			<SearchIcon color={'#8E8E93'} size={20} strokeWidth="2" />
 			<TextInput
 				style={styles.textInput}
 				placeholder={placeHolder}
+				onChangeText={onChangeText}
 				placeholderTextColor={'#8E8E93'}
 			/>
 		</View>
