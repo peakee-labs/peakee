@@ -11,6 +11,7 @@ import {
 // import { faHeart } from '@fortawesome/free-solid-svg-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import type { PublicUserProfile, UserExplore } from '@peakee/app/types';
+import { Comment, Heart } from '@peakee/icons';
 import { Avatar } from '@peakee/ui';
 
 interface Props {
@@ -25,11 +26,7 @@ const ExploreProfile: FC<Props> = ({ profile, explore }) => {
 				<View style={styles.avatarContainer}>
 					<Avatar source={{ uri: profile.imageURL }} size={60} />
 					<View style={styles.heartCount}>
-						{/* <FontAwesomeIcon
-							icon={faHeart}
-							color="#D10C0F"
-							size={10}
-						/> */}
+						<Heart color="#D10C0F" size={10} />
 						<Text>{explore.like | 0}</Text>
 					</View>
 				</View>
@@ -100,7 +97,7 @@ const ExploreProfile: FC<Props> = ({ profile, explore }) => {
 				</View>
 			</View>
 			<TouchableOpacity style={styles.chatButton}>
-				{/* <FontAwesomeIcon color="#fea91a" icon={faComment} size={12} /> */}
+				<Comment color="#fea91a" size={12} />
 				<Text style={{ color: '#fea91a', fontSize: 16 }}>Chat</Text>
 			</TouchableOpacity>
 		</View>
