@@ -6,33 +6,30 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import CountryFlag from 'react-native-country-flag';
-import { faComment } from '@fortawesome/free-regular-svg-icons';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import type { UserExplore, UserProfile } from '@peakee/db/types';
+// import CountryFlag from 'react-native-country-flag';
+// import { faComment } from '@fortawesome/free-regular-svg-icons';
+// import { faHeart } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import type { PublicUserProfile, UserExplore } from '@peakee/app/types';
 import { Avatar } from '@peakee/ui';
 
 interface Props {
-	profile: UserProfile;
+	profile: PublicUserProfile;
 	explore: UserExplore;
-	onPressChat: (user: UserExplore) => void;
 }
-const ExploreProfile: FC<Props> = ({ profile, explore, onPressChat }) => {
-	const handlePressChat = () => {
-		onPressChat(explore);
-	};
+
+const ExploreProfile: FC<Props> = ({ profile, explore }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.leftCol}>
 				<View style={styles.avatarContainer}>
-					<Avatar source={{ uri: profile.imageUrl }} size={60} />
+					<Avatar source={{ uri: profile.imageURL }} size={60} />
 					<View style={styles.heartCount}>
-						<FontAwesomeIcon
+						{/* <FontAwesomeIcon
 							icon={faHeart}
 							color="#D10C0F"
 							size={10}
-						/>
+						/> */}
 						<Text>{explore.like | 0}</Text>
 					</View>
 				</View>
@@ -45,11 +42,11 @@ const ExploreProfile: FC<Props> = ({ profile, explore, onPressChat }) => {
 						>
 							{explore.name}
 						</Text>
-						<CountryFlag
+						{/* <CountryFlag
 							isoCode={explore.country}
 							size={10}
 							style={styles.flag}
-						/>
+						/> */}
 					</View>
 					<View style={{}}>
 						<ScrollView
@@ -102,11 +99,8 @@ const ExploreProfile: FC<Props> = ({ profile, explore, onPressChat }) => {
 					</View>
 				</View>
 			</View>
-			<TouchableOpacity
-				style={styles.chatButton}
-				onPress={handlePressChat}
-			>
-				<FontAwesomeIcon color="#fea91a" icon={faComment} size={12} />
+			<TouchableOpacity style={styles.chatButton}>
+				{/* <FontAwesomeIcon color="#fea91a" icon={faComment} size={12} /> */}
 				<Text style={{ color: '#fea91a', fontSize: 16 }}>Chat</Text>
 			</TouchableOpacity>
 		</View>
