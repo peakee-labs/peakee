@@ -12,7 +12,7 @@ type Props = {
 export const Friend: FC<Props> = ({ profile, onPress }) => {
 	return (
 		<TouchableOpacity style={styles.container} onPress={onPress}>
-			<Avatar source={{ uri: profile.imageURL }} />
+			<Avatar size={46} source={{ uri: profile.imageURL }} />
 			<Text>{profile.name}</Text>
 		</TouchableOpacity>
 	);
@@ -24,5 +24,6 @@ const styles = StyleSheet.create({
 	container: {
 		alignItems: 'center',
 		maxHeight: 120,
+		gap: 2,
 	},
 });

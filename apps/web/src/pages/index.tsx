@@ -1,14 +1,20 @@
 import type { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import FriendsFeature from '@peakee/app/features/Friends';
+import type { PublicUserProfile } from '@peakee/app/types';
 import { Quote } from '@peakee/icons';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { withAuth, withBottomNavigation } from '../utils/hoc';
 import { useAuth } from '../utils/hooks';
 
 const Home: FC = () => {
 	const { user } = useAuth();
+	const router = useRouter();
+	const startConversationWithFriend = (friend: PublicUserProfile) => {
+		router.push(`/chat/new-${friend.id}`);
+	};
 
 	return (
 		<View style={styles.container}>
@@ -20,7 +26,7 @@ const Home: FC = () => {
 					height={80}
 				/>
 				<View style={styles.headerTextContainer}>
-					<Text style={styles.h3}>Chatting</Text>
+					<Text style={styles.header}>Chatting</Text>
 					<View style={styles.quoteContainer}>
 						<Quote color={'#FF9F00'} size={16} strokeWidth="1.5" />
 						<Text style={styles.quoteText}>
@@ -29,7 +35,14 @@ const Home: FC = () => {
 					</View>
 				</View>
 			</View>
-			<FriendsFeature />
+
+			<Text style={styles.subHeader}>Friends</Text>
+			<FriendsFeature
+				style={styles.friendsContainer}
+				handlePressFriend={startConversationWithFriend}
+			/>
+
+			<Text style={styles.subHeader}>Conversations</Text>
 		</View>
 	);
 };
@@ -58,21 +71,17 @@ const styles = StyleSheet.create({
 		color: '#565656',
 	},
 	friendsContainer: {
-		padding: 10,
+		marginBottom: 16,
 	},
-	h1: {
-		fontSize: 40,
-		fontWeight: '700',
-		color: '#000000',
-	},
-	h2: {
-		fontSize: 28,
-		fontWeight: '600',
-		color: '#000000',
-	},
-	h3: {
+	header: {
 		fontSize: 18,
 		fontWeight: '600',
 		color: '#000000',
+	},
+	subHeader: {
+		fontSize: 16,
+		fontWeight: '500',
+		color: '#000000',
+		marginBottom: 10,
 	},
 });

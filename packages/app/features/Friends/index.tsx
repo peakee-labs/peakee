@@ -1,4 +1,6 @@
+import type { FC } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import {
 	ActivityIndicator,
 	FlatList,
@@ -14,7 +16,12 @@ import type { PublicUserProfile } from '../../types';
 
 import Friend from './Friend';
 
-const FriendsFeature = () => {
+type Props = {
+	style?: StyleProp<ViewStyle>;
+	handlePressFriend?: (friend: PublicUserProfile) => void;
+};
+
+const FriendsFeature: FC<Props> = ({ style, handlePressFriend }) => {
 	const {
 		profile,
 		profileLoading,
@@ -28,8 +35,13 @@ const FriendsFeature = () => {
 	const [loading, setLoading] = useState(false);
 
 	const renderFriend = useCallback(
-		({ item }: { item: PublicUserProfile }) => {
-			return <Friend profile={item} />;
+		({ item: friend }: { item: PublicUserProfile }) => {
+			return (
+				<Friend
+					profile={friend}
+					onPress={() => handlePressFriend?.(friend)}
+				/>
+			);
 		},
 		[],
 	);
@@ -52,7 +64,7 @@ const FriendsFeature = () => {
 	}, [profile]);
 
 	return (
-		<View>
+		<View style={style}>
 			{!profileLoading && !profile ? (
 				<Text>No profile found</Text>
 			) : profileLoading || loading ? (
