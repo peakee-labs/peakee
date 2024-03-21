@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { authReducer } from './auth';
 import { chatReducer } from './chat';
+import { exploreReducer } from './explore';
 import { notificationsReducer } from './notifications';
 import { userReducer } from './user';
 
@@ -12,6 +12,7 @@ export const store = configureStore({
 		user: userReducer,
 		chat: chatReducer,
 		notifications: notificationsReducer,
+		explore: exploreReducer,
 	},
 });
 
