@@ -3,7 +3,7 @@ import ProfileFeature from '@peakee/app/features/Profile';
 import { Button } from '@peakee/ui';
 
 import { signOut } from '../utils/auth';
-import { withBottomNavigation } from '../utils/hoc';
+import { withAuth, withBottomNavigation } from '../utils/hoc';
 
 export const Profile = () => {
 	return (
@@ -14,7 +14,7 @@ export const Profile = () => {
 	);
 };
 
-export default withBottomNavigation(Profile);
+export default withAuth(withBottomNavigation(Profile));
 
 const styles = StyleSheet.create({
 	container: {

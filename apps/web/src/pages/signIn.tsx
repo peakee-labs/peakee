@@ -31,7 +31,6 @@ export default SignIn;
 
 const styles = StyleSheet.create({
 	boxContainer: {
-		paddingVertical: 100,
 		borderWidth: 1,
 		borderColor: '#B1B6C1',
 		borderRadius: 20,
@@ -40,5 +39,6 @@ const styles = StyleSheet.create({
 	},
 	fullContainer: {
 		flex: 1,
+		paddingHorizontal: 30,
 	},
 });
