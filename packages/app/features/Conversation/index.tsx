@@ -30,12 +30,13 @@ import SentMessage from './SentMessage';
 type Props = {
 	id: string;
 	style?: StyleProp<ViewStyle>;
+	onPressBack?: () => void;
 };
 
 /**
  * Always make sure that the conversation state is available
  */
-export const ConversationFeature: FC<Props> = ({ id, style }) => {
+export const ConversationFeature: FC<Props> = ({ id, style, onPressBack }) => {
 	const userId = store.getState().user.profile?.id;
 	if (!userId) throw Error('User not logged in');
 
@@ -161,7 +162,7 @@ export const ConversationFeature: FC<Props> = ({ id, style }) => {
 			behavior={Platform.OS === 'ios' ? 'padding' : undefined}
 			keyboardVerticalOffset={Platform.OS === 'ios' ? 18 : 0}
 		>
-			<Header conversation={conversation} />
+			<Header conversation={conversation} onPressBack={onPressBack} />
 
 			<FlatList
 				style={styles.flatListContainer}

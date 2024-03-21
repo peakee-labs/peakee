@@ -50,8 +50,7 @@ export const Chat: FC = () => {
 			const friendId = conversationId.split('-')[1];
 			getFriendConversationWithState(friendId).then((conversation) => {
 				if (conversation) {
-					console.log('push');
-					router.push(`/chat/${conversation.id}`);
+					router.replace(`/chat/${conversation.id}`);
 				} else {
 					initializeNewConversationState(friendId).finally(() =>
 						setReady(true),
@@ -67,7 +66,7 @@ export const Chat: FC = () => {
 
 	useEffect(() => {
 		if (conversation && conversation.id !== conversationId) {
-			router.push(`/chat/${conversation.id}`);
+			router.replace(`/chat/${conversation.id}`);
 		}
 	}, [conversation]);
 
@@ -77,6 +76,7 @@ export const Chat: FC = () => {
 				<ConversationFeature
 					style={styles.container}
 					id={conversationId}
+					onPressBack={router.back}
 				/>
 			) : (
 				<View style={styles.container}>
