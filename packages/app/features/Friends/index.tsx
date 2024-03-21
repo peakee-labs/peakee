@@ -25,7 +25,7 @@ const FriendsFeature = () => {
 	}, [friendsMap]);
 
 	const dispatch = useDispatch();
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	const renderFriend = useCallback(
 		({ item }: { item: PublicUserProfile }) => {
@@ -35,10 +35,11 @@ const FriendsFeature = () => {
 	);
 
 	useEffect(() => {
-		if (!profile?.friends) return;
+		if (!profile?.friends || friends.length > 0) return;
 		if (profile.friends.length === 0) {
 			setLoading(false);
 		} else {
+			setLoading(true);
 			profile.friends.map((id) => {
 				getPublicProfileOfUser(id).then((user) => {
 					if (user) {
