@@ -1,25 +1,35 @@
 import type { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import FriendsFeature from '@peakee/app/features/Friends';
-import NotificationsFeature from '@peakee/app/features/Notifications';
-import ProfileFeature from '@peakee/app/features/Profile';
-import { Button } from '@peakee/ui';
+import { Quote } from '@peakee/icons';
+import Image from 'next/image';
 
-import { signOut } from '../utils/auth';
 import { withAuth, withBottomNavigation } from '../utils/hoc';
+import { useAuth } from '../utils/hooks';
 
 const Home: FC = () => {
+	const { user } = useAuth();
+
 	return (
 		<View style={styles.container}>
-			<Text style={styles.h1}>Peakee</Text>
-			<ProfileFeature />
-			<Text style={styles.h2}>Friends</Text>
-			<View style={styles.friendsContainer}>
-				<FriendsFeature />
+			<View style={styles.headerContainer}>
+				<Image
+					src={'/images/messages.png'}
+					alt={'messages'}
+					width={70}
+					height={80}
+				/>
+				<View style={styles.headerTextContainer}>
+					<Text style={styles.h3}>Chatting</Text>
+					<View style={styles.quoteContainer}>
+						<Quote color={'#FF9F00'} size={16} strokeWidth="1.5" />
+						<Text style={styles.quoteText}>
+							Hello {user?.name}! Welcome to Peakee world
+						</Text>
+					</View>
+				</View>
 			</View>
-			<Text style={styles.h2}>Chat Rooms</Text>
-			<NotificationsFeature style={styles.notificationContainer} />
-			<Button title="Sign out" onPress={signOut} />
+			<FriendsFeature />
 		</View>
 	);
 };
@@ -29,10 +39,23 @@ export default withAuth(withBottomNavigation(Home));
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: 'yellow',
+		paddingHorizontal: 16,
 	},
-	notificationContainer: {
-		width: 300,
+	headerContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 10,
+	},
+	headerTextContainer: {
+		gap: 4,
+	},
+	quoteContainer: {
+		flexDirection: 'row',
+		gap: 6,
+		alignItems: 'center',
+	},
+	quoteText: {
+		color: '#565656',
 	},
 	friendsContainer: {
 		padding: 10,

@@ -5,7 +5,7 @@ import { withBottomNavigation } from '../utils/hoc';
 export const Practice = () => {
 	return (
 		<View style={styles.container}>
-			<Text>practice</Text>
+			<Text style={styles.header}>Practice</Text>
 		</View>
 	);
 };
@@ -13,5 +13,12 @@ export const Practice = () => {
 export default withBottomNavigation(Practice);
 
 const styles = StyleSheet.create({
-	container: {},
+	container: {
+		padding: 14,
+		paddingTop: 20,
+	},
+	header: {
+		fontSize: 18,
+		fontWeight: '500',
+	},
 });

@@ -1,11 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import ProfileFeature from '@peakee/app/features/Profile';
+import { Button } from '@peakee/ui';
 
+import { signOut } from '../utils/auth';
 import { withBottomNavigation } from '../utils/hoc';
 
 export const Profile = () => {
 	return (
 		<View style={styles.container}>
-			<Text>profile</Text>
+			<ProfileFeature />
+			<Button title="Sign out" onPress={signOut} />
 		</View>
 	);
 };
@@ -13,5 +17,11 @@ export const Profile = () => {
 export default withBottomNavigation(Profile);
 
 const styles = StyleSheet.create({
-	container: {},
+	container: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		padding: 14,
+		paddingTop: 20,
+		gap: 10,
+	},
 });

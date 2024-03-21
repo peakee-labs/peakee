@@ -67,9 +67,12 @@ export function withBottomNavigation<P>(WrappedComponent: ComponentType<P>) {
 							},
 						)}
 
-						<Link href={'/profile'}>
+						<Link style={{ paddingBottom: 2 }} href={'/profile'}>
 							{user ? (
-								<Avatar source={{ uri: user.imageURL }} />
+								<Avatar
+									size={34}
+									source={{ uri: user.imageURL }}
+								/>
 							) : (
 								<User
 									color={'#484C52'}
