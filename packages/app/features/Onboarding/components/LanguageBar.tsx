@@ -1,4 +1,4 @@
-import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 
 interface LanguageBarProps {
