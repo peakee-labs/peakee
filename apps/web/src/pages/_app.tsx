@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import { store } from '@peakee/app/state';
 import type { AppProps } from 'next/app';
 
+import '../utils/auth';
+
 import { initApp } from '../utils/bootstrap';
 import { useWrappedDimensions } from '../utils/hooks';
 
