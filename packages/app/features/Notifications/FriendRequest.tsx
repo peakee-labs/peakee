@@ -45,23 +45,26 @@ const FriendRequest: FC<Props> = ({ index, request }) => {
 	return (
 		<View style={styles.container}>
 			<Avatar source={{ uri: request.user.imageURL }} />
-			<View>
-				<Text>{request.user.name}</Text>
-				{actionLoading ? (
-					<ActivityIndicator />
-				) : (
-					<View style={styles.buttonsContainer}>
-						<Button
-							title="Accept"
-							onPress={() => handleAcceptRequest('accept')}
-						/>
-						<Button
-							title="Deny"
-							onPress={() => handleAcceptRequest('deny')}
-						/>
-					</View>
-				)}
+
+			<View style={styles.infoContainer}>
+				<Text style={styles.nameText}>{request.user.name}</Text>
+				<Text style={styles.emailText}>{request.user.email}</Text>
 			</View>
+
+			{actionLoading ? (
+				<ActivityIndicator />
+			) : (
+				<View style={styles.buttonsContainer}>
+					<Button
+						title="Accept"
+						onPress={() => handleAcceptRequest('accept')}
+					/>
+					<Button
+						title="Deny"
+						onPress={() => handleAcceptRequest('deny')}
+					/>
+				</View>
+			)}
 		</View>
 	);
 };
@@ -71,8 +74,19 @@ export default FriendRequest;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
+		gap: 10,
+	},
+	infoContainer: {
+		marginRight: 'auto',
+	},
+	nameText: {
+		fontSize: 16,
+	},
+	emailText: {
+		color: '#4d4d4d',
 	},
 	buttonsContainer: {
 		flexDirection: 'row',
+		gap: 4,
 	},
 });

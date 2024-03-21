@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import FriendRequests from '@peakee/app/features/Notifications/FriendRequests';
 
-import { withBottomNavigation } from '../utils/hoc';
+import { withAuth, withBottomNavigation } from '../utils/hoc';
 
 export const Notification = () => {
 	return (
@@ -16,7 +16,7 @@ export const Notification = () => {
 	);
 };
 
-export default withBottomNavigation(Notification);
+export default withAuth(withBottomNavigation(Notification));
 
 const styles = StyleSheet.create({
 	container: {
@@ -27,11 +27,13 @@ const styles = StyleSheet.create({
 	header: {
 		fontSize: 18,
 		fontWeight: '500',
+		marginBottom: 16,
 	},
 	sectionContainer: {
 		gap: 4,
 	},
 	subheader: {
 		fontSize: 16,
+		marginBottom: 10,
 	},
 });
