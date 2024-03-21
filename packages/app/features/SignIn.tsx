@@ -38,15 +38,15 @@ const styles = StyleSheet.create({
 		gap: 40,
 	},
 	title: {
-		fontSize: 60,
+		fontSize: 50,
 		fontWeight: '900',
 		color: '#FF7701',
 		alignSelf: 'center',
 		marginBottom: 60,
 	},
 	titleImage: {
-		width: 360,
-		height: 200,
+		width: '100%',
+		height: 160,
 		alignSelf: 'center',
 	},
 	signInButton: {
@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
 		borderRadius: 30,
 		paddingVertical: 10,
 		paddingHorizontal: 10,
-		minWidth: 360,
 	},
 	signInText: {
 		flex: 1,

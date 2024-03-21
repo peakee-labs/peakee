@@ -36,9 +36,12 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		alignSelf: 'center',
 		marginVertical: 'auto',
+		paddingVertical: 60,
+		paddingHorizontal: 40,
+		width: 460,
 	},
 	fullContainer: {
 		flex: 1,
-		paddingHorizontal: 30,
+		paddingHorizontal: 20,
 	},
 });
