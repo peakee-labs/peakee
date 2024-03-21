@@ -14,8 +14,8 @@ export function axios() {
 			headers: { 'Content-Type': 'application/json' },
 		});
 
-		defaultAxios.interceptors.request.use((config) => {
-			config.headers.Authorization = 'Bearer ' + getJWT();
+		defaultAxios.interceptors.request.use(async (config) => {
+			config.headers.Authorization = 'Bearer ' + (await getJWT());
 			config.headers['Content-Type'] = 'application/json';
 
 			return config;
