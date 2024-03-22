@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import ConversationsFeature from '@peakee/app/features/Conversations';
 import FriendsFeature from '@peakee/app/features/Friends';
 import type { PublicUserProfile } from '@peakee/app/types';
 import { Quote } from '@peakee/icons';
@@ -43,6 +44,7 @@ const Home: FC = () => {
 			/>
 
 			<Text style={styles.subHeader}>Conversations</Text>
+			<ConversationsFeature />
 		</View>
 	);
 };

@@ -1,9 +1,32 @@
-import { StyleSheet, Text, View } from 'react-native';
+import type { FC } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 
-export const ConversationsFeature = () => {
+import { useConversations } from '../../hooks/useConversations';
+import type { Conversation as ConversationStateType } from '../../types';
+
+import Conversation from './Conversation';
+
+type Props = {
+	onPressConversation?: (conversation: ConversationStateType) => void;
+};
+
+export const ConversationsFeature: FC<Props> = ({ onPressConversation }) => {
+	const conversations = useConversations();
+
 	return (
 		<View style={styles.container}>
-			<Text>ConversationsFeature</Text>
+			<FlatList
+				style={styles.flatListContainer}
+				contentContainerStyle={styles.flatListContentContainer}
+				data={conversations}
+				keyExtractor={(c) => c.id}
+				renderItem={({ item: conversation }) => (
+					<Conversation
+						conversation={conversation}
+						onPress={onPressConversation}
+					/>
+				)}
+			/>
 		</View>
 	);
 };
@@ -11,5 +34,13 @@ export const ConversationsFeature = () => {
 export default ConversationsFeature;
 
 const styles = StyleSheet.create({
-	container: {},
+	container: {
+		flex: 1,
+	},
+	flatListContainer: {
+		flex: 1,
+	},
+	flatListContentContainer: {
+		flexGrow: 1,
+	},
 });

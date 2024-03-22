@@ -1,13 +1,31 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import type { RootState } from '../state';
+import { getConversations } from '../api';
+import {
+	type RootState,
+	addConversation,
+	store,
+	updateConversationsLoading,
+} from '../state';
 import type { Conversation } from '../types';
 
 export const useConversations = () => {
-	const conversationsMap = useSelector(
-		(state: RootState) => state.chat.conversationsMap,
+	const { conversationsMap, conversationsLoadStatus } = useSelector(
+		(state: RootState) => state.chat,
 	);
+
+	useEffect(() => {
+		if (conversationsLoadStatus === 'unloaded') {
+			store.dispatch(updateConversationsLoading('loading'));
+			getConversations().then((conversations) => {
+				store.dispatch(updateConversationsLoading('loaded'));
+				conversations.forEach((conversation) => {
+					store.dispatch(addConversation(conversation));
+				});
+			});
+		}
+	}, []);
 
 	return useMemo(() => {
 		const conversations = Object.values(conversationsMap);
