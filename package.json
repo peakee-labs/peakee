@@ -8,6 +8,7 @@
     "scripts": {
         "build": "turbo run build",
         "dev": "turbo run dev",
+        "test": "turbo run test",
         "lint": "turbo run lint",
         "deploy": "sst deploy",
         "deploy:prod": "sst deploy --stage prod",
