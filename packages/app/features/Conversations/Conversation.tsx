@@ -76,7 +76,9 @@ export const Conversation: FC<Props> = ({ conversation, onPress }) => {
 			<View style={styles.contentContainer}>
 				<Text style={styles.title}>{metadata.name}</Text>
 				<View style={styles.messageContainer}>
-					<Text>{metadata.latestMessage || 'No messages'}</Text>
+					<Text style={styles.messageText} numberOfLines={1}>
+						{metadata.latestMessage || 'No messages'}
+					</Text>
 					{metadata.latestMessageAt && (
 						<Text>
 							{' '}
@@ -107,5 +109,9 @@ const styles = StyleSheet.create({
 	},
 	messageContainer: {
 		flexDirection: 'row',
+		flex: 1,
+	},
+	messageText: {
+		flex: 1,
 	},
 });
