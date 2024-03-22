@@ -6,7 +6,8 @@
         "dev": "next dev -p 3001",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "deploy:prod": "sst deploy --stage prod"
     },
     "dependencies": {
         "framer-motion": "^10.16.16",
@@ -23,6 +24,7 @@
         "@types/node": "^20.5.2",
         "@types/react": "^18.2.0",
         "@types/react-dom": "^18.2.0",
+        "sst": "^2.41.2",
         "typescript": "*"
     }
 }
