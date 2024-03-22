@@ -36,11 +36,10 @@ const FriendRequests = () => {
 
 	return (
 		<View style={styles.container}>
-			<Text>Friend requests</Text>
 			{friendRequestsLoading ? (
 				<ActivityIndicator />
 			) : friendRequests.length === 0 ? (
-				<Text>No friend requests</Text>
+				<Text style={styles.emptyText}>No friend requests</Text>
 			) : (
 				<FlatList data={friendRequests} renderItem={renderItem} />
 			)}
@@ -52,4 +51,8 @@ export default FriendRequests;
 
 const styles = StyleSheet.create({
 	container: {},
+	emptyText: {
+		fontStyle: 'italic',
+		color: '#8E8E93',
+	},
 });

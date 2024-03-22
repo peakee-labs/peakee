@@ -1,8 +1,18 @@
-/** @type {import('jest').Config} */
-const config = {
-	// currently react-native preset make things failed
-	// preset: 'react-native',
-	...require('../../tools/jest/jest.config'),
-};
+const { defaults: tsjPreset } = require('ts-jest/presets');
 
-module.exports = config;
+/** @type {import('ts-jest').JestConfigWithTsJest} */
+module.exports = {
+	...require('../../tools/jest/jest.config'),
+	...tsjPreset,
+	preset: 'react-native',
+	transform: {
+		'^.+\\.jsx$': 'babel-jest',
+		'^.+\\.tsx?$': [
+			'ts-jest',
+			{
+				tsconfig: 'tsconfig.spec.json',
+			},
+		],
+	},
+	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+};
