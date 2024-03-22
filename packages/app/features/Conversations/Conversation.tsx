@@ -36,21 +36,24 @@ export const Conversation: FC<Props> = ({ conversation, onPress }) => {
 			setLoading(true);
 			getFriendProfileWithState(friendId).then((friend) => {
 				if (friend) {
-					setMetadata({
+					setMetadata((metadata) => ({
 						...metadata,
 						name: friend.name,
 						image: friend.imageURL,
-					});
+					}));
 				}
 				setLoading(false);
 			});
 			getLatestMessageWithState(conversation.id).then((message) => {
 				if (message)
-					setMetadata({
-						...metadata,
-						latestMessage: message.content,
-						latestMessageAt: new Date(message.createdAt),
-					} as Metadata);
+					setMetadata(
+						(metadata) =>
+							({
+								...metadata,
+								latestMessage: message.content,
+								latestMessageAt: new Date(message.createdAt),
+							} as Metadata),
+					);
 			});
 		} else {
 			setMetadata({
