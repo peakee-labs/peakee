@@ -5,3 +5,7 @@ export const getUsername = (text: string) => {
 
 	return text;
 };
+
+export const getFormattedTime = (date: Date) => {
+	return date.getHours() + ':' + date.getMinutes() + ' ';
+};

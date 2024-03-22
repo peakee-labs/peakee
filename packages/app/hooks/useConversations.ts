@@ -39,13 +39,13 @@ export const sortByNewestUpdatedConversation = (
 	a: Conversation,
 	b: Conversation,
 ) => {
-	if (a.latestMessageAt && b.latestMessageAt) {
-		const aDate = new Date(a.latestMessageAt);
-		const bDate = new Date(b.latestMessageAt);
+	if (a.latestMessage && b.latestMessage) {
+		const aDate = new Date(a.latestMessage.createdAt);
+		const bDate = new Date(b.latestMessage.createdAt);
 		return aDate > bDate ? -1 : 1;
-	} else if (a.latestMessageAt) {
+	} else if (a.latestMessage) {
 		return 1;
-	} else if (b.latestMessageAt) {
+	} else if (b.latestMessage) {
 		return -1;
 	} else {
 		const aDate = new Date(a.updatedAt);

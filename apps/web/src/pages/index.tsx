@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import ConversationsFeature from '@peakee/app/features/Conversations';
 import FriendsFeature from '@peakee/app/features/Friends';
-import type { PublicUserProfile } from '@peakee/app/types';
+import type { Conversation, PublicUserProfile } from '@peakee/app/types';
 import { Quote } from '@peakee/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -15,6 +15,9 @@ const Home: FC = () => {
 	const router = useRouter();
 	const startConversationWithFriend = (friend: PublicUserProfile) => {
 		router.push(`/chat/new-${friend.id}`);
+	};
+	const startConversation = (conversation: Conversation) => {
+		router.push(`/chat/${conversation.id}`);
 	};
 
 	return (
@@ -44,7 +47,7 @@ const Home: FC = () => {
 			/>
 
 			<Text style={styles.subHeader}>Conversations</Text>
-			<ConversationsFeature />
+			<ConversationsFeature onPressConversation={startConversation} />
 		</View>
 	);
 };
