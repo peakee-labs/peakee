@@ -95,6 +95,15 @@ export const chatSlice = createSlice({
 		) => {
 			state.conversationsLoadStatus = payload;
 		},
+		updateLatestMessage: (
+			state,
+			{
+				payload,
+			}: PayloadAction<{ conversationId: string; message: Message }>,
+		) => {
+			const { conversationId, message } = payload;
+			state.conversationsMap[conversationId].latestMessage = message;
+		},
 	},
 });
 
@@ -107,6 +116,7 @@ export const {
 	resolveNewConversation,
 	updateMessagesOfConversation,
 	updateConversationsLoading,
+	updateLatestMessage,
 } = chatSlice.actions;
 
 export const chatReducer = chatSlice.reducer;

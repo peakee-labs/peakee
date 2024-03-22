@@ -8,7 +8,7 @@ import type { PublicUserProfile } from '@peakee/app/types';
 import { Avatar, Button } from '@peakee/ui';
 import { throttle } from 'lodash';
 
-import { withBottomNavigation } from '../utils/hoc';
+import { withAuth, withBottomNavigation } from '../utils/hoc';
 
 export const Friends = () => {
 	const profile = useSelector((state: RootState) => state.user.profile);
@@ -83,7 +83,7 @@ export const Friends = () => {
 	);
 };
 
-export default withBottomNavigation(Friends);
+export default withAuth(withBottomNavigation(Friends));
 
 const styles = StyleSheet.create({
 	container: {

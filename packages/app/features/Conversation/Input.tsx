@@ -48,7 +48,7 @@ export const Input: FC<Props> = ({ onPressSend }) => {
 			setMaxTextLengthOnTextInput(text.length);
 		else {
 			const relativeChange = text.length / maxTextLengthOnTextInput;
-			const newHeight = height * relativeChange + 10;
+			const newHeight = height * relativeChange;
 			setHeight(newHeight);
 			setMaxHeightOnTextInput(newHeight);
 			setMaxTextLengthOnTextInput(text.length);

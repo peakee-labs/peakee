@@ -69,3 +69,17 @@ export async function getMessages(conversationId: string): Promise<Message[]> {
 		return [];
 	}
 }
+
+export async function getLatestMessage(
+	conversationId: string,
+): Promise<Message | undefined> {
+	try {
+		const { data: messages } = await axios().get<Message[]>(
+			`/conversations/${conversationId}/messages?limit=1`,
+		);
+
+		if (messages.length > 0) return messages[0];
+	} catch (error) {
+		console.log('Error getting messages', error);
+	}
+}

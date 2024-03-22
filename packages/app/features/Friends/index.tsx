@@ -88,5 +88,6 @@ export default FriendsFeature;
 const styles = StyleSheet.create({
 	listContainer: {
 		flexDirection: 'row',
+		gap: 10,
 	},
 });

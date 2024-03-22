@@ -42,5 +42,6 @@ const styles = StyleSheet.create({
 	},
 	flatListContentContainer: {
 		flexGrow: 1,
+		gap: 4,
 	},
 });

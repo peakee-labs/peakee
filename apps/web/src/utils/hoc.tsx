@@ -18,8 +18,6 @@ export function withAuth<P>(WrappedComponent: ComponentType<P>) {
 		useEffect(() => {
 			if (!loading && !user) {
 				router.push('/signIn');
-			} else if (!loading && user) {
-				console.log('init user');
 			}
 		}, [user, loading]);
 

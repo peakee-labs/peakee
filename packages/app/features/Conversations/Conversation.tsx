@@ -4,7 +4,11 @@ import { Avatar } from '@peakee/ui';
 
 import { store } from '../../state';
 import type { Conversation as ConversationStateType } from '../../types';
-import { getFriendProfileWithState } from '../../utils';
+import {
+	getFormattedTime,
+	getFriendProfileWithState,
+	getLatestMessageWithState,
+} from '../../utils';
 
 type Props = {
 	conversation: ConversationStateType;
@@ -32,24 +36,29 @@ export const Conversation: FC<Props> = ({ conversation, onPress }) => {
 			setLoading(true);
 			getFriendProfileWithState(friendId).then((friend) => {
 				if (friend) {
-					setMetadata({
+					setMetadata((metadata) => ({
+						...metadata,
 						name: friend.name,
 						image: friend.imageURL,
-						latestMessageAt: conversation.latestMessageAt
-							? new Date(conversation.latestMessageAt)
-							: undefined,
-					});
+					}));
 				}
 				setLoading(false);
+			});
+			getLatestMessageWithState(conversation.id).then((message) => {
+				if (message)
+					setMetadata(
+						(metadata) =>
+							({
+								...metadata,
+								latestMessage: message.content,
+								latestMessageAt: new Date(message.createdAt),
+							} as Metadata),
+					);
 			});
 		} else {
 			setMetadata({
 				name: conversation.metadata?.name as string,
 				image: conversation.metadata?.image as string,
-				latestMessage: conversation.latestMessage,
-				latestMessageAt: conversation.latestMessageAt
-					? new Date(conversation.latestMessageAt)
-					: undefined,
 			});
 		}
 	}, [conversation]);
@@ -66,10 +75,15 @@ export const Conversation: FC<Props> = ({ conversation, onPress }) => {
 			<Avatar size={50} source={{ uri: metadata.image }} />
 			<View style={styles.contentContainer}>
 				<Text style={styles.title}>{metadata.name}</Text>
-				<View>
-					<Text>{metadata.latestMessage || 'No messages'}</Text>
+				<View style={styles.messageContainer}>
+					<Text style={styles.messageText} numberOfLines={1}>
+						{metadata.latestMessage || 'No messages'}
+					</Text>
 					{metadata.latestMessageAt && (
-						<Text> - {metadata.latestMessageAt.getTime()}</Text>
+						<Text>
+							{' '}
+							· {getFormattedTime(metadata.latestMessageAt)}
+						</Text>
 					)}
 				</View>
 			</View>
@@ -92,5 +106,12 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 16,
 		fontWeight: '500',
+	},
+	messageContainer: {
+		flexDirection: 'row',
+		flex: 1,
+	},
+	messageText: {
+		flex: 1,
 	},
 });
