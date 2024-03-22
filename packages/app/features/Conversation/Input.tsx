@@ -1,5 +1,9 @@
 import type { FC } from 'react';
 import { useState } from 'react';
+import type {
+	NativeSyntheticEvent,
+	TextInputContentSizeChangeEventData,
+} from 'react-native';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import {
 	Camera,
@@ -15,7 +19,12 @@ interface Props {
 }
 
 export const Input: FC<Props> = ({ onPressSend }) => {
+	const [height, setHeight] = useState(0);
 	const [message, setMessage] = useState('');
+	const [maxHeightOnTextInput, setMaxHeightOnTextInput] = useState(0);
+	const [maxTextLengthOnTextInput, setMaxTextLengthOnTextInput] = useState(0);
+	const [renderFeatures, setRenderFeatures] = useState(false);
+
 	const handleSendMessage = () => {
 		onPressSend(message);
 		setMessage('');
@@ -33,7 +42,28 @@ export const Input: FC<Props> = ({ onPressSend }) => {
 		translate?.();
 	};
 
-	const [renderFeatures, setRenderFeatures] = useState(false);
+	const handleOnChangeText = (text: string) => {
+		setMessage(text);
+		if (text.length > maxTextLengthOnTextInput)
+			setMaxTextLengthOnTextInput(text.length);
+		else {
+			const relativeChange = text.length / maxTextLengthOnTextInput;
+			const newHeight = height * relativeChange + 10;
+			setHeight(newHeight);
+			setMaxHeightOnTextInput(newHeight);
+			setMaxTextLengthOnTextInput(text.length);
+		}
+	};
+
+	const handleOnTextInputContentSizeChange = (
+		e: NativeSyntheticEvent<TextInputContentSizeChangeEventData>,
+	) => {
+		const newHeight = e.nativeEvent.contentSize.height;
+		setHeight(newHeight);
+		if (newHeight > maxHeightOnTextInput) {
+			setMaxHeightOnTextInput(newHeight);
+		}
+	};
 
 	return (
 		<View style={styles.container}>
@@ -53,7 +83,10 @@ export const Input: FC<Props> = ({ onPressSend }) => {
 
 			<View style={styles.inputContainer}>
 				{!renderFeatures && (
-					<TouchableOpacity onPress={openFeatures}>
+					<TouchableOpacity
+						style={styles.openFeaturesButton}
+						onPress={openFeatures}
+					>
 						<ChevronRight
 							size={20}
 							color="#000000"
@@ -64,14 +97,16 @@ export const Input: FC<Props> = ({ onPressSend }) => {
 
 				<TextInput
 					value={message}
-					onChangeText={setMessage}
-					style={styles.input}
+					onChangeText={handleOnChangeText}
+					style={[styles.input, { height: Math.max(height, 30) }]}
 					placeholder="Type a message..."
 					onSubmitEditing={handleSendMessage}
 					blurOnSubmit={false}
 					enablesReturnKeyAutomatically
 					onFocus={closeFeatures}
 					onPressIn={closeFeatures}
+					multiline
+					onContentSizeChange={handleOnTextInputContentSizeChange}
 				/>
 				<TouchableOpacity
 					style={styles.sendButton}
@@ -92,8 +127,11 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		paddingHorizontal: 14,
 		paddingVertical: 10,
-		alignItems: 'center',
 		backgroundColor: '#FFFFFF',
+	},
+	openFeaturesButton: {
+		height: 32,
+		justifyContent: 'center',
 	},
 	featuresContainer: {
 		flexDirection: 'row',
@@ -103,16 +141,17 @@ const styles = StyleSheet.create({
 		flex: 1,
 		gap: 12,
 		flexDirection: 'row',
-		alignItems: 'center',
 		backgroundColor: '#FFFFFF',
+		alignItems: 'flex-end',
 	},
 	input: {
 		flex: 1,
 		backgroundColor: '#F3F6F6',
-		paddingVertical: 4,
+		paddingVertical: 6,
 		paddingHorizontal: 10,
 		borderRadius: 18,
-		height: 30,
+		outlineStyle: 'none',
+		maxHeight: 140,
 	},
 	sendButton: {
 		height: 32,
