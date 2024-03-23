@@ -5,15 +5,14 @@ import {
 	FlatList,
 	StyleSheet,
 	Text,
-	TouchableOpacity,
 	View,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPublicProfileOfUser } from '@peakee/app/api';
 import {
 	type RootState,
-	setExploreCandidates,
-	setExploreLoading,
+	addExploreCandidate,
+	updateExploreLoading,
 } from '@peakee/app/state';
 import type { PublicUserProfile, UserExplore } from '@peakee/app/types';
 import { throttle } from 'lodash';
@@ -38,6 +37,10 @@ const ExploreFeature: FC = () => {
 		return Object.values(candidatesMap);
 	}, [candidatesMap]);
 
+	const setLoaded = useCallback(() => {
+		setLoading(false);
+		dispatch(updateExploreLoading(false));
+	}, [loading, profileLoading]);
 	const handleGetSuggestUser = throttle(async () => {
 		try {
 			setLoading(true);
@@ -46,27 +49,25 @@ const ExploreFeature: FC = () => {
 				console.log('canot get candidates');
 				return;
 			}
-			const exploreList: Array<UserExploreData> = [];
 			for (const candidate of candidates) {
 				const publicProfile = await getPublicProfileOfUser(
 					candidate.userId,
 				);
 				if (publicProfile) {
-					exploreList.push({
-						profile: publicProfile,
-						explore: candidate,
-					});
+					dispatch(
+						addExploreCandidate({
+							profile: publicProfile,
+							explore: candidate,
+						}),
+					);
+					setLoaded();
 				}
 			}
-			setLoading(false);
-			dispatch(setExploreCandidates(exploreList));
-			dispatch(setExploreLoading(false));
 		} catch (e) {
 			console.log('get explore error', e);
 		}
 	});
 
-	// TODO: handle logic of render explore.
 	const renderExplore = useCallback(({ item }: { item: UserExploreData }) => {
 		return <ExploreProfile explore={item.explore} profile={item.profile} />;
 	}, []);
@@ -92,12 +93,12 @@ const ExploreFeature: FC = () => {
 					<ActivityIndicator />
 				</View>
 			)}
-			<TouchableOpacity
+			{/* <TouchableOpacity
 				style={styles.randomChatButton}
 				onPress={handleGetSuggestUser}
 			>
 				<Text style={styles.randomChatButtonText}>Random Chat</Text>
-			</TouchableOpacity>
+			</TouchableOpacity> */}
 		</View>
 	);
 };
@@ -114,9 +115,9 @@ const styles = StyleSheet.create({
 		paddingTop: 5,
 	},
 	exploreList: {
+		flex: 1,
 		paddingVertical: 10,
 		flexDirection: 'column',
-		alignItems: 'center',
 		gap: 20,
 	},
 	h1: {

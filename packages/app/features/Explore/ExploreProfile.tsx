@@ -6,10 +6,6 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-// import CountryFlag from 'react-native-country-flag';
-// import { faComment } from '@fortawesome/free-regular-svg-icons';
-// import { faHeart } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import type { PublicUserProfile, UserExplore } from '@peakee/app/types';
 import { Comment, Heart } from '@peakee/icons';
 import { Avatar } from '@peakee/ui';
@@ -70,7 +66,7 @@ const ExploreProfile: FC<Props> = ({ profile, explore }) => {
 						</ScrollView>
 					</View>
 
-					<View style={{}}>
+					<View>
 						<ScrollView
 							horizontal
 							scrollEnabled
@@ -111,12 +107,12 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		height: 90,
 		gap: 10,
-		width: '100%',
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		borderBottomWidth: 1.5,
 		paddingBottom: 10,
 		borderColor: '#F5F4F4',
+		paddingHorizontal: 10,
 	},
 	leftCol: {
 		display: 'flex',

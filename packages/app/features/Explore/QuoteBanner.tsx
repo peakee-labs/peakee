@@ -4,7 +4,6 @@ import { QuoteRight } from '@peakee/icons';
 const QuoteBanner = () => {
 	return (
 		<View style={styles.quoteContainer}>
-			{/* <FontAwesomeIcon icon={faQuoteRight} color="#FE9E00" size={20} /> */}
 			<QuoteRight size={20} color={'#000000'} />
 			<Text style={styles.quote}>
 				The best way to learn English is using it. Let&apos; play with
