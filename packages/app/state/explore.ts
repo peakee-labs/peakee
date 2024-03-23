@@ -23,8 +23,11 @@ export const exploreSlice = createSlice({
 	initialState,
 	reducers: {
 		reset: () => ({ ...initialState }),
-		setExploreLoading: (state, action: PayloadAction<boolean>) => {
+		updateExploreLoading: (state, action: PayloadAction<boolean>) => {
 			state.profileLoading = action.payload;
+		},
+		addExploreCandidate: (state, action: PayloadAction<ExploreData>) => {
+			state.candidates[action.payload.profile.id] = action.payload;
 		},
 		setExploreCandidates: (state, action: PayloadAction<ExploreData[]>) => {
 			state.candidates = {};
@@ -35,7 +38,11 @@ export const exploreSlice = createSlice({
 	},
 });
 
-export const { setExploreCandidates, setExploreLoading, reset } =
-	exploreSlice.actions;
+export const {
+	setExploreCandidates,
+	updateExploreLoading,
+	reset,
+	addExploreCandidate,
+} = exploreSlice.actions;
 
 export const exploreReducer = exploreSlice.reducer;
