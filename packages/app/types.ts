@@ -40,8 +40,7 @@ export type Conversation = {
 	createdAt: string;
 	updatedAt: string;
 	messages?: Message[];
-	latestMessage?: string;
-	latestMessageAt?: string;
+	latestMessage?: Message;
 	metadata?: {
 		name: string;
 		image: string;

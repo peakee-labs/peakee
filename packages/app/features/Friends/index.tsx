@@ -1,4 +1,6 @@
+import type { FC } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import {
 	ActivityIndicator,
 	FlatList,
@@ -14,7 +16,12 @@ import type { PublicUserProfile } from '../../types';
 
 import Friend from './Friend';
 
-const FriendsFeature = () => {
+type Props = {
+	style?: StyleProp<ViewStyle>;
+	handlePressFriend?: (friend: PublicUserProfile) => void;
+};
+
+const FriendsFeature: FC<Props> = ({ style, handlePressFriend }) => {
 	const {
 		profile,
 		profileLoading,
@@ -25,20 +32,26 @@ const FriendsFeature = () => {
 	}, [friendsMap]);
 
 	const dispatch = useDispatch();
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	const renderFriend = useCallback(
-		({ item }: { item: PublicUserProfile }) => {
-			return <Friend profile={item} />;
+		({ item: friend }: { item: PublicUserProfile }) => {
+			return (
+				<Friend
+					profile={friend}
+					onPress={() => handlePressFriend?.(friend)}
+				/>
+			);
 		},
 		[],
 	);
 
 	useEffect(() => {
-		if (!profile?.friends) return;
+		if (!profile?.friends || friends.length > 0) return;
 		if (profile.friends.length === 0) {
 			setLoading(false);
 		} else {
+			setLoading(true);
 			profile.friends.map((id) => {
 				getPublicProfileOfUser(id).then((user) => {
 					if (user) {
@@ -51,7 +64,7 @@ const FriendsFeature = () => {
 	}, [profile]);
 
 	return (
-		<View>
+		<View style={style}>
 			{!profileLoading && !profile ? (
 				<Text>No profile found</Text>
 			) : profileLoading || loading ? (
@@ -75,5 +88,6 @@ export default FriendsFeature;
 const styles = StyleSheet.create({
 	listContainer: {
 		flexDirection: 'row',
+		gap: 10,
 	},
 });

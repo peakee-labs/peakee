@@ -3,21 +3,24 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { Conversation, Message } from '../types';
 
+type LoadStatus = 'unloaded' | 'loading' | 'loaded';
+
 export type ChatState = {
 	conversationsMap: Record<string, Conversation>;
-	conversationsLoading: boolean;
+	conversationsLoadStatus: LoadStatus;
 };
 
+// conversations state: 1. unloaded, 2. loading, 3. loaded, but empty, 4. loaded
 const initialState: ChatState = {
 	conversationsMap: {},
-	conversationsLoading: true,
+	conversationsLoadStatus: 'unloaded',
 };
 
 export const chatSlice = createSlice({
 	name: 'chat',
 	initialState,
 	reducers: {
-		reset: () => ({ ...initialState, conversationsLoading: false }),
+		reset: () => initialState,
 		addMessage: (
 			state,
 			{
@@ -86,6 +89,21 @@ export const chatSlice = createSlice({
 			const { conversationId, messages } = payload;
 			state.conversationsMap[conversationId].messages = messages;
 		},
+		updateConversationsLoading: (
+			state,
+			{ payload }: PayloadAction<LoadStatus>,
+		) => {
+			state.conversationsLoadStatus = payload;
+		},
+		updateLatestMessage: (
+			state,
+			{
+				payload,
+			}: PayloadAction<{ conversationId: string; message: Message }>,
+		) => {
+			const { conversationId, message } = payload;
+			state.conversationsMap[conversationId].latestMessage = message;
+		},
 	},
 });
 
@@ -97,6 +115,8 @@ export const {
 	addConversation,
 	resolveNewConversation,
 	updateMessagesOfConversation,
+	updateConversationsLoading,
+	updateLatestMessage,
 } = chatSlice.actions;
 
 export const chatReducer = chatSlice.reducer;

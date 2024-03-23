@@ -1,9 +1,15 @@
 import {
 	getConversationById,
 	getConversations,
+	getLatestMessage,
 	getPublicProfileOfUser,
 } from '../api';
-import { addConversation, setFriendProfile, store } from '../state';
+import {
+	addConversation,
+	setFriendProfile,
+	store,
+	updateLatestMessage,
+} from '../state';
 
 /**
  * first check if this friend is queried in friends state
@@ -30,6 +36,20 @@ export async function getConversationWithState(id: string) {
 		store.dispatch(addConversation(loadedConversation));
 		return loadedConversation;
 	}
+}
+
+export async function getLatestMessageWithState(conversationId: string) {
+	const conversation = store.getState().chat.conversationsMap[conversationId];
+	if (conversation.latestMessage) return conversation.latestMessage;
+
+	const latestMessage = await getLatestMessage(conversationId);
+	if (latestMessage) {
+		store.dispatch(
+			updateLatestMessage({ conversationId, message: latestMessage }),
+		);
+	}
+
+	return latestMessage;
 }
 
 export async function getFriendConversationWithState(friendId: string) {

@@ -31,14 +31,17 @@ export default SignIn;
 
 const styles = StyleSheet.create({
 	boxContainer: {
-		paddingVertical: 100,
 		borderWidth: 1,
 		borderColor: '#B1B6C1',
 		borderRadius: 20,
 		alignSelf: 'center',
 		marginVertical: 'auto',
+		paddingVertical: 60,
+		paddingHorizontal: 40,
+		width: 460,
 	},
 	fullContainer: {
 		flex: 1,
+		paddingHorizontal: 20,
 	},
 });

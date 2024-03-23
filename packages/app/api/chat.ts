@@ -1,6 +1,7 @@
 import type { Conversation, Message } from '../types';
 
 import { axios } from './axios';
+import { queryFromOptions } from './shared';
 
 export async function createNewIndividualConversation(
 	friendId: string,
@@ -69,20 +70,16 @@ export async function getMessages(conversationId: string): Promise<Message[]> {
 	}
 }
 
-export function queryFromOptions(options?: object) {
-	if (options) {
-		const query = Object.keys(options).reduce((acc, key, index) => {
-			if (options[key as keyof object]) {
-				if (index == 0) {
-					return key + '=' + options[key as keyof object];
-				}
+export async function getLatestMessage(
+	conversationId: string,
+): Promise<Message | undefined> {
+	try {
+		const { data: messages } = await axios().get<Message[]>(
+			`/conversations/${conversationId}/messages?limit=1`,
+		);
 
-				return acc + '&' + key + '=' + options[key as keyof object];
-			} else return acc;
-		}, '');
-
-		return query;
-	} else {
-		return '';
+		if (messages.length > 0) return messages[0];
+	} catch (error) {
+		console.log('Error getting messages', error);
 	}
 }

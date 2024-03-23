@@ -12,8 +12,8 @@ type Props = {
 export const Friend: FC<Props> = ({ profile, onPress }) => {
 	return (
 		<TouchableOpacity style={styles.container} onPress={onPress}>
-			<Avatar source={{ uri: profile.imageURL }} />
-			<Text>{profile.name}</Text>
+			<Avatar size={46} source={{ uri: profile.imageURL }} />
+			<Text style={styles.nameText}>{splitName(profile.name)}</Text>
 		</TouchableOpacity>
 	);
 };
@@ -23,6 +23,16 @@ export default Friend;
 const styles = StyleSheet.create({
 	container: {
 		alignItems: 'center',
-		maxHeight: 120,
+		maxWidth: 60,
+		gap: 2,
+	},
+	nameText: {
+		textAlign: 'center',
 	},
 });
+
+const splitName = (name: string) => {
+	const words = name.split(' ');
+	if (words.length > 2) return words.slice(0, 2).join('');
+	return name;
+};
