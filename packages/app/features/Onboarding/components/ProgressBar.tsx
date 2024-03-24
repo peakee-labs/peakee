@@ -1,7 +1,4 @@
 import { StyleSheet, View } from 'react-native';
-import { Dimensions } from 'react-native';
-
-const dimension = Dimensions.get('window');
 
 interface ProgressBarProps {
 	current: number;
@@ -29,11 +26,11 @@ const ProgressBar = ({ current, max }: ProgressBarProps) => {
 
 const styles = StyleSheet.create({
 	container: {
-		width: dimension.width * 0.8,
+		width: '90%',
 		alignSelf: 'center',
 		height: 10,
 		display: 'flex',
-		gap: dimension.width * 0.02,
+		gap: 10,
 		flexDirection: 'row',
 	},
 	base: {

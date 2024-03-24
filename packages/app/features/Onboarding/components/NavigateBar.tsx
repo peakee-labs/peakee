@@ -1,7 +1,7 @@
 import { Dimensions, Pressable, StyleSheet, View } from 'react-native';
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-const dimension = Dimensions.get('window');
+import { ArrowLeft, ArrowRight } from '@peakee/icons';
+// import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 interface NavigateBarProps {
 	onNext?: () => void;
@@ -24,11 +24,11 @@ const NavigateBar = ({ onNext, onPrev }: NavigateBarProps) => {
 	return (
 		<View style={styles.container}>
 			<Pressable disabled={!onPrev} style={prevStyle} onPress={onPrev}>
-				<FontAwesomeIcon icon={faArrowLeft} />
+				<ArrowLeft size={20} color={'#000000'} />
 			</Pressable>
 
 			<Pressable disabled={!onNext} style={nextStyle} onPress={onNext}>
-				<FontAwesomeIcon icon={faArrowRight} />
+				<ArrowRight size={20} color={'#000000'} />
 			</Pressable>
 		</View>
 	);
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		width: dimension.width * 0.8,
+		width: '100%',
 		alignSelf: 'center',
 		gap: 20,
 	},

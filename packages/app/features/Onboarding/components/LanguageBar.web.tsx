@@ -1,5 +1,5 @@
+import CountryFlag from 'react-country-flag';
 import { Pressable, StyleSheet, Text } from 'react-native';
-import CountryFlag from 'react-native-country-flag';
 
 interface LanguageBarProps {
 	isoCode: string; // ISO-3166 format
@@ -15,16 +15,19 @@ const LanguageBar = ({
 	name,
 }: LanguageBarProps) => {
 	let containerStyle;
+	let textStyle;
 	if (isActive) {
 		containerStyle = { ...styles.container, ...styles.active };
+		textStyle = { ...styles.name, ...styles.nameActive };
 	} else {
 		containerStyle = styles.container;
+		textStyle = styles.name;
 	}
 
 	return (
 		<Pressable onPress={onPress} style={containerStyle}>
-			<CountryFlag isoCode={isoCode} size={30} style={styles.flag} />
-			<Text style={styles.name}>{name}</Text>
+			<CountryFlag countryCode={isoCode} style={styles.flag} />
+			<Text style={textStyle}>{name}</Text>
 		</Pressable>
 	);
 };
@@ -46,10 +49,15 @@ const styles = StyleSheet.create({
 	active: {
 		borderColor: '#FF7670',
 	},
-	flag: {},
+	flag: {
+		fontSize: 30,
+	},
 	name: {
 		textTransform: 'capitalize',
 		fontSize: 17,
+	},
+	nameActive: {
+		color: '#eeeeee',
 	},
 });
 

@@ -1,53 +1,50 @@
-import { useRef } from 'react';
-import type { ErrorOption, FieldErrors } from 'react-hook-form';
+import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native';
-import DatePicker from 'react-native-date-picker';
-import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { CircleExclaimation } from '@peakee/icons';
 
+import type { RootState } from '../../../state';
+import { updateDateOfBirth, updateProgress } from '../../../state';
+import type { FormDateOfBirth } from '../../../types';
+import type { OnboardingProps } from '..';
 import { NavigateBar, ProgressBar } from '../components';
-import { type FormDob, type OnboardingValue, FormState } from '../store';
-
-const dimension = Dimensions.get('window');
-const OnboardingDob = () => {
+const OnboardingDob: FC<OnboardingProps> = ({ onPrev, onNext }) => {
+	const { form, progress, number } = useSelector(
+		(state: RootState) => state.onboarding,
+	);
 	const {
 		control,
 		handleSubmit,
 		formState: { errors },
 		setError,
 	} = useForm({
-		defaultValues: FormState.useState((s) => s),
+		defaultValues: form,
 	});
+	const dispatch = useDispatch();
 
-	const navigation = useNavigation();
-
-	const onSubmit = (data: FormDob) => {
-		if (data.dob.getTime() > Date.now()) {
-			setError('dob', {
+	const onSubmit = (data: FormDateOfBirth) => {
+		const date = new Date(data.dateOfBirth);
+		if (date.getTime() > Date.now()) {
+			setError('dateOfBirth', {
 				type: 'validate',
 				message: 'date of birth must be earlier than today',
 			});
 			return;
 		}
-		FormState.update((s: OnboardingValue) => {
-			s.progress += 1;
-			s.dob = data.dob;
-		});
-		navigation.navigate('OnboardingStep3' as never);
+		onNext();
+		dispatch(updateDateOfBirth(data));
+		dispatch(updateProgress(progress + 1));
 	};
 
 	const onBack = () => {
-		FormState.update((s: OnboardingValue) => {
-			s.progress -= 1;
-		});
-		navigation.goBack();
+		dispatch(updateProgress(progress - 1));
+		onPrev();
 	};
 
 	return (
 		<View style={styles.container}>
-			<ProgressBar current={FormState.getRawState().progress} max={3} />
+			<ProgressBar current={progress} max={number} />
 			<Text style={styles.title}>My birthday is on...</Text>
 			<View style={styles.contentContainer}>
 				<View style={styles.inputContainer}>
@@ -57,15 +54,21 @@ const OnboardingDob = () => {
 							required: true,
 						}}
 						render={({ field: { onChange, value } }) => (
-							<DatePicker
+							<input
 								style={styles.inputDob}
-								onDateChange={onChange}
-								date={value}
-								mode="date"
+								type="date"
+								onChange={onChange}
+								value={value}
 							/>
 						)}
-						name="dob"
+						name="dateOfBirth"
 					/>
+					{errors.dateOfBirth && (
+						<View>
+							<CircleExclaimation size={20} color={'000000'} />
+							<Text>{errors.dateOfBirth?.message}</Text>
+						</View>
+					)}
 				</View>
 			</View>
 			<View style={styles.footer}>
@@ -102,13 +105,15 @@ const styles = StyleSheet.create({
 	},
 	inputDob: {
 		alignSelf: 'center',
-		width: dimension.width * 0.9,
+		width: '90%',
 		paddingHorizontal: 20,
 	},
 	footer: {
 		position: 'absolute',
 		bottom: 10,
 		alignSelf: 'center',
+		width: '100%',
+		paddingHorizontal: 20,
 	},
 	error: {
 		position: 'absolute',

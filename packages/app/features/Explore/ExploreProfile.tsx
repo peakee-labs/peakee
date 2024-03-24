@@ -20,7 +20,9 @@ const ExploreProfile: FC<Props> = ({ profile, explore }) => {
 		<View style={styles.container}>
 			<View style={styles.leftCol}>
 				<View style={styles.avatarContainer}>
-					<Avatar source={{ uri: profile.imageURL }} size={60} />
+					<TouchableOpacity>
+						<Avatar source={{ uri: profile.imageURL }} size={60} />
+					</TouchableOpacity>
 					<View style={styles.heartCount}>
 						<Heart color="#D10C0F" size={10} />
 						<Text>{explore.like | 0}</Text>
