@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
-import type { ImageSourcePropType } from 'react-native';
+import type { Image, ImageSourcePropType } from 'react-native';
 import { Platform } from 'react-native';
 
 export type AppAssets = {
 	authImage: ImageSourcePropType;
 	google: ImageSourcePropType;
+	message: ImageSourcePropType;
+	messageStack: ImageSourcePropType;
+	messagePuzzle: ImageSourcePropType;
+	background: ImageSourcePropType;
 };
 
 let appAssets: AppAssets = {} as never;

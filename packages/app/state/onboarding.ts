@@ -1,7 +1,13 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { OnboardingValue } from '../types';
+import type {
+	FormDateOfBirth,
+	FormLanguage,
+	FormmMajor,
+	FormName,
+	OnboardingValue,
+} from '../types';
 
 export interface Onboarding {
 	progress: number;
@@ -10,10 +16,10 @@ export interface Onboarding {
 }
 
 const initialState: Onboarding = {
-	progress: 0,
+	progress: -1,
 	number: 0,
 	form: {
-		dob: new Date(),
+		dateOfBirth: new Date().toDateString(),
 		lastName: '',
 		firstName: '',
 		native: '',
@@ -27,35 +33,62 @@ export const onboardingSlice = createSlice({
 	name: 'onboarding',
 	initialState,
 	reducers: {
-		reset: () => {
-			return { ...initialState, progress: 0, number: 0 };
-		},
 		updateName: (
 			state,
-			{
-				payload: { firstName, lastName },
-			}: PayloadAction<{ firstName: string; lastName: string }>,
+			{ payload: { firstName, lastName } }: PayloadAction<FormName>,
 		) => {
-			state.progress = 1;
 			state.form.firstName = firstName;
 			state.form.lastName = lastName;
 		},
 		updateDateOfBirth: (
 			state,
-			{ payload: { dateOfBirth } }: PayloadAction<{ dateOfBirth: Date }>,
+			{ payload: { dateOfBirth } }: PayloadAction<FormDateOfBirth>,
 		) => {
-			state.progress = 2;
-			state.form.dob = dateOfBirth;
+			state.form.dateOfBirth = dateOfBirth;
 		},
 		updateLanguage: (
 			state,
-			{
-				payload: { native, learnings },
-			}: PayloadAction<{ native: string; learnings: string[] }>,
+			{ payload: { native, learnings } }: PayloadAction<FormLanguage>,
 		) => {
-			state.progress = 3;
 			state.form.native = native;
 			state.form.learnings = learnings;
 		},
+		updateNativeLanguage: (state, { payload }: PayloadAction<string>) => {
+			state.form.native = payload;
+		},
+		updateLearningLanguage: (
+			state,
+			{ payload }: PayloadAction<string[]>,
+		) => {
+			state.form.learnings = payload;
+		},
+		updateMajor: (
+			state,
+			{ payload: { major } }: PayloadAction<FormmMajor>,
+		) => {
+			state.form.major = major;
+		},
+		updateNumber: (
+			state,
+			{ payload: { numSteps } }: PayloadAction<{ numSteps: number }>,
+		) => {
+			state.number = numSteps;
+		},
+		updateProgress: (state, { payload }: PayloadAction<number>) => {
+			state.progress = payload;
+		},
 	},
 });
+
+export const {
+	updateDateOfBirth,
+	updateLanguage,
+	updateName,
+	updateProgress,
+	updateNumber,
+	updateMajor,
+	updateLearningLanguage,
+	updateNativeLanguage,
+} = onboardingSlice.actions;
+
+export const onboardingReducer = onboardingSlice.reducer;

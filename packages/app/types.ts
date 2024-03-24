@@ -91,8 +91,8 @@ export type FormName = {
 	lastName: string;
 };
 
-export type FormDob = {
-	dob: Date;
+export type FormDateOfBirth = {
+	dateOfBirth: string;
 };
 
 export type FormLanguage = {
@@ -104,4 +104,7 @@ export type FormmMajor = {
 	major: string;
 };
 
-export type OnboardingValue = FormName & FormDob & FormLanguage & FormmMajor;
+export type OnboardingValue = FormName &
+	FormDateOfBirth &
+	FormLanguage &
+	FormmMajor;
