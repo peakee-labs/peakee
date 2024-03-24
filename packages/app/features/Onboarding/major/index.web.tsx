@@ -6,20 +6,24 @@ import Select from 'react-select';
 import { CircleExclaimation } from '@peakee/icons';
 
 import { type RootState, updateMajor, updateProgress } from '../../../state';
-import type { FormmMajor } from '../../../types';
 import type { OnboardingProps } from '..';
 import { NavigateBar, ProgressBar } from '../components';
 
 const majors = [
-	{ value: 'developer', label: 'developer' },
-	{ value: 'traveler', label: 'traveler' },
-	{ value: 'blogger', label: 'blogger' },
-	{ value: 'scientist', label: 'scientist' },
-	{ value: 'teacher', label: 'teacher' },
-	{ value: 'household', label: 'household' },
-	{ value: 'driver', label: 'driver' },
-	{ value: 'musician', label: 'musician' },
+	'developer',
+	'traveler',
+	'blogger',
+	'scientist',
+	'teacher',
+	'household',
+	'driver',
+	'musician',
 ];
+
+type SelectOption = {
+	value: string;
+	label: string;
+};
 
 const OnboardingMajor: FC<OnboardingProps> = ({ onNext, onPrev }) => {
 	const { form, progress, number } = useSelector(
@@ -29,17 +33,19 @@ const OnboardingMajor: FC<OnboardingProps> = ({ onNext, onPrev }) => {
 		control,
 		handleSubmit,
 		formState: { errors },
-	} = useForm({ defaultValues: form });
-
+	} = useForm({
+		defaultValues: { major: { value: '', label: '' } as SelectOption },
+	});
 	const dispatch = useDispatch();
-	const onSubmit = (data: FormmMajor) => {
-		dispatch(updateMajor(data));
+
+	const onSubmit = ({ major }: { major: SelectOption }) => {
+		dispatch(updateMajor(major.value));
 		dispatch(updateProgress(progress + 1));
-		onNext();
+		onNext && onNext();
 	};
 	const onBack = () => {
 		dispatch(updateProgress(progress - 1));
-		onPrev();
+		onPrev && onPrev();
 	};
 
 	return (
@@ -55,10 +61,15 @@ const OnboardingMajor: FC<OnboardingProps> = ({ onNext, onPrev }) => {
 						}}
 						render={({ field: { onChange, onBlur, value } }) => (
 							<Select
-								options={majors}
+								options={majors.map((v, _) => {
+									return {
+										value: v,
+										label: v,
+									} as SelectOption;
+								})}
 								onChange={onChange}
 								onFocus={onBlur}
-								// value={value}
+								value={value}
 							/>
 						)}
 						name="major"

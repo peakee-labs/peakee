@@ -62,11 +62,8 @@ export const onboardingSlice = createSlice({
 		) => {
 			state.form.learnings = payload;
 		},
-		updateMajor: (
-			state,
-			{ payload: { major } }: PayloadAction<FormmMajor>,
-		) => {
-			state.form.major = major;
+		updateMajor: (state, { payload }: PayloadAction<string>) => {
+			state.form.major = payload;
 		},
 		updateNumber: (
 			state,

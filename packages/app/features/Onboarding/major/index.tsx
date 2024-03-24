@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet, Text, View } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
+import RNPickerSelect, { type Item } from 'react-native-picker-select';
 import { useDispatch, useSelector } from 'react-redux';
 import { CircleExclaimation } from '@peakee/icons';
 
@@ -20,6 +20,7 @@ const majors = [
 	'driver',
 	'musician',
 ];
+
 const OnboardingMajor: FC<OnboardingProps> = ({ onNext, onPrev }) => {
 	const { form, progress, number } = useSelector(
 		(root: RootState) => root.onboarding,
@@ -28,17 +29,17 @@ const OnboardingMajor: FC<OnboardingProps> = ({ onNext, onPrev }) => {
 		control,
 		handleSubmit,
 		formState: { errors },
-	} = useForm({ defaultValues: form });
+	} = useForm({ defaultValues: { major: '' } as FormmMajor });
 
 	const dispatch = useDispatch();
-	const onSubmit = (data: FormmMajor) => {
-		dispatch(updateMajor(data));
+	const onSubmit = (form: FormmMajor) => {
+		dispatch(updateMajor(form.major));
 		dispatch(updateProgress(progress + 1));
-		onNext();
+		onNext && onNext();
 	};
 	const onBack = () => {
 		dispatch(updateProgress(progress - 1));
-		onPrev();
+		onPrev && onPrev();
 	};
 
 	return (
@@ -55,10 +56,12 @@ const OnboardingMajor: FC<OnboardingProps> = ({ onNext, onPrev }) => {
 						render={({ field: { onChange, onBlur, value } }) => (
 							<RNPickerSelect
 								style={pickerSelectStyles}
-								placeholder={{
-									label: 'Major',
-									value: '',
-								}}
+								placeholder={
+									{
+										label: 'Major',
+										value: '',
+									} as Item
+								}
 								onClose={onBlur}
 								onValueChange={onChange}
 								items={majors.map((m, idx) => ({
