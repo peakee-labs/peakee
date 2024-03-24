@@ -4,18 +4,9 @@ import { UIProvider } from '@peakee/ui';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ChatRoomScreen from 'screens/ChatRoom';
-import ExploreScreen from 'screens/explore';
+import ExploreScreen from 'screens/Explore';
 import HomeScreen from 'screens/Home';
-import OnboardingScreen, {
-	OnboardingDone,
-	OnboardingStep1,
-	OnboardingStep2,
-	OnboardingStep3,
-	OnboardingStep4,
-	OnboardingStep5,
-	OnboardingStep6,
-	OnboardingStep6a,
-} from 'screens/onboarding';
+import OnboardingScreen from 'screens/Onboarding';
 import SignInScreen from 'screens/SignIn';
 import Splash from 'screens/Splash';
 
@@ -44,38 +35,6 @@ function App(): JSX.Element {
 						<Stack.Screen
 							name="Onboarding"
 							component={OnboardingScreen}
-						/>
-						<Stack.Screen
-							name="OnboardingStep1"
-							component={OnboardingStep1}
-						/>
-						<Stack.Screen
-							name="OnboardingStep2"
-							component={OnboardingStep2}
-						/>
-						<Stack.Screen
-							name="OnboardingStep3"
-							component={OnboardingStep3}
-						/>
-						<Stack.Screen
-							name="OnboardingStep4"
-							component={OnboardingStep4}
-						/>
-						<Stack.Screen
-							name="OnboardingStep5"
-							component={OnboardingStep5}
-						/>
-						<Stack.Screen
-							name="OnboardingStep6"
-							component={OnboardingStep6}
-						/>
-						<Stack.Screen
-							name="OnboardingStep6a"
-							component={OnboardingStep6a}
-						/>
-						<Stack.Screen
-							name="OnboardingDone"
-							component={OnboardingDone}
 						/>
 					</Stack.Navigator>
 				</NavigationContainer>
