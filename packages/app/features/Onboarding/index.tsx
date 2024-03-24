@@ -2,6 +2,7 @@ import { type FC, useEffect, useMemo } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { postOnboardingForm } from '../../api/onboarding';
 import { type RootState, updateNumber, updateProgress } from '../../state';
 import { useAssets } from '../../utils';
 
@@ -32,7 +33,7 @@ export type Props = {
 const OnboardingFeature: FC<Props> = ({ onDone }) => {
 	const dispatch = useDispatch();
 	const { assets } = useAssets();
-	const { progress, number } = useSelector(
+	const { form, progress, number } = useSelector(
 		(root: RootState) => root.onboarding,
 	);
 	const handleStartOnboarding = () => {
@@ -46,7 +47,8 @@ const OnboardingFeature: FC<Props> = ({ onDone }) => {
 		dispatch(updateNumber({ numSteps: OnboardingFlow.length }));
 	}, []);
 
-	const handleDoneOnboarding = () => {
+	const handleDoneOnboarding = async () => {
+		await postOnboardingForm(form);
 		onDone && onDone();
 		console.log('done ');
 	};
