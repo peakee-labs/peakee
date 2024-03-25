@@ -4907,12 +4907,11 @@ __metadata:
     "@peakee/ui": "npm:*"
     "@react-native-community/clipboard": "npm:^1.5.1"
     "@react-native-community/datetimepicker": "npm:^7.6.3"
-    "@react-native-community/picker": "npm:^1.8.1"
     "@react-native-firebase/app": "npm:^18.5.0"
     "@react-native-firebase/auth": "npm:^18.5.0"
     "@react-native-firebase/firestore": "npm:^18.5.0"
     "@react-native-google-signin/google-signin": "npm:^10.0.1"
-    "@react-native-picker/picker": "npm:^2.6.1"
+    "@react-native-picker/picker": "npm:2.6.1"
     "@react-native/metro-config": "npm:^0.72.11"
     "@react-navigation/native": "npm:^6.1.8"
     "@react-navigation/native-stack": "npm:^6.9.14"
@@ -5376,16 +5375,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/picker@npm:^1.8.1":
-  version: 1.8.1
-  resolution: "@react-native-community/picker@npm:1.8.1"
-  peerDependencies:
-    react: ^16.0
-    react-native: ">=0.57"
-  checksum: 10/3daf20f9d64e708a5482749152291d75d51ddea0015e1ce2d8c4ff9b74b7aa263d40944c8b72833d803cfcaa32125f5a591e9bbd54bde6d8a170b0c3d19c4cd1
-  languageName: node
-  linkType: hard
-
 "@react-native-firebase/app@npm:^18.5.0":
   version: 18.9.0
   resolution: "@react-native-firebase/app@npm:18.9.0"
@@ -5441,13 +5430,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-picker/picker@npm:^2.6.1":
-  version: 2.7.0
-  resolution: "@react-native-picker/picker@npm:2.7.0"
+"@react-native-picker/picker@npm:2.6.1":
+  version: 2.6.1
+  resolution: "@react-native-picker/picker@npm:2.6.1"
   peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 10/19e0d249e5b3b461d03a699c3242fa453bed0e66248f9eed7f2f4275eebfe561c78170cc3ee722ff433d63c3035c60d7ac24e3826de3b069a8b20f72d687611f
+    react: ">=16"
+    react-native: ">=0.57"
+  checksum: 10/55577a263f774361430acc729fe68e5fe60f177939e32fd572d67da20deab2dcd7c62af9eaa0bc09dea3af09391a80be5d65efb566e2f2e9748e1d427c740bed
   languageName: node
   linkType: hard
 
