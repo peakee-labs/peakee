@@ -7,6 +7,7 @@ import { getJWT } from './token';
 export async function getExploreProfileOfUser(id: string) {
 	try {
 		const { data: user } = await axios.get<UserExplore>(
+			//TODO: currently hardcode this value
 			`http://localhost:8082/explore/${id}`,
 			{
 				headers: {
@@ -23,6 +24,7 @@ export async function getExploreProfileOfUser(id: string) {
 export async function getExploreCandidatesForUser() {
 	try {
 		const { data: explores } = await axios.get<UserExplore[]>(
+			//TODO: currently hardcode this value
 			`http://localhost:8082/explore/suggest`,
 			{
 				headers: {
