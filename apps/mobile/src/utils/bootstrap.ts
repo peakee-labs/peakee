@@ -1,3 +1,4 @@
+import { Image } from 'react-native';
 import Config from 'react-native-config';
 import { initAppConfig, initAssets } from '@peakee/app';
 import { initOpenAIClient } from '@peakee/chat';
@@ -9,12 +10,33 @@ import TranslateModal from './modal/Translate';
 
 export const initApp = () => {
 	initAssets({
-		authImage: { uri: '/images/auth.png' },
-		google: { uri: '/images/google.png' },
-		message: { uri: '/images/onboarding-start.png' },
-		messageStack: { uri: '/images/onboarding-message.png' },
-		messagePuzzle: { uri: '/images/onboarding-messagePuzzle.png' },
-		background: { uri: 'onboarding-background.png' },
+		authImage: {
+			uri: Image.resolveAssetSource(require('../../assets/auth.png')).uri,
+		},
+		google: {
+			uri: Image.resolveAssetSource(require('../../assets/google.png'))
+				.uri,
+		},
+		message: {
+			uri: Image.resolveAssetSource(
+				require('../../assets/onboarding-start.png'),
+			).uri,
+		},
+		messageStack: {
+			uri: Image.resolveAssetSource(
+				require('../../assets/onboarding-message.png'),
+			).uri,
+		},
+		messagePuzzle: {
+			uri: Image.resolveAssetSource(
+				require('../../assets/onboarding-messagePuzzle.png'),
+			).uri,
+		},
+		background: {
+			uri: Image.resolveAssetSource(
+				require('../../assets/onboarding-background.png'),
+			).uri,
+		},
 	});
 
 	initAppConfig({
