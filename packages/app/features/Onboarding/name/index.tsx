@@ -6,6 +6,7 @@ import { CircleExclaimation } from '@peakee/icons';
 
 import type { RootState } from '../../../state';
 import { updateName, updateProgress } from '../../../state';
+import type { FormName } from '../../../types';
 import type { OnboardingProps } from '..';
 import { NavigateBar, ProgressBar } from '../components';
 
@@ -22,9 +23,9 @@ const OnboardingName: FC<OnboardingProps> = ({ onNext, onPrev }) => {
 	});
 
 	const dispatch = useDispatch();
-	const onSubmit = (data: { firstName: string; lastName: string }) => {
+	const onSubmit = (data: FormName) => {
 		dispatch(
-			updateName({ lastName: data.lastName, firstName: data.lastName }),
+			updateName({ lastName: data.lastName, firstName: data.firstName }),
 		);
 		dispatch(updateProgress(progress + 1));
 		onNext && onNext();
