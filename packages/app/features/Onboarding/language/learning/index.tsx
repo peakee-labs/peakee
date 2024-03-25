@@ -48,7 +48,7 @@ const OnboardingLearning = () => {
 	return (
 		<View style={styles.container}>
 			<ProgressBar current={progress} max={number} />
-			<Text style={styles.title}>I&apos;m currently learn...</Text>
+			<Text style={styles.title}>I&apos;m currently learning...</Text>
 			<View style={styles.languageList}>
 				{mock.map((item, idx) => (
 					<FlagBar
