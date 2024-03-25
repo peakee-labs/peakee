@@ -16,7 +16,7 @@ export async function postOnboardingForm(form: OnboardingValue) {
 				major: form.major,
 				gender: 'gender',
 				native: form.native,
-				country: 'country',
+				country: form.country,
 				learnings: form.learnings,
 				interests: [],
 				age: age,
