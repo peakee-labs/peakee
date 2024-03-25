@@ -19,6 +19,7 @@ const initialState: Onboarding = {
 	number: 0,
 	form: {
 		dateOfBirth: new Date().toDateString(),
+		country: '',
 		lastName: '',
 		firstName: '',
 		native: '',

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CircleExclaimation } from '@peakee/icons';
 
 import { type RootState, updateMajor, updateProgress } from '../../../state';
-import type { FormmMajor } from '../../../types';
+import type { FormMajor } from '../../../types';
 import type { OnboardingProps } from '..';
 import NavigateBar from '../NavigateBar';
 import ProgressBar from '../ProgressBar';
@@ -30,10 +30,10 @@ const OnboardingMajor: FC<OnboardingProps> = ({ onNext, onPrev }) => {
 		control,
 		handleSubmit,
 		formState: { errors },
-	} = useForm({ defaultValues: { major: '' } as FormmMajor });
+	} = useForm({ defaultValues: { major: '' } as FormMajor });
 
 	const dispatch = useDispatch();
-	const onSubmit = (form: FormmMajor) => {
+	const onSubmit = (form: FormMajor) => {
 		dispatch(updateMajor(form.major));
 		dispatch(updateProgress(progress + 1));
 		onNext && onNext();
