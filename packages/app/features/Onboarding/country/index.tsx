@@ -5,6 +5,7 @@ import { CircleExclaimation } from '@peakee/icons';
 
 import {
 	type RootState,
+	updateCountry,
 	updateNativeLanguage,
 	updateProgress,
 } from '../../../state';
@@ -13,8 +14,10 @@ import NavigateBar from '../NavigateBar';
 import ProgressBar from '../ProgressBar';
 
 const mock: Array<{ isoCode: string; name: string }> = [
-	{ isoCode: 'vn', name: 'vietnamese' },
-	{ isoCode: 'gb', name: 'english' },
+	{ isoCode: 'vn', name: 'Viet Nam' },
+	{ isoCode: 'gb', name: 'England' },
+	{ isoCode: 'us', name: 'United State' },
+	{ isoCode: 'jp', name: 'Japan' },
 ];
 
 const OnboardingCountry = () => {
@@ -25,14 +28,14 @@ const OnboardingCountry = () => {
 	);
 
 	const dispatch = useDispatch();
-	const onSubmit = (native?: string) => () => {
-		if (native) {
-			console.log(native);
-			dispatch(updateNativeLanguage(native));
+	const onSubmit = (country?: string) => () => {
+		if (country) {
+			console.log(country);
+			dispatch(updateCountry(country));
 			dispatch(updateProgress(progress + 1));
 		} else {
 			setError({
-				name: 'language',
+				name: 'country',
 				message: "Let' tell me your native",
 			});
 		}
@@ -48,7 +51,7 @@ const OnboardingCountry = () => {
 	return (
 		<View style={styles.container}>
 			<ProgressBar current={progress} max={number} />
-			<Text style={styles.title}>My native language is...</Text>
+			<Text style={styles.title}>I&apos;m currently living in...</Text>
 			<View style={styles.languageList}>
 				{mock.map((item, idx) => (
 					<FlagBar

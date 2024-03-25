@@ -8,6 +8,7 @@ import { useAssets } from '../../utils';
 
 import OnboardingDob from './dateOfBirth/index';
 import OnboardingLearning from './language/learning';
+import OnboardingCountry from './country';
 import OnboardingDone from './done';
 import OnboardingLanguage from './language';
 import OnboardingMajor from './major';
@@ -16,6 +17,7 @@ import OnboardingName from './name';
 export const OnboardingFlow: Array<FC<OnboardingProps>> = [
 	OnboardingName,
 	OnboardingDob,
+	OnboardingCountry,
 	OnboardingMajor,
 	OnboardingLanguage,
 	OnboardingLearning,

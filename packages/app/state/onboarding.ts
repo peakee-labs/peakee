@@ -4,7 +4,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import type {
 	FormDateOfBirth,
 	FormLanguage,
-	FormmMajor,
 	FormName,
 	OnboardingValue,
 } from '../types';
@@ -65,6 +64,9 @@ export const onboardingSlice = createSlice({
 		updateMajor: (state, { payload }: PayloadAction<string>) => {
 			state.form.major = payload;
 		},
+		updateCountry: (state, { payload }: PayloadAction<string>) => {
+			state.form.country = payload;
+		},
 		updateNumber: (
 			state,
 			{ payload: { numSteps } }: PayloadAction<{ numSteps: number }>,
@@ -86,6 +88,7 @@ export const {
 	updateMajor,
 	updateLearningLanguage,
 	updateNativeLanguage,
+	updateCountry,
 } = onboardingSlice.actions;
 
 export const onboardingReducer = onboardingSlice.reducer;

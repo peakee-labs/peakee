@@ -34,9 +34,9 @@ const OnboardingDob: FC<OnboardingProps> = ({ onPrev, onNext }) => {
 			});
 			return;
 		}
-		onNext && onNext();
 		dispatch(updateDateOfBirth(data));
 		dispatch(updateProgress(progress + 1));
+		onNext && onNext();
 	};
 
 	const onBack = () => {

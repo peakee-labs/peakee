@@ -100,11 +100,16 @@ export type FormLanguage = {
 	learnings: Array<string>;
 };
 
-export type FormmMajor = {
+export type FormMajor = {
 	major: string;
+};
+
+export type FormCountry = {
+	country: string;
 };
 
 export type OnboardingValue = FormName &
 	FormDateOfBirth &
 	FormLanguage &
-	FormmMajor;
+	FormMajor &
+	FormCountry;
