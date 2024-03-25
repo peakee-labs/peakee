@@ -7,7 +7,8 @@ import { CircleExclaimation } from '@peakee/icons';
 
 import { type RootState, updateMajor, updateProgress } from '../../../state';
 import type { OnboardingProps } from '..';
-import { NavigateBar, ProgressBar } from '../components';
+import NavigateBar from '../NavigateBar';
+import ProgressBar from '../ProgressBar';
 
 const majors = [
 	'developer',

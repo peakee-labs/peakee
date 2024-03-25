@@ -8,7 +8,9 @@ import type { RootState } from '../../../state';
 import { updateDateOfBirth, updateProgress } from '../../../state';
 import type { FormDateOfBirth } from '../../../types';
 import type { OnboardingProps } from '..';
-import { NavigateBar, ProgressBar } from '../components';
+import NavigateBar from '../NavigateBar';
+import ProgressBar from '../ProgressBar';
+
 const OnboardingDob: FC<OnboardingProps> = ({ onPrev, onNext }) => {
 	const { form, progress, number } = useSelector(
 		(state: RootState) => state.onboarding,

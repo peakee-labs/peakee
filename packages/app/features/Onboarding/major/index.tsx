@@ -8,7 +8,8 @@ import { CircleExclaimation } from '@peakee/icons';
 import { type RootState, updateMajor, updateProgress } from '../../../state';
 import type { FormmMajor } from '../../../types';
 import type { OnboardingProps } from '..';
-import { NavigateBar, ProgressBar } from '../components';
+import NavigateBar from '../NavigateBar';
+import ProgressBar from '../ProgressBar';
 
 const majors = [
 	'developer',
@@ -22,7 +23,7 @@ const majors = [
 ];
 
 const OnboardingMajor: FC<OnboardingProps> = ({ onNext, onPrev }) => {
-	const { form, progress, number } = useSelector(
+	const { progress, number } = useSelector(
 		(root: RootState) => root.onboarding,
 	);
 	const {

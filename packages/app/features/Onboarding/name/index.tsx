@@ -8,7 +8,8 @@ import type { RootState } from '../../../state';
 import { updateName, updateProgress } from '../../../state';
 import type { FormName } from '../../../types';
 import type { OnboardingProps } from '..';
-import { NavigateBar, ProgressBar } from '../components';
+import NavigateBar from '../NavigateBar';
+import ProgressBar from '../ProgressBar';
 
 const OnboardingName: FC<OnboardingProps> = ({ onNext, onPrev }) => {
 	const { form, progress, number } = useSelector(

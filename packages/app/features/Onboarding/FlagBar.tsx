@@ -1,19 +1,14 @@
 import { Pressable, StyleSheet, Text } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 
-interface LanguageBarProps {
+interface Props {
 	isoCode: string; // ISO-3166 format
 	name: string;
 	onPress: () => void;
 	isActive: boolean;
 }
 
-const LanguageBar = ({
-	isActive,
-	onPress,
-	isoCode,
-	name,
-}: LanguageBarProps) => {
+const FlagBar = ({ isActive, onPress, isoCode, name }: Props) => {
 	let containerStyle;
 	if (isActive) {
 		containerStyle = { ...styles.container, ...styles.active };
@@ -53,4 +48,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default LanguageBar;
+export default FlagBar;

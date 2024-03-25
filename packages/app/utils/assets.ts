@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Image, ImageSourcePropType } from 'react-native';
+import type { ImageSourcePropType } from 'react-native';
 import { Platform } from 'react-native';
 
 export type AppAssets = {

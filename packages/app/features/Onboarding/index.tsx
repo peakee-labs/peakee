@@ -65,17 +65,17 @@ const OnboardingFeature: FC<Props> = ({ onDone }) => {
 				<CurrentStep onNext={handleNext} onPrev={handlePrev} />
 			) : progress == -1 ? (
 				<View style={styles.contentContainer}>
-					<>
-						<Text style={styles.title}>Welcome to Peakee</Text>
-						<Text style={styles.titleDescription}>
-							Let&apos;s get you set up
-						</Text>
-						<Text style={styles.titleContent}>
-							Your info helps us make learning fun and find stuff
-							you&apos;ll love. Let&apos;s dive in and get you
-							learning with a twist!
-						</Text>
-						<Image source={assets?.message} style={styles.image} />
+					<Text style={styles.title}>Welcome to Peakee</Text>
+					<Text style={styles.titleDescription}>
+						Let&apos;s get you set up
+					</Text>
+					<Text style={styles.titleContent}>
+						Your info helps us make learning fun and find stuff
+						you&apos;ll love. Let&apos;s dive in and get you
+						learning with a twist!
+					</Text>
+					<Image source={assets?.message} style={styles.image} />
+					<View style={styles.footer}>
 						<Text style={styles.footerDescription}>
 							Tap the &apos;Start&apos; to set up your information
 							and we&apos;take it from there.
@@ -86,7 +86,7 @@ const OnboardingFeature: FC<Props> = ({ onDone }) => {
 						>
 							<Text>Start</Text>
 						</Pressable>
-					</>
+					</View>
 				</View>
 			) : (
 				<OnboardingDone onNext={handleDoneOnboarding} />
@@ -103,13 +103,13 @@ const styles = StyleSheet.create({
 		zIndex: 100,
 		width: '100%',
 		height: 'auto',
-		justifyContent: 'space-between',
 		gap: 40,
 	},
 	contentContainer: {
 		marginVertical: 20,
 		flex: 1,
 		gap: 20,
+		paddingBottom: 100,
 	},
 	title: {
 		color: '#ffffff',
@@ -118,9 +118,10 @@ const styles = StyleSheet.create({
 		fontWeight: '700',
 	},
 	image: {
-		width: '50%',
-		height: 250,
+		width: 500,
+		height: 350,
 		alignSelf: 'center',
+		resizeMode: 'contain',
 	},
 	titleDescription: {
 		color: '#ffffff',
@@ -146,6 +147,12 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		backgroundColor: '#FFFFFF',
 		borderRadius: 100,
+	},
+	footer: {
+		position: 'absolute',
+		bottom: 0,
+		alignSelf: 'center',
+		gap: 20,
 	},
 	buttonText: {
 		color: '#FF9F00',

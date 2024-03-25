@@ -1,17 +1,14 @@
 import type { FC } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { type RootState } from '../../../state';
 import { useAssets } from '../../../utils';
 import type { OnboardingProps } from '..';
 
 const OnboardingDone: FC<OnboardingProps> = ({ onNext }) => {
-	const { form, progress, number } = useSelector(
-		(root: RootState) => root.onboarding,
-	);
+	const { form } = useSelector((root: RootState) => root.onboarding);
 	const { assets } = useAssets();
-	const dispatch = useDispatch();
 
 	const submitForm = () => {
 		console.log(form);
@@ -19,7 +16,6 @@ const OnboardingDone: FC<OnboardingProps> = ({ onNext }) => {
 
 	const onPressStart = () => {
 		submitForm();
-		// move to practice
 		console.log(onNext);
 		onNext && onNext();
 	};
@@ -41,13 +37,13 @@ const OnboardingDone: FC<OnboardingProps> = ({ onNext }) => {
 					<Text style={styles.contentText}>
 						Ready to spice things up even more?
 					</Text>
-					<Text style={styles.contentText}>
-						Tap the button below to enter the home screen and start
-						exploring. Enjoy! 🚀
-					</Text>
 				</View>
 			</View>
 			<View style={styles.footer}>
+				<Text style={styles.contentText}>
+					Tap the button below to enter the home screen and start
+					exploring. Enjoy! 🚀
+				</Text>
 				<Pressable style={styles.button} onPress={onPressStart}>
 					<Text style={styles.buttonText}>Let&apos;s Start</Text>
 				</Pressable>
@@ -83,13 +79,14 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 	},
 	content: {
+		marginTop: 20,
 		flex: 1,
 		alignItems: 'center',
 	},
 	contentImage: {
-		resizeMode: 'cover',
-		height: 200,
-		width: '50%',
+		height: 300,
+		width: 550,
+		resizeMode: 'contain',
 	},
 	contentText: {
 		color: '#ffffff',
@@ -97,12 +94,11 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 	},
 	footer: {
-		flexDirection: 'column',
 		gap: 20,
 	},
 	button: {
 		alignSelf: 'center',
-		width: '80%',
+		width: 300,
 		height: 50,
 		alignItems: 'center',
 		justifyContent: 'center',

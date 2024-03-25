@@ -1,7 +1,5 @@
-import { Dimensions, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { ArrowLeft, ArrowRight } from '@peakee/icons';
-// import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 interface NavigateBarProps {
 	onNext?: () => void;

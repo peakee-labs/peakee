@@ -8,8 +8,10 @@ import {
 	updateNativeLanguage,
 	updateProgress,
 } from '../../../state';
-import { NavigateBar, ProgressBar } from '../components';
-import LanguageBar from '../components/LanguageBar';
+import FlagBar from '../FlagBar';
+import NavigateBar from '../NavigateBar';
+import ProgressBar from '../ProgressBar';
+
 const mock: Array<{ isoCode: string; name: string }> = [
 	{ isoCode: 'vn', name: 'vietnamese' },
 	{ isoCode: 'gb', name: 'english' },
@@ -49,7 +51,7 @@ const OnboardingLanguage = () => {
 			<Text style={styles.title}>My native language is...</Text>
 			<View style={styles.languageList}>
 				{mock.map((item, idx) => (
-					<LanguageBar
+					<FlagBar
 						key={idx}
 						isoCode={item.isoCode}
 						name={item.name}

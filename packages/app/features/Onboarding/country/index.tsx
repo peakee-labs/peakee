@@ -3,42 +3,42 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { CircleExclaimation } from '@peakee/icons';
 
-import type { RootState } from '../../../../state';
-import { updateLearningLanguage, updateProgress } from '../../../../state';
-import FlagBar from '../../FlagBar';
-import NavigateBar from '../../NavigateBar';
-import ProgressBar from '../../ProgressBar';
+import {
+	type RootState,
+	updateNativeLanguage,
+	updateProgress,
+} from '../../../state';
+import FlagBar from '../FlagBar';
+import NavigateBar from '../NavigateBar';
+import ProgressBar from '../ProgressBar';
 
 const mock: Array<{ isoCode: string; name: string }> = [
 	{ isoCode: 'vn', name: 'vietnamese' },
 	{ isoCode: 'gb', name: 'english' },
 ];
 
-const OnboardingLearning = () => {
-	const [active, setActive] = useState<Array<number>>([]);
+const OnboardingCountry = () => {
+	const [active, setActive] = useState<number>(-1);
 	const [error, setError] = useState<Error | undefined>();
 	const { progress, number } = useSelector(
 		(root: RootState) => root.onboarding,
 	);
 
 	const dispatch = useDispatch();
-	const onSubmit = (learnings?: Array<string>) => () => {
-		if (learnings && learnings.length != 0) {
-			dispatch(updateLearningLanguage(learnings));
+	const onSubmit = (native?: string) => () => {
+		if (native) {
+			console.log(native);
+			dispatch(updateNativeLanguage(native));
 			dispatch(updateProgress(progress + 1));
 		} else {
 			setError({
-				name: 'learnings',
-				message: "Let' tell which languages you're learning",
+				name: 'language',
+				message: "Let' tell me your native",
 			});
 		}
 	};
 	const toggleActive = (idx: number) => () => {
-		setActive((curr) =>
-			curr.includes(idx)
-				? curr.filter((v, _) => v != idx)
-				: [...curr, idx],
-		);
+		setActive((curr) => (curr == idx ? -1 : idx));
 		setError(undefined);
 	};
 
@@ -48,7 +48,7 @@ const OnboardingLearning = () => {
 	return (
 		<View style={styles.container}>
 			<ProgressBar current={progress} max={number} />
-			<Text style={styles.title}>I&apos;m currently learn...</Text>
+			<Text style={styles.title}>My native language is...</Text>
 			<View style={styles.languageList}>
 				{mock.map((item, idx) => (
 					<FlagBar
@@ -56,7 +56,7 @@ const OnboardingLearning = () => {
 						isoCode={item.isoCode}
 						name={item.name}
 						onPress={toggleActive(idx)}
-						isActive={active.includes(idx)}
+						isActive={idx == active}
 					/>
 				))}
 			</View>
@@ -69,13 +69,7 @@ const OnboardingLearning = () => {
 			<View style={styles.footer}>
 				<NavigateBar
 					onPrev={onBack}
-					onNext={onSubmit(
-						mock
-							.filter((_, idx) => active.includes(idx))
-							.map((v) => {
-								return v.name;
-							}),
-					)}
+					onNext={onSubmit(mock[active]?.name)}
 				/>
 			</View>
 		</View>
@@ -92,6 +86,10 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		gap: 10,
 	},
+	title: {
+		color: '#000000',
+		fontSize: 27,
+	},
 	error: {
 		alignSelf: 'flex-end',
 		flexDirection: 'row',
@@ -99,10 +97,6 @@ const styles = StyleSheet.create({
 	},
 	errorText: {
 		color: '#ff0000',
-	},
-	title: {
-		color: '#000000',
-		fontSize: 27,
 	},
 	footer: {
 		position: 'absolute',
@@ -112,4 +106,4 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 	},
 });
-export default OnboardingLearning;
+export default OnboardingCountry;
