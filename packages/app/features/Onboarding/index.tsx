@@ -52,16 +52,10 @@ const OnboardingFeature: FC<Props> = ({ onDone }) => {
 		onDone && onDone();
 	};
 
-	const handleNext = () => {
-		console.log('next');
-	};
-	const handlePrev = () => {
-		console.log('prev');
-	};
 	return (
 		<View style={styles.container}>
 			{0 <= progress && progress < number ? (
-				<CurrentStep onNext={handleNext} onPrev={handlePrev} />
+				<CurrentStep />
 			) : progress == -1 ? (
 				<View style={styles.contentContainer}>
 					<Text style={styles.title}>Welcome to Peakee</Text>
