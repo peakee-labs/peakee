@@ -31,7 +31,7 @@ const OnboardingCountry = () => {
 		} else {
 			setError({
 				name: 'country',
-				message: "Let' tell me your native",
+				message: "Let's tell me where you living",
 			});
 		}
 	};
