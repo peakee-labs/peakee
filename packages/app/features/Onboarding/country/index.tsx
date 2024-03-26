@@ -3,12 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { CircleExclaimation } from '@peakee/icons';
 
-import {
-	type RootState,
-	updateCountry,
-	updateNativeLanguage,
-	updateProgress,
-} from '../../../state';
+import { type RootState, updateCountry, updateProgress } from '../../../state';
 import FlagBar from '../FlagBar';
 import NavigateBar from '../NavigateBar';
 import ProgressBar from '../ProgressBar';

@@ -17,7 +17,6 @@ const SignIn: FC = () => {
 			<OnboardingFeature
 				onDone={() => {
 					router.push('/');
-					console.log('done');
 				}}
 			/>
 		</View>

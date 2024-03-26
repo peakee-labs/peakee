@@ -40,19 +40,16 @@ const OnboardingFeature: FC<Props> = ({ onDone }) => {
 	);
 	const handleStartOnboarding = () => {
 		dispatch(updateProgress(progress + 1));
-		console.log('start');
 	};
 	const CurrentStep = useMemo(() => OnboardingFlow[progress], [progress]);
 
 	useEffect(() => {
-		console.log(OnboardingFlow.length);
 		dispatch(updateNumber({ numSteps: OnboardingFlow.length }));
 	}, []);
 
 	const handleDoneOnboarding = async () => {
 		await postOnboardingForm(form);
 		onDone && onDone();
-		console.log('done ');
 	};
 
 	const handleNext = () => {
@@ -162,12 +159,3 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 	},
 });
-
-// export { default as OnboardingStep2 } from './age';
-// export { default as OnboardingDone } from './done';
-// export { default as OnboardingStep6 } from './exercise';
-// export { default as OnboardingStep6a } from './exercise/test';
-// export { default as OnboardingStep3 } from './language';
-// export { default as OnboardingStep4 } from './language/learning';
-// export { default as OnboardingStep5 } from './major';
-// export { default as OnboardingStep1 } from './name';

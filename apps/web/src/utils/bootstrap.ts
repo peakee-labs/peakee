@@ -9,6 +9,7 @@ export const initApp = () => {
 		messagePuzzle: { uri: '/images/onboarding-messagePuzzle.png' },
 		background: { uri: 'onboarding-background.png' },
 	});
+	console.log(PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL);
 
-	initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL });
+	initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL });
 };

@@ -27,7 +27,7 @@ type SelectOption = {
 };
 
 const OnboardingMajor: FC<OnboardingProps> = ({ onNext, onPrev }) => {
-	const { form, progress, number } = useSelector(
+	const { progress, number } = useSelector(
 		(root: RootState) => root.onboarding,
 	);
 	const {
