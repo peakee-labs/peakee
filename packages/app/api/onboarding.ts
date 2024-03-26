@@ -1,15 +1,12 @@
 import type { OnboardingValue } from '../types';
+import { yearSince } from '../utils/date';
 
 import { axios } from './axios';
 
 export async function postOnboardingForm(form: OnboardingValue) {
 	try {
-		const age =
-			new Date(
-				new Date().getTime() - new Date(form.dateOfBirth).getTime(),
-			).getFullYear() - 1970;
-		console.log(age);
-		const res = await axios().post(
+		const age = yearSince(new Date(form.dateOfBirth));
+		await axios().post(
 			'/onboarding',
 			JSON.stringify({
 				name: form.firstName + ' ' + form.lastName,
@@ -22,7 +19,6 @@ export async function postOnboardingForm(form: OnboardingValue) {
 				age: age,
 			}),
 		);
-		console.log(res);
 	} catch (err) {
 		console.log('cannot post onboarding form to server', err);
 	}
