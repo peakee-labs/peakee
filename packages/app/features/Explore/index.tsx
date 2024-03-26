@@ -15,7 +15,6 @@ import {
 	updateExploreLoading,
 } from '@peakee/app/state';
 import type { PublicUserProfile, UserExplore } from '@peakee/app/types';
-import { throttle } from 'lodash';
 
 import { getExploreCandidatesForUser } from '../../api/explore';
 
@@ -37,16 +36,11 @@ const ExploreFeature: FC = () => {
 		return Object.values(candidatesMap);
 	}, [candidatesMap]);
 
-	const setLoaded = useCallback(() => {
-		setLoading(false);
-		dispatch(updateExploreLoading(false));
-	}, [loading, profileLoading]);
-	const handleGetSuggestUser = throttle(async () => {
+	const handleGetSuggestUser = async () => {
 		try {
 			setLoading(true);
 			const candidates = await getExploreCandidatesForUser();
 			if (!candidates) {
-				console.log('canot get candidates');
 				return;
 			}
 			for (const candidate of candidates) {
@@ -60,13 +54,14 @@ const ExploreFeature: FC = () => {
 							explore: candidate,
 						}),
 					);
-					setLoaded();
 				}
+				setLoading(false);
+				dispatch(updateExploreLoading(false));
 			}
 		} catch (e) {
 			console.log('get explore error', e);
 		}
-	});
+	};
 
 	const renderExplore = useCallback(({ item }: { item: UserExploreData }) => {
 		return <ExploreProfile explore={item.explore} profile={item.profile} />;
@@ -117,7 +112,6 @@ const styles = StyleSheet.create({
 	exploreList: {
 		flex: 1,
 		paddingVertical: 10,
-		flexDirection: 'column',
 		gap: 20,
 	},
 	h1: {

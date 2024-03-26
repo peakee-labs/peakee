@@ -37,21 +37,16 @@ const ExploreProfile: FC<Props> = ({ profile, explore }) => {
 						>
 							{explore.name}
 						</Text>
-						{/* <CountryFlag
-							isoCode={explore.country}
-							size={10}
-							style={styles.flag}
-						/> */}
 					</View>
 					<View style={{}}>
 						<ScrollView
 							horizontal
 							scrollEnabled
 							showsHorizontalScrollIndicator={false}
-							contentContainerStyle={{
-								...styles.flexRow,
-								...styles.scrollRow,
-							}}
+							contentContainerStyle={[
+								styles.flexRow,
+								styles.scrollRow,
+							]}
 						>
 							{explore.learnings.map((lang, idx) => {
 								return (
@@ -96,7 +91,7 @@ const ExploreProfile: FC<Props> = ({ profile, explore }) => {
 			</View>
 			<TouchableOpacity style={styles.chatButton}>
 				<Comment color="#fea91a" size={12} />
-				<Text style={{ color: '#fea91a', fontSize: 16 }}>Chat</Text>
+				<Text style={styles.chatButtonText}>Chat</Text>
 			</TouchableOpacity>
 		</View>
 	);
@@ -145,6 +140,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		height: '100%',
 		flex: 1,
+		gap: 5,
 		justifyContent: 'space-between',
 	},
 	infoHeader: {
@@ -213,4 +209,5 @@ const styles = StyleSheet.create({
 		width: 'auto',
 		overflow: 'scroll',
 	},
+	chatButtonText: { color: '#fea91a', fontSize: 16 },
 });
