@@ -1,19 +1,12 @@
 import axios from 'axios';
 
 import type { UserExplore } from '../types';
-
-import { getJWT } from './token';
+import { config } from '../utils';
 
 export async function getExploreProfileOfUser(id: string) {
 	try {
 		const { data: user } = await axios.get<UserExplore>(
-			//TODO: currently hardcode this value
-			`http://localhost:8082/explore/${id}`,
-			{
-				headers: {
-					Authorization: 'Bearer ' + getJWT(),
-				},
-			},
+			`${config().BLINDERS_EXPLORE_URL}/explore/${id}`,
 		);
 		return user;
 	} catch (err) {
@@ -24,13 +17,7 @@ export async function getExploreProfileOfUser(id: string) {
 export async function getExploreCandidatesForUser() {
 	try {
 		const { data: explores } = await axios.get<UserExplore[]>(
-			//TODO: currently hardcode this value
-			`http://localhost:8082/explore/suggest`,
-			{
-				headers: {
-					Authorization: 'Bearer ' + getJWT(),
-				},
-			},
+			`${config().BLINDERS_EXPLORE_URL}/explore/suggest`,
 		);
 		return explores;
 	} catch (err) {

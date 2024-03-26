@@ -1,6 +1,7 @@
 export type AppConfig = {
 	PEAKEE_WS_URL: string;
 	PEAKEE_API_URL: string;
+	BLINDERS_EXPLORE_URL: string;
 };
 
 let defaultConfig: AppConfig;
