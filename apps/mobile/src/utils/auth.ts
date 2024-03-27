@@ -1,18 +1,11 @@
 import Config from 'react-native-config';
-import {
-	resetChatState,
-	resetUserState,
-	setProfile,
-	store,
-} from '@peakee/app/state';
-import { initUserChatData } from '@peakee/app/utils';
+import { getOrInitUserProfile, setJWT } from '@peakee/app/api';
+import { setProfile, setProfileLoading, store } from '@peakee/app/state';
 import auth from '@react-native-firebase/auth';
 import {
 	GoogleSignin,
 	statusCodes,
 } from '@react-native-google-signin/google-signin';
-
-import { listenUserChatData } from './firestore';
 
 GoogleSignin.configure({
 	webClientId: Config.WEB_CLIENT_ID,
@@ -54,26 +47,22 @@ export const signOut = async () => {
 		.then(() => console.log('User signed out!'));
 };
 
-let authEmailCache: string;
-
-auth().onAuthStateChanged((user) => {
-	if (!user) {
-		authEmailCache = '';
-		store.dispatch(resetUserState());
-		store.dispatch(resetChatState());
-	} else if (user.email !== authEmailCache) {
-		authEmailCache = user.email as string;
-		const userProfile: UserProfile = {
-			uid: user.uid,
-			name: user.displayName as string,
-			fullName: user.displayName as string,
-			email: user.email as string,
-			imageUrl: user.photoURL as string,
-		};
-		store.dispatch(setProfile(userProfile));
-
-		initUserChatData(userProfile).then((user) => {
-			listenUserChatData(user.id);
-		});
+auth().onIdTokenChanged(async (firebaseUser) => {
+	if (firebaseUser) {
+		const jwt = await firebaseUser.getIdToken();
+		setJWT(jwt);
+		if (!store.getState().user.profile) {
+			const user = await getOrInitUserProfile({
+				name: firebaseUser.displayName as string,
+				email: firebaseUser.email as string,
+				imageUrl: firebaseUser.photoURL as string,
+			});
+			if (user) {
+				store.dispatch(setProfile(user));
+			}
+			store.dispatch(setProfileLoading(false));
+		}
+	} else {
+		console.log('not found firebase user');
 	}
 });
