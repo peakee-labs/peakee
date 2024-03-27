@@ -38,7 +38,7 @@ const TranslateModal: FC<{
 			try {
 				const languages = `${from}-${to}`;
 				const res = await axios.get<TranslateResponse>(
-					'https://api.peakee.co/v1/translation',
+					'https://api.peakee.co/v1/translate',
 					{ params: { text, languages } },
 				);
 				setTranslated(res.data.translated);

@@ -1,3 +1,4 @@
+import { Image } from 'react-native';
 import Config from 'react-native-config';
 import { initAppConfig, initAssets } from '@peakee/app';
 import { initOpenAIClient } from '@peakee/chat';
@@ -9,13 +10,39 @@ import TranslateModal from './modal/Translate';
 
 export const initApp = () => {
 	initAssets({
-		authImage: { uri: '/images/auth.png' },
-		google: { uri: '/images/google.png' },
+		authImage: {
+			uri: Image.resolveAssetSource(require('../../assets/auth.png')).uri,
+		},
+		google: {
+			uri: Image.resolveAssetSource(require('../../assets/google.png'))
+				.uri,
+		},
+		message: {
+			uri: Image.resolveAssetSource(
+				require('../../assets/onboarding-start.png'),
+			).uri,
+		},
+		messageStack: {
+			uri: Image.resolveAssetSource(
+				require('../../assets/onboarding-message.png'),
+			).uri,
+		},
+		messagePuzzle: {
+			uri: Image.resolveAssetSource(
+				require('../../assets/onboarding-messagePuzzle.png'),
+			).uri,
+		},
+		background: {
+			uri: Image.resolveAssetSource(
+				require('../../assets/onboarding-background.png'),
+			).uri,
+		},
 	});
 
 	initAppConfig({
 		PEAKEE_API_URL: Config.PEAKEE_API_URL as string,
 		PEAKEE_WS_URL: Config.PEAKEE_WS_URL as string,
+		BLINDERS_EXPLORE_URL: Config.BLINDERS_EXPLORE_URL as string,
 	});
 
 	injectUtils({
