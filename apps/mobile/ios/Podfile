@@ -33,7 +33,11 @@ target 'mobile' do
   
   pod 'Firebase', :modular_headers => true
   pod 'FirebaseCore', :modular_headers => true
+  pod 'FirebaseCoreExtension', :modular_headers => true
+  pod 'FirebaseFirestoreInternal', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
+  pod 'GTMSessionFetcher', :modular_headers => true
+  pod 'AppAuth', :modular_headers => true
   $RNFirebaseAsStaticFramework = true
 
   use_react_native!(
