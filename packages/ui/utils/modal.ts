@@ -5,8 +5,8 @@ import { showModalAction } from '../state/modal';
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export const showModal = <T extends object>(
-	config: Optional<ModalConfig<T>, 'context'>,
+	config: Optional<ModalConfig<T>, 'props'>,
 ) => {
-	config.context = config.context ?? ({} as never);
+	config.props = config.props ?? ({} as never);
 	uiStore.dispatch(showModalAction(config as never));
 };

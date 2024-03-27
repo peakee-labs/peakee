@@ -11,7 +11,7 @@ const ModalContainer = (config: ModalConfig) => {
 	const {
 		id,
 		index,
-		context,
+		props,
 		Component,
 		onDismiss,
 		snapPoints,
@@ -41,7 +41,7 @@ const ModalContainer = (config: ModalConfig) => {
 			backgroundStyle={[styles.background, backgroundStyle]}
 			{...bottomSheetConfig}
 		>
-			<Component context={context} />
+			<Component {...props} />
 		</BottomSheetModal>
 	);
 };
