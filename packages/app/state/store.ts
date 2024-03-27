@@ -1,7 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { chatReducer } from './chat';
+import { exploreReducer } from './explore';
 import { notificationsReducer } from './notifications';
+import { onboardingReducer } from './onboarding';
 import { userReducer } from './user';
 
 // TODO: for public users' profiles, we could create a slice for mutual use of profiles
@@ -11,6 +13,8 @@ export const store = configureStore({
 		user: userReducer,
 		chat: chatReducer,
 		notifications: notificationsReducer,
+		explore: exploreReducer,
+		onboarding: onboardingReducer,
 	},
 });
 

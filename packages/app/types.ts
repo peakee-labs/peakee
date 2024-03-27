@@ -74,3 +74,42 @@ export type MessageEmotion = {
 	createdAt: string;
 	updatedAt: string;
 };
+
+export type UserExplore = {
+	userId: string;
+	like: number;
+	name: string;
+	country: string;
+	native: string;
+	learnings: string[];
+	major: string;
+	interests: string[];
+};
+
+export type FormName = {
+	firstName: string;
+	lastName: string;
+};
+
+export type FormDateOfBirth = {
+	dateOfBirth: string;
+};
+
+export type FormLanguage = {
+	native: string;
+	learnings: Array<string>;
+};
+
+export type FormMajor = {
+	major: string;
+};
+
+export type FormCountry = {
+	country: string;
+};
+
+export type OnboardingValue = FormName &
+	FormDateOfBirth &
+	FormLanguage &
+	FormMajor &
+	FormCountry;

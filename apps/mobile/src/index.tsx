@@ -4,7 +4,9 @@ import { UIProvider } from '@peakee/ui';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ChatRoomScreen from 'screens/ChatRoom';
+import ExploreScreen from 'screens/Explore';
 import HomeScreen from 'screens/Home';
+import OnboardingScreen from 'screens/Onboarding';
 import SignInScreen from 'screens/SignIn';
 import Splash from 'screens/Splash';
 
@@ -25,6 +27,14 @@ function App(): JSX.Element {
 						<Stack.Screen
 							name="ChatRoom"
 							component={ChatRoomScreen}
+						/>
+						<Stack.Screen
+							name="Explore"
+							component={ExploreScreen}
+						/>
+						<Stack.Screen
+							name="Onboarding"
+							component={OnboardingScreen}
 						/>
 					</Stack.Navigator>
 				</NavigationContainer>

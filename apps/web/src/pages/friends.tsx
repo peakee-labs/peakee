@@ -3,6 +3,7 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { getUsers, sendFriendRequest } from '@peakee/app/api';
 import { Search } from '@peakee/app/components';
+import ExploreFeature from '@peakee/app/features/Explore';
 import type { RootState } from '@peakee/app/state';
 import type { PublicUserProfile } from '@peakee/app/types';
 import { Avatar, Button } from '@peakee/ui';
@@ -77,8 +78,9 @@ export const Friends = () => {
 					);
 				})}
 			</View>
-
-			<Text style={styles.header}>Who’s around the corner</Text>
+			<View style={styles.exploreContainer}>
+				<ExploreFeature />
+			</View>
 		</View>
 	);
 };
@@ -120,5 +122,9 @@ const styles = StyleSheet.create({
 	},
 	failedText: {
 		color: '#ab2525',
+	},
+	exploreContainer: {
+		maxwidth: 700,
+		alignSelf: 'center',
 	},
 });

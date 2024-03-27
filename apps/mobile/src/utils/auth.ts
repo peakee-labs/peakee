@@ -1,6 +1,12 @@
 import Config from 'react-native-config';
 import { getOrInitUserProfile, setJWT } from '@peakee/app/api';
-import { setProfile, setProfileLoading, store } from '@peakee/app/state';
+import {
+	resetChatState,
+	resetUserState,
+	setProfile,
+	setProfileLoading,
+	store,
+} from '@peakee/app/state';
 import auth from '@react-native-firebase/auth';
 import {
 	GoogleSignin,
@@ -64,5 +70,7 @@ auth().onIdTokenChanged(async (firebaseUser) => {
 		}
 	} else {
 		console.log('not found firebase user');
+		store.dispatch(resetUserState());
+		store.dispatch(resetChatState());
 	}
 });

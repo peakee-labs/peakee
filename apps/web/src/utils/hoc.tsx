@@ -23,7 +23,8 @@ export function withAuth<P>(WrappedComponent: ComponentType<P>) {
 
 		return loading || !user ? (
 			<View style={styles.authContainer}>
-				<ActivityIndicator />
+				{/* TODO: need to resolve by root layout  */}
+				<ActivityIndicator style={{ width: 20, height: 20 }} />
 			</View>
 		) : (
 			<WrappedComponent {...props} as never />

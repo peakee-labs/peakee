@@ -5,6 +5,10 @@ import { Platform } from 'react-native';
 export type AppAssets = {
 	authImage: ImageSourcePropType;
 	google: ImageSourcePropType;
+	message: ImageSourcePropType;
+	messageStack: ImageSourcePropType;
+	messagePuzzle: ImageSourcePropType;
+	background: ImageSourcePropType;
 };
 
 let appAssets: AppAssets = {} as never;

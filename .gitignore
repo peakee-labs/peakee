@@ -44,3 +44,5 @@ yarn-error.log*
 # node
 .yarn
 node_modules
+.java-version
+.editorconfig
