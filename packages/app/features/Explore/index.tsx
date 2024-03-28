@@ -12,11 +12,15 @@ import { getPublicProfileOfUser } from '@peakee/app/api';
 import {
 	type RootState,
 	addExploreCandidate,
+	setExploreProfile,
 	updateExploreLoading,
 } from '@peakee/app/state';
 import type { PublicUserProfile, UserExplore } from '@peakee/app/types';
 
-import { getExploreCandidatesForUser } from '../../api/explore';
+import {
+	getExploreCandidatesForUser,
+	getExploreProfileOfUser,
+} from '../../api/explore';
 
 import ExploreProfile from './ExploreProfile';
 import QuoteBanner from './QuoteBanner';
@@ -27,9 +31,10 @@ export interface UserExploreData {
 }
 
 const ExploreFeature: FC = () => {
-	const { profileLoading, candidates: candidatesMap } = useSelector(
-		(state: RootState) => state.explore,
-	);
+	const {
+		explore: { exploreLoading, candidates: candidatesMap },
+		user: { profile },
+	} = useSelector((state: RootState) => state);
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
 	const exploreCandidates = useMemo(() => {
@@ -67,15 +72,26 @@ const ExploreFeature: FC = () => {
 		return <ExploreProfile explore={item.explore} profile={item.profile} />;
 	}, []);
 
+	const fetchUserExplore = async () => {
+		if (profile?.id) {
+			const currentExplore = await getExploreProfileOfUser(profile.id);
+			if (currentExplore) {
+				dispatch(setExploreProfile(currentExplore));
+			}
+			dispatch(updateExploreLoading(false));
+		}
+	};
+
 	useEffect(() => {
-		handleGetSuggestUser();
+		fetchUserExplore().catch((e) => console.log(e));
+		handleGetSuggestUser().catch((e) => console.log(e));
 	}, []);
 
 	return (
 		<View style={styles.container}>
 			<QuoteBanner />
 			<Text style={styles.h2}>Who&apos;s around the corner</Text>
-			{!profileLoading && !loading ? (
+			{!exploreLoading && !loading ? (
 				<FlatList
 					style={{ flex: 1 }}
 					data={exploreCandidates}

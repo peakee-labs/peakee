@@ -3,6 +3,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { CircleExclaimation } from '@peakee/icons';
+import { Colors } from '@peakee/ui';
 
 import type { RootState } from '../../../state';
 import { updateName, updateProgress } from '../../../state';
@@ -105,14 +106,13 @@ const styles = StyleSheet.create({
 		paddingVertical: 20,
 		flex: 1,
 		paddingHorizontal: 20,
-		gap: 10,
-		backgroundColor: '#ffffff',
+		gap: 20,
+		backgroundColor: Colors.bgWhite,
 	},
 	title: {
-		color: '#222831',
+		color: Colors.textBlack,
 		fontSize: 28,
 		fontWeight: '600',
-		marginBottom: 20,
 	},
 	contentContainer: {
 		flexDirection: 'column',
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		height: 50,
 		borderWidth: 1,
-		borderColor: '#222831',
+		borderColor: Colors.textBlack,
 		borderRadius: 5,
 	},
 	footer: {

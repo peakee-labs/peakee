@@ -108,8 +108,13 @@ export type FormCountry = {
 	country: string;
 };
 
+export type FormGender = {
+	gender: 'male' | 'female' | 'unknown';
+};
+
 export type OnboardingValue = FormName &
 	FormDateOfBirth &
 	FormLanguage &
 	FormMajor &
-	FormCountry;
+	FormCountry &
+	FormGender;

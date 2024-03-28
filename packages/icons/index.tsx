@@ -1,6 +1,7 @@
 export * from './components/Arrow';
 export * from './components/Book';
 export * from './components/Camera';
+export * from './components/ChevronDown';
 export * from './components/ChevronLeft';
 export * from './components/ChevronRight';
 export * from './components/Circle';
@@ -13,6 +14,7 @@ export * from './components/Heart';
 export * from './components/Message';
 export * from './components/MoveLeft';
 export * from './components/Noti';
+export * from './components/People';
 export * from './components/Phone';
 export * from './components/Photo';
 export * from './components/Quote';

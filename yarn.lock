@@ -4919,7 +4919,7 @@ __metadata:
     "@react-native-firebase/app": "npm:^18.5.0"
     "@react-native-firebase/auth": "npm:^18.5.0"
     "@react-native-google-signin/google-signin": "npm:^10.0.1"
-    "@react-native-picker/picker": "npm:2.6.1"
+    "@react-native-picker/picker": "npm:^2.7.2"
     "@react-native/metro-config": "npm:^0.75.0-main"
     "@react-navigation/native": "npm:^6.1.8"
     "@react-navigation/native-stack": "npm:^6.9.14"
@@ -5377,13 +5377,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-picker/picker@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@react-native-picker/picker@npm:2.6.1"
+"@react-native-picker/picker@npm:^2.7.2":
+  version: 2.7.2
+  resolution: "@react-native-picker/picker@npm:2.7.2"
   peerDependencies:
-    react: ">=16"
-    react-native: ">=0.57"
-  checksum: 10/55577a263f774361430acc729fe68e5fe60f177939e32fd572d67da20deab2dcd7c62af9eaa0bc09dea3af09391a80be5d65efb566e2f2e9748e1d427c740bed
+    react: "*"
+    react-native: "*"
+  checksum: 10/896a557ce44c36a5d0312d1ae6887fffb0628674f0a407bb5556c49e2e41c37441012bee3aeede99ca2acdce61e93484b07783c80505260b800c8619894600b1
   languageName: node
   linkType: hard
 

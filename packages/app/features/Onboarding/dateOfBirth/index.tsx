@@ -85,17 +85,15 @@ const OnboardingDob: FC<OnboardingProps> = ({ onPrev, onNext }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		paddingVertical: 10,
 		flex: 1,
 		paddingHorizontal: 20,
-		gap: 10,
-		// backgroundColor: '#ffffff',
+		paddingVertical: 20,
+		gap: 20,
 	},
 	title: {
 		color: '#222831',
 		fontSize: 28,
 		fontWeight: '600',
-		marginBottom: 20,
 	},
 	contentContainer: {
 		flexDirection: 'column',

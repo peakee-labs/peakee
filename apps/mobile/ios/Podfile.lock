@@ -1257,7 +1257,7 @@ PODS:
   - RecaptchaInterop (100.0.0)
   - RNCClipboard (1.5.1):
     - React-Core
-  - RNCPicker (2.6.1):
+  - RNCPicker (2.7.2):
     - React-Core
   - RNDateTimePicker (7.6.3):
     - React-Core
@@ -1379,7 +1379,7 @@ DEPENDENCIES:
   - "RNGoogleSignin (from `../../../node_modules/@react-native-google-signin/google-signin`)"
   - RNReanimated (from `../../../node_modules/react-native-reanimated`)
   - RNScreens (from `../../../node_modules/react-native-screens`)
-  - RNSVG (from `../node_modules/react-native-svg`)
+  - RNSVG (from `../../../node_modules/react-native-svg`)
   - Yoga (from `../../../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1535,7 +1535,7 @@ EXTERNAL SOURCES:
   RNScreens:
     :path: "../../../node_modules/react-native-screens"
   RNSVG:
-    :path: "../node_modules/react-native-svg"
+    :path: "../../../node_modules/react-native-svg"
   Yoga:
     :path: "../../../node_modules/react-native/ReactCommon/yoga"
 
@@ -1619,7 +1619,7 @@ SPEC CHECKSUMS:
   ReactCommon: 2aa35648354bd4c4665b9a5084a7d37097b89c10
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
-  RNCPicker: b18aaf30df596e9b1738e7c1f9ee55402a229dca
+  RNCPicker: 82ccad5b08259dc09310082118cbb6c136d7da67
   RNDateTimePicker: 7b38b71bcd7c4cfa1cb95f2dff9a4f1faed2dced
   RNFBApp: 9b25191f7a5e72c185b7e43fffb0d906869c4659
   RNFBAuth: 95acca18353778903885b2b25c25ddb81c050fed

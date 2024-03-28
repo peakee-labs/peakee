@@ -11,7 +11,7 @@ export async function postOnboardingForm(form: OnboardingValue) {
 			JSON.stringify({
 				name: form.firstName + ' ' + form.lastName,
 				major: form.major,
-				gender: 'gender',
+				gender: form.gender,
 				native: form.native,
 				country: form.country,
 				learnings: form.learnings,

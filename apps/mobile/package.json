@@ -18,7 +18,7 @@
         "@react-native-firebase/app": "^18.5.0",
         "@react-native-firebase/auth": "^18.5.0",
         "@react-native-google-signin/google-signin": "^10.0.1",
-        "@react-native-picker/picker": "2.6.1",
+        "@react-native-picker/picker": "^2.7.2",
         "@react-navigation/native": "^6.1.8",
         "@react-navigation/native-stack": "^6.9.14",
         "@reduxjs/toolkit": "^1.9.6",

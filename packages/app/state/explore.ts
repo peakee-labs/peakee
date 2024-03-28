@@ -4,7 +4,9 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PublicUserProfile, UserExplore } from '../types';
 
 export interface ExploreState {
+	exploreLoading: boolean;
 	profileLoading: boolean;
+	profile: UserExplore;
 	candidates: Record<string, ExploreData>;
 }
 
@@ -14,8 +16,10 @@ type ExploreData = {
 };
 
 const initialState: ExploreState = {
+	exploreLoading: true,
 	profileLoading: true,
 	candidates: {},
+	profile: {},
 } as ExploreState;
 
 export const exploreSlice = createSlice({
@@ -23,8 +27,17 @@ export const exploreSlice = createSlice({
 	initialState,
 	reducers: {
 		reset: () => ({ ...initialState }),
+		setExploreProfile: (state, { payload }: PayloadAction<UserExplore>) => {
+			state.profile = payload;
+		},
+		updateExploreProfileLoading: (
+			state,
+			{ payload }: PayloadAction<boolean>,
+		) => {
+			state.profileLoading = payload;
+		},
 		updateExploreLoading: (state, action: PayloadAction<boolean>) => {
-			state.profileLoading = action.payload;
+			state.exploreLoading = action.payload;
 		},
 		addExploreCandidate: (state, action: PayloadAction<ExploreData>) => {
 			state.candidates[action.payload.profile.id] = action.payload;
@@ -39,6 +52,8 @@ export const exploreSlice = createSlice({
 });
 
 export const {
+	setExploreProfile,
+	updateExploreProfileLoading,
 	setExploreCandidates,
 	updateExploreLoading,
 	reset,

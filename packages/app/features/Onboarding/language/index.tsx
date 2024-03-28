@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { CircleExclaimation } from '@peakee/icons';
+import { Colors } from '@peakee/ui';
 
 import {
 	type RootState,
@@ -18,11 +19,14 @@ const mock: Array<{ isoCode: string; name: string }> = [
 ];
 
 const OnboardingLanguage = () => {
-	const [active, setActive] = useState<number>(-1);
-	const [error, setError] = useState<Error | undefined>();
-	const { progress, number } = useSelector(
+	const { form, progress, number } = useSelector(
 		(root: RootState) => root.onboarding,
 	);
+
+	const [active, setActive] = useState<number>(
+		mock.findIndex((v) => v.name == form.native),
+	);
+	const [error, setError] = useState<Error | undefined>();
 
 	const dispatch = useDispatch();
 	const onSubmit = (native?: string) => () => {
@@ -48,24 +52,29 @@ const OnboardingLanguage = () => {
 	return (
 		<View style={styles.container}>
 			<ProgressBar current={progress} max={number} />
-			<Text style={styles.title}>My native language is...</Text>
-			<View style={styles.languageList}>
-				{mock.map((item, idx) => (
-					<FlagBar
-						key={idx}
-						isoCode={item.isoCode}
-						name={item.name}
-						onPress={toggleActive(idx)}
-						isActive={idx == active}
-					/>
-				))}
-			</View>
-			{error ? (
-				<View style={styles.error}>
-					<Text style={styles.errorText}>{error.message}</Text>
-					<CircleExclaimation color={'#ff0000'} size={15} />
+			<View style={styles.contentContainer}>
+				<Text style={styles.title}>My native language is...</Text>
+				<View style={styles.languageList}>
+					{mock.map((item, idx) => (
+						<FlagBar
+							key={idx}
+							isoCode={item.isoCode}
+							name={item.name}
+							onPress={toggleActive(idx)}
+							isActive={idx == active}
+						/>
+					))}
 				</View>
-			) : undefined}
+				{error ? (
+					<View style={styles.error}>
+						<Text style={styles.errorText}>{error.message}</Text>
+						<CircleExclaimation
+							color={Colors.textError}
+							size={15}
+						/>
+					</View>
+				) : undefined}
+			</View>
 			<View style={styles.footer}>
 				<NavigateBar
 					onPrev={onBack}
@@ -80,26 +89,36 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingHorizontal: 20,
 		paddingVertical: 20,
-		gap: 30,
+		gap: 20,
+	},
+	contentContainer: {
+		flex: 1,
+		gap: 20,
 	},
 	languageList: {
+		width: '100%',
 		flexDirection: 'column',
 		gap: 10,
 	},
 	title: {
 		color: '#000000',
-		fontSize: 27,
+		fontSize: 28,
+		fontWeight: '600',
 	},
 	error: {
-		alignSelf: 'flex-end',
+		position: 'absolute',
 		flexDirection: 'row',
 		gap: 10,
+		height: 20,
+		marginTop: 20,
+		right: 10,
+		alignItems: 'center',
 	},
 	errorText: {
-		color: '#ff0000',
+		color: Colors.textError,
+		textAlign: 'center',
 	},
 	footer: {
-		position: 'absolute',
 		bottom: 10,
 		alignSelf: 'center',
 		width: '100%',

@@ -1,6 +1,7 @@
 import { type FC, useEffect, useMemo } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { Colors } from '@peakee/ui';
 
 import { postOnboardingForm } from '../../api/onboarding';
 import { type RootState, updateNumber, updateProgress } from '../../state';
@@ -10,6 +11,7 @@ import OnboardingDob from './dateOfBirth/index';
 import OnboardingLearning from './language/learning';
 import OnboardingCountry from './country';
 import OnboardingDone from './done';
+import OnboardingGender from './gender';
 import OnboardingLanguage from './language';
 import OnboardingMajor from './major';
 import OnboardingName from './name';
@@ -17,6 +19,7 @@ import OnboardingName from './name';
 export const OnboardingFlow: Array<FC<OnboardingProps>> = [
 	OnboardingName,
 	OnboardingDob,
+	OnboardingGender,
 	OnboardingCountry,
 	OnboardingMajor,
 	OnboardingLanguage,
@@ -91,7 +94,7 @@ export default OnboardingFeature;
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#FF9F00',
+		backgroundColor: Colors.bgOrange,
 		flex: 1,
 		zIndex: 100,
 		width: '100%',
