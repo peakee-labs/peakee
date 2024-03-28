@@ -3,11 +3,11 @@ process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 process.env.ASSET_PATH = '/';
 
-var webpack = require('webpack'),
-	path = require('path'),
-	fs = require('fs'),
-	config = require('../webpack.config'),
-	ZipPlugin = require('zip-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
+const fs = require('fs');
+const config = require('../webpack.config');
+const ZipPlugin = require('zip-webpack-plugin');
 
 delete config.chromeExtensionBoilerplate;
 
