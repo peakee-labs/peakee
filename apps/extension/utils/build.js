@@ -13,7 +13,7 @@ const packageInfo = require('../package.json');
 
 console.log('Building version:', packageInfo.version);
 
-config.plugins = (config.plugins || []).concat(
+config.plugins.push(
 	new ZipPlugin({
 		filename: `peakee-ext-${packageInfo.version}.zip`,
 		path: path.join(__dirname, '../', 'zip'),

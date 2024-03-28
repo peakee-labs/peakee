@@ -2,13 +2,45 @@ const webpack = require('webpack');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const ReactRefreshTypeScript = require('react-refresh-typescript');
 
 const assetFileExtensions = ['jpg', 'jpeg', 'png', 'svg', 'ttf'];
-const isDevelopment = process.env.NODE_ENV !== 'production';
+
+const internalPackages = ['ui', 'icons'];
+
+const resolvedInternalPackages = internalPackages.map((p) => {
+	return path.resolve(__dirname, '../../packages', p);
+});
+
+const transpilePackages = [
+	'react',
+	'react-native',
+	'react-redux',
+	'react-native-svg',
+	'react-native-reanimated',
+	'react-native-gesture-handler',
+	'@gorhom/bottom-sheet',
+];
+
+const resolvedTranspilePackages = transpilePackages.map((p) => {
+	return path.resolve(__dirname, '../../node_modules', p);
+});
+
+const environments = [
+	'API_KEY',
+	'AUTH_DOMAIN',
+	'PROJECT_ID',
+	'STORAGE_BUCKET',
+	'MESSAGING_SENDER_ID',
+	'APP_ID',
+	'MEASUREMENT_ID',
+	'PEAKEE_WS_URL',
+	'PEAKEE_API_URL',
+	'BLINDERS_EXPLORE_URL',
+].reduce((acc, cur) => {
+	acc[cur] = JSON.stringify(process.env[cur]);
+	return acc;
+}, {});
 
 /** @type { import('webpack').Configuration } */
 const configs = {
@@ -30,10 +62,6 @@ const configs = {
 	module: {
 		rules: [
 			{
-				test: /\.(css|scss)$/,
-				use: [{ loader: 'css-loader' }],
-			},
-			{
 				test: new RegExp('.(' + assetFileExtensions.join('|') + ')$'),
 				type: 'asset/resource',
 				loader: 'file-loader',
@@ -41,32 +69,24 @@ const configs = {
 			},
 			{ test: /\.html$/, loader: 'html-loader' },
 			{
-				test: /\.(ts|tsx)$/,
-				exclude: /node_modules/,
-				use: [
-					{
-						loader: require.resolve('ts-loader'),
-						options: {
-							getCustomTransformers: isDevelopment && [
-								ReactRefreshTypeScript(),
-							],
-							transpileOnly: isDevelopment,
-						},
-					},
+				test: /\.(js|jsx|ts|tsx)$/,
+				exclude: [
+					path.resolve(
+						__dirname,
+						'../../node_modules/react-redux/node_modules/@babel',
+					),
 				],
-			},
-			{
-				test: /\.(js|jsx)$/,
-				exclude: /node_modules/,
+				include: [
+					...resolvedTranspilePackages,
+					...resolvedInternalPackages,
+					path.resolve(__dirname, 'src'),
+				],
 				use: [
-					{ loader: 'source-map-loader' },
 					{
-						loader: require.resolve('babel-loader'),
+						loader: 'babel-loader',
 						options: {
-							plugins: [
-								isDevelopment &&
-									require.resolve('react-refresh/babel'),
-							].filter(Boolean),
+							presets: ['module:metro-react-native-babel-preset'],
+							plugins: ['react-native-web'],
 						},
 					},
 				],
@@ -74,17 +94,34 @@ const configs = {
 		],
 	},
 	resolve: {
+		alias: {
+			'react-native$': 'react-native-web',
+		},
 		extensions: assetFileExtensions
 			.map((extension) => '.' + extension)
-			.concat(['.js', '.jsx', '.ts', '.tsx', '.css']),
+			.concat([
+				'.web.js',
+				'.web.jsx',
+				'.web.ts',
+				'.web.tsx',
+				'.js',
+				'.jsx',
+				'.ts',
+				'.tsx',
+			]),
 	},
 	plugins: [
 		new CleanWebpackPlugin({ verbose: true }),
 		new webpack.ProgressPlugin(),
+		new webpack.DefinePlugin({
+			__DEV__: process.env.NODE_ENV !== 'production' || true,
+			process: { env: {} },
+			...environments,
+		}),
 		new CopyWebpackPlugin({
 			patterns: [
 				{
-					from: 'manifest.json',
+					from: 'src/manifest.json',
 					force: true,
 					transform: function (content) {
 						return Buffer.from(
@@ -125,15 +162,5 @@ const configs = {
 		}),
 	],
 };
-
-if (isDevelopment) {
-	configs.devtool = 'cheap-module-source-map';
-	configs.plugins.unshift(new ReactRefreshWebpackPlugin());
-} else {
-	configs.optimization = {
-		minimize: true,
-		minimizer: [new TerserPlugin({ extractComments: false })],
-	};
-}
 
 module.exports = configs;
