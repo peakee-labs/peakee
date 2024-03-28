@@ -7,8 +7,8 @@
     "license": "ISC",
     "dependencies": {
         "react": "^18.2.0",
-        "react-native": "0.72.4",
-        "react-native-svg": "^13.14.0"
+        "react-native": "^0.73.6",
+        "react-native-svg": "^14.1.0"
     },
     "devDependencies": {
         "@types/react": "^18.2.0"
