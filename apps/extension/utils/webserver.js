@@ -21,8 +21,6 @@ for (var entryName in config.entry) {
 	}
 }
 
-delete config.chromeExtensionBoilerplate;
-
 const compiler = webpack(config);
 
 const server = new WebpackDevServer(

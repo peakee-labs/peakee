@@ -2,7 +2,8 @@
   "name": "@peakee/ext",
   "version": "0.0.1",
   "scripts": {
-    "build": "node utils/build.js",
+    "build": "webpack",
+    "build:prod": "node utils/build.js",
     "start": "node utils/webserver.js"
   },
   "dependencies": {
@@ -23,6 +24,7 @@
     "babel-preset-react-app": "^10.0.1",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",
     "file-loader": "^6.2.0",
     "fs-extra": "^11.1.0",
