@@ -1,4 +1,5 @@
 import { type FC, useCallback, useEffect, useState } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import {
 	ActivityIndicator,
 	StyleSheet,
@@ -6,7 +7,7 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { TextInput } from 'react-native';
 import { Copy, Speaker, Switch } from '@peakee/icons';
 import Clipboard from '@react-native-community/clipboard';
 import { throttle } from 'lodash';
@@ -16,11 +17,13 @@ import { translate } from '../api';
 export type Props = {
 	initText?: string;
 	initLanguages?: 'en-vi' | 'vi-en';
+	style?: StyleProp<ViewStyle>;
 };
 
 export const TranslateBox: FC<Props> = ({
 	initText = '',
 	initLanguages = 'en-vi',
+	style,
 }) => {
 	const [loading, setLoading] = useState(false);
 	const [text, setText] = useState(initText);
@@ -72,7 +75,7 @@ export const TranslateBox: FC<Props> = ({
 	}, []);
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, style]}>
 			<View style={styles.header}>
 				<Text style={styles.title}>
 					{from == 'en' ? 'English' : 'Vietnamese'}
@@ -95,6 +98,7 @@ export const TranslateBox: FC<Props> = ({
 					value={text}
 					onChangeText={handleChangeText}
 					placeholder="Type to translate..."
+					placeholderTextColor={'#8E8E93'}
 					multiline
 					autoCorrect={false}
 					autoCapitalize="none"
@@ -125,13 +129,15 @@ export const TranslateBox: FC<Props> = ({
 				</View>
 			</View>
 
-			{loading ? (
-				<ActivityIndicator />
-			) : (
-				<Text style={styles.content} selectable={true}>
-					{translated}
-				</Text>
-			)}
+			<View style={styles.translatedContainer}>
+				{loading ? (
+					<ActivityIndicator />
+				) : (
+					<Text style={styles.translated} selectable={true}>
+						{translated}
+					</Text>
+				)}
+			</View>
 		</View>
 	);
 };
@@ -164,19 +170,19 @@ const styles = StyleSheet.create({
 		width: 200,
 		backgroundColor: '#000000',
 		opacity: 0.2,
-		margin: 50,
-	},
-	content: {
-		fontSize: 24,
+		marginBottom: 20,
 	},
 	textInputContainer: {
-		minHeight: 50,
+		minHeight: 80,
+		marginBottom: 10,
 	},
 	textInput: {
+		flex: 1,
 		fontSize: 24,
 		paddingHorizontal: 0,
 		paddingVertical: 0,
-	},
+		outlineStyle: 'none',
+	} as never,
 	clearButton: {
 		position: 'absolute',
 		bottom: -20,
@@ -184,5 +190,12 @@ const styles = StyleSheet.create({
 	},
 	clearText: {
 		color: '#000000',
+	},
+	translatedContainer: {
+		minHeight: 80,
+		marginTop: 0,
+	},
+	translated: {
+		fontSize: 24,
 	},
 });

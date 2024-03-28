@@ -1,9 +1,11 @@
 import { createRoot } from 'react-dom/client';
-import {} from 'react-native-reanimated';
+import { initAppConfig } from '@peakee/app/utils';
 
 import Newtab from './Newtab';
-console.log('Hello from the newtab index.js');
+
+// eslint-disable-next-line no-undef
+initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL });
 
 const container = document.getElementById('app-container');
-const root = createRoot(container); // createRoot(container!) if you use TypeScript
+const root = createRoot(container);
 root.render(<Newtab />);

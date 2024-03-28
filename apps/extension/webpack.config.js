@@ -2,11 +2,15 @@ const webpack = require('webpack');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const assetFileExtensions = ['jpg', 'jpeg', 'png', 'svg', 'ttf'];
 
-const internalPackages = ['ui', 'icons'];
+const internalPackages = ['ui', 'icons', 'app'];
 
 const resolvedInternalPackages = internalPackages.map((p) => {
 	return path.resolve(__dirname, '../../packages', p);
@@ -27,13 +31,6 @@ const resolvedTranspilePackages = transpilePackages.map((p) => {
 });
 
 const environments = [
-	'API_KEY',
-	'AUTH_DOMAIN',
-	'PROJECT_ID',
-	'STORAGE_BUCKET',
-	'MESSAGING_SENDER_ID',
-	'APP_ID',
-	'MEASUREMENT_ID',
 	'PEAKEE_WS_URL',
 	'PEAKEE_API_URL',
 	'BLINDERS_EXPLORE_URL',
