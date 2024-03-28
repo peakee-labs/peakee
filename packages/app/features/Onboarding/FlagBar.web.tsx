@@ -1,5 +1,6 @@
 import CountryFlag from 'react-country-flag';
 import { Pressable, StyleSheet, Text } from 'react-native';
+import { Colors } from '@peakee/ui';
 
 interface Props {
 	isoCode: string; // ISO-3166 format
@@ -29,12 +30,12 @@ const FlagBar = ({ isActive, onPress, isoCode, name }: Props) => {
 
 const styles = StyleSheet.create({
 	container: {
-		width: '90%',
+		width: '100%',
 		alignSelf: 'center',
 		height: 50,
-		borderColor: '#000000',
+		borderColor: Colors.textBlack,
 		borderRadius: 10,
-		borderWidth: 2,
+		borderWidth: 1,
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
@@ -42,7 +43,8 @@ const styles = StyleSheet.create({
 		gap: 10,
 	},
 	active: {
-		borderColor: '#FF7670',
+		backgroundColor: Colors.fgOrange,
+		borderWidth: 0,
 	},
 	flag: {
 		fontSize: 30,
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
 		fontSize: 17,
 	},
 	nameActive: {
-		color: '#eeeeee',
+		color: Colors.textWhite,
 	},
 });
 

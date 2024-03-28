@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { CircleExclaimation } from '@peakee/icons';
 
@@ -59,16 +59,18 @@ const OnboardingDob: FC<OnboardingProps> = ({ onPrev, onNext }) => {
 							<input
 								style={styles.inputDob}
 								type="date"
-								onChange={onChange}
+								onInput={onChange}
 								value={value}
 							/>
 						)}
 						name="dateOfBirth"
 					/>
 					{errors.dateOfBirth && (
-						<View>
-							<CircleExclaimation size={20} color={'000000'} />
-							<Text>{errors.dateOfBirth?.message}</Text>
+						<View style={styles.error}>
+							<CircleExclaimation size={20} color={'#ff0000'} />
+							<Text style={styles.errorMessage}>
+								{errors.dateOfBirth?.message}
+							</Text>
 						</View>
 					)}
 				</View>
@@ -85,17 +87,16 @@ const OnboardingDob: FC<OnboardingProps> = ({ onPrev, onNext }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		paddingVertical: 10,
 		flex: 1,
 		paddingHorizontal: 20,
-		gap: 10,
+		paddingVertical: 20,
+		gap: 20,
 		backgroundColor: '#ffffff',
 	},
 	title: {
 		color: '#222831',
 		fontSize: 28,
 		fontWeight: '600',
-		marginBottom: 20,
 	},
 	contentContainer: {
 		flexDirection: 'column',
@@ -104,11 +105,18 @@ const styles = StyleSheet.create({
 	},
 	inputContainer: {
 		position: 'relative',
+		width: '100%',
+		flexDirection: 'row',
 	},
 	inputDob: {
 		alignSelf: 'center',
-		width: '90%',
-		paddingHorizontal: 20,
+		flex: 1,
+		height: 50,
+		borderWidth: 1,
+		borderColor: '#222831',
+		paddingLeft: 20,
+		paddingRight: 20,
+		borderRadius: 5,
 	},
 	footer: {
 		position: 'absolute',
@@ -117,11 +125,19 @@ const styles = StyleSheet.create({
 		width: '100%',
 		paddingHorizontal: 20,
 	},
+	errorMessage: {
+		fontSize: 13,
+		color: '#ff0000',
+	},
 	error: {
 		position: 'absolute',
 		flexDirection: 'row',
 		gap: 10,
-		bottom: -20,
+		top: '50%',
+		height: 20,
+		alignItems: 'center',
+		transform: [{ translateY: -10 }],
+		right: 50,
 	},
 });
 

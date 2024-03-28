@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
+import { Colors } from '@peakee/ui';
 
 interface Props {
 	isoCode: string; // ISO-3166 format
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
 		width: '90%',
 		alignSelf: 'center',
 		height: 50,
-		borderColor: '#000000',
+		borderColor: Colors.textBlack,
 		borderRadius: 10,
 		borderWidth: 1.5,
 		flexDirection: 'row',
@@ -40,9 +41,10 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingHorizontal: 10,
 		gap: 10,
+		backgroundColor: Colors.bgWhite,
 	},
 	active: {
-		borderColor: '#FF7670',
+		borderColor: Colors.fgOrange,
 	},
 	flag: {
 		height: 30,
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
 		fontSize: 17,
 	},
 	nameActive: {
-		color: '#eeeeee',
+		color: Colors.textWhite,
 	},
 });
 
