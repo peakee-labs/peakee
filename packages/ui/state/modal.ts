@@ -9,8 +9,8 @@ export type ModalConfig<T extends object = object> = Omit<
 > & {
 	id: string;
 	useBackdrop?: boolean;
-	Component: FC<{ context: T }>;
-	context: T;
+	Component: FC<T>;
+	props: T;
 };
 
 export type ModalState = {

@@ -1,11 +1,8 @@
 import Config from 'react-native-config';
 import { initAppConfig, initAssets } from '@peakee/app';
-import { initOpenAIClient } from '@peakee/chat';
+import TranslateBox from '@peakee/app/features/TranslateBox';
 import { showModal } from '@peakee/ui';
 import { injectUtils } from '@peakee/utils';
-
-import type { TranslateContext } from './modal/Translate';
-import TranslateModal from './modal/Translate';
 
 export const initApp = () => {
 	initAssets({
@@ -29,13 +26,13 @@ export const initApp = () => {
 			if (!text) {
 				snapIndex = 3;
 			}
-			showModal<TranslateContext>({
+			showModal({
 				id: 'translate',
 				index: snapIndex,
 				snapPoints: ['20%', '40%', '60%', '70%', '90%'],
 				useBackdrop: false,
-				Component: TranslateModal,
-				context: { text, languages },
+				Component: TranslateBox,
+				props: { initText: text, initLanguages: languages },
 			});
 		},
 	});

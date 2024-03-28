@@ -9,24 +9,19 @@ import {
 import { TextInput } from 'react-native-gesture-handler';
 import { Copy, Speaker, Switch } from '@peakee/icons';
 import Clipboard from '@react-native-community/clipboard';
-import axios from 'axios';
 import { throttle } from 'lodash';
 
-type TranslateResponse = {
-	text: string;
-	translated: string;
-	languages: string;
+import { translate } from '../api';
+
+export type Props = {
+	initText?: string;
+	initLanguages?: 'en-vi' | 'vi-en';
 };
 
-export type TranslateContext = {
-	text?: string;
-	languages: 'en-vi' | 'vi-en';
-};
-
-const TranslateModal: FC<{
-	context: TranslateContext;
-}> = ({ context }) => {
-	const { text: initText = '', languages: initLanguages } = context;
+export const TranslateBox: FC<Props> = ({
+	initText = '',
+	initLanguages = 'en-vi',
+}) => {
 	const [loading, setLoading] = useState(false);
 	const [text, setText] = useState(initText);
 	const [translated, setTranslated] = useState('');
@@ -35,16 +30,9 @@ const TranslateModal: FC<{
 
 	const fetchTranslation = useCallback(
 		throttle(async (text: string) => {
-			try {
-				const languages = `${from}-${to}`;
-				const res = await axios.get<TranslateResponse>(
-					'https://api.peakee.co/v1/translate',
-					{ params: { text, languages } },
-				);
-				setTranslated(res.data.translated);
-			} catch (e) {
-				console.log('translate error', e);
-			}
+			const languages = `${from}-${to}`;
+			const res = await translate(text, languages as never);
+			if (res) setTranslated(res.translated);
 		}, 1000),
 		[from, to],
 	);
@@ -148,7 +136,7 @@ const TranslateModal: FC<{
 	);
 };
 
-export default TranslateModal;
+export default TranslateBox;
 
 const styles = StyleSheet.create({
 	container: {

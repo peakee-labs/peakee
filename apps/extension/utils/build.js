@@ -1,27 +1,26 @@
-// Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 process.env.ASSET_PATH = '/';
 
-var webpack = require('webpack'),
-	path = require('path'),
-	fs = require('fs'),
-	config = require('../webpack.config'),
-	ZipPlugin = require('zip-webpack-plugin');
-
-delete config.chromeExtensionBoilerplate;
+const webpack = require('webpack');
+const path = require('path');
+const config = require('../webpack.config');
+const ZipPlugin = require('zip-webpack-plugin');
 
 config.mode = 'production';
 
-var packageInfo = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+const packageInfo = require('../package.json');
 
-config.plugins = (config.plugins || []).concat(
+console.log('Building version:', packageInfo.version);
+
+config.plugins.push(
 	new ZipPlugin({
-		filename: `${packageInfo.name}-${packageInfo.version}.zip`,
+		filename: `peakee-ext-${packageInfo.version}.zip`,
 		path: path.join(__dirname, '../', 'zip'),
 	}),
 );
 
 webpack(config, function (err) {
+	console.log('Build complete.');
 	if (err) throw err;
 });
