@@ -106,12 +106,8 @@ const styles = StyleSheet.create({
 	},
 	inputDob: {
 		alignSelf: 'center',
-		width: '100%',
+		width: 900,
 		paddingHorizontal: 20,
-		height: 50,
-		borderWidth: 1,
-		borderColor: '#222831',
-		borderRadius: 5,
 	},
 	footer: {
 		position: 'absolute',
