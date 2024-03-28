@@ -72,18 +72,17 @@ const ExploreFeature: FC = () => {
 		return <ExploreProfile explore={item.explore} profile={item.profile} />;
 	}, []);
 
-	useEffect(() => {
-		const fetchUserExplore = async () => {
-			if (profile?.id) {
-				const currentExplore = await getExploreProfileOfUser(
-					profile.id,
-				);
-				if (currentExplore) {
-					dispatch(setExploreProfile(currentExplore));
-				}
-				dispatch(updateExploreLoading(false));
+	const fetchUserExplore = async () => {
+		if (profile?.id) {
+			const currentExplore = await getExploreProfileOfUser(profile.id);
+			if (currentExplore) {
+				dispatch(setExploreProfile(currentExplore));
 			}
-		};
+			dispatch(updateExploreLoading(false));
+		}
+	};
+
+	useEffect(() => {
 		fetchUserExplore().catch((e) => console.log(e));
 		handleGetSuggestUser().catch((e) => console.log(e));
 	}, []);
