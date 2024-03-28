@@ -1,24 +1,32 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { getUsers, sendFriendRequest } from '@peakee/app/api';
 import { Search } from '@peakee/app/components';
 import ExploreFeature from '@peakee/app/features/Explore';
-import type { RootState } from '@peakee/app/state';
+import { type RootState } from '@peakee/app/state';
 import type { PublicUserProfile } from '@peakee/app/types';
 import { Avatar, Button } from '@peakee/ui';
 import { throttle } from 'lodash';
+import { useRouter } from 'next/router';
 
 import { withAuth, withBottomNavigation } from '../utils/hoc';
 
 export const Friends = () => {
-	const profile = useSelector((state: RootState) => state.user.profile);
+	const {
+		user: { profile },
+		explore: {
+			profileLoading: exploreProfileLoading,
+			profile: exploreProfile,
+		},
+	} = useSelector((state: RootState) => state);
 	const [searchedFriends, setSearchedFriends] = useState<PublicUserProfile[]>(
 		[],
 	);
 	const [addedMap, setAddedMap] = useState<
 		Record<string, 'sent' | 'pending' | 'failed'>
 	>({});
+
 	const searchByEmail = useCallback(
 		throttle(async (text: string) => {
 			const users = await getUsers({ email: text });
@@ -39,6 +47,13 @@ export const Friends = () => {
 			}
 		});
 	};
+
+	const router = useRouter();
+	useEffect(() => {
+		if (!exploreProfileLoading && !exploreProfile) {
+			router.push('/onboarding');
+		}
+	}, [exploreProfileLoading, exploreProfile]);
 
 	return (
 		<View style={styles.container}>
@@ -124,7 +139,7 @@ const styles = StyleSheet.create({
 		color: '#ab2525',
 	},
 	exploreContainer: {
-		maxwidth: 700,
+		maxWidth: 700,
 		alignSelf: 'center',
 	},
 });
