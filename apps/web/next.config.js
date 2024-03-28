@@ -13,6 +13,7 @@ module.exports = {
 		'react-native-reanimated',
 		'react-native-gesture-handler',
 		'@gorhom/bottom-sheet',
+		'react-native-picker-select',
 	],
 	webpack: (config) => {
 		config.resolve.alias['react-native$'] = 'react-native-web';
