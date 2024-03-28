@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type {
 	FormDateOfBirth,
+	FormGender,
 	FormLanguage,
 	FormName,
 	OnboardingValue,
@@ -25,6 +26,7 @@ const initialState: Onboarding = {
 		native: '',
 		learnings: [],
 		major: '',
+		gender: 'unknown',
 	},
 };
 
@@ -77,6 +79,9 @@ export const onboardingSlice = createSlice({
 		updateProgress: (state, { payload }: PayloadAction<number>) => {
 			state.progress = payload;
 		},
+		updateGender: (state, { payload }: PayloadAction<FormGender>) => {
+			state.form.gender = payload.gender;
+		},
 	},
 });
 
@@ -90,6 +95,7 @@ export const {
 	updateLearningLanguage,
 	updateNativeLanguage,
 	updateCountry,
+	updateGender,
 } = onboardingSlice.actions;
 
 export const onboardingReducer = onboardingSlice.reducer;
