@@ -4733,13 +4733,39 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/dom@npm:^1.0.1":
+"@floating-ui/dom@npm:^1.0.1, @floating-ui/dom@npm:^1.6.1":
   version: 1.6.3
   resolution: "@floating-ui/dom@npm:1.6.3"
   dependencies:
     "@floating-ui/core": "npm:^1.0.0"
     "@floating-ui/utils": "npm:^0.2.0"
   checksum: 10/83e97076c7a5f55c3506f574bc53f03d38bed6eb8181920c8733076889371e287e9ae6f28c520a076967759b9b6ff425362832a5cdf16a999069530dbb9cce53
+  languageName: node
+  linkType: hard
+
+"@floating-ui/react-dom@npm:^2.0.0":
+  version: 2.0.8
+  resolution: "@floating-ui/react-dom@npm:2.0.8"
+  dependencies:
+    "@floating-ui/dom": "npm:^1.6.1"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10/e57b2a498aecf8de0ec28adf434257fca7893bd9bd7e78b63ac98c63b29b9fc086fc175630154352f3610f5c4a0d329823837f4f6c235cc0459fde6417065590
+  languageName: node
+  linkType: hard
+
+"@floating-ui/react@npm:^0.26.2":
+  version: 0.26.10
+  resolution: "@floating-ui/react@npm:0.26.10"
+  dependencies:
+    "@floating-ui/react-dom": "npm:^2.0.0"
+    "@floating-ui/utils": "npm:^0.2.0"
+    tabbable: "npm:^6.0.0"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10/7bbb22d61f180a3ef245da4c57c8773c38994087e1f593b2be7377796d66a0050109a4f3f57f63653662130bcf01c47a7b254d7448383339870bf9208624640d
   languageName: node
   linkType: hard
 
@@ -5471,8 +5497,6 @@ __metadata:
   dependencies:
     "@peakee/ui": "npm:*"
     "@react-native-async-storage/async-storage": "npm:^1.22.3"
-    "@react-native-community/datetimepicker": "npm:^7.6.3"
-    "@react-native-picker/picker": "npm:2.6.1"
     "@reduxjs/toolkit": "npm:^1.9.6"
     "@types/jest": "npm:^29.5.12"
     "@types/react": "npm:^18.2.0"
@@ -5480,8 +5504,6 @@ __metadata:
     jest: "npm:^29.7.0"
     react: "npm:^18.2.0"
     react-native: "npm:^0.73.6"
-    react-native-date-picker: "npm:^5.0.0"
-    react-native-picker-select: "npm:^9.0.1"
     react-redux: "npm:^8.1.3"
     typescript: "npm:*"
   languageName: unknown
@@ -5612,9 +5634,11 @@ __metadata:
     "@peakee/chat": "npm:*"
     "@peakee/ui": "npm:*"
     "@react-native-community/clipboard": "npm:^1.5.1"
+    "@react-native-community/datetimepicker": "npm:^7.6.3"
     "@react-native-firebase/app": "npm:^18.5.0"
     "@react-native-firebase/auth": "npm:^18.5.0"
     "@react-native-google-signin/google-signin": "npm:^10.0.1"
+    "@react-native-picker/picker": "npm:^2.7.2"
     "@react-native/metro-config": "npm:^0.75.0-main"
     "@react-navigation/native": "npm:^6.1.8"
     "@react-navigation/native-stack": "npm:^6.9.14"
@@ -5631,7 +5655,9 @@ __metadata:
     react-native: "npm:^0.73.6"
     react-native-config: "npm:^1.5.1"
     react-native-country-flag: "npm:^2.0.2"
+    react-native-date-picker: "npm:^5.0.0"
     react-native-gesture-handler: "npm:^2.13.4"
+    react-native-picker-select: "npm:^9.0.1"
     react-native-reanimated: "npm:^3.5.4"
     react-native-safe-area-context: "npm:^4.7.2"
     react-native-screens: "npm:^3.25.0"
@@ -5683,11 +5709,11 @@ __metadata:
     "@peakee/eslint-config": "npm:*"
     "@peakee/tsconfig": "npm:*"
     "@peakee/ui": "npm:*"
-    "@react-native-picker/picker": "npm:^2.7.2"
     "@reduxjs/toolkit": "npm:^1.9.6"
     "@types/lodash": "npm:^4.14.200"
     "@types/node": "npm:^20.5.2"
     "@types/react": "npm:^18.2.0"
+    "@types/react-datepicker": "npm:^6"
     "@types/react-dom": "npm:^18.2.0"
     axios: "npm:^1.6.8"
     firebase: "npm:^10.4.0"
@@ -6107,16 +6133,6 @@ __metadata:
     expo:
       optional: true
   checksum: 10/55c544c17b7ea3b4ee374d6ce4817cf6ad9f61503817047ca51211a83810c2d6d770427128cd34e291a7eab73dfeb55b38df61922b8bd575d8d5873328037c52
-  languageName: node
-  linkType: hard
-
-"@react-native-picker/picker@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@react-native-picker/picker@npm:2.6.1"
-  peerDependencies:
-    react: ">=16"
-    react-native: ">=0.57"
-  checksum: 10/55577a263f774361430acc729fe68e5fe60f177939e32fd572d67da20deab2dcd7c62af9eaa0bc09dea3af09391a80be5d65efb566e2f2e9748e1d427c740bed
   languageName: node
   linkType: hard
 
@@ -7758,6 +7774,17 @@ __metadata:
   version: 1.2.7
   resolution: "@types/range-parser@npm:1.2.7"
   checksum: 10/95640233b689dfbd85b8c6ee268812a732cf36d5affead89e806fe30da9a430767af8ef2cd661024fd97e19d61f3dec75af2df5e80ec3bea000019ab7028629a
+  languageName: node
+  linkType: hard
+
+"@types/react-datepicker@npm:^6":
+  version: 6.2.0
+  resolution: "@types/react-datepicker@npm:6.2.0"
+  dependencies:
+    "@floating-ui/react": "npm:^0.26.2"
+    "@types/react": "npm:*"
+    date-fns: "npm:^3.3.1"
+  checksum: 10/827805a10eb21ac671513f83a16b8a51dfacf25c8668b14e39c17dc0feea780a02c2abcf942b05b0652410a4f759ec5d96fb046a14c991df0e54fa51bb2d6c79
   languageName: node
   linkType: hard
 
@@ -10465,6 +10492,13 @@ __metadata:
     es-errors: "npm:^1.3.0"
     is-data-view: "npm:^1.0.1"
   checksum: 10/96f34f151bf02affb7b9f98762fb7aca1dd5f4553cb57b80bce750ca609c15d33ca659568ef1d422f7e35680736cbccb893a3d4b012760c758c1446bbdc4c6db
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^3.3.1":
+  version: 3.6.0
+  resolution: "date-fns@npm:3.6.0"
+  checksum: 10/cac35c58926a3b5d577082ff2b253612ec1c79eb6754fddef46b6a8e826501ea2cb346ecbd211205f1ba382ddd1f9d8c3f00bf433ad63cc3063454d294e3a6b8
   languageName: node
   linkType: hard
 
@@ -18899,6 +18933,13 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 10/a9dc19ae2220c952bd2231d08ddeecb1b0328b61e72071ff4000c8384e145cc07c1c0bdb3b5a1cb06e186a7b2790f1dee793418b332f6ddf320de25d9125be7e
+  languageName: node
+  linkType: hard
+
+"tabbable@npm:^6.0.0":
+  version: 6.2.0
+  resolution: "tabbable@npm:6.2.0"
+  checksum: 10/980fa73476026e99dcacfc0d6e000d41d42c8e670faf4682496d30c625495e412c4369694f2a15cf1e5252d22de3c396f2b62edbe8d60b5dadc40d09e3f2dde3
   languageName: node
   linkType: hard
 
