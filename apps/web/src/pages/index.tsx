@@ -30,7 +30,7 @@ const Home: FC = () => {
 					height={80}
 				/>
 				<View style={styles.headerTextContainer}>
-					<Text style={styles.header}>Chatting</Text>
+					<Text style={styles.header}>Peakee Chat</Text>
 					<View style={styles.quoteContainer}>
 						<Quote color={'#FF9F00'} size={16} strokeWidth="1.5" />
 						<Text style={styles.quoteText}>
@@ -61,18 +61,20 @@ const styles = StyleSheet.create({
 	},
 	headerContainer: {
 		flexDirection: 'row',
-		alignItems: 'center',
 		gap: 10,
 	},
 	headerTextContainer: {
+		flex: 1,
 		gap: 4,
+		marginTop: 18,
 	},
 	quoteContainer: {
+		flex: 1,
 		flexDirection: 'row',
 		gap: 6,
-		alignItems: 'center',
 	},
 	quoteText: {
+		flex: 1,
 		color: '#565656',
 	},
 	friendsContainer: {
