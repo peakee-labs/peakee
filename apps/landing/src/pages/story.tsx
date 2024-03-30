@@ -52,9 +52,9 @@ export default function Story() {
 						English as much as possible.
 					</Paragraph>
 					<Paragraph>
-						And Peakee will help you use English daily, everywhere,
-						help you revise what you have used, and expand your
-						English in your own way.
+						Peakee will help you use English daily, everywhere, help
+						you revise what you have used, and expand your English
+						in your own way.
 					</Paragraph>
 				</MainContent>
 				<Footer>
