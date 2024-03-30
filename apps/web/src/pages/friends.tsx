@@ -47,7 +47,6 @@ export const Friends = () => {
 
 	const router = useRouter();
 	useEffect(() => {
-		console.log(explore);
 		if (!explore.profileLoading && !explore.profile) {
 			router.push('/onboarding');
 		}
