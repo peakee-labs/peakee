@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 
-import { Container, HorizontalBox, PrimaryButton } from '@/components';
+import { HorizontalBox, PrimaryButton } from '@/components';
 import BurgerIcon from '@/components/icons/BurgerIcon';
 import { headerItems } from '@/config/content';
 import { devices } from '@/config/responsive';
@@ -12,35 +12,33 @@ export const Header = () => {
 	};
 
 	return (
-		<Wrapper>
-			<HeaderContainer>
+		<Container>
+			<Link href={'/'}>
 				<AppName>Peakee</AppName>
+			</Link>
 
-				<MenuButton>
-					<BurgerIcon />
-				</MenuButton>
+			<MenuButton>
+				<BurgerIcon />
+			</MenuButton>
 
-				<HeaderItems>
-					{headerItems.map(({ link, title }, idx) => {
-						return (
-							<Link key={idx} href={link} target="_blank">
-								<HeaderText>{title}</HeaderText>
-							</Link>
-						);
-					})}
+			<HeaderItems>
+				{headerItems.map(({ link, title }, idx) => {
+					return (
+						<Link key={idx} href={link}>
+							<HeaderText>{title}</HeaderText>
+						</Link>
+					);
+				})}
 
-					<PrimaryButton title="Launch App" onClick={launchApp} />
-				</HeaderItems>
-			</HeaderContainer>
-		</Wrapper>
+				<PrimaryButton title="Launch App" onClick={launchApp} />
+			</HeaderItems>
+		</Container>
 	);
 };
 
 export default Header;
 
-const Wrapper = styled(Container)``;
-
-const HeaderContainer = styled(HorizontalBox)`
+const Container = styled(HorizontalBox)`
 	justify-content: space-between;
 	align-items: center;
 	height: 60px;

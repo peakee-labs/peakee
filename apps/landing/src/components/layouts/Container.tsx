@@ -1,6 +1,8 @@
 import type { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
+import Box from '../Box';
+
 type Props = {
 	className?: string;
 	children: ReactNode;
@@ -8,19 +10,19 @@ type Props = {
 
 export const Container: FC<Props> = ({ className, children }) => {
 	return (
-		<Wrapper className={className}>
+		<RootWrapper className={className}>
 			<ContentContainer>{children}</ContentContainer>
-		</Wrapper>
+		</RootWrapper>
 	);
 };
 
 export default Container;
 
-const Wrapper = styled.div`
+export const RootWrapper = styled(Box)`
 	width: 100%;
 `;
 
-const ContentContainer = styled.div`
+export const ContentContainer = styled(Box)`
 	max-width: 1280px;
 	width: 100%;
 	margin-left: auto;

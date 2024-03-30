@@ -4,14 +4,10 @@ type HeaderItem = {
 };
 
 export const headerItems: HeaderItem[] = [
-	// {
-	// 	title: 'About',
-	// 	link: '/about',
-	// },
-	// {
-	// 	title: 'Community',
-	// 	link: '/about',
-	// },
+	{
+		title: 'The story',
+		link: '/story',
+	},
 	{
 		title: 'Contact',
 		link: '/contact',

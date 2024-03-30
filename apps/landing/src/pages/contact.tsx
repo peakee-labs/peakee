@@ -1,26 +1,29 @@
-import { Montserrat } from 'next/font/google';
 import Head from 'next/head';
 import Link from 'next/link';
 import styled from 'styled-components';
 
-const montserrat = Montserrat({
-	subsets: ['latin'],
-});
+import { Container } from '@/components';
+import { Header } from '@/features/HomePage';
 
 export default function Contact() {
 	return (
-		<Container className={`${montserrat.className}`}>
+		<Container>
 			<Head>
-				<title>Peakee | Contact</title>
+				<title>Peakee | Learn English by Chatting</title>
 			</Head>
-			<Link href={'mailto:admin@peakee.co'} target="_blank">
-				<h1>admin@peakee.co</h1>
-			</Link>
+
+			<Header />
+
+			<ContentContainer>
+				<Link href={'mailto:admin@peakee.co'} target="_blank">
+					<h1>admin@peakee.co</h1>
+				</Link>
+			</ContentContainer>
 		</Container>
 	);
 }
 
-const Container = styled.div`
+const ContentContainer = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: center;

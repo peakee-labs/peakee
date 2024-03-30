@@ -37,5 +37,5 @@ const styles = StyleSheet.create({
 		flex: 1,
 		lineHeight: 26,
 		outlineStyle: 'none',
-	},
+	} as never,
 });

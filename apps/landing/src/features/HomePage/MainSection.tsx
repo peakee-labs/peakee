@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import {
 	Box,
-	Container,
 	HorizontalBox,
 	PrimaryButton,
 	SecondaryButton,
@@ -25,56 +24,52 @@ export const MainSection = () => {
 	};
 
 	return (
-		<Wrapper>
-			<MainContainer>
-				<TitleBox>
-					<BigTitle>Learn English</BigTitle>
-					<BigTitle>
-						by <Highlight>Chatting</Highlight>
-					</BigTitle>
-					<SubTitle>
-						Peakee helps you to chat in English by supporting AI
-						suggestions, in-app translation and more...
-					</SubTitle>
-					<ButtonsBox>
-						<PrimaryButton title="Launch App" onClick={launchApp} />
-						<SecondaryButton
-							title="Join waitlist"
-							onClick={joinWaitlist}
-						/>
-					</ButtonsBox>
-				</TitleBox>
+		<Container>
+			<TitleBox>
+				<BigTitle>Learn English</BigTitle>
+				<BigTitle>
+					by <Highlight>Chatting</Highlight>
+				</BigTitle>
+				<SubTitle>
+					Peakee helps you to chat in English by supporting AI
+					suggestions, in-app translation and more...
+				</SubTitle>
+				<ButtonsBox>
+					<PrimaryButton title="Launch App" onClick={launchApp} />
+					<SecondaryButton
+						title="Join waitlist"
+						onClick={joinWaitlist}
+					/>
+				</ButtonsBox>
+			</TitleBox>
 
-				<ImageContainer
-					animate={{ opacity: [0, 1], y: [40, 0] }}
-					transition={{ duration: 0.4, delay: 0.2 }}
+			<ImageContainer
+				animate={{ opacity: [0, 1], y: [40, 0] }}
+				transition={{ duration: 0.4, delay: 0.2 }}
+			>
+				<ContainedImage fill src={'/peakee_app.png'} alt="" />
+
+				<SuggestionBox
+					animate={{ opacity: [0, 1], x: [100, 0], y: [50, 0] }}
+					transition={{ duration: 0.3, delay: 1 }}
 				>
-					<ContainedImage fill src={'/peakee_app.png'} alt="" />
+					<ContainedImage fill src={'/suggestion.png'} alt="" />
+				</SuggestionBox>
 
-					<SuggestionBox
-						animate={{ opacity: [0, 1], x: [100, 0], y: [50, 0] }}
-						transition={{ duration: 0.3, delay: 1 }}
-					>
-						<ContainedImage fill src={'/suggestion.png'} alt="" />
-					</SuggestionBox>
-
-					<TranslationBox
-						animate={{ opacity: [0, 1], x: [-100, 0], y: [50, 0] }}
-						transition={{ duration: 0.3, delay: 1.3 }}
-					>
-						<ContainedImage fill src={'/translation.png'} alt="" />
-					</TranslationBox>
-				</ImageContainer>
-			</MainContainer>
-		</Wrapper>
+				<TranslationBox
+					animate={{ opacity: [0, 1], x: [-100, 0], y: [50, 0] }}
+					transition={{ duration: 0.3, delay: 1.3 }}
+				>
+					<ContainedImage fill src={'/translation.png'} alt="" />
+				</TranslationBox>
+			</ImageContainer>
+		</Container>
 	);
 };
 
 export default MainSection;
 
-const Wrapper = styled(Container)``;
-
-const MainContainer = styled(Box)`
+const Container = styled(Box)`
 	height: 140vh;
 	max-height: 1524px;
 
