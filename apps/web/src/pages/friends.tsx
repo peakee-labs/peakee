@@ -15,10 +15,7 @@ import { withAuth, withBottomNavigation } from '../utils/hoc';
 export const Friends = () => {
 	const {
 		user: { profile },
-		explore: {
-			profileLoading: exploreProfileLoading,
-			profile: exploreProfile,
-		},
+		explore,
 	} = useSelector((state: RootState) => state);
 	const [searchedFriends, setSearchedFriends] = useState<PublicUserProfile[]>(
 		[],
@@ -50,10 +47,11 @@ export const Friends = () => {
 
 	const router = useRouter();
 	useEffect(() => {
-		if (!exploreProfileLoading && !exploreProfile) {
+		console.log(explore);
+		if (!explore.profileLoading && !explore.profile) {
 			router.push('/onboarding');
 		}
-	}, [exploreProfileLoading, exploreProfile]);
+	}, [explore.profileLoading, explore.profile]);
 
 	return (
 		<View style={styles.container}>

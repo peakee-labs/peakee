@@ -14,6 +14,7 @@ import {
 	addExploreCandidate,
 	setExploreProfile,
 	updateExploreLoading,
+	updateExploreProfileLoading,
 } from '@peakee/app/state';
 import type { PublicUserProfile, UserExplore } from '@peakee/app/types';
 
@@ -75,15 +76,19 @@ const ExploreFeature: FC = () => {
 	const fetchUserExplore = async () => {
 		if (profile?.id) {
 			const currentExplore = await getExploreProfileOfUser(profile.id);
+			console.log(currentExplore);
 			if (currentExplore) {
 				dispatch(setExploreProfile(currentExplore));
 			}
-			dispatch(updateExploreLoading(false));
+			dispatch(updateExploreProfileLoading(false));
 		}
 	};
 
 	useEffect(() => {
 		fetchUserExplore().catch((e) => console.log(e));
+	}, [profile?.id]);
+
+	useEffect(() => {
 		handleGetSuggestUser().catch((e) => console.log(e));
 	}, []);
 

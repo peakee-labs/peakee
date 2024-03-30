@@ -6,7 +6,7 @@ import type { PublicUserProfile, UserExplore } from '../types';
 export interface ExploreState {
 	exploreLoading: boolean;
 	profileLoading: boolean;
-	profile: UserExplore;
+	profile?: UserExplore;
 	candidates: Record<string, ExploreData>;
 }
 
@@ -19,7 +19,7 @@ const initialState: ExploreState = {
 	exploreLoading: true,
 	profileLoading: true,
 	candidates: {},
-	profile: {},
+	profile: undefined,
 } as ExploreState;
 
 export const exploreSlice = createSlice({
