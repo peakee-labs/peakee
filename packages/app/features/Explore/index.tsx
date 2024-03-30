@@ -76,7 +76,6 @@ const ExploreFeature: FC = () => {
 	const fetchUserExplore = async () => {
 		if (profile?.id) {
 			const currentExplore = await getExploreProfileOfUser(profile.id);
-			console.log(currentExplore);
 			if (currentExplore) {
 				dispatch(setExploreProfile(currentExplore));
 			}
