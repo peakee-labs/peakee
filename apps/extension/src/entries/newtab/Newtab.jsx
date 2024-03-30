@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { TranslateBox } from '@peakee/app/features/TranslateBox';
 
 const Newtab = () => {
 	return (
@@ -9,7 +8,6 @@ const Newtab = () => {
 			</Text>
 
 			<View style={styles.contentContainer}>
-				<TranslateBox style={styles.translateContainer} />
 				<View style={styles.reviewContainer}>
 					<Text style={styles.reviewText}>Metonymy</Text>
 					<Text style={styles.explainText}>
@@ -26,6 +24,8 @@ export default Newtab;
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
+		height: '100vh',
 		padding: 20,
 	},
 	header: {
@@ -33,17 +33,12 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 	},
 	contentContainer: {
-		flexDirection: 'row',
+		flex: 1,
 		marginTop: 30,
-	},
-	translateContainer: {
-		width: 500,
-		borderWidth: 1,
-		borderRadius: 20,
-		padding: 20,
 	},
 	reviewContainer: {
 		flex: 1,
+		justifyContent: 'center',
 		alignItems: 'center',
 		gap: 20,
 	},

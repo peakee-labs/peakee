@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const WebpackDevServer = require('webpack-dev-server');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 const config = require('../webpack.config');
@@ -24,6 +25,15 @@ config.output = {
 	clean: true,
 };
 
+config.entry['index'] = './src/index.jsx';
+config.plugins.push(
+	new HtmlWebpackPlugin({
+		template: './src/index.html',
+		filename: 'index.html',
+		chunks: ['index'],
+	}),
+);
+
 const compiler = webpack(config);
 
 const server = new WebpackDevServer(
@@ -38,6 +48,7 @@ const server = new WebpackDevServer(
 			'Access-Control-Allow-Origin': '*',
 		},
 		allowedHosts: 'all',
+		historyApiFallback: true,
 	},
 	compiler,
 );
