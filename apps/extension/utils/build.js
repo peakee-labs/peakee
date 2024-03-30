@@ -16,7 +16,7 @@ console.log('Building version:', packageInfo.version);
 config.plugins.push(
 	new ZipPlugin({
 		filename: `peakee-ext-${packageInfo.version}.zip`,
-		path: path.join(__dirname, '../', 'zip'),
+		path: path.join(__dirname, '../build/ext-zip'),
 	}),
 );
 
