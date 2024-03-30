@@ -2,11 +2,10 @@ const webpack = require('webpack');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const dotenv = require('dotenv');
 
 dotenv.config();
-
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const assetFileExtensions = ['jpg', 'jpeg', 'png', 'svg', 'ttf'];
 
@@ -42,6 +41,7 @@ const environments = [
 /** @type { import('webpack').Configuration } */
 const configs = {
 	mode: process.env.NODE_ENV || 'development',
+	devtool: 'cheap-module-source-map',
 	entry: {
 		newtab: './src/newtab/index.jsx',
 		options: './src/options/index.jsx',
@@ -53,7 +53,7 @@ const configs = {
 	},
 	output: {
 		filename: '[name].bundle.js',
-		path: path.resolve(__dirname, 'build'),
+		path: path.resolve(__dirname, 'build/ext'),
 		clean: true,
 	},
 	module: {

@@ -1,46 +1,39 @@
-// Do this as the first thing so that any code reading it knows the right env.
-process.env.BABEL_ENV = 'development';
-process.env.NODE_ENV = 'development';
-process.env.ASSET_PATH = '/';
-
-const WebpackDevServer = require('webpack-dev-server');
 const webpack = require('webpack');
-const config = require('../webpack.config');
-const env = require('./env');
+const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const WebpackDevServer = require('webpack-dev-server');
 const path = require('path');
 
-const options = config.chromeExtensionBoilerplate || {};
-const excludeEntriesToHotReload = options.notHotReload || [];
+const config = require('../webpack.config');
+const env = require('./env');
 
 for (var entryName in config.entry) {
-	if (excludeEntriesToHotReload.indexOf(entryName) === -1) {
-		config.entry[entryName] = [
-			'webpack/hot/dev-server',
-			`webpack-dev-server/client?hot=true&hostname=localhost&port=${env.PORT}`,
-		].concat(config.entry[entryName]);
-	}
+	config.entry[entryName] = [
+		'webpack/hot/dev-server',
+		`webpack-dev-server/client?hot=true&hostname=localhost&port=${env.PORT}`,
+	].concat(config.entry[entryName]);
 }
+
+config.plugins.push(
+	new ReactRefreshPlugin(),
+	new webpack.HotModuleReplacementPlugin(),
+);
+
+config.output = {
+	filename: '[name].bundle.js',
+	path: path.resolve(__dirname, 'build/dev'),
+	clean: true,
+};
 
 const compiler = webpack(config);
 
 const server = new WebpackDevServer(
 	{
-		https: false,
 		hot: true,
 		liveReload: false,
-		client: {
-			webSocketTransport: 'ws',
-		},
+		client: { webSocketTransport: 'ws' },
 		webSocketServer: 'ws',
 		host: 'localhost',
 		port: env.PORT,
-		static: {
-			directory: path.join(__dirname, '../build'),
-		},
-		devMiddleware: {
-			publicPath: `http://localhost:${env.PORT}/`,
-			writeToDisk: true,
-		},
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 		},
