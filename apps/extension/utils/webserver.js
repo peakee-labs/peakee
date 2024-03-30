@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const WebpackDevServer = require('webpack-dev-server');
 const path = require('path');
 
@@ -12,7 +13,10 @@ for (var entryName in config.entry) {
 	].concat(config.entry[entryName]);
 }
 
-config.plugins.push(new webpack.HotModuleReplacementPlugin());
+config.plugins.push(
+	new ReactRefreshPlugin(),
+	new webpack.HotModuleReplacementPlugin(),
+);
 
 config.output = {
 	filename: '[name].bundle.js',
@@ -25,14 +29,11 @@ const compiler = webpack(config);
 const server = new WebpackDevServer(
 	{
 		hot: true,
-		liveReload: true,
+		liveReload: false,
 		client: { webSocketTransport: 'ws' },
 		webSocketServer: 'ws',
 		host: 'localhost',
 		port: env.PORT,
-		static: {
-			directory: path.join(__dirname, '../assets'),
-		},
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 		},
