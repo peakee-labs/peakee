@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
 		borderRadius: 18,
 		outlineStyle: 'none',
 		maxHeight: 140,
-	},
+	} as never,
 	sendButton: {
 		height: 32,
 		width: 32,

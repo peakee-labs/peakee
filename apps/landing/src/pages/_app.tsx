@@ -9,6 +9,8 @@ import { useThemeMode } from '../utils';
 
 import '../styles/globals.css';
 
+import { Box } from '@/components';
+
 const montserrat = Montserrat({
 	subsets: ['latin'],
 });
@@ -19,9 +21,9 @@ export const App: FC<AppProps> = ({ Component, pageProps }) => {
 	return (
 		<ThemeProvider theme={themeMode === 'light' ? lightTheme : darkTheme}>
 			<GlobalStyles />
-			<div className={`${montserrat.className}`}>
+			<Box className={`${montserrat.className}`}>
 				<Component {...pageProps} />
-			</div>
+			</Box>
 		</ThemeProvider>
 	);
 };
