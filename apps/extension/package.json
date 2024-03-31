@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@peakee/app": "*",
+    "@peakee/icons": "*",
+    "@peakee/logger": "*",
     "@peakee/ui": "*",
     "axios": "^1.6.8",
     "react": "^18.2.0",

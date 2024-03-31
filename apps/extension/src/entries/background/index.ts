@@ -1,2 +1,4 @@
-console.log('This is the background page.');
-console.log('Put the background scripts here.');
+import { logger } from './utils';
+
+logger.log('This is the background page.');
+logger.log('Put the background scripts here.');
