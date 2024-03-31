@@ -12,13 +12,16 @@ export const ContentApp = () => {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const listener = function (e: MouseEvent) {
 			const selection = getSelectedText();
+
 			const isEmpty =
 				!selection?.toString() ||
 				!selection ||
 				selection.rangeCount < 1;
-			if (isEmpty) return;
-
-			handleSelect(selection);
+			if (isEmpty) {
+				setCurrentContext(undefined);
+			} else {
+				handleSelect(selection);
+			}
 		};
 
 		document.addEventListener('mouseup', listener);
