@@ -24,6 +24,11 @@ config.plugins.push(
 );
 
 config.optimization = {
+	minimize: false,
+	/*
+        The value 'single' instead creates a runtime file to be shared for all generated chunks.
+        https://github.com/webpack/webpack-dev-server/issues/2792
+      */
 	runtimeChunk: 'single',
 };
 
