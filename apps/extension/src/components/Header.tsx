@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 
 export const AppHeader = () => {
 	const location = useLocation();
-	console.log(location);
 
 	return (
 		<View style={styles.container}>

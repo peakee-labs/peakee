@@ -30,7 +30,7 @@ config.plugins.push(
 	new HtmlWebpackPlugin({
 		template: './src/index.html',
 		filename: 'index.html',
-		chunks: ['index'],
+		chunks: ['index', 'contentScript', 'background'],
 	}),
 );
 
