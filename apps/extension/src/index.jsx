@@ -11,15 +11,38 @@ import { initAppConfig } from '@peakee/app/utils';
 import Newtab from './entries/newtab/Newtab';
 import Popup from './entries/popup/Popup';
 import { App } from './App';
+import { Container } from './components';
 
 // eslint-disable-next-line no-undef
 initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL });
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
-		<Route path="/" element={<App />}>
-			<Route path="popup" element={<Popup />} />
-			<Route path="newtab" element={<Newtab />} />
+		<Route path="/">
+			<Route
+				path=""
+				element={
+					<Container>
+						<App />
+					</Container>
+				}
+			/>
+			<Route
+				path="popup"
+				element={
+					<Container>
+						<Popup />
+					</Container>
+				}
+			/>
+			<Route
+				path="newtab"
+				element={
+					<Container>
+						<Newtab />
+					</Container>
+				}
+			/>
 		</Route>,
 	),
 );
