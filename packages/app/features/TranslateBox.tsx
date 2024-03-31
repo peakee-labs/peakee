@@ -2,6 +2,7 @@ import { type FC, useCallback, useEffect, useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import {
 	ActivityIndicator,
+	ScrollView,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
@@ -129,7 +130,7 @@ export const TranslateBox: FC<Props> = ({
 				</View>
 			</View>
 
-			<View style={styles.translatedContainer}>
+			<ScrollView style={styles.translatedContainer}>
 				{loading ? (
 					<ActivityIndicator />
 				) : (
@@ -137,7 +138,7 @@ export const TranslateBox: FC<Props> = ({
 						{translated}
 					</Text>
 				)}
-			</View>
+			</ScrollView>
 		</View>
 	);
 };
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
 	header: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginBottom: 20,
+		marginBottom: 6,
 	},
 	icons: {
 		flexDirection: 'row',
@@ -179,6 +180,7 @@ const styles = StyleSheet.create({
 	textInput: {
 		flex: 1,
 		fontSize: 24,
+		fontWeight: '300',
 		paddingHorizontal: 0,
 		paddingVertical: 0,
 		outlineStyle: 'none',
@@ -197,5 +199,6 @@ const styles = StyleSheet.create({
 	},
 	translated: {
 		fontSize: 24,
+		fontWeight: '300',
 	},
 });
