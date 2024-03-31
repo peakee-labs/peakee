@@ -4808,6 +4808,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@peakee/dashboard@workspace:apps/dashboard":
+  version: 0.0.0-use.local
+  resolution: "@peakee/dashboard@workspace:apps/dashboard"
+  languageName: unknown
+  linkType: soft
+
 "@peakee/eslint-config@npm:*, @peakee/eslint-config@workspace:packages/eslint-config":
   version: 0.0.0-use.local
   resolution: "@peakee/eslint-config@workspace:packages/eslint-config"
