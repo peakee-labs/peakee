@@ -41,13 +41,14 @@ const environments = [
 /** @type { import('webpack').Configuration } */
 const configs = {
 	mode: process.env.NODE_ENV || 'development',
+	target: 'web',
 	devtool: 'cheap-module-source-map',
 	entry: {
 		newtab: './src/entries/newtab/index.jsx',
 		options: './src/entries/options/index.jsx',
 		popup: './src/entries/popup/index.jsx',
 		background: './src/entries/background/index.ts',
-		contentScript: './src/entries/contentScript/index.ts',
+		contentScript: './src/entries/contentScript/index.tsx',
 		devtools: './src/entries/devtools/index.js',
 		panel: './src/entries/panel/index.jsx',
 	},
