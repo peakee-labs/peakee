@@ -7,6 +7,26 @@ const path = require('path');
 const config = require('../webpack.config');
 const env = require('./env');
 
+config.output = {
+	filename: '[name].bundle.js',
+	path: path.resolve(__dirname, 'build/dev'),
+	clean: true,
+};
+
+config.entry['index'] = './src/index.jsx';
+
+config.plugins.push(
+	new HtmlWebpackPlugin({
+		template: './src/index.html',
+		filename: 'index.html',
+		chunks: ['index', 'contentScript', 'background'],
+	}),
+);
+
+config.optimization = {
+	runtimeChunk: 'single',
+};
+
 for (var entryName in config.entry) {
 	config.entry[entryName] = [
 		'webpack/hot/dev-server',
@@ -17,21 +37,6 @@ for (var entryName in config.entry) {
 config.plugins.push(
 	new ReactRefreshPlugin(),
 	new webpack.HotModuleReplacementPlugin(),
-);
-
-config.output = {
-	filename: '[name].bundle.js',
-	path: path.resolve(__dirname, 'build/dev'),
-	clean: true,
-};
-
-config.entry['index'] = './src/index.jsx';
-config.plugins.push(
-	new HtmlWebpackPlugin({
-		template: './src/index.html',
-		filename: 'index.html',
-		chunks: ['index', 'contentScript', 'background'],
-	}),
 );
 
 const compiler = webpack(config);
@@ -48,7 +53,9 @@ const server = new WebpackDevServer(
 			'Access-Control-Allow-Origin': '*',
 		},
 		allowedHosts: 'all',
-		historyApiFallback: true,
+		historyApiFallback: {
+			index: 'index.html',
+		},
 	},
 	compiler,
 );

@@ -20,14 +20,6 @@ export const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path="/">
 			<Route
-				path=""
-				element={
-					<Container>
-						<App />
-					</Container>
-				}
-			/>
-			<Route
 				path="popup"
 				element={
 					<Container>
@@ -40,6 +32,22 @@ export const router = createBrowserRouter(
 				element={
 					<Container>
 						<Newtab />
+					</Container>
+				}
+			/>
+			<Route
+				path="/"
+				element={
+					<Container>
+						<App />
+					</Container>
+				}
+			/>
+			<Route
+				path="/*"
+				element={
+					<Container>
+						<App />
 					</Container>
 				}
 			/>
