@@ -8,16 +8,7 @@ import { ReviewWord } from './ReviewWord';
 
 const Newtab = () => {
 	const [isOpen, setIsOpen] = useState(false);
-	// const opacity = useSharedValue(0);
-	// const reanimatedStyle = useAnimatedStyle(() => {
-	// 	return {
-	// 		opacity: opacity.value,
-	// 	};
-	// });
-	// useEffect(() => {
-	// 	opacity.value = withSpring(isOpen ? 1.0 : 0.0);
-	// }, [isOpen]);
-
+	
 	const handlePress = () => {
 		setIsOpen((open) => !open);
 	};
