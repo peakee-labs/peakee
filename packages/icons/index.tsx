@@ -7,6 +7,7 @@ export * from './components/ChevronRight';
 export * from './components/Circle';
 export * from './components/CircleCheck';
 export * from './components/CircleExclaimation';
+export * from './components/CircleXmark';
 export * from './components/Comment';
 export * from './components/Copy';
 export * from './components/GPT';
