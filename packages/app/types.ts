@@ -118,3 +118,7 @@ export type OnboardingValue = FormName &
 	FormMajor &
 	FormCountry &
 	FormGender;
+
+export type FormFeedback = {
+	Feedback: string;
+};
