@@ -3,7 +3,8 @@ import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { CircleXmark } from '@peakee/icons';
 import axios from 'axios';
 
-import FeedbackForm from './form';
+import FeedbackForm from './Form';
+import { ReviewWord } from './ReviewWord';
 
 const Newtab = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -46,13 +47,13 @@ const Newtab = () => {
 			</Text>
 
 			<View style={styles.contentContainer}>
-				<View style={styles.reviewContainer}>
-					<Text style={styles.reviewText}>Metonymy</Text>
-					<Text style={styles.explainText}>
-						the act of referring to something by the name of
-						something else that is closely connected with it
-					</Text>
-				</View>
+				<ReviewWord
+					word={'Metonymy'}
+					explain={
+						'the act of referring to something by the name of something else that is closely connected with it'
+					}
+					synonyms={['Metalepsis', 'synecdoche', 'trope']}
+				/>
 				<Pressable style={styles.feedbackButton} onPress={handlePress}>
 					<Text>Feedback</Text>
 				</Pressable>
@@ -95,24 +96,6 @@ const styles = StyleSheet.create({
 	contentContainer: {
 		flex: 1,
 		marginTop: 30,
-	},
-	reviewContainer: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		gap: 20,
-	},
-	reviewText: {
-		fontSize: 100,
-		fontWeight: '600',
-		textAlign: 'center',
-	},
-	explainText: {
-		fontSize: 20,
-		fontStyle: 'italic',
-		fontWeight: '300',
-		color: '#636363',
-		textAlign: 'center',
 	},
 	feedbackButton: {
 		position: 'fixed',

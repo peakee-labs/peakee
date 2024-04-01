@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-// import PropsTypes from 'prop-types';
 import PropTypes from 'prop-types';
 
 const FeedbackForm = (props) => {
@@ -87,7 +86,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		borderWidth: 1,
 		marginTop: 20,
-		paddingHorizontal: 20,
+		paddingHorizontal: 15,
 		paddingVertical: 10,
 	},
 	submitButton: {
