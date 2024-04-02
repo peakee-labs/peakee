@@ -1,13 +1,20 @@
+import type { FC } from 'react';
 import { useEffect } from 'react';
+import type { StyleProp, TextStyle } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, {
 	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import PropTypes from 'prop-types';
 
-export const ReviewWord = ({ word, explain, synonyms }) => {
+type Props = {
+	word: string;
+	explain: string;
+	synonyms: string[];
+};
+
+export const ReviewWord: FC<Props> = ({ word, explain, synonyms }) => {
 	return (
 		<View style={styles.reviewContainer}>
 			<View style={styles.title}>
@@ -30,12 +37,6 @@ export const ReviewWord = ({ word, explain, synonyms }) => {
 			)}
 		</View>
 	);
-};
-
-ReviewWord.propTypes = {
-	word: PropTypes.string.isRequired,
-	explain: PropTypes.string.isRequired,
-	synonyms: PropTypes.array.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -71,15 +72,22 @@ const styles = StyleSheet.create({
 	},
 });
 
-const Character = ({ character, index, style }) => {
+type CharacterProps = {
+	character: string;
+	index: number;
+	style: StyleProp<TextStyle>;
+};
+
+const Character: FC<CharacterProps> = ({ character, index, style }) => {
 	const offset = useSharedValue(20);
 	const opacity = useSharedValue(0);
+
 	const animatedStyles = useAnimatedStyle(() => {
 		return {
 			transform: [{ translateY: -offset.value }],
 			opacity: opacity.value,
 		};
-	}, []);
+	});
 
 	useEffect(() => {
 		opacity.value = withTiming(1.0, { duration: index * 100 }, () => {
@@ -92,10 +100,4 @@ const Character = ({ character, index, style }) => {
 			{character}
 		</Animated.Text>
 	);
-};
-
-Character.propTypes = {
-	character: PropTypes.string.isRequired,
-	index: PropTypes.number.isRequired,
-	style: PropTypes.any.isRequired,
 };

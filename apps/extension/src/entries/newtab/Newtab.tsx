@@ -8,15 +8,19 @@ import { ReviewWord } from './ReviewWord';
 
 const Newtab = () => {
 	const [isOpen, setIsOpen] = useState(false);
-	
+
 	const handlePress = () => {
 		setIsOpen((open) => !open);
 	};
-	const handleSubmitForm = (feedback) => {
+
+	const handleSubmitForm = (feedback: string) => {
 		setIsOpen((open) => !open);
 		if (feedback != '') console.log(feedback);
 
-		const handlePostForm = async (userID, form) => {
+		const handlePostForm = async (
+			userID: string,
+			form: { comment: string },
+		) => {
 			try {
 				// TODO: clean this
 				const { status: status } = await axios.post(
@@ -77,7 +81,7 @@ export default Newtab;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		height: '100vh',
+		height: '100vh' as never,
 		padding: 20,
 	},
 	header: {
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
 		marginTop: 30,
 	},
 	feedbackButton: {
-		position: 'fixed',
+		position: 'fixed' as never,
 		transformOrigin: 'top left',
 		transform: [{ rotateZ: '-90deg' }],
 		width: 160,
