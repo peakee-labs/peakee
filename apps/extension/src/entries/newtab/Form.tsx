@@ -1,19 +1,18 @@
+import type { FC } from 'react';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import PropTypes from 'prop-types';
 
-const FeedbackForm = (props) => {
+type Props = {
+	onSubmit: (value: string) => void;
+};
+
+const FeedbackForm: FC<Props> = ({ onSubmit }) => {
 	const [inputValue, setInputValue] = useState('');
-
-	const handleChange = (e) => {
-		setInputValue(e.target.value);
-	};
 
 	const handleSubmit = () => {
 		onSubmit(inputValue);
 	};
 
-	const { onSubmit } = props;
 	return (
 		<View style={styles.container}>
 			<View style={styles.contentContainer}>
@@ -33,7 +32,7 @@ const FeedbackForm = (props) => {
 						multiline
 						style={styles.input}
 						placeholder="Your feedback here..."
-						onChange={handleChange}
+						onChangeText={setInputValue}
 						value={inputValue}
 					/>
 				</View>
@@ -102,9 +101,5 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 	},
 });
-
-FeedbackForm.propTypes = {
-	onSubmit: PropTypes.func.isRequired,
-};
 
 export default FeedbackForm;

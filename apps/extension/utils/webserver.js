@@ -58,9 +58,7 @@ const server = new WebpackDevServer(
 			'Access-Control-Allow-Origin': '*',
 		},
 		allowedHosts: 'all',
-		historyApiFallback: {
-			index: 'index.html',
-		},
+		historyApiFallback: true,
 	},
 	compiler,
 );
