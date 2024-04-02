@@ -1,4 +1,3 @@
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import {
@@ -56,11 +55,5 @@ export const router = createBrowserRouter(
 );
 
 const container = document.getElementById('app-container');
-if (container) {
-	const root = createRoot(container);
-	root.render(
-		<StrictMode>
-			<RouterProvider router={router} />
-		</StrictMode>,
-	);
-}
+const root = createRoot(container);
+root.render(<RouterProvider router={router} />);
