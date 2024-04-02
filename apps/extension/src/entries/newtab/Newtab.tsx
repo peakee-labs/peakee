@@ -64,7 +64,7 @@ const Newtab = () => {
 	const { changeLocale, localize } = useLocaleMap(localeMap, locale, 'en');
 
 	const getNewContent = async (locale: locale) => {
-		// TODO: mock this
+		// TODO: mock this, we have to make a request to backend here.
 		await new Promise((resolve) => setTimeout(resolve, 1000)).finally(
 			() => {
 				setReviewContent(mockContent[locale]);
