@@ -2,11 +2,48 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
+import type { locale } from '../../types';
+import useLocaleMap from '../../utils/hooks/useLocale';
+
 type Props = {
 	onSubmit: (value: string) => void;
+	locale: locale;
 };
 
-const FeedbackForm: FC<Props> = ({ onSubmit }) => {
+type Content = Record<string, string>;
+
+const localeMap: Record<locale, Content> = {
+	'en-US': {
+		title: 'Your input is valuable to Peakee',
+		description:
+			'Would you mind share your thoughts to help us improve and tailor the platform to your needs?',
+		question:
+			'How likely are you to recommend peakee to your friend or colleagues?',
+		questionPlaceholder: 'Your feedback here...',
+		submit: 'submit',
+	},
+	en: {
+		title: 'Your input is valuable to Peakee',
+		description:
+			'Would you mind share your thoughts to help us improve and tailor the platform to your needs?',
+		question:
+			'How likely are you to recommend peakee to your friend or colleagues?',
+		questionPlaceholder: 'Your feedback here...',
+		submit: 'submit',
+	},
+	vi: {
+		title: 'Peakee rất muốn bạn giúp đỡ',
+		description:
+			'Bạn có thể bỏ một chút thời gian để góp ý những điều Peakee có thể cải thiện được không?',
+		question:
+			'Bạn cảm thấy thế nào khi giới thiệu Peakee cho bạn bè hoặc đồng nghiệp của bạn?',
+		questionPlaceholder: 'Điền đánh giá của bạn vào đây...',
+		submit: 'xác nhận',
+	},
+};
+
+const FeedbackForm: FC<Props> = ({ onSubmit, locale }) => {
+	const { localize } = useLocaleMap(localeMap, locale, 'en');
 	const [inputValue, setInputValue] = useState('');
 
 	const handleSubmit = () => {
@@ -16,29 +53,25 @@ const FeedbackForm: FC<Props> = ({ onSubmit }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.contentContainer}>
-				<Text style={styles.title}>
-					Your input is valuable to Peakee
-				</Text>
+				<Text style={styles.title}>{localize('title')}</Text>
 				<Text style={styles.description}>
-					Would you mind share your thoughts to help us improve and
-					tailor the platform to your needs.
+					{localize('description')}
 				</Text>
 				<View style={styles.question}>
 					<Text style={styles.feedbackQuestion}>
-						How likely are you to recommend peakee to your friend or
-						colleagues?
+						{localize('question')}
 					</Text>
 					<TextInput
 						multiline
 						style={styles.input}
-						placeholder="Your feedback here..."
 						onChangeText={setInputValue}
+						placeholder={localize('questionPlaceholder')}
 						value={inputValue}
 					/>
 				</View>
 			</View>
 			<Pressable style={styles.submitButton} onPress={handleSubmit}>
-				<Text style={styles.submitText}>Submit</Text>
+				<Text style={styles.submitText}>{localize('submit')}</Text>
 			</Pressable>
 		</View>
 	);
@@ -99,6 +132,7 @@ const styles = StyleSheet.create({
 	},
 	submitText: {
 		color: '#ffffff',
+		textTransform: 'capitalize',
 	},
 });
 

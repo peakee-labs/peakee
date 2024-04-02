@@ -1,13 +1,81 @@
-import { useState } from 'react';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import {
+	ActivityIndicator,
+	Modal,
+	Pressable,
+	StyleSheet,
+	Text,
+	View,
+} from 'react-native';
 import { CircleXmark } from '@peakee/icons';
 import axios from 'axios';
+
+import type { locale, reviewWord } from '../../types';
+import useLocaleMap from '../../utils/hooks/useLocale';
 
 import FeedbackForm from './Form';
 import { ReviewWord } from './ReviewWord';
 
+type Content = Record<string, string>;
+
+const localeMap: Record<locale, Content> = {
+	'en-US': {
+		header: 'Peakee Tools | Learn and use Language everywhere',
+		feedbackBtn: 'feedback',
+	},
+	en: {
+		header: 'Peakee Tools | Learn and use Language everywhere',
+		feedbackBtn: 'feedback',
+	},
+	vi: {
+		header: 'Pekee | Học và sử dụng ngôn ngữ mọi nơi',
+		feedbackBtn: 'phản hồi',
+	},
+};
+
+// TODO: mock
+const mockContent: Record<locale, reviewWord> = {
+	'en-US': {
+		word: 'Metonymy',
+		explain:
+			'the act of referring to something by the name of something else that is closely connected with it',
+		synonyms: ['Metalepsis', 'synecdoche', 'tropeh'],
+	},
+	en: {
+		word: 'Metonymy',
+		explain:
+			'the act of referring to something by the name of something else that is closely connected with it',
+		synonyms: ['Metalepsis', 'synecdoche', 'tropeh'],
+	},
+	vi: {
+		word: 'Ẩn dụ',
+		explain:
+			'Hành động nhắc đến một vài thứ khác có liên quan đến vật hiện tại',
+		synonyms: ['hoán dụ', 'liên tưởng'],
+	},
+};
+
 const Newtab = () => {
+	const [locale, setLocale] = useState<locale>(navigator.language as locale);
 	const [isOpen, setIsOpen] = useState(false);
+	const [reviewContent, setReviewContent] = useState<reviewWord | undefined>(
+		undefined,
+	);
+	const { changeLocale, localize } = useLocaleMap(localeMap, locale, 'en');
+
+	const getNewContent = async (locale: locale) => {
+		// TODO: mock this
+		await new Promise((resolve) => setTimeout(resolve, 1000)).finally(
+			() => {
+				setReviewContent(mockContent[locale]);
+			},
+		);
+	};
+
+	useEffect(() => {
+		getNewContent(locale);
+		changeLocale(locale);
+	}, [locale]);
 
 	const handlePress = () => {
 		setIsOpen((open) => !open);
@@ -37,20 +105,18 @@ const Newtab = () => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.header}>
-				Peakee Tools | Learn and use English everywhere
-			</Text>
+			<Text style={styles.header}>{localize('header')}</Text>
 
 			<View style={styles.contentContainer}>
-				<ReviewWord
-					word={'Metonymy'}
-					explain={
-						'the act of referring to something by the name of something else that is closely connected with it'
-					}
-					synonyms={['Metalepsis', 'synecdoche', 'trope']}
-				/>
+				{reviewContent ? (
+					<ReviewWord data={reviewContent} locale={locale} />
+				) : (
+					<ActivityIndicator />
+				)}
 				<Pressable style={styles.feedbackButton} onPress={handlePress}>
-					<Text>Feedback</Text>
+					<Text style={styles.feedbackText}>
+						{localize('feedbackBtn')}
+					</Text>
 				</Pressable>
 				<Modal
 					animationType="fade"
@@ -67,7 +133,10 @@ const Newtab = () => {
 							>
 								<CircleXmark color={'#000000'} size={20} />
 							</Pressable>
-							<FeedbackForm onSubmit={handleSubmitForm} />
+							<FeedbackForm
+								onSubmit={handleSubmitForm}
+								locale={locale}
+							/>
 						</View>
 					</View>
 				</Modal>
@@ -90,6 +159,7 @@ const styles = StyleSheet.create({
 	},
 	contentContainer: {
 		flex: 1,
+		justifyContent: 'center',
 		marginTop: 30,
 	},
 	feedbackButton: {
@@ -105,6 +175,9 @@ const styles = StyleSheet.create({
 		backgroundColor: '#FF9F00',
 		borderTopStartRadius: 5,
 		borderTopEndRadius: 5,
+	},
+	feedbackText: {
+		textTransform: 'capitalize',
 	},
 	modalOverlay: {
 		flex: 1,
