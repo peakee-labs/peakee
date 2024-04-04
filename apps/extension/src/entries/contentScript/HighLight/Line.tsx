@@ -13,10 +13,17 @@ type Props = {
 	top: number;
 	left: number;
 	width: number;
+	isPrimary?: boolean;
 	onComplete?: () => void;
 };
 
-export const Line: FC<Props> = ({ top, left, width, onComplete }) => {
+export const Line: FC<Props> = ({
+	top,
+	left,
+	width,
+	isPrimary,
+	onComplete,
+}) => {
 	const animatedWidth = useSharedValue(0);
 	const animatedStyles = useAnimatedStyle(() => {
 		return {
@@ -37,7 +44,12 @@ export const Line: FC<Props> = ({ top, left, width, onComplete }) => {
 
 	return (
 		<Animated.View
-			style={[styles.container, { top, left }, animatedStyles]}
+			style={[
+				styles.container,
+				isPrimary && styles.primary,
+				{ top, left },
+				animatedStyles,
+			]}
 		/>
 	);
 };
@@ -51,5 +63,8 @@ const styles = StyleSheet.create({
 		backgroundColor: '#82CD47',
 		height: 3.2,
 		borderRadius: 3,
+	},
+	primary: {
+		backgroundColor: '#379237',
 	},
 });

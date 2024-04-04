@@ -1,9 +1,11 @@
 import { type FC, Fragment, useState } from 'react';
 
+import type { WrappedDOMRect } from '../utils';
+
 import Line from './Line';
 
 type Props = {
-	rects: DOMRect[];
+	rects: WrappedDOMRect[];
 };
 
 export const Highlight: FC<Props> = ({ rects }) => {
@@ -12,15 +14,16 @@ export const Highlight: FC<Props> = ({ rects }) => {
 	return (
 		<Fragment>
 			{rects
-				.filter((r) => r.width > 5)
-				.map((rect, index) => {
+				.filter((wr) => wr.rect.width > 5)
+				.map((wr, index) => {
 					if (index <= currentIndex) {
 						return (
 							<Line
 								key={index}
-								top={rect.top + rect.height}
-								left={rect.left}
-								width={rect.width}
+								top={wr.rect.top + wr.rect.height}
+								left={wr.rect.left}
+								width={wr.rect.width}
+								isPrimary={wr.type === 'main'}
 								onComplete={() => {
 									setCurrentIndex(index + 1);
 								}}

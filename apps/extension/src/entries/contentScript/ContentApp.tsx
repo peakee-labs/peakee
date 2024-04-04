@@ -1,15 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import Highlight from './HighLight';
 import SuggestIcon from './SuggestIcon';
 import SuggestLoading from './SuggestLoading';
-import type { SimpleContext } from './utils';
-import {
-	getSelectedText,
-	retrieveSelectionContext,
-	showSuggestWithContext,
-} from './utils';
+import type { SimpleSuggestContext, WrappedDOMRect } from './utils';
+import { retrieveSelection, showSuggestWithContext } from './utils';
 
 type Position = {
 	left: number;
@@ -17,22 +13,29 @@ type Position = {
 };
 
 export const ContentApp = () => {
-	const [context, setContext] = useState<SimpleContext>();
+	const context = useRef<SimpleSuggestContext>();
 	const [iconPosition, setIconPosition] = useState<Position>();
 	const [loading, setLoading] = useState(false);
-	const [highlight, setHighlight] = useState(false);
+	const [highlight, setHighlight] = useState<boolean>(false);
+	const [rects, setRects] = useState<WrappedDOMRect[]>([]);
 
 	useEffect(() => {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const listener = function (e: MouseEvent) {
-			const selection = getSelectedText();
+			const selection = window.getSelection();
 			const isEmpty =
 				!selection || !selection.toString() || selection.rangeCount < 1;
 			if (isEmpty) {
-				setContext(undefined);
+				context.current = undefined;
+				setIconPosition(undefined);
 				setHighlight(false);
+				setRects([]);
 			} else {
-				handleSelect(selection);
+				const isResetSelection =
+					selection.toString() === context?.current?.text;
+				if (!isResetSelection) {
+					handleSelect(selection);
+				}
 			}
 		};
 		document.addEventListener('mouseup', listener);
@@ -40,7 +43,10 @@ export const ContentApp = () => {
 	}, []);
 
 	const handleSelect = (selection: Selection) => {
-		if (selection.rangeCount !== 1) {
+		if (
+			selection.rangeCount !== 1 ||
+			selection.anchorNode !== selection.focusNode
+		) {
 			console.log('just support single selection');
 			return;
 		}
@@ -48,45 +54,35 @@ export const ContentApp = () => {
 		const range = selection.getRangeAt(0);
 		const element = range.commonAncestorContainer.parentElement;
 		const rects = range.getClientRects();
-		if (element && rects.length > 0) {
-			const { selectedText, currentSentence } = retrieveSelectionContext(
-				selection.toString(),
-				element,
-			);
-			const rectItems: DOMRect[] = [];
-			for (let i = 0; i < rects.length; i++) {
-				rectItems.push(rects[i]);
-			}
+		const isValidSelection =
+			element &&
+			rects.length > 0 &&
+			selection.toString().trim().length > 0;
+		if (isValidSelection) {
+			const { selectedText, currentSentence, allRects } =
+				retrieveSelection(selection);
 			const newContext = {
 				text: selectedText,
 				sentence: currentSentence,
-				rects: rectItems,
-				element,
 			};
-			setContext(newContext);
+			setRects(allRects);
+			context.current = newContext;
+			setIconPosition({
+				left: rects[0].x + rects[0].width - 10,
+				top: rects[0].y - rects[0].height,
+			});
 		}
 	};
 
 	const handlePressSuggestIcon = () => {
-		if (!context) return;
+		if (!context.current) return;
 		window.getSelection()?.removeAllRanges();
-		setLoading(true);
 		setHighlight(true);
-		showSuggestWithContext(context).then(() => {
+		setLoading(true);
+		showSuggestWithContext(context.current).then(() => {
 			setLoading(false);
 		});
 	};
-
-	useEffect(() => {
-		if (!context) {
-			setIconPosition(undefined);
-		} else {
-			setIconPosition({
-				left: context.rects[0].x + context.rects[0].width - 10,
-				top: context.rects[0].y - context.rects[0].height,
-			});
-		}
-	}, [context]);
 
 	return (
 		<View style={styles.container}>
@@ -101,7 +97,7 @@ export const ContentApp = () => {
 					</View>
 				)
 			)}
-			{highlight && context && <Highlight rects={context.rects} />}
+			{highlight && rects && <Highlight rects={rects} />}
 		</View>
 	);
 };
