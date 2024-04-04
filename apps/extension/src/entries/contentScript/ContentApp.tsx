@@ -33,6 +33,7 @@ export const ContentApp = () => {
 			if (isEmpty) {
 				context.current = undefined;
 				resetLastSelection?.current?.();
+				resetLastSelection.current = undefined;
 				setSuggestion(undefined);
 				setIconPosition(undefined);
 				setHighlight(false);
