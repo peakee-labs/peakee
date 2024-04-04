@@ -10,8 +10,8 @@ export type SimpleContext = {
 
 export const showSuggestWithContext = (context: SimpleContext) => {
 	logger.log('show suggest');
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { text, sentence, rect } = context;
-	logger.log(text, sentence, rect);
 };
 
 export const getSelectedText = () => {
