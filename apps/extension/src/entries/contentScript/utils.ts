@@ -79,5 +79,8 @@ export const retrieveSelection = (selection: Selection) => {
 		selectedText: text.trim(),
 		currentSentence: selectedSentence.trim(),
 		allRects,
+		resetInspecting: () => {
+			element.replaceChildren(innerText);
+		},
 	};
 };

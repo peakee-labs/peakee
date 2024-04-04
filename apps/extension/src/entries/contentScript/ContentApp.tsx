@@ -14,6 +14,7 @@ type Position = {
 
 export const ContentApp = () => {
 	const context = useRef<SimpleSuggestContext>();
+	const resetLastSelection = useRef<() => void>();
 	const [iconPosition, setIconPosition] = useState<Position>();
 	const [loading, setLoading] = useState(false);
 	const [highlight, setHighlight] = useState<boolean>(false);
@@ -27,6 +28,7 @@ export const ContentApp = () => {
 				!selection || !selection.toString() || selection.rangeCount < 1;
 			if (isEmpty) {
 				context.current = undefined;
+				resetLastSelection?.current?.();
 				setIconPosition(undefined);
 				setHighlight(false);
 				setRects([]);
@@ -59,7 +61,7 @@ export const ContentApp = () => {
 			rects.length > 0 &&
 			selection.toString().trim().length > 0;
 		if (isValidSelection) {
-			const { selectedText, currentSentence, allRects } =
+			const { selectedText, currentSentence, allRects, resetInspecting } =
 				retrieveSelection(selection);
 			const newContext = {
 				text: selectedText,
@@ -67,6 +69,7 @@ export const ContentApp = () => {
 			};
 			setRects(allRects);
 			context.current = newContext;
+			resetLastSelection.current = resetInspecting;
 			setIconPosition({
 				left: rects[0].x + rects[0].width - 10,
 				top: rects[0].y - rects[0].height,
