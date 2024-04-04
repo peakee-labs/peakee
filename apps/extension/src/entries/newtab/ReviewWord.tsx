@@ -8,17 +8,35 @@ import Animated, {
 	withTiming,
 } from 'react-native-reanimated';
 
+import type { locale, reviewWord } from '../../types';
+import useLocaleMap from '../../utils/hooks/useLocale';
+
 type Props = {
-	word: string;
-	explain: string;
-	synonyms: string[];
+	data: reviewWord;
+	locale: locale;
 };
 
-export const ReviewWord: FC<Props> = ({ word, explain, synonyms }) => {
+type Content = Record<string, string>;
+
+const localeMap: Record<locale, Content> = {
+	'en-US': {
+		synonyms: 'Synonyms',
+	},
+	en: {
+		synonyms: 'Synonyms',
+	},
+	vi: {
+		synonyms: 'Từ liên quan',
+	},
+};
+
+export const ReviewWord: FC<Props> = ({ data, locale }) => {
+	const { localize } = useLocaleMap(localeMap, locale, 'en');
+
 	return (
 		<View style={styles.reviewContainer}>
 			<View style={styles.title}>
-				{word.split('').map((c, idx) => {
+				{data.word.split('').map((c, idx) => {
 					return (
 						<Character
 							key={idx}
@@ -29,10 +47,10 @@ export const ReviewWord: FC<Props> = ({ word, explain, synonyms }) => {
 					);
 				})}
 			</View>
-			<Text style={styles.explainText}>{explain}</Text>
-			{synonyms && (
+			<Text style={styles.explainText}>{data.explain}</Text>
+			{data.synonyms && (
 				<Text style={styles.synonyms}>
-					Synonyms: {synonyms.join(', ')}
+					{localize('synonyms')}: {data.synonyms.join(', ')}
 				</Text>
 			)}
 		</View>
