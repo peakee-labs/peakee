@@ -1,6 +1,6 @@
 import { type FC, Fragment, useState } from 'react';
 
-import type { WrappedDOMRect } from '../utils';
+import type { WrappedDOMRect } from '../types';
 
 import Line from './Line';
 

@@ -58,6 +58,8 @@ const styles = StyleSheet.create({
 	},
 	examplesContainer: {
 		flexDirection: 'row',
-		gap: 10,
+		flexWrap: 'wrap',
+		rowGap: 4,
+		columnGap: 10,
 	},
 });
