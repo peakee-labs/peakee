@@ -1,24 +1,8 @@
 import { createLogger } from '@peakee/logger';
 
+import type { WrappedDOMRect } from './types';
+
 export const logger = createLogger('ContentScript');
-
-export type SimpleSuggestContext = {
-	text: string;
-	sentence: string;
-};
-
-export const showSuggestWithContext = async (context: SimpleSuggestContext) => {
-	logger.log('show suggest');
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { text, sentence } = context;
-	// const suggestion = await getSuggestTextInSentence(text, sentence);
-	// console.log(suggestion, '<-- suggestion');
-};
-
-export type WrappedDOMRect = {
-	rect: DOMRect;
-	type: 'left' | 'right' | 'main';
-};
 
 export const retrieveSelection = (selection: Selection) => {
 	const text = selection.toString();

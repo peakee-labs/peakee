@@ -1,23 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { getSuggestTextInSentence } from '@peakee/app/api';
 
 import Highlight from './HighLight';
+import SimpleSuggestBox from './SimpleSuggestBox';
 import SuggestIcon from './SuggestIcon';
 import SuggestLoading from './SuggestLoading';
-import type { SimpleSuggestContext, WrappedDOMRect } from './utils';
-import { retrieveSelection, showSuggestWithContext } from './utils';
-
-type Position = {
-	left: number;
-	top: number;
-};
+import type {
+	Position,
+	SimpleSuggestContext,
+	Suggestion,
+	WrappedDOMRect,
+} from './types';
+import { retrieveSelection } from './utils';
 
 export const ContentApp = () => {
 	const context = useRef<SimpleSuggestContext>();
 	const resetLastSelection = useRef<() => void>();
 	const [iconPosition, setIconPosition] = useState<Position>();
+	const [suggestBoxPosition, setSuggestBoxPosition] = useState<Position>();
 	const [loading, setLoading] = useState(false);
 	const [highlight, setHighlight] = useState<boolean>(false);
+	const [suggestion, setSuggestion] = useState<Suggestion>();
 	const [rects, setRects] = useState<WrappedDOMRect[]>([]);
 
 	useEffect(() => {
@@ -29,6 +33,7 @@ export const ContentApp = () => {
 			if (isEmpty) {
 				context.current = undefined;
 				resetLastSelection?.current?.();
+				setSuggestion(undefined);
 				setIconPosition(undefined);
 				setHighlight(false);
 				setRects([]);
@@ -71,20 +76,32 @@ export const ContentApp = () => {
 			context.current = newContext;
 			resetLastSelection.current = resetInspecting;
 			setIconPosition({
-				left: rects[0].x + rects[0].width - 10,
+				left: rects[0].x + rects[0].width - 4,
 				top: rects[0].y - rects[0].height,
+			});
+			setSuggestBoxPosition({
+				top:
+					allRects[allRects.length - 1].rect.top +
+					allRects[allRects.length - 1].rect.height +
+					10,
+				left: rects[0].left,
 			});
 		}
 	};
 
-	const handlePressSuggestIcon = () => {
+	const handlePressSuggestIcon = async () => {
 		if (!context.current) return;
 		window.getSelection()?.removeAllRanges();
 		setHighlight(true);
 		setLoading(true);
-		showSuggestWithContext(context.current).then(() => {
-			setLoading(false);
-		});
+
+		const { text, sentence } = context.current;
+		const suggestion = await getSuggestTextInSentence(text, sentence);
+		if (suggestion) {
+			setSuggestion(suggestion);
+		}
+
+		setLoading(false);
 	};
 
 	return (
@@ -101,6 +118,12 @@ export const ContentApp = () => {
 				)
 			)}
 			{highlight && rects && <Highlight rects={rects} />}
+			{suggestion && suggestBoxPosition && (
+				<SimpleSuggestBox
+					position={suggestBoxPosition}
+					suggestion={suggestion}
+				/>
+			)}
 		</View>
 	);
 };
