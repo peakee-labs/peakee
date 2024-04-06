@@ -48,7 +48,7 @@ const configs = {
 		options: './src/entries/options/index.jsx',
 		popup: './src/entries/popup/index.jsx',
 		background: './src/entries/background/index.ts',
-		contentScript: './src/entries/contentScript/index.tsx',
+		contentScript: './src/entries/contentScript/index.jsx',
 		devtools: './src/entries/devtools/index.js',
 		panel: './src/entries/panel/index.jsx',
 	},
