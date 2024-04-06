@@ -11,6 +11,10 @@ export function config() {
 }
 
 export function initAppConfig(config: AppConfig) {
+	Object.entries(config).forEach(([key, value]) => {
+		if (!value) throw Error('Missing app config: ' + key);
+	});
+
 	defaultConfig = config;
 	Object.freeze(defaultConfig);
 }
