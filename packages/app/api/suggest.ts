@@ -1,4 +1,4 @@
-import { axios } from './axios';
+import { config } from '../utils';
 
 export type SuggestTextInSentenceResponse = {
 	translate: string;
@@ -16,19 +16,15 @@ export const getSuggestTextInSentence = async (
 	text: string,
 	sentence: string,
 ) => {
+	const type = 'explain-text-in-sentence';
+	const url = config().PEAKEE_API_URL + '/suggest';
 	try {
-		const { data } = await axios().get<SuggestTextInSentenceResponse>(
-			'/suggest',
-			{
-				params: {
-					type: 'explain-text-in-sentence',
-					text,
-					sentence,
-				},
-			},
+		const res = await fetch(
+			`${url}?type=${type}&text=${text}&sentence=${sentence}`,
 		);
+		const data = await res.json();
 
-		return data;
+		return data as SuggestTextInSentenceResponse;
 	} catch (error) {
 		console.log('Error getting suggest text in sentence', error);
 	}
