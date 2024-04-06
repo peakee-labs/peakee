@@ -13,7 +13,7 @@ config.output = {
 	clean: true,
 };
 
-config.entry['index'] = './src/index.jsx';
+config.entry['index'] = './src/index.tsx';
 
 config.plugins.push(
 	new HtmlWebpackPlugin({

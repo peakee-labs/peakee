@@ -6,7 +6,6 @@ import { logger } from './utils';
 
 logger.log('Content script works');
 
-// eslint-disable-next-line no-undef
 initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL });
 
 const container = document.createElement('div');

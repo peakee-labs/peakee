@@ -51,5 +51,7 @@ export const router = createBrowserRouter(
 );
 
 const container = document.getElementById('app-container');
-const root = createRoot(container);
-root.render(<RouterProvider router={router} />);
+if (container) {
+	const root = createRoot(container);
+	root.render(<RouterProvider router={router} />);
+}
