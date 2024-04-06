@@ -2,8 +2,14 @@
   "manifest_version": 3,
   "name": "Peakee",
   "description": "Learn and use English everywhere",
+  "author": "https://peakee.co",
   "options_page": "options.html",
-  "background": { "service_worker": "background.bundle.js" },
+  "background": {
+     "service_worker": "background.bundle.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; frame-ancestors 'none';"
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon-34.png"

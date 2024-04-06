@@ -133,6 +133,7 @@ export default ContentApp;
 
 const styles = StyleSheet.create({
 	container: {
+		zIndex: 100000,
 		position: 'absolute',
 		top: 0,
 		left: 0,
