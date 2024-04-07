@@ -11,15 +11,15 @@ export const retrieveSentenceOfWordsInSingleRange = (selection: Selection) => {
 		return;
 	}
 
-	const innerText = selectedNode?.nodeValue as string;
+	const nodeText = selectedNode?.nodeValue as string;
 	const start = Math.min(selection.anchorOffset, selection.focusOffset);
 	const end = Math.max(selection.anchorOffset, selection.focusOffset);
 
 	let startSentence = start;
 	let endSentence = end;
-	while (startSentence > 0 && innerText[startSentence - 1] !== '.')
+	while (startSentence > 0 && nodeText[startSentence - 1] !== '.')
 		startSentence -= 1;
-	while (endSentence < innerText.length && innerText[endSentence + 1] !== '.')
+	while (endSentence < nodeText.length && nodeText[endSentence + 1] !== '.')
 		endSentence += 1;
 
 	const selectedElement = document.createElement('span');
@@ -28,19 +28,19 @@ export const retrieveSentenceOfWordsInSingleRange = (selection: Selection) => {
 
 	// left part of the sentence
 	const leftElement = document.createElement('span');
-	leftElement.innerText = innerText.slice(startSentence, start) || '';
+	leftElement.innerHTML = nodeText.slice(startSentence, start);
 
 	// right part of the sentence
 	const rightElement = document.createElement('span');
-	rightElement.innerText = innerText.slice(end, endSentence + 1) || '';
+	rightElement.innerHTML = nodeText.slice(end, endSentence + 1);
 
 	const newWrappedElement = document.createElement('span');
 	newWrappedElement.append(
-		innerText.slice(0, startSentence),
+		nodeText.slice(0, startSentence),
 		leftElement,
 		selectedElement,
 		rightElement,
-		innerText.slice(endSentence + 1),
+		nodeText.slice(endSentence + 1),
 	);
 
 	// replace text node with new wrapped element
@@ -67,7 +67,7 @@ export const retrieveSentenceOfWordsInSingleRange = (selection: Selection) => {
 		wrappedRects.push({ rect: rightRects[i], type: 'right' });
 	}
 
-	const selectedSentence = innerText.slice(startSentence, endSentence + 1);
+	const selectedSentence = nodeText.slice(startSentence, endSentence + 1);
 
 	return {
 		text: text.trim(),
