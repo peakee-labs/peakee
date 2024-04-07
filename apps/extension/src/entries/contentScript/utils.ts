@@ -4,19 +4,17 @@ import type { WrappedDOMRect } from './types';
 
 export const logger = createLogger('ContentScript');
 
-export const retrieveSelection = (selection: Selection) => {
-	const text = selection.toString();
-	const element =
-		selection.getRangeAt(0).commonAncestorContainer.parentElement;
-	if (!element)
-		throw Error(
-			"can't find element of the selection, need to validate selection",
-		);
+export const retrieveSentenceOfWordsInSingleRange = (selection: Selection) => {
+	const selectedNode = selection.focusNode as Node;
+	if (!isValidTextNode(selectedNode) || !isSingeSelection(selection)) {
+		logger.log('not valid selection or not text node');
+		return;
+	}
 
-	const { innerText } = element;
-
+	const innerText = selectedNode?.nodeValue as string;
 	const start = Math.min(selection.anchorOffset, selection.focusOffset);
 	const end = Math.max(selection.anchorOffset, selection.focusOffset);
+
 	let startSentence = start;
 	let endSentence = end;
 	while (startSentence > 0 && innerText[startSentence - 1] !== '.')
@@ -25,46 +23,69 @@ export const retrieveSelection = (selection: Selection) => {
 		endSentence += 1;
 
 	const selectedElement = document.createElement('span');
+	const text = selection.toString();
 	selectedElement.innerText = text;
-	const leftWrapper = document.createElement('span');
-	leftWrapper.innerText = innerText.slice(startSentence, start);
-	const rightWrapper = document.createElement('span');
-	rightWrapper.innerText = innerText.slice(end, endSentence + 1);
 
-	element.replaceChildren(
+	// left part of the sentence
+	const leftElement = document.createElement('span');
+	leftElement.innerText = innerText.slice(startSentence, start) || '';
+
+	// right part of the sentence
+	const rightElement = document.createElement('span');
+	rightElement.innerText = innerText.slice(end, endSentence + 1) || '';
+
+	const newWrappedElement = document.createElement('span');
+	newWrappedElement.append(
 		innerText.slice(0, startSentence),
-		leftWrapper,
+		leftElement,
 		selectedElement,
-		rightWrapper,
+		rightElement,
 		innerText.slice(endSentence + 1),
 	);
 
-	// reselect element after inspecting children
-	selection?.selectAllChildren(selectedElement);
+	// replace text node with new wrapped element
+	const parentElement = selectedNode.parentElement;
+	if (!parentElement)
+		throw Error(
+			"can't find element of the selection, need to validate selection",
+		);
+	parentElement.replaceChild(newWrappedElement, selectedNode as Node);
 
-	const allRects: WrappedDOMRect[] = [];
+	const wrappedRects: WrappedDOMRect[] = [];
 	const selectedRects = selectedElement.getClientRects();
 	for (let i = 0; i < selectedRects.length; i++) {
-		allRects.push({ rect: selectedRects[i], type: 'main' });
+		wrappedRects.push({ rect: selectedRects[i], type: 'main' });
 	}
 
-	const leftRects = leftWrapper.getClientRects();
+	const leftRects = leftElement.getClientRects();
 	for (let i = 0; i < leftRects.length; i++) {
-		allRects.push({ rect: leftRects[i], type: 'left' });
+		wrappedRects.push({ rect: leftRects[i], type: 'left' });
 	}
 
-	const rightRects = rightWrapper.getClientRects();
+	const rightRects = rightElement.getClientRects();
 	for (let i = 0; i < rightRects.length; i++) {
-		allRects.push({ rect: rightRects[i], type: 'right' });
+		wrappedRects.push({ rect: rightRects[i], type: 'right' });
 	}
 
 	const selectedSentence = innerText.slice(startSentence, endSentence + 1);
+
 	return {
-		selectedText: text.trim(),
-		currentSentence: selectedSentence.trim(),
-		allRects,
+		text: text.trim(),
+		sentence: selectedSentence.trim(),
+		wrappedRects,
 		resetInspecting: () => {
-			element.replaceChildren(innerText);
+			parentElement.replaceChild(selectedNode as Node, newWrappedElement);
 		},
 	};
+};
+
+export const isSingeSelection = (selection: Selection) => {
+	return (
+		selection.rangeCount === 1 &&
+		selection.anchorNode === selection.focusNode
+	);
+};
+
+export const isValidTextNode = (node: Node | null) => {
+	return node && node.nodeType === Node.TEXT_NODE && node.nodeValue;
 };

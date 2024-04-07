@@ -6,16 +6,10 @@ import Highlight from './HighLight';
 import SimpleSuggestBox from './SimpleSuggestBox';
 import SuggestIcon from './SuggestIcon';
 import SuggestLoading from './SuggestLoading';
-import type {
-	Position,
-	SimpleSuggestContext,
-	Suggestion,
-	WrappedDOMRect,
-} from './types';
-import { retrieveSelection } from './utils';
+import type { Position, Suggestion, WrappedDOMRect } from './types';
+import { logger, retrieveSentenceOfWordsInSingleRange } from './utils';
 
 export const ContentApp = () => {
-	const context = useRef<SimpleSuggestContext>();
 	const resetLastSelection = useRef<() => void>();
 	const [iconPosition, setIconPosition] = useState<Position>();
 	const [suggestBoxPosition, setSuggestBoxPosition] = useState<Position>();
@@ -31,7 +25,6 @@ export const ContentApp = () => {
 			const isEmpty =
 				!selection || !selection.toString() || selection.rangeCount < 1;
 			if (isEmpty) {
-				context.current = undefined;
 				resetLastSelection?.current?.();
 				resetLastSelection.current = undefined;
 				setSuggestion(undefined);
@@ -39,11 +32,7 @@ export const ContentApp = () => {
 				setHighlight(false);
 				setRects([]);
 			} else {
-				const isResetSelection =
-					selection.toString() === context?.current?.text;
-				if (!isResetSelection) {
-					handleSelect(selection);
-				}
+				handleSelect(selection);
 			}
 		};
 		document.addEventListener('mouseup', listener);
@@ -51,57 +40,39 @@ export const ContentApp = () => {
 	}, []);
 
 	const handleSelect = (selection: Selection) => {
-		if (
-			selection.rangeCount !== 1 ||
-			selection.anchorNode !== selection.focusNode
-		) {
-			console.log('just support single selection');
-			return;
-		}
-
 		const range = selection.getRangeAt(0);
-		const element = range.commonAncestorContainer.parentElement;
 		const rects = range.getClientRects();
-		const isValidSelection =
-			element &&
-			rects.length > 0 &&
-			selection.toString().trim().length > 0;
-		if (isValidSelection) {
-			const { selectedText, currentSentence, allRects, resetInspecting } =
-				retrieveSelection(selection);
-			const newContext = {
-				text: selectedText,
-				sentence: currentSentence,
-			};
-			setRects(allRects);
-			context.current = newContext;
-			resetLastSelection.current = resetInspecting;
-			setIconPosition({
-				left: rects[0].x + rects[0].width - 4,
-				top: rects[0].y - rects[0].height,
-			});
-			setSuggestBoxPosition({
-				top:
-					allRects[allRects.length - 1].rect.top +
-					allRects[allRects.length - 1].rect.height +
-					10,
-				left: rects[0].left,
-			});
-		}
+		setIconPosition({
+			left: rects[0].x + rects[0].width - 4,
+			top: rects[0].y - rects[0].height,
+		});
 	};
 
 	const handlePressSuggestIcon = async () => {
-		if (!context.current) return;
-		window.getSelection()?.removeAllRanges();
+		const selection = window.getSelection();
+		if (!selection) {
+			logger.log("can't get selection to show suggestion");
+			return;
+		}
+		const result = retrieveSentenceOfWordsInSingleRange(selection);
+		if (!result) return;
+		const { text, wrappedRects, sentence, resetInspecting } = result;
+		setRects(wrappedRects);
+		resetLastSelection.current = resetInspecting;
+		setSuggestBoxPosition({
+			top:
+				wrappedRects[wrappedRects.length - 1].rect.top +
+				wrappedRects[wrappedRects.length - 1].rect.height +
+				10,
+			left: wrappedRects[0].rect.left,
+		});
 		setHighlight(true);
 		setLoading(true);
 
-		const { text, sentence } = context.current;
 		const suggestion = await getSuggestTextInSentence(text, sentence);
 		if (suggestion) {
 			setSuggestion(suggestion);
 		}
-
 		setLoading(false);
 	};
 

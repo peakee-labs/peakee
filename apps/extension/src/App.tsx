@@ -16,6 +16,13 @@ export const App = () => {
 				publishing software like Blinders PageMaker including versions
 				of Lorem Ipsum.
 			</Text>
+
+			<Text style={styles.textbox}>
+				Lorem Ipsum is <br />
+				simply dummy text
+				<br />
+				of the printing.
+			</Text>
 		</View>
 	);
 };
