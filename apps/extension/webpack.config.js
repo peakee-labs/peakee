@@ -43,13 +43,6 @@ const configs = {
 	mode: process.env.NODE_ENV || 'development',
 	target: 'web',
 	devtool: 'cheap-module-source-map',
-	optimization: {
-		/*
-        The value 'single' instead creates a runtime file to be shared for all generated chunks.
-        https://github.com/webpack/webpack-dev-server/issues/2792
-      */
-		runtimeChunk: 'single',
-	},
 	entry: {
 		newtab: './src/entries/newtab/index.tsx',
 		options: './src/entries/options/index.tsx',
