@@ -77,8 +77,18 @@ export const ContentApp = () => {
 				}
 			} else if (askBoxRef.current) {
 				const box = await measure(askBoxRef.current);
-				const isSelectInsideAskBox = isInside(selectBox, box);
+				const isSelectInsideAskBox =
+					isInside(selectBox, box) ||
+					// when adding TextInput, the selection below input will create selectBox with empty x, y
+					// it might be not a select, just a mouseup
+					// temporarily fix with compare the focusNode, and use depth == 3
+					askBoxRef.current === selection.focusNode ||
+					askBoxRef.current === selection.focusNode?.parentNode ||
+					askBoxRef.current ===
+						selection.focusNode?.parentNode?.parentNode;
 				if (!isSelectInsideAskBox) resetAskBox();
+				// reset icon position if have a empty select inside ask box
+				else setIconPosition(undefined);
 			} else if (suggestBoxRef.current) {
 				const box = await measure(suggestBoxRef.current);
 				const isSelectInsideSuggestBox = isInside(selectBox, box);
