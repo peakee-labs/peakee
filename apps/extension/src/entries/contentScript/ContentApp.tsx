@@ -6,8 +6,9 @@ import { getSuggestTextInSentence } from '@peakee/app/api';
 import { type AskContext, AskBox } from './AskBox';
 import Highlight from './HighLight';
 import SimpleSuggestBox from './SimpleSuggestBox';
-import SuggestIcon from './SuggestIcon';
 import SuggestLoading from './SuggestLoading';
+import ToolBox from './ToolBox';
+import ToolIcon from './ToolIcon';
 import type { Position, Suggestion, WrappedDOMRect } from './types';
 import {
 	isInside,
@@ -21,6 +22,7 @@ export const ContentApp = () => {
 	const [loading, setLoading] = useState(false);
 
 	const [iconPosition, setIconPosition] = useState<Position>();
+	const [toolBox, setToolBox] = useState(false);
 
 	const [suggestion, setSuggestion] = useState<Suggestion>();
 	const [suggestBoxPosition, setSuggestBoxPosition] = useState<Position>();
@@ -39,7 +41,9 @@ export const ContentApp = () => {
 			const selection = window.getSelection();
 
 			if (!selection) {
-				return setIconPosition(undefined);
+				setToolBox(false);
+				setIconPosition(undefined);
+				return;
 			}
 
 			const isEmptySelection =
@@ -88,13 +92,18 @@ export const ContentApp = () => {
 						selection.focusNode?.parentNode?.parentNode;
 				if (!isSelectInsideAskBox) resetAskBox();
 				// reset icon position if have a empty select inside ask box
-				else setIconPosition(undefined);
+				else {
+					setIconPosition(undefined);
+					setToolBox(false);
+				}
 			} else if (suggestBoxRef.current) {
 				const box = await measure(suggestBoxRef.current);
 				const isSelectInsideSuggestBox = isInside(selectBox, box);
 				if (!isSelectInsideSuggestBox) resetSuggestBox();
 			} else {
-				return setIconPosition(undefined);
+				setToolBox(false);
+				setIconPosition(undefined);
+				return;
 			}
 		};
 		document.addEventListener('mouseup', handleMouseUp);
@@ -142,7 +151,11 @@ export const ContentApp = () => {
 		});
 	};
 
-	const handlePressSuggestIcon = async () => {
+	const handlePressToolIcon = () => {
+		setToolBox((prev) => !prev);
+	};
+
+	const showSuggest = async () => {
 		const selection = window.getSelection();
 		if (!selection) {
 			logger.log("can't get selection to show suggestion");
@@ -179,6 +192,7 @@ export const ContentApp = () => {
 		setHighlight(false);
 		setRects([]);
 		setIconPosition(undefined);
+		setToolBox(false);
 	};
 
 	const resetAskBox = () => {
@@ -211,7 +225,14 @@ export const ContentApp = () => {
 			) : (
 				iconPosition && (
 					<View style={[styles.absolute, iconPosition]}>
-						<SuggestIcon onPress={handlePressSuggestIcon} />
+						{toolBox && (
+							<ToolBox
+								style={styles.toolBox}
+								onPressTranslate={showSuggest}
+								onPressExplain={showSuggest}
+							/>
+						)}
+						<ToolIcon onPress={handlePressToolIcon} />
 					</View>
 				)
 			)}
@@ -232,5 +253,9 @@ const styles = StyleSheet.create({
 	},
 	absolute: {
 		position: 'absolute',
+	},
+	toolBox: {
+		position: 'absolute',
+		bottom: 0,
 	},
 });

@@ -5,7 +5,7 @@ type Props = {
 	onPress?: () => void;
 };
 
-export const SuggestIcon: FC<Props> = ({ onPress }) => {
+export const ToolIcon: FC<Props> = ({ onPress }) => {
 	const iconUri = chrome.runtime.getURL('icon-34.png');
 
 	return (
@@ -15,7 +15,7 @@ export const SuggestIcon: FC<Props> = ({ onPress }) => {
 	);
 };
 
-export default SuggestIcon;
+export default ToolIcon;
 
 const styles = StyleSheet.create({
 	icon: {
