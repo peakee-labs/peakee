@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createLogger } from '@peakee/logger';
 
 import type { WrappedDOMRect } from './types';
@@ -88,4 +89,32 @@ export const isSingeSelection = (selection: Selection) => {
 
 export const isValidTextNode = (node: Node | null) => {
 	return node && node.nodeType === Node.TEXT_NODE && node.nodeValue;
+};
+
+export type SimpleBox = {
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+};
+
+export const measure = (ref: any): Promise<SimpleBox> => {
+	return new Promise((resolve) => {
+		ref.measure((x: any, y: any, width: any, height: any) =>
+			resolve({ x, y, width, height }),
+		);
+	});
+};
+
+export const isInside = (box1: SimpleBox, box2: SimpleBox) => {
+	if (
+		box1.x >= box2.x &&
+		box1.x + box1.width <= box2.x + box2.width &&
+		box1.y >= box2.y &&
+		box1.y + box1.height <= box2.y + box2.height
+	) {
+		return true;
+	}
+
+	return false;
 };
