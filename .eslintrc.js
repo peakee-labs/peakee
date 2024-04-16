@@ -1,7 +1,7 @@
 module.exports = {
 	root: true,
 	extends: ['@peakee/eslint-config'],
-	ignorePatterns: [],
+	ignorePatterns: ['**/build/**'],
 	env: {
 		node: true,
 	},
