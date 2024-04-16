@@ -6,7 +6,7 @@ type Props = {
 };
 
 export const SuggestIcon: FC<Props> = ({ onPress }) => {
-	const iconUri = chrome.runtime?.getURL('icon-34.png') || '/icon-34.png';
+	const iconUri = chrome.runtime.getURL('icon-34.png');
 
 	return (
 		<TouchableOpacity onPress={onPress}>
