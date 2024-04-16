@@ -9,7 +9,12 @@ import SimpleSuggestBox from './SimpleSuggestBox';
 import SuggestIcon from './SuggestIcon';
 import SuggestLoading from './SuggestLoading';
 import type { Position, Suggestion, WrappedDOMRect } from './types';
-import { logger, retrieveSentenceOfWordsInSingleRange } from './utils';
+import {
+	isInside,
+	logger,
+	measure,
+	retrieveSentenceOfWordsInSingleRange,
+} from './utils';
 
 export const ContentApp = () => {
 	const resetLastSelection = useRef<() => void>();
@@ -30,57 +35,87 @@ export const ContentApp = () => {
 
 	useEffect(() => {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const listener = function (e: MouseEvent) {
+		const handleMouseUp = async function (e: MouseEvent) {
 			const selection = window.getSelection();
-			const isEmpty =
-				!selection || !selection.toString() || selection.rangeCount < 1;
-			if (isEmpty) {
-				resetLastSelection?.current?.();
-				resetLastSelection.current = undefined;
-				setSuggestion(undefined);
-				setIconPosition(undefined);
-				setHighlight(false);
-				setRects([]);
-				setAskContext(undefined);
-				setAskBoxPosition(undefined);
+
+			if (!selection) {
+				return setIconPosition(undefined);
+			}
+
+			const isEmptySelection =
+				!selection.toString() || selection.rangeCount < 1;
+			if (!isEmptySelection) {
+				return handleSelect(selection);
+			}
+
+			const { top, left, width, height } = selection
+				.getRangeAt(0)
+				.getBoundingClientRect();
+
+			const selectBox = {
+				x: left + window.scrollX,
+				y: top + window.scrollY,
+				width,
+				height,
+			};
+
+			if (suggestBoxRef.current && askBoxRef.current) {
+				const askBox = await measure(askBoxRef.current);
+				const isSelectInsideAskBox = isInside(selectBox, askBox);
+
+				const suggestBox = await measure(suggestBoxRef.current);
+				const isSelectInsideSuggestBox = isInside(
+					selectBox,
+					suggestBox,
+				);
+
+				if (isSelectInsideAskBox && !isSelectInsideSuggestBox) {
+					resetSuggestBox();
+				} else if (!isSelectInsideAskBox && !isSelectInsideSuggestBox) {
+					resetSuggestBox();
+					resetAskBox();
+				}
+			} else if (askBoxRef.current) {
+				const box = await measure(askBoxRef.current);
+				const isSelectInsideAskBox = isInside(selectBox, box);
+				if (!isSelectInsideAskBox) resetAskBox();
+			} else if (suggestBoxRef.current) {
+				const box = await measure(suggestBoxRef.current);
+				const isSelectInsideSuggestBox = isInside(selectBox, box);
+				if (!isSelectInsideSuggestBox) resetSuggestBox();
 			} else {
-				handleSelect(selection);
+				return setIconPosition(undefined);
 			}
 		};
-		document.addEventListener('mouseup', listener);
+		document.addEventListener('mouseup', handleMouseUp);
 
+		const handleOnSelectInput = (e: ChangeEvent<HTMLInputElement>) => {
+			if (!e.target || !e.target.selectionStart || !e.target.selectionEnd)
+				return;
+
+			const context = e.target.value;
+			const start = e.target.selectionStart;
+			const end = e.target.selectionEnd;
+			const selection = context.substring(start, end);
+
+			setAskContext({ selection, context, start, end });
+
+			const rect = e.target.getBoundingClientRect();
+			setAskBoxPosition({
+				top: window.scrollY + rect.top + rect.height,
+				left: window.scrollX + rect.left,
+			});
+		};
 		// need to wait for a while
 		setTimeout(() => {
 			const inputs = document.querySelectorAll('input');
 			inputs.forEach((input) => {
-				input.addEventListener('select', (e) => {
-					const typedEvent =
-						e as never as ChangeEvent<HTMLInputElement>;
-
-					if (
-						!typedEvent.target ||
-						!typedEvent.target.selectionStart ||
-						!typedEvent.target.selectionEnd
-					)
-						return;
-
-					const context = typedEvent.target.value;
-					const start = typedEvent.target.selectionStart;
-					const end = typedEvent.target.selectionEnd;
-					const selection = context.substring(start, end);
-
-					setAskContext({ selection, context, start, end });
-
-					const rect = typedEvent.target.getBoundingClientRect();
-					setAskBoxPosition({
-						top: window.scrollY + rect.top + rect.height,
-						left: window.scrollX + rect.left,
-					});
-				});
+				input.addEventListener('select', handleOnSelectInput as never);
 			});
 		}, 0);
 
-		return () => document.removeEventListener('mouseup', listener);
+		// need to remove listener for all inputs
+		return () => document.removeEventListener('mouseup', handleMouseUp);
 	}, []);
 
 	const handleSelect = (selection: Selection) => {
@@ -124,6 +159,21 @@ export const ContentApp = () => {
 			setSuggestion(suggestion);
 		}
 		setLoading(false);
+	};
+
+	const resetSuggestBox = () => {
+		resetLastSelection?.current?.();
+		resetLastSelection.current = undefined;
+		setSuggestion(undefined);
+		setSuggestBoxPosition(undefined);
+		setHighlight(false);
+		setRects([]);
+		setIconPosition(undefined);
+	};
+
+	const resetAskBox = () => {
+		setAskContext(undefined);
+		setAskBoxPosition(undefined);
 	};
 
 	return (
