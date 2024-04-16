@@ -11,11 +11,15 @@ import { logger, retrieveSentenceOfWordsInSingleRange } from './utils';
 
 export const ContentApp = () => {
 	const resetLastSelection = useRef<() => void>();
-	const [iconPosition, setIconPosition] = useState<Position>();
-	const [suggestBoxPosition, setSuggestBoxPosition] = useState<Position>();
 	const [loading, setLoading] = useState(false);
-	const [highlight, setHighlight] = useState<boolean>(false);
+
+	const [iconPosition, setIconPosition] = useState<Position>();
+
 	const [suggestion, setSuggestion] = useState<Suggestion>();
+	const [suggestBoxPosition, setSuggestBoxPosition] = useState<Position>();
+	const suggestBoxRef = useRef(null);
+
+	const [highlight, setHighlight] = useState<boolean>(false);
 	const [rects, setRects] = useState<WrappedDOMRect[]>([]);
 
 	useEffect(() => {
@@ -79,6 +83,14 @@ export const ContentApp = () => {
 
 	return (
 		<View style={styles.container}>
+			{suggestion && suggestBoxPosition && (
+				<SimpleSuggestBox
+					ref={suggestBoxRef}
+					position={suggestBoxPosition}
+					suggestion={suggestion}
+				/>
+			)}
+
 			{loading ? (
 				<View style={[styles.absolute, iconPosition]}>
 					<SuggestLoading />
@@ -90,13 +102,8 @@ export const ContentApp = () => {
 					</View>
 				)
 			)}
+
 			{highlight && rects && <Highlight rects={rects} />}
-			{suggestion && suggestBoxPosition && (
-				<SimpleSuggestBox
-					position={suggestBoxPosition}
-					suggestion={suggestion}
-				/>
-			)}
 		</View>
 	);
 };

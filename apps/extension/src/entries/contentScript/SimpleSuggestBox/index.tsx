@@ -1,4 +1,5 @@
-import type { FC } from 'react';
+import type { Ref } from 'react';
+import { forwardRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import type { SuggestTextInSentenceResponse } from '@peakee/app/api';
 
@@ -9,9 +10,12 @@ type Props = {
 	suggestion: SuggestTextInSentenceResponse;
 };
 
-export const SimpleSuggestBox: FC<Props> = ({ suggestion, position }) => {
+const InternalSimpleSuggestBox = (
+	{ suggestion, position }: Props,
+	ref: Ref<View>,
+) => {
 	return (
-		<View style={[styles.container, position]}>
+		<View ref={ref} style={[styles.container, position]}>
 			<Text style={styles.heading}>Translate</Text>
 			<Text style={styles.content}>{suggestion.translate}</Text>
 
@@ -33,6 +37,10 @@ export const SimpleSuggestBox: FC<Props> = ({ suggestion, position }) => {
 		</View>
 	);
 };
+
+export const SimpleSuggestBox = forwardRef<View, Props>(
+	InternalSimpleSuggestBox,
+);
 
 export default SimpleSuggestBox;
 
