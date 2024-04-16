@@ -1,7 +1,9 @@
+import type { ChangeEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { getSuggestTextInSentence } from '@peakee/app/api';
 
+import { type AskContext, AskBox } from './AskBox';
 import Highlight from './HighLight';
 import SimpleSuggestBox from './SimpleSuggestBox';
 import SuggestIcon from './SuggestIcon';
@@ -22,6 +24,10 @@ export const ContentApp = () => {
 	const [highlight, setHighlight] = useState<boolean>(false);
 	const [rects, setRects] = useState<WrappedDOMRect[]>([]);
 
+	const [askContext, setAskContext] = useState<AskContext>();
+	const [askBoxPosition, setAskBoxPosition] = useState<Position>();
+	const askBoxRef = useRef(null);
+
 	useEffect(() => {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const listener = function (e: MouseEvent) {
@@ -35,20 +41,59 @@ export const ContentApp = () => {
 				setIconPosition(undefined);
 				setHighlight(false);
 				setRects([]);
+				setAskContext(undefined);
+				setAskBoxPosition(undefined);
 			} else {
 				handleSelect(selection);
 			}
 		};
 		document.addEventListener('mouseup', listener);
+
+		// need to wait for a while
+		setTimeout(() => {
+			const inputs = document.querySelectorAll('input');
+			inputs.forEach((input) => {
+				input.addEventListener('select', (e) => {
+					const typedEvent =
+						e as never as ChangeEvent<HTMLInputElement>;
+
+					if (
+						!typedEvent.target ||
+						!typedEvent.target.selectionStart ||
+						!typedEvent.target.selectionEnd
+					)
+						return;
+
+					const context = typedEvent.target.value;
+					const start = typedEvent.target.selectionStart;
+					const end = typedEvent.target.selectionEnd;
+					const selection = context.substring(start, end);
+
+					setAskContext({ selection, context, start, end });
+
+					const rect = typedEvent.target.getBoundingClientRect();
+					setAskBoxPosition({
+						top: window.scrollY + rect.top + rect.height,
+						left: window.scrollX + rect.left,
+					});
+				});
+			});
+		}, 0);
+
 		return () => document.removeEventListener('mouseup', listener);
 	}, []);
 
 	const handleSelect = (selection: Selection) => {
 		const range = selection.getRangeAt(0);
 		const rects = range.getClientRects();
+		const rect = rects[0];
+
+		// rect might be undefined if the selection is from input component
+		if (!rect) return;
+
 		setIconPosition({
-			left: window.scrollX + rects[0].x + rects[0].width - 4,
-			top: window.scrollY + rects[0].y - rects[0].height,
+			left: window.scrollX + rect.x + rect.width - 4,
+			top: window.scrollY + rect.y - rect.height,
 		});
 	};
 
@@ -83,6 +128,14 @@ export const ContentApp = () => {
 
 	return (
 		<View style={styles.container}>
+			{askContext && askBoxPosition && (
+				<AskBox
+					ref={askBoxRef}
+					context={askContext}
+					position={askBoxPosition}
+				/>
+			)}
+
 			{suggestion && suggestBoxPosition && (
 				<SimpleSuggestBox
 					ref={suggestBoxRef}

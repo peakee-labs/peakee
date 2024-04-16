@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import './polyfill';
 
@@ -6,6 +6,11 @@ export const App = () => {
 	return (
 		<View style={styles.container}>
 			<Text>Peakee Extension Development Tools</Text>
+
+			<TextInput style={styles.input} placeholder="Say hello..." />
+
+			<TextInput style={styles.input} placeholder="Type something..." />
+
 			<Text style={styles.textbox}>
 				Lorem Ipsum is simply dummy text of the printing and typesetting
 				industry. Lorem Ipsum has been the industry standard dummy text
@@ -114,5 +119,10 @@ const styles = StyleSheet.create({
 	},
 	textbox: {
 		width: 500,
+	},
+	input: {
+		padding: 10,
+		borderRadius: 30,
+		borderWidth: 1,
 	},
 });
