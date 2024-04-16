@@ -20,8 +20,12 @@ export const Highlight: FC<Props> = ({ rects }) => {
 						return (
 							<Line
 								key={index}
-								top={wr.rect.top + wr.rect.height}
-								left={wr.rect.left}
+								top={
+									window.scrollY +
+									wr.rect.top +
+									wr.rect.height
+								}
+								left={window.scrollX + wr.rect.left}
 								width={wr.rect.width}
 								isPrimary={wr.type === 'main'}
 								onComplete={() => {

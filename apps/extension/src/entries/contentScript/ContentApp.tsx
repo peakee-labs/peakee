@@ -43,8 +43,8 @@ export const ContentApp = () => {
 		const range = selection.getRangeAt(0);
 		const rects = range.getClientRects();
 		setIconPosition({
-			left: rects[0].x + rects[0].width - 4,
-			top: rects[0].y - rects[0].height,
+			left: window.scrollX + rects[0].x + rects[0].width - 4,
+			top: window.scrollY + rects[0].y - rects[0].height,
 		});
 	};
 
@@ -61,10 +61,11 @@ export const ContentApp = () => {
 		resetLastSelection.current = resetInspecting;
 		setSuggestBoxPosition({
 			top:
+				window.scrollY +
 				wrappedRects[wrappedRects.length - 1].rect.top +
 				wrappedRects[wrappedRects.length - 1].rect.height +
 				10,
-			left: wrappedRects[0].rect.left,
+			left: window.scrollX + wrappedRects[0].rect.left,
 		});
 		setHighlight(true);
 		setLoading(true);
