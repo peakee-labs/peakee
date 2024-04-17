@@ -2,6 +2,7 @@ import type { ChangeEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { getSuggestTextInSentence } from '@peakee/app/api';
+import TranslateBox from '@peakee/app/features/TranslateBox';
 
 import { type AskContext, AskBox } from './AskBox';
 import Highlight from './HighLight';
@@ -23,6 +24,10 @@ export const ContentApp = () => {
 
 	const [iconPosition, setIconPosition] = useState<Position>();
 	const [toolBox, setToolBox] = useState(false);
+
+	const [translatePosition, setTranslatePosition] = useState<Position>();
+	const [selectedText, setSelectedText] = useState('');
+	const translateBoxRef = useRef(null);
 
 	const [suggestion, setSuggestion] = useState<Suggestion>();
 	const [suggestBoxPosition, setSuggestBoxPosition] = useState<Position>();
@@ -63,7 +68,11 @@ export const ContentApp = () => {
 				height,
 			};
 
-			if (suggestBoxRef.current && askBoxRef.current) {
+			if (
+				suggestBoxRef.current &&
+				askBoxRef.current &&
+				suggestBoxRef.current
+			) {
 				const askBox = await measure(askBoxRef.current);
 				const isSelectInsideAskBox = isInside(selectBox, askBox);
 
@@ -73,10 +82,27 @@ export const ContentApp = () => {
 					suggestBox,
 				);
 
+				const translateBox = await measure(translateBoxRef.current);
+				const isSelectInsideTranslateBox = isInside(
+					selectBox,
+					translateBox,
+				);
+
 				if (isSelectInsideAskBox && !isSelectInsideSuggestBox) {
 					resetSuggestBox();
+				} else if (
+					isSelectInsideAskBox &&
+					!isSelectInsideTranslateBox
+				) {
+					resetTranslateBox();
 				} else if (!isSelectInsideAskBox && !isSelectInsideSuggestBox) {
 					resetSuggestBox();
+					resetAskBox();
+				} else if (
+					!isSelectInsideAskBox &&
+					!isSelectInsideTranslateBox
+				) {
+					resetTranslateBox();
 					resetAskBox();
 				}
 			} else if (askBoxRef.current) {
@@ -100,6 +126,10 @@ export const ContentApp = () => {
 				const box = await measure(suggestBoxRef.current);
 				const isSelectInsideSuggestBox = isInside(selectBox, box);
 				if (!isSelectInsideSuggestBox) resetSuggestBox();
+			} else if (translateBoxRef.current) {
+				const box = await measure(translateBoxRef.current);
+				const isSelectInsideTranslateBox = isInside(selectBox, box);
+				if (!isSelectInsideTranslateBox) resetTranslateBox();
 			} else {
 				setToolBox(false);
 				setIconPosition(undefined);
@@ -184,6 +214,25 @@ export const ContentApp = () => {
 		setLoading(false);
 	};
 
+	const showTranslate = () => {
+		const selection = window.getSelection();
+		if (!selection) return;
+		const text = selection.toString();
+		setSelectedText(text.trim());
+		const rect = selection.getRangeAt(0).getBoundingClientRect();
+		setTranslatePosition({
+			top: window.scrollY + rect.top + rect.height + 10,
+			left: window.scrollX + rect.left,
+		});
+		setToolBox(false);
+		setIconPosition(undefined);
+	};
+
+	const resetTranslateBox = () => {
+		setTranslatePosition(undefined);
+		setSelectedText('');
+	};
+
 	const resetSuggestBox = () => {
 		resetLastSelection?.current?.();
 		resetLastSelection.current = undefined;
@@ -218,6 +267,14 @@ export const ContentApp = () => {
 				/>
 			)}
 
+			{translatePosition && (
+				<TranslateBox
+					ref={translateBoxRef}
+					style={[translatePosition, styles.translateBox]}
+					initText={selectedText}
+				/>
+			)}
+
 			{loading ? (
 				<View style={[styles.absolute, iconPosition]}>
 					<SuggestLoading />
@@ -228,7 +285,7 @@ export const ContentApp = () => {
 						{toolBox && (
 							<ToolBox
 								style={styles.toolBox}
-								onPressTranslate={showSuggest}
+								onPressTranslate={showTranslate}
 								onPressExplain={showSuggest}
 							/>
 						)}
@@ -257,5 +314,13 @@ const styles = StyleSheet.create({
 	toolBox: {
 		position: 'absolute',
 		bottom: 0,
+	},
+	translateBox: {
+		backgroundColor: '#FFFFFF',
+		position: 'absolute',
+		paddingVertical: 18,
+		borderWidth: 1,
+		borderColor: '#B1B6C1',
+		borderRadius: 10,
 	},
 });
