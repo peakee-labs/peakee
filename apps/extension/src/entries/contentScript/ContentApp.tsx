@@ -69,9 +69,8 @@ export const ContentApp = () => {
 			};
 
 			if (
-				suggestBoxRef.current &&
 				askBoxRef.current &&
-				suggestBoxRef.current
+				(suggestBoxRef.current || suggestBoxRef.current)
 			) {
 				const askBox = await measure(askBoxRef.current);
 				const isSelectInsideAskBox = isInside(selectBox, askBox);
@@ -128,7 +127,16 @@ export const ContentApp = () => {
 				if (!isSelectInsideSuggestBox) resetSuggestBox();
 			} else if (translateBoxRef.current) {
 				const box = await measure(translateBoxRef.current);
-				const isSelectInsideTranslateBox = isInside(selectBox, box);
+				const isSelectInsideTranslateBox =
+					isInside(selectBox, box) ||
+					// when adding TextInput, the selection below input will create selectBox with empty x, y
+					// it might be not a select, just a mouseup
+					// temporarily fix with compare the focusNode, and use depth == 3
+					translateBoxRef.current === selection.focusNode ||
+					translateBoxRef.current ===
+						selection.focusNode?.parentNode ||
+					translateBoxRef.current ===
+						selection.focusNode?.parentNode?.parentNode;
 				if (!isSelectInsideTranslateBox) resetTranslateBox();
 			} else {
 				setToolBox(false);
