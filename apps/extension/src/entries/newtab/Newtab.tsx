@@ -45,14 +45,9 @@ const Newtab = () => {
 		try {
 			// TODO: we should have some state manager to manager user's logging state
 			// this request should include tokens.
+			// currently, make request to public endpoint (this enpoint will return random word related to start-up concept)
 			const { data: data } = await axios.get<reviewWord>(
-				`http://localhost:8084/practice/unit`,
-				{
-					headers: {
-						Authorization:
-							'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImYyOThjZDA3NTlkOGNmN2JjZTZhZWNhODExNmU4ZjYzMDlhNDQwMjAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiTWluaCDEkOG6oXQgTmd1eeG7hW4gxJDDrG5oIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0xwYkNZUGM3Q0NVVGViTlFLSFI2UllVNmFzcGV2NXBOVTlMNlJtNUpoTHc5bz1zOTYtYyIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS96ZW5vLXBlYWtlZSIsImF1ZCI6Inplbm8tcGVha2VlIiwiYXV0aF90aW1lIjoxNzEzMTE1NDExLCJ1c2VyX2lkIjoidDdaWXR5allDYk14T2VmVUFMdThiMlA0QVZPMiIsInN1YiI6InQ3Wll0eWpZQ2JNeE9lZlVBTHU4YjJQNEFWTzIiLCJpYXQiOjE3MTMxMTU0MTEsImV4cCI6MTcxMzExOTAxMSwiZW1haWwiOiJtaW5oZGF0MTUwMTIwMDJAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTgwMDQyNTE2NDM0NTkwOTYwNDMiXSwiZW1haWwiOlsibWluaGRhdDE1MDEyMDAyQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6ImN1c3RvbSJ9fQ.axA7IbxWvegkAtn6048ELPqKuN0Oi9BtDsI086CLgj5vuC24AUAufSWjXuxaGHVj5yF9dO__0PSn-ynibpTJpBMPDtqAAtVe5V3GHuQwOYXhSjkfgRPrEoKKnJ-5hXA-ZjkbE_W8an0KI-k_qsEhBdWP7knKxPBM6r7I9KrYZghnji2t9JVkiK6-c18jE4x1D-J0VUpf2UQ31GZsPWK9Bwv3M_-kI9SxhCeW8F_qcK6Ei-an5OYYLpCoKRVAMu4vXO0Hu1HmMSY0rVlHVTu7hv5TgAeqsUrY2Ei8Xz4OfCd06EIQbcLfh6-G_IvR6tbGnfL49S6N3A398dgCJRk_tw',
-					},
-				},
+				`http://localhost:8084/practice/unit/random?lang=${locale}`,
 			);
 			setReviewContent(data);
 		} catch (err) {
