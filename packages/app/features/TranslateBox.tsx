@@ -186,6 +186,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 0,
 		paddingVertical: 0,
 		outlineStyle: 'none',
+		color: '#000000',
 	} as never,
 	clearButton: {
 		position: 'absolute',
@@ -202,5 +203,6 @@ const styles = StyleSheet.create({
 	translated: {
 		fontSize: 24,
 		fontWeight: '300',
+		color: '#000000',
 	},
 });
