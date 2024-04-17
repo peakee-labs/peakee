@@ -220,6 +220,8 @@ export const ContentApp = () => {
 			setSuggestion(suggestion);
 		}
 		setLoading(false);
+		setIconPosition(undefined);
+		setToolBox(false);
 	};
 
 	const showTranslate = () => {
