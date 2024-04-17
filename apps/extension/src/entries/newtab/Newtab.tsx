@@ -43,7 +43,7 @@ const Newtab = () => {
 
 	const getNewContent = async (locale: string) => {
 		try {
-			// TODO: we should have some state manager to manager user's logging state
+			// TODO: we should have something like state manager to manager user's logging state
 			// this request should include tokens.
 			// currently, make request to public endpoint (this enpoint will return random word related to start-up concept)
 			const { data: data } = await axios.get<reviewWord>(
