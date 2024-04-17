@@ -1,10 +1,6 @@
-import type { FC } from 'react';
+import { type FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Animated, {
-	RotateInDownLeft,
-	RotateOutUpLeft,
-} from 'react-native-reanimated';
 
 type Props = {
 	style?: StyleProp<ViewStyle>;
@@ -18,20 +14,14 @@ export const ToolBox: FC<Props> = ({
 	onPressExplain,
 }) => {
 	return (
-		<View style={style}>
-			<Animated.View
-				style={[styles.boxContainer]}
-				entering={RotateInDownLeft.duration(200)}
-				exiting={RotateOutUpLeft.duration(200)}
-			>
-				<TouchableOpacity onPress={onPressTranslate}>
-					<Text style={styles.title}>Translate</Text>
-				</TouchableOpacity>
+		<View style={[styles.boxContainer, style]}>
+			<TouchableOpacity onPress={onPressTranslate}>
+				<Text style={styles.title}>Translate</Text>
+			</TouchableOpacity>
 
-				<TouchableOpacity onPress={onPressExplain}>
-					<Text style={styles.title}>Explain</Text>
-				</TouchableOpacity>
-			</Animated.View>
+			<TouchableOpacity onPress={onPressExplain}>
+				<Text style={styles.title}>Explain</Text>
+			</TouchableOpacity>
 		</View>
 	);
 };
