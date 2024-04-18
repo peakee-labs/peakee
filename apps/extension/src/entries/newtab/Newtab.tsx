@@ -7,10 +7,13 @@ import {
 	Text,
 	View,
 } from 'react-native';
+import { useSelector } from 'react-redux';
+import { getPracticeWordForUser, getRandomPracticeWord } from '@peakee/app/api';
+import type { RootState } from '@peakee/app/state';
+import type { locale, reviewWord } from '@peakee/app/types';
 import { CircleXmark } from '@peakee/icons';
 import axios from 'axios';
 
-import type { locale, reviewWord } from '../../types';
 import useLocaleMap from '../../utils/hooks/useLocale';
 
 import FeedbackForm from './Form';
@@ -34,6 +37,7 @@ const localeMap: Record<locale, Content> = {
 };
 
 const Newtab = () => {
+	const { user: profile } = useSelector((state: RootState) => state);
 	const [locale, setLocale] = useState<locale>(navigator.language as locale);
 	const [isOpen, setIsOpen] = useState(false);
 	const [reviewContent, setReviewContent] = useState<reviewWord | undefined>(
@@ -43,25 +47,21 @@ const Newtab = () => {
 
 	const getNewContent = async (locale: string) => {
 		try {
-			// TODO: we should have something like state manager to manager user's logging state
-			// this request should include tokens.
-			// currently, make request to public endpoint (this enpoint will return random word related to start-up concept)
-			const { data: data } = await axios.get<reviewWord>(
-				`http://localhost:8084/practice/unit/random?lang=${locale}`,
-			);
-			setReviewContent(data);
+			let data;
+			if (profile.profile) {
+				data = await getPracticeWordForUser();
+			}
+			if (!data) {
+				data = await getRandomPracticeWord(locale);
+			}
+			if (data) {
+				setReviewContent(data);
+			}
 		} catch (err) {
 			console.log(
 				'error while getting practice unit, try to get practice unit from public endpoint\nerr: ',
 				err,
 			);
-			// incase the first request fail,
-			// we will try to get random language based on locale code from public endpoint
-			const { data: data } = await axios.get<reviewWord>(
-				`http://localhost:8084/practice/unit/random?lang=${locale}`,
-			);
-			setReviewContent(data);
-			return;
 		}
 	};
 
