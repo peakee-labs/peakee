@@ -3,9 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "webpack",
-    "build:prod": "node utils/build.js",
-    "start": "node utils/webserver.js"
+    "start": "node utils/webserver.js --port 3005",
+    "start:staging": "node utils/webserver.js --envFile .env.staging --port 3006",
+    "start:prod": "node utils/webserver.js --envFile .env.production --port 3007",
+    "build": "node utils/build.js",
+    "build:staging": "node utils/build.js --mode production --envFile .env.staging",
+    "build:prod": "node utils/build.js --mode production --envFile .env.production"
   },
   "dependencies": {
     "@peakee/app": "*",

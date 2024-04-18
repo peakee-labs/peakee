@@ -4,8 +4,14 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
+        "dev:staging": "env-cmd -f .env.staging next dev -p 3001",
+        "dev:prod": "env-cmd -f .env.production next dev -p 3002",
         "build": "next build",
+        "build:staging": "env-cmd -f .env.staging next build",
+        "build:prod": "env-cmd -f .env.production next build",
         "start": "next start",
+        "start:staging": "env-cmd -f .env.staging next start",
+        "start:prod": "env-cmd -f .env.production next start",
         "lint": "next lint"
     },
     "dependencies": {
@@ -34,6 +40,7 @@
         "@types/node": "^20.5.2",
         "@types/react": "^18.2.0",
         "@types/react-dom": "^18.2.0",
+        "env-cmd": "^10.1.0",
         "typescript": "*"
     }
 }
