@@ -1,8 +1,11 @@
-const { getMode, loadEnvWithEnvFileFlag } = require('../../../tools/bundler');
+const {
+	getModeFromFlag,
+	loadEnvWithEnvFileFlag,
+} = require('../../../tools/bundler');
 
 loadEnvWithEnvFileFlag();
 
-const mode = getMode() || 'development';
+const mode = getModeFromFlag() || 'development';
 
 console.log('Building mode:', mode);
 
