@@ -44,13 +44,13 @@ const configs = {
 	target: 'web',
 	devtool: 'cheap-module-source-map',
 	entry: {
-		newtab: './src/entries/newtab/index.jsx',
-		options: './src/entries/options/index.jsx',
-		popup: './src/entries/popup/index.jsx',
+		newtab: './src/entries/newtab/index.tsx',
+		options: './src/entries/options/index.tsx',
+		popup: './src/entries/popup/index.tsx',
 		background: './src/entries/background/index.ts',
 		contentScript: './src/entries/contentScript/index.tsx',
-		devtools: './src/entries/devtools/index.js',
-		panel: './src/entries/panel/index.jsx',
+		devtools: './src/entries/devtools/index.ts',
+		panel: './src/entries/panel/index.tsx',
 	},
 	output: {
 		filename: '[name].bundle.js',
@@ -136,7 +136,7 @@ const configs = {
 		new HtmlWebpackPlugin({
 			template: './src/entries/newtab/index.html',
 			filename: 'newtab.html',
-			chunks: ['newtab'],
+			chunks: ['newtab', 'contentScript'],
 		}),
 		new HtmlWebpackPlugin({
 			template: './src/entries/options/index.html',

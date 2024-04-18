@@ -5,15 +5,11 @@ import {
 	createRoutesFromElements,
 	Route,
 } from 'react-router-dom';
-import { initAppConfig } from '@peakee/app/utils';
 
 import Newtab from './entries/newtab/Newtab';
 import Popup from './entries/popup/Popup';
 import { App } from './App';
 import { Container } from './components';
-
-// eslint-disable-next-line no-undef
-initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL });
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -55,5 +51,7 @@ export const router = createBrowserRouter(
 );
 
 const container = document.getElementById('app-container');
-const root = createRoot(container);
-root.render(<RouterProvider router={router} />);
+if (container) {
+	const root = createRoot(container);
+	root.render(<RouterProvider router={router} />);
+}

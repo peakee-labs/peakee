@@ -1,4 +1,4 @@
-import type { AxiosInstance } from 'axios';
+import type { AxiosAdapter, AxiosInstance } from 'axios';
 import Axios from 'axios';
 
 import { config } from '../utils';
@@ -9,18 +9,31 @@ let defaultAxios: AxiosInstance;
 
 export function axios() {
 	if (!defaultAxios) {
-		defaultAxios = Axios.create({
-			baseURL: config().PEAKEE_API_URL,
-			headers: { 'Content-Type': 'application/json' },
-		});
-
-		defaultAxios.interceptors.request.use((config) => {
-			config.headers.Authorization = 'Bearer ' + getJWT();
-			config.headers['Content-Type'] = 'application/json';
-
-			return config;
-		});
+		return initAppAxios();
 	}
+
+	return defaultAxios;
+}
+
+export function initAppAxios(adapter?: AxiosAdapter) {
+	const url = config().PEAKEE_API_URL;
+	if (!url) throw Error("Missing 'PEAKEE_API_URL' in config");
+
+	defaultAxios = Axios.create({
+		baseURL: url,
+		headers: { 'Content-Type': 'application/json' },
+		adapter,
+	});
+
+	defaultAxios.interceptors.request.use((config) => {
+		const jwt = getJWT();
+		if (jwt) {
+			config.headers.Authorization = 'Bearer ' + jwt;
+		}
+		config.headers['Content-Type'] = 'application/json';
+
+		return config;
+	});
 
 	return defaultAxios;
 }
