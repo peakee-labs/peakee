@@ -7,8 +7,8 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
+import type { locale, reviewWord } from '@peakee/app/types';
 
-import type { locale, reviewWord } from '../../types';
 import useLocaleMap from '../../utils/hooks/useLocale';
 
 type Props = {

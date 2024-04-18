@@ -122,3 +122,11 @@ export type OnboardingValue = FormName &
 export type FormFeedback = {
 	Feedback: string;
 };
+
+export type locale = 'en-US' | 'en' | 'vi';
+
+export type reviewWord = {
+	word: string;
+	explain: string;
+	synonyms: string[];
+};
