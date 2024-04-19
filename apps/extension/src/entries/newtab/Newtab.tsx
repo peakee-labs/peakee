@@ -37,7 +37,7 @@ const localeMap: Record<locale, Content> = {
 };
 
 const Newtab = () => {
-	const { user: profile } = useSelector((state: RootState) => state);
+	const profile = useSelector((state: RootState) => state.user);
 	const [locale, setLocale] = useState<locale>(navigator.language as locale);
 	const [isOpen, setIsOpen] = useState(false);
 	const [reviewContent, setReviewContent] = useState<reviewWord | undefined>(
