@@ -6,7 +6,12 @@ import { logger } from './utils';
 
 logger.log('Content script works');
 
-initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL });
+initAppConfig({
+	PEAKEE_API_URL,
+	PEAKEE_WS_URL,
+	BLINDERS_EXPLORE_URL,
+	BLINDERS_PRACTICE_URL,
+});
 
 const container = document.createElement('div');
 container.id = 'peakee-container';

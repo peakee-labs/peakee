@@ -10,7 +10,7 @@ export async function getRandomPracticeWord(localeCode: string) {
 		const { data: word } = await defaultAxios.get<reviewWord>(
 			`${
 				config().BLINDERS_PRACTICE_URL
-			}/practice/unit?lang=${localeCode}`,
+			}/practice/unit/random?lang=${localeCode}`,
 		);
 		return word;
 	} catch (err) {
