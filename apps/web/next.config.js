@@ -1,4 +1,7 @@
 const { DefinePlugin } = require('webpack');
+const { loadEnvWithEnvFileFlag } = require('../../tools/bundler');
+
+loadEnvWithEnvFileFlag();
 
 /** @type {import('next').NextConfig} */
 module.exports = {

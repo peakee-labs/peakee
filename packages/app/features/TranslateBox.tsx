@@ -1,4 +1,5 @@
-import { type FC, useCallback, useEffect, useState } from 'react';
+import type { Ref } from 'react';
+import { forwardRef, useCallback, useEffect, useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import {
 	ActivityIndicator,
@@ -21,11 +22,10 @@ export type Props = {
 	style?: StyleProp<ViewStyle>;
 };
 
-export const TranslateBox: FC<Props> = ({
-	initText = '',
-	initLanguages = 'en-vi',
-	style,
-}) => {
+const InternalTranslateBox = (
+	{ initText = '', initLanguages = 'en-vi', style }: Props,
+	ref: Ref<View>,
+) => {
 	const [loading, setLoading] = useState(false);
 	const [text, setText] = useState(initText);
 	const [translated, setTranslated] = useState('');
@@ -76,7 +76,7 @@ export const TranslateBox: FC<Props> = ({
 	}, []);
 
 	return (
-		<View style={[styles.container, style]}>
+		<View ref={ref} style={[styles.container, style]}>
 			<View style={styles.header}>
 				<Text style={styles.title}>
 					{from == 'en' ? 'English' : 'Vietnamese'}
@@ -143,6 +143,8 @@ export const TranslateBox: FC<Props> = ({
 	);
 };
 
+export const TranslateBox = forwardRef<View, Props>(InternalTranslateBox);
+
 export default TranslateBox;
 
 const styles = StyleSheet.create({
@@ -184,6 +186,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 0,
 		paddingVertical: 0,
 		outlineStyle: 'none',
+		color: '#000000',
 	} as never,
 	clearButton: {
 		position: 'absolute',
@@ -200,5 +203,6 @@ const styles = StyleSheet.create({
 	translated: {
 		fontSize: 24,
 		fontWeight: '300',
+		color: '#000000',
 	},
 });

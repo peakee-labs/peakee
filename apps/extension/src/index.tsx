@@ -5,7 +5,6 @@ import {
 	createRoutesFromElements,
 	Route,
 } from 'react-router-dom';
-import { initAppConfig } from '@peakee/app/utils';
 
 import Newtab from './entries/newtab/Newtab';
 import Popup from './entries/popup/Popup';
@@ -60,5 +59,7 @@ export const router = createBrowserRouter(
 );
 
 const container = document.getElementById('app-container');
-const root = createRoot(container);
-root.render(<RouterProvider router={router} />);
+if (container) {
+	const root = createRoot(container);
+	root.render(<RouterProvider router={router} />);
+}

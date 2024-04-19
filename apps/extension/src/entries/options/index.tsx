@@ -5,5 +5,7 @@ import 'react';
 import Options from './Options';
 
 const container = document.getElementById('app-container');
-const root = createRoot(container);
-root.render(<Options title={'Options'} />);
+if (container) {
+	const root = createRoot(container);
+	root.render(<Options title={'Options'} />);
+}

@@ -1,3 +1,10 @@
+const {
+	loadEnvWithEnvFileFlag,
+	getPortFromFlag,
+} = require('../../../tools/bundler');
+
+loadEnvWithEnvFileFlag();
+
 const webpack = require('webpack');
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const WebpackDevServer = require('webpack-dev-server');
@@ -5,7 +12,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 const config = require('../webpack.config');
-const env = require('./env');
 
 config.output = {
 	filename: '[name].bundle.js',
@@ -13,7 +19,7 @@ config.output = {
 	clean: true,
 };
 
-config.entry['index'] = './src/index.jsx';
+config.entry['index'] = './src/index.tsx';
 
 config.plugins.push(
 	new HtmlWebpackPlugin({
@@ -24,7 +30,6 @@ config.plugins.push(
 );
 
 config.optimization = {
-	minimize: false,
 	/*
         The value 'single' instead creates a runtime file to be shared for all generated chunks.
         https://github.com/webpack/webpack-dev-server/issues/2792
@@ -32,10 +37,11 @@ config.optimization = {
 	runtimeChunk: 'single',
 };
 
+const port = getPortFromFlag() || '3000';
 for (var entryName in config.entry) {
 	config.entry[entryName] = [
 		'webpack/hot/dev-server',
-		`webpack-dev-server/client?hot=true&hostname=localhost&port=${env.PORT}`,
+		`webpack-dev-server/client?hot=true&hostname=localhost&port=${port}`,
 	].concat(config.entry[entryName]);
 }
 
@@ -53,7 +59,7 @@ const server = new WebpackDevServer(
 		client: { webSocketTransport: 'ws' },
 		webSocketServer: 'ws',
 		host: 'localhost',
-		port: env.PORT,
+		port: port,
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 		},

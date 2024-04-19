@@ -5,5 +5,7 @@ import 'react';
 import Panel from './Panel';
 
 const container = document.getElementById('app-container');
-const root = createRoot(container);
-root.render(<Panel />);
+if (container) {
+	const root = createRoot(container);
+	root.render(<Panel />);
+}

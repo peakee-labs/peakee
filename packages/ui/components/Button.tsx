@@ -1,24 +1,43 @@
-import type { FC } from 'react';
-import type { TouchableOpacityProps } from 'react-native';
-import { StyleSheet } from 'react-native';
-import { Pressable, Text } from 'react-native';
+import { type FC, useState } from 'react';
+import type { StyleProp, TextStyle, TouchableOpacityProps } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Text } from 'react-native';
 
 type Props = TouchableOpacityProps & {
 	title: string;
+	titleStyle?: StyleProp<TextStyle>;
 };
 
-export const Button: FC<Props> = ({ title, style, ...props }) => {
+export const Button: FC<Props> = ({ title, style, titleStyle, ...props }) => {
+	const [hover, setHover] = useState(false);
+
 	return (
-		<Pressable style={[styles.button, style]} {...props}>
-			<Text>{title}</Text>
-		</Pressable>
+		<TouchableOpacity
+			style={[styles.default, hover && styles.hover, style]}
+			// @ts-ignore No overload matches this call
+			onMouseEnter={() => setHover(true)}
+			onMouseLeave={() => setHover(false)}
+			{...props}
+		>
+			<Text style={[styles.titleStyle, titleStyle]}>{title}</Text>
+		</TouchableOpacity>
 	);
 };
 
 const styles = StyleSheet.create({
-	button: {
-		padding: 10,
-		borderWidth: 1,
-		borderRadius: 10,
+	default: {
+		paddingVertical: 10,
+		paddingHorizontal: 20,
+		borderRadius: 100,
+		backgroundColor: '#FF9F00',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	hover: {
+		opacity: 0.9,
+	},
+	titleStyle: {
+		color: '#FFFFFF',
+		fontWeight: '500',
 	},
 });

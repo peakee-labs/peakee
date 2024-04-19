@@ -1,7 +1,7 @@
 module.exports = {
 	root: true,
 	extends: ['@peakee/eslint-config'],
-	ignorePatterns: [],
+	ignorePatterns: ['**/build/**'],
 	env: {
 		node: true,
 	},
@@ -12,5 +12,11 @@ module.exports = {
 		fetch: true,
 		WebAssembly: true,
 		chrome: 'readonly',
+	},
+	rules: {
+		'@typescript-eslint/ban-ts-comment': [
+			'error',
+			{ 'ts-ignore': 'allow-with-description' },
+		],
 	},
 };

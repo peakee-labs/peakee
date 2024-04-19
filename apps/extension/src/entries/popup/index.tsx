@@ -12,5 +12,7 @@ initAppConfig({
 });
 
 const container = document.getElementById('app-container');
-const root = createRoot(container);
-root.render(<Popup />);
+if (container) {
+	const root = createRoot(container);
+	root.render(<Popup />);
+}
