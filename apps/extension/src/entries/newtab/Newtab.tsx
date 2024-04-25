@@ -1,22 +1,24 @@
 import { useEffect, useState } from 'react';
 import {
 	ActivityIndicator,
-	Modal,
 	Pressable,
 	StyleSheet,
 	Text,
 	View,
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import { getPracticeWordForUser, getRandomPracticeWord } from '@peakee/app/api';
+import {
+	getPracticeWordForUser,
+	getRandomPracticeWord,
+	postFeedback,
+} from '@peakee/app/api';
 import type { RootState } from '@peakee/app/state';
 import type { locale, reviewWord } from '@peakee/app/types';
-import { CircleXmark } from '@peakee/icons';
-import axios from 'axios';
 
+import { initApp } from '../../utils/bootstrap';
 import useLocaleMap from '../../utils/hooks/useLocale';
 
-import FeedbackForm from './Form';
+import { FeedbackModal } from './feedbackModal';
 import { ReviewWord } from './ReviewWord';
 
 type Content = Record<string, string>;
@@ -35,6 +37,8 @@ const localeMap: Record<locale, Content> = {
 		feedbackBtn: 'phản hồi',
 	},
 };
+
+initApp();
 
 const Newtab = () => {
 	const profile = useSelector((state: RootState) => state.user);
@@ -78,21 +82,7 @@ const Newtab = () => {
 		setIsOpen((open) => !open);
 		if (feedback != '') console.log(feedback);
 
-		const handlePostForm = async (
-			userID: string,
-			form: { comment: string },
-		) => {
-			try {
-				const { status: status } = await axios.post(
-					`http://localhost:8080/feedback/${userID}`,
-					form,
-				);
-				return status;
-			} catch (err) {
-				console.log('Error post feedback', err);
-			}
-		};
-		handlePostForm('sampleUser', { comment: feedback });
+		postFeedback({ Feedback: feedback });
 	};
 
 	return (
@@ -110,28 +100,12 @@ const Newtab = () => {
 						{localize('feedbackBtn')}
 					</Text>
 				</Pressable>
-				<Modal
-					animationType="fade"
-					transparent={true}
-					statusBarTranslucent
-					onRequestClose={handlePress}
+				<FeedbackModal
+					onClose={handlePress}
+					onSubmit={handleSubmitForm}
+					locale={locale}
 					visible={isOpen}
-				>
-					<View style={styles.modalOverlay}>
-						<View style={styles.modalContent}>
-							<Pressable
-								style={styles.modalCloseButton}
-								onPress={handlePress}
-							>
-								<CircleXmark color={'#000000'} size={20} />
-							</Pressable>
-							<FeedbackForm
-								onSubmit={handleSubmitForm}
-								locale={locale}
-							/>
-						</View>
-					</View>
-				</Modal>
+				/>
 			</View>
 		</View>
 	);
@@ -170,21 +144,5 @@ const styles = StyleSheet.create({
 	},
 	feedbackText: {
 		textTransform: 'capitalize',
-	},
-	modalOverlay: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: 'rgba(0, 0, 0, 0.5)',
-	},
-	modalContent: {
-		width: 850,
-		height: 500,
-		backgroundColor: '#ffffff',
-		padding: 20,
-		borderRadius: 10,
-	},
-	modalCloseButton: {
-		alignSelf: 'flex-end',
 	},
 });
