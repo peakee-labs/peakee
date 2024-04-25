@@ -10,7 +10,7 @@ import { Button } from '@peakee/ui';
 import { signIn, signOut } from './auth';
 
 type Configs = {
-	customSignIn?: () => void;
+	customSignIn?: () => Promise<void>;
 	showSignOut?: boolean;
 	containerStyle?: StyleProp<ViewStyle>;
 	signInBoxStyle?: StyleProp<ViewStyle>;

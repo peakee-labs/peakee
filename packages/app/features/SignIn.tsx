@@ -1,11 +1,18 @@
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+	ActivityIndicator,
+	Image,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 
 import { useAssets } from '../utils';
 
 type Props = {
-	onPressSignIn: () => void;
+	onPressSignIn: () => Promise<void>;
 	style?: StyleProp<ViewStyle>;
 	titleContainerStyle?: StyleProp<ViewStyle>;
 	buttonStyle?: StyleProp<ViewStyle>;
@@ -17,7 +24,14 @@ const SignInFeature: FC<Props> = ({
 	titleContainerStyle,
 	buttonStyle,
 }) => {
+	const [loading, setLoading] = useState(false);
 	const { assets } = useAssets();
+
+	const handlePressSignIn = async () => {
+		setLoading(true);
+		await onPressSignIn();
+		setLoading(false);
+	};
 
 	return (
 		<View style={style}>
@@ -29,13 +43,17 @@ const SignInFeature: FC<Props> = ({
 					resizeMode="contain"
 				/>
 			</View>
-			<TouchableOpacity
-				style={[styles.signInButton, buttonStyle]}
-				onPress={onPressSignIn}
-			>
-				<Image style={styles.googleImage} source={assets?.google} />
-				<Text style={styles.signInText}>Continue with Google</Text>
-			</TouchableOpacity>
+			{loading ? (
+				<ActivityIndicator />
+			) : (
+				<TouchableOpacity
+					style={[styles.signInButton, buttonStyle]}
+					onPress={handlePressSignIn}
+				>
+					<Image style={styles.googleImage} source={assets?.google} />
+					<Text style={styles.signInText}>Continue with Google</Text>
+				</TouchableOpacity>
+			)}
 		</View>
 	);
 };

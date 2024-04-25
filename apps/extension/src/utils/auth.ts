@@ -35,9 +35,7 @@ export const signIn = async () => {
 	const searchParams = new URLSearchParams(queryString);
 	const token = searchParams.get('access_token');
 	const credential = GoogleAuthProvider.credential(null, token);
-	const userCredential = await signInWithCredential(auth, credential);
-
-	return userCredential.user;
+	await signInWithCredential(auth, credential);
 };
 
 const getGoogleAuthURL = () => {
