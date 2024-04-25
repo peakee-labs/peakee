@@ -10,6 +10,13 @@
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; frame-ancestors 'none';"
   },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "clipboardWrite",
+    "identity",
+    "storage"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon-34.png"

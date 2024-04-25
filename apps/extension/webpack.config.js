@@ -30,6 +30,17 @@ const resolvedTranspilePackages = transpilePackages.map((p) => {
 });
 
 const environments = [
+	// for initializing firebase auth
+	'APP_ID',
+	'API_KEY',
+	'AUTH_DOMAIN',
+	'PROJECT_ID',
+	'STORAGE_BUCKET',
+	'MESSAGING_SENDER_ID',
+	'MEASUREMENT_ID',
+	// for launchWebOauth with chrome.identity api
+	'WEB_OAUTH_CLIENT_ID',
+	// for integrating app services
 	'PEAKEE_WS_URL',
 	'PEAKEE_API_URL',
 	'BLINDERS_EXPLORE_URL',
