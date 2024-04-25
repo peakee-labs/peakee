@@ -136,8 +136,9 @@ const configs = {
 					transform: function (content) {
 						return Buffer.from(
 							JSON.stringify({
-								version: process.env.npm_package_version,
 								...JSON.parse(content.toString()),
+								version: process.env.npm_package_version,
+								key: process.env.EXTENSION_PUBLIC_KEY,
 							}),
 						);
 					},
