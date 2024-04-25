@@ -1,13 +1,25 @@
 import type { JSX } from 'react';
 import { Fragment } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import SignInFeature from '@peakee/app/features/SignIn';
 import type { RootState } from '@peakee/app/state';
+import { Button } from '@peakee/ui';
 
-import { signIn } from './auth';
+import { signIn, signOut } from './auth';
 
-export const withAuth = (WrappedComponent: () => JSX.Element) => {
+type Configs = {
+	showSignOut?: boolean;
+	containerStyle?: StyleProp<ViewStyle>;
+	signInBoxStyle?: StyleProp<ViewStyle>;
+	signOutButtonStyle?: StyleProp<ViewStyle>;
+};
+
+export const withAuth = (
+	WrappedComponent: () => JSX.Element,
+	configs?: Configs,
+) => {
 	const Authorized = () => {
 		const userProfile = useSelector(
 			(state: RootState) => state.user.profile,
@@ -16,21 +28,36 @@ export const withAuth = (WrappedComponent: () => JSX.Element) => {
 			(state: RootState) => state.user.profileLoading,
 		);
 
+		const containerStyle = [styles.container, configs?.containerStyle];
+
 		return (
 			<Fragment>
 				{profileLoading ? (
-					<View style={styles.container}>
+					<View style={containerStyle}>
 						<ActivityIndicator />
 					</View>
 				) : !userProfile ? (
-					<View style={styles.container}>
+					<View style={containerStyle}>
 						<SignInFeature
-							style={styles.signInBox}
+							style={[styles.signInBox, configs?.signInBoxStyle]}
+							titleContainerStyle={styles.signInTitleStyle}
 							onPressSignIn={signIn}
 						/>
 					</View>
 				) : (
-					<WrappedComponent />
+					<Fragment>
+						<WrappedComponent />
+						{configs?.showSignOut && (
+							<Button
+								style={[
+									styles.signOutButton,
+									configs?.signOutButtonStyle,
+								]}
+								title="Sign out"
+								onPress={signOut}
+							/>
+						)}
+					</Fragment>
 				)}
 			</Fragment>
 		);
@@ -43,19 +70,18 @@ export default withAuth;
 
 const styles = StyleSheet.create({
 	container: {
-		height: '100vh' as never,
-		paddingHorizontal: 20,
-		paddingBottom: 20,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	signInBox: {
-		width: 460,
-		paddingVertical: 60,
-		paddingHorizontal: 40,
-		gap: 100,
 		borderWidth: 1,
 		borderColor: '#B1B6C1',
 		borderRadius: 20,
+	},
+	signInTitleStyle: {
+		gap: 20,
+	},
+	signOutButton: {
+		width: 100,
 	},
 });

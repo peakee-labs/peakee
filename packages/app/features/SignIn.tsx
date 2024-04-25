@@ -7,22 +7,22 @@ import { useAssets } from '../utils';
 type Props = {
 	onPressSignIn: () => void;
 	style?: StyleProp<ViewStyle>;
-	titleStyle?: StyleProp<ViewStyle>;
+	titleContainerStyle?: StyleProp<ViewStyle>;
 	buttonStyle?: StyleProp<ViewStyle>;
 };
 
 const SignInFeature: FC<Props> = ({
 	onPressSignIn,
 	style,
-	titleStyle,
+	titleContainerStyle,
 	buttonStyle,
 }) => {
 	const { assets } = useAssets();
 
 	return (
 		<View style={style}>
-			<View style={titleStyle}>
-				<Text style={styles.title}>Peakee</Text>
+			<View style={[styles.titleContainer, titleContainerStyle]}>
+				<Text style={styles.titleText}>Peakee</Text>
 				<Image
 					style={styles.titleImage}
 					source={assets?.authImage}
@@ -43,12 +43,14 @@ const SignInFeature: FC<Props> = ({
 export default SignInFeature;
 
 const styles = StyleSheet.create({
-	title: {
+	titleContainer: {
+		gap: 60,
+	},
+	titleText: {
 		fontSize: 50,
 		fontWeight: '900',
 		color: '#FF7701',
 		alignSelf: 'center',
-		marginBottom: 60,
 	},
 	titleImage: {
 		width: '100%',

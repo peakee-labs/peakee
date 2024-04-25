@@ -23,7 +23,7 @@ const SignIn: FC = () => {
 	return (
 		<SignInFeature
 			style={containerStyle}
-			titleStyle={styles.titleContainer}
+			titleContainerStyle={styles.titleContainer}
 			onPressSignIn={signIn}
 		/>
 	);
