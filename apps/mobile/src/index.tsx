@@ -17,7 +17,7 @@ const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
 	return (
-		<Provider store={store}>
+		<Provider store={store()}>
 			<UIProvider>
 				<NavigationContainer>
 					<Stack.Navigator screenOptions={{ headerShown: false }}>
