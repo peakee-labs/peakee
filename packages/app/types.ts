@@ -125,8 +125,19 @@ export type FormFeedback = {
 
 export type locale = 'en-US' | 'en' | 'vi';
 
-export type reviewWord = {
+export type explainRequest = {
+	text: string;
+	sentence: string;
+};
+
+export type explainResponse = {
 	word: string;
-	explain: string;
-	synonyms: string[];
+	translate: string;
+	keyWords: string[];
+	expandWords: string[];
+};
+
+export type reviewWord = {
+	request: explainRequest;
+	response: explainResponse;
 };
