@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: '#B1B6C1',
 		borderRadius: 20,
+		justifyContent: 'space-between',
 	},
 	signInTitleStyle: {
 		gap: 20,

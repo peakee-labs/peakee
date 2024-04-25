@@ -6,15 +6,27 @@ applyPersistAppState();
 
 import { createRoot } from 'react-dom/client';
 import { StateProvider } from '@peakee/app/state';
-import { initAppConfig } from '@peakee/app/utils';
 
+import { initApp } from '../../utils/bootstrap';
 import withAuth from '../../utils/withAuth';
 
 import Popup from './Popup';
 
-initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL });
+initApp();
 
-const AuthorizedPopup = withAuth(Popup);
+const AuthorizedPopup = withAuth(Popup, {
+	containerStyle: {
+		width: 500,
+		height: 400,
+		padding: 20,
+	},
+	signInBoxStyle: {
+		height: '100%',
+		width: '100%',
+		borderWidth: 0,
+	},
+});
+
 const container = document.getElementById('app-container');
 if (container) {
 	const root = createRoot(container);
