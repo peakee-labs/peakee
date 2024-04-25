@@ -16,8 +16,8 @@ const SignInScreen = () => {
 	return (
 		<SignInFeature
 			style={styles.container}
-			titleStyle={styles.titleStyle}
-			buttonStyle={styles.signInButtonStyle}
+			titleContainerStyle={styles.titleContainer}
+			buttonStyle={styles.signInButton}
 			onPressSignIn={handleSignIn}
 		/>
 	);
@@ -31,9 +31,9 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		backgroundColor: '#FFFFFF',
 	},
-	titleStyle: {
+	titleContainer: {
 		flex: 1,
 		justifyContent: 'center',
 	},
-	signInButtonStyle: {},
+	signInButton: {},
 });

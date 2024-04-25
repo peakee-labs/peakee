@@ -3,12 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { FriendRequest, PublicUserProfile } from '../types';
 
-export interface Notifications {
+export interface NotificationsState {
 	friendRequests: FriendRequest[];
 	friendRequestsLoading: boolean;
 }
 
-const initialState: Notifications = {
+const initialState: NotificationsState = {
 	friendRequests: [],
 	friendRequestsLoading: true,
 };

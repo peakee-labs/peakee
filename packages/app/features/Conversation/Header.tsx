@@ -30,7 +30,7 @@ export const Header: FC<Props> = ({ conversation, onPressBack }) => {
 
 	useEffect(() => {
 		if (conversation.type === 'individual') {
-			const userId = store.getState().user.profile?.id;
+			const userId = store().getState().user.profile?.id;
 			const friendId = conversation.members.find(
 				(member) => member.userId !== userId,
 			)?.userId as string;

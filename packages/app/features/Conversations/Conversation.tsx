@@ -28,7 +28,7 @@ export const Conversation: FC<Props> = ({ conversation, onPress }) => {
 
 	useEffect(() => {
 		if (conversation.type === 'individual') {
-			const userId = store.getState().user.profile?.id;
+			const userId = store().getState().user.profile?.id;
 			const friendId = conversation.members.find(
 				(member) => member.userId !== userId,
 			)?.userId as string;

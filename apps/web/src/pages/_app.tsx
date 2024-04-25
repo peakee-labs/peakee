@@ -17,7 +17,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 	useEffect(() => initApp(), []);
 
 	return (
-		<Provider store={store}>
+		<Provider store={store()}>
 			<View style={{ height: height || ('100dvh' as never) }}>
 				<Component {...pageProps} />
 			</View>

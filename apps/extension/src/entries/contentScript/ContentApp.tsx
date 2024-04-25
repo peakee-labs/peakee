@@ -51,10 +51,13 @@ export const ContentApp = () => {
 				return;
 			}
 
-			const isEmptySelection =
-				!selection.toString() || selection.rangeCount < 1;
+			const noSelectionRange = selection.rangeCount < 1;
+			const isEmptySelection = !selection.toString() || noSelectionRange;
 			if (!isEmptySelection) {
 				return handleSelect(selection);
+			} else if (noSelectionRange) {
+				logger.log('no selection');
+				return;
 			}
 
 			const { top, left, width, height } = selection

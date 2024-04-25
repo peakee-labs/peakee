@@ -1,12 +1,40 @@
+/**
+ * apply persist app state before render
+ */
+import { applyPersistAppState } from '../../utils/state';
+applyPersistAppState();
+
 import { createRoot } from 'react-dom/client';
-import { initAppConfig } from '@peakee/app/utils';
+import { StateProvider } from '@peakee/app/state';
+
+import { initApp } from '../../utils/bootstrap';
+import withAuth from '../../utils/withAuth';
 
 import Newtab from './Newtab';
 
-initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL });
+initApp();
 
+const AuthorizedNewTab = withAuth(Newtab, {
+	showSignOut: true,
+	containerStyle: {
+		height: '100vh' as never,
+	},
+	signInBoxStyle: {
+		paddingVertical: 60,
+		paddingHorizontal: 40,
+		width: 460,
+		gap: 100,
+	},
+	signOutButtonStyle: {
+		marginLeft: 20,
+	},
+});
 const container = document.getElementById('app-container');
 if (container) {
 	const root = createRoot(container);
-	root.render(<Newtab />);
+	root.render(
+		<StateProvider>
+			<AuthorizedNewTab />
+		</StateProvider>,
+	);
 }
