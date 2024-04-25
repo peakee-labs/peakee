@@ -8,9 +8,7 @@ import { axios } from './axios';
 export async function getRandomPracticeWord(localeCode: string) {
 	try {
 		const { data: word } = await defaultAxios.get<reviewWord>(
-			`${
-				config().BLINDERS_PRACTICE_URL
-			}/practice/unit/random?lang=${localeCode}`,
+			`/practice/unit/random?lang=${localeCode}`,
 		);
 		return word;
 	} catch (err) {
@@ -21,7 +19,8 @@ export async function getRandomPracticeWord(localeCode: string) {
 export async function getPracticeWordForUser() {
 	try {
 		const { data: word } = await axios().get<reviewWord>(
-			`${config().BLINDERS_PRACTICE_URL}/practice/unit`,
+			// TODO: deploy practice function
+			`/practice/unit`,
 		);
 		return word;
 	} catch (err) {
