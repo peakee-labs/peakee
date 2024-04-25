@@ -15,12 +15,7 @@ import { App } from './App';
 import { Container } from './components';
 
 // eslint-disable-next-line no-undef
-initAppConfig({
-	PEAKEE_API_URL,
-	PEAKEE_WS_URL,
-	BLINDERS_EXPLORE_URL,
-	BLINDERS_PRACTICE_URL,
-});
+initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL });
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(

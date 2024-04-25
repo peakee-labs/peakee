@@ -14,6 +14,5 @@ export const initApp = () => {
 		PEAKEE_API_URL,
 		PEAKEE_WS_URL,
 		BLINDERS_EXPLORE_URL,
-		BLINDERS_PRACTICE_URL,
 	});
 };

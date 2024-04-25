@@ -18,7 +18,6 @@ export const initApp = () => {
 		PEAKEE_API_URL: Config.PEAKEE_API_URL as string,
 		PEAKEE_WS_URL: Config.PEAKEE_WS_URL as string,
 		BLINDERS_EXPLORE_URL: Config.BLINDERS_EXPLORE_URL as string,
-		BLINDERS_PRACTICE_URL: Config.BLINDERS_PRACTICE_URL as string,
 	});
 
 	injectUtils({
