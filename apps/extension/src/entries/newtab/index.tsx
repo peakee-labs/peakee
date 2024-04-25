@@ -12,10 +12,9 @@ import withAuth from '../../utils/withAuth';
 
 import Newtab from './Newtab';
 
-const AuthorizedNewTab = withAuth(Newtab);
-
 initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL });
 
+const AuthorizedNewTab = withAuth(Newtab);
 const container = document.getElementById('app-container');
 if (container) {
 	const root = createRoot(container);
