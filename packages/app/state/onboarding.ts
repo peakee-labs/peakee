@@ -9,13 +9,13 @@ import type {
 	OnboardingValue,
 } from '../types';
 
-export interface Onboarding {
+export interface OnboardingState {
 	progress: number;
 	number: number;
 	form: OnboardingValue;
 }
 
-const initialState: Onboarding = {
+const initialState: OnboardingState = {
 	progress: -1,
 	number: 0,
 	form: {
