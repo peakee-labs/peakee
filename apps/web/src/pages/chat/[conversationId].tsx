@@ -27,7 +27,7 @@ export const Chat: FC = () => {
 	const initializeNewConversationState = async (friendId: string) => {
 		const friend = await getFriendProfileWithState(friendId);
 		if (!friend) return;
-		const userId = store.getState().user.profile?.id;
+		const userId = store().getState().user.profile?.id;
 		if (!userId) return;
 
 		const newConversation: Conversation = {

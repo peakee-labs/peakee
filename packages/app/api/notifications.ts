@@ -4,7 +4,7 @@ import type { FriendRequest } from '../types';
 import { axios } from './axios';
 
 export async function getAllFriendRequests() {
-	const userId = store.getState().user.profile?.id;
+	const userId = store().getState().user.profile?.id;
 	if (!userId) return [];
 
 	try {
@@ -23,7 +23,7 @@ export async function respondFriendRequest(
 	requestId: string,
 	action: 'accept' | 'deny',
 ): Promise<boolean> {
-	const userId = store.getState().user.profile?.id;
+	const userId = store().getState().user.profile?.id;
 	if (!userId) false;
 
 	try {

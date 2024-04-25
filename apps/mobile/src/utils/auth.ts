@@ -57,20 +57,20 @@ auth().onIdTokenChanged(async (firebaseUser) => {
 	if (firebaseUser) {
 		const jwt = await firebaseUser.getIdToken();
 		setJWT(jwt);
-		if (!store.getState().user.profile) {
+		if (!store().getState().user.profile) {
 			const user = await getOrInitUserProfile({
 				name: firebaseUser.displayName as string,
 				email: firebaseUser.email as string,
 				imageUrl: firebaseUser.photoURL as string,
 			});
 			if (user) {
-				store.dispatch(setProfile(user));
+				store().dispatch(setProfile(user));
 			}
-			store.dispatch(setProfileLoading(false));
+			store().dispatch(setProfileLoading(false));
 		}
 	} else {
 		console.log('not found firebase user');
-		store.dispatch(resetUserState());
-		store.dispatch(resetChatState());
+		store().dispatch(resetUserState());
+		store().dispatch(resetChatState());
 	}
 });

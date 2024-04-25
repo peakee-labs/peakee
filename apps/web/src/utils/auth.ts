@@ -29,7 +29,7 @@ export const signIn = async () => {
 
 export const signOut = async () => {
 	await auth.signOut();
-	store.dispatch(resetUserState());
+	store().dispatch(resetUserState());
 };
 
 auth.onIdTokenChanged(async (firebaseUser) => {
@@ -45,10 +45,10 @@ auth.onIdTokenChanged(async (firebaseUser) => {
 			imageUrl: firebaseUser.photoURL as string,
 		});
 
-		if (user) store.dispatch(setProfile(user));
+		if (user) store().dispatch(setProfile(user));
 	} else {
 		setJWT('');
 	}
 
-	store.dispatch(setProfileLoading(false));
+	store().dispatch(setProfileLoading(false));
 });

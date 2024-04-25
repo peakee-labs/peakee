@@ -30,7 +30,7 @@ const Splash = () => {
 			},
 			runOnJS(() => {
 				setTimeout(() => {
-					if (store.getState().user.profile) {
+					if (store().getState().user.profile) {
 						navigation.navigate('Home' as never);
 					} else {
 						navigation.navigate('SignIn' as never);
