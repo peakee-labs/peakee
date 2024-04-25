@@ -23,6 +23,7 @@ const transpilePackages = [
 	'react-native-reanimated',
 	'react-native-gesture-handler',
 	'@gorhom/bottom-sheet',
+	'@metacraft/crab',
 ];
 
 const resolvedTranspilePackages = transpilePackages.map((p) => {

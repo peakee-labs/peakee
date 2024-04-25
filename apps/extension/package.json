@@ -11,6 +11,7 @@
     "build:prod": "node utils/build.js --mode production --envFile .env.production"
   },
   "dependencies": {
+    "@metacraft/crab": "0.0.5",
     "@peakee/app": "*",
     "@peakee/icons": "*",
     "@peakee/logger": "*",

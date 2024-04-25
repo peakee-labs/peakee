@@ -10,11 +10,13 @@ import { StateProvider } from '@peakee/app/state';
 import { initApp } from '../../utils/bootstrap';
 import withAuth from '../../utils/withAuth';
 
+import { signInFromPopupPage } from './internal';
 import Popup from './Popup';
 
 initApp();
 
 const AuthorizedPopup = withAuth(Popup, {
+	customSignIn: signInFromPopupPage,
 	containerStyle: {
 		width: 500,
 		height: 400,

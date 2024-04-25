@@ -4641,6 +4641,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@metacraft/crab@npm:0.0.5":
+  version: 0.0.5
+  resolution: "@metacraft/crab@npm:0.0.5"
+  checksum: 10/0903289b66026ae5bf48b3dbcbbfc1aa1f90cc7c982f3eb8f26f1414754f9e98bee8c98eca4b39c35e3fdfde27bd09b57334a27dc0dace007f771234b2184c17
+  languageName: node
+  linkType: hard
+
 "@next/env@npm:13.5.6":
   version: 13.5.6
   resolution: "@next/env@npm:13.5.6"
@@ -4841,6 +4848,7 @@ __metadata:
     "@babel/core": "npm:^7.24.0"
     "@babel/preset-env": "npm:^7.24.0"
     "@babel/preset-react": "npm:^7.18.6"
+    "@metacraft/crab": "npm:0.0.5"
     "@peakee/app": "npm:*"
     "@peakee/icons": "npm:*"
     "@peakee/logger": "npm:*"

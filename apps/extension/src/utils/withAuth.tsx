@@ -10,6 +10,7 @@ import { Button } from '@peakee/ui';
 import { signIn, signOut } from './auth';
 
 type Configs = {
+	customSignIn?: () => void;
 	showSignOut?: boolean;
 	containerStyle?: StyleProp<ViewStyle>;
 	signInBoxStyle?: StyleProp<ViewStyle>;
@@ -41,7 +42,7 @@ export const withAuth = (
 						<SignInFeature
 							style={[styles.signInBox, configs?.signInBoxStyle]}
 							titleContainerStyle={styles.signInTitleStyle}
-							onPressSignIn={signIn}
+							onPressSignIn={configs?.customSignIn || signIn}
 						/>
 					</View>
 				) : (
