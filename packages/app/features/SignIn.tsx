@@ -5,7 +5,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useAssets } from '../utils';
 
 type Props = {
-	onPressSignIn?: () => void;
+	onPressSignIn: () => void;
 	style?: StyleProp<ViewStyle>;
 	titleStyle?: StyleProp<ViewStyle>;
 	buttonStyle?: StyleProp<ViewStyle>;
