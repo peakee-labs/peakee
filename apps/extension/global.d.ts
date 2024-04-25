@@ -11,3 +11,5 @@ declare const PEAKEE_API_URL: string;
 declare const BLINDERS_EXPLORE_URL: string;
 
 declare const WEB_OAUTH_CLIENT_ID: string;
+
+declare module 'redux-persist-chrome-storage';

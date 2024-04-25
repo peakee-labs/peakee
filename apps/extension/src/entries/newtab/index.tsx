@@ -1,6 +1,11 @@
+/**
+ * apply persist app state before render
+ */
+import { applyPersistAppState } from '../../utils/state';
+applyPersistAppState();
+
 import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { store } from '@peakee/app/state';
+import { StateProvider } from '@peakee/app/state';
 import { initAppConfig } from '@peakee/app/utils';
 
 import withAuth from '../../utils/withAuth';
@@ -15,8 +20,8 @@ const container = document.getElementById('app-container');
 if (container) {
 	const root = createRoot(container);
 	root.render(
-		<Provider store={store}>
+		<StateProvider>
 			<AuthorizedNewTab />
-		</Provider>,
+		</StateProvider>,
 	);
 }
