@@ -18,8 +18,8 @@ function initWebsocket(endpoint: string, token: string) {
 		if (data.type === EventType.SERVER_ACK_SEND_MESSAGE) {
 			const payload = data as AckSendMessagePayload;
 			payload.message.resolveId = payload.resolveId;
-			store.dispatch(resolveMessage(payload.message));
-			store.dispatch(
+			store().dispatch(resolveMessage(payload.message));
+			store().dispatch(
 				updateLatestMessage({
 					conversationId: payload.message.conversationId,
 					message: payload.message,
@@ -28,20 +28,20 @@ function initWebsocket(endpoint: string, token: string) {
 		} else if (data.type === EventType.SERVER_SEND_MESSAGE) {
 			const payload = data as NewMessagePayload;
 			const conversation =
-				store.getState().chat.conversationsMap[
+				store().getState().chat.conversationsMap[
 					payload.message.conversationId
 				];
 			if (!conversation) {
 				await getConversationWithState(payload.message.conversationId);
 			}
 
-			store.dispatch(
+			store().dispatch(
 				addMessage({
 					conversationId: payload.message.conversationId,
 					message: payload.message,
 				}),
 			);
-			store.dispatch(
+			store().dispatch(
 				updateLatestMessage({
 					conversationId: payload.message.conversationId,
 					message: payload.message,

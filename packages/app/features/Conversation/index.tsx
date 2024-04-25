@@ -37,7 +37,7 @@ type Props = {
  * Always make sure that the conversation state is available
  */
 export const ConversationFeature: FC<Props> = ({ id, style, onPressBack }) => {
-	const userId = store.getState().user.profile?.id;
+	const userId = store().getState().user.profile?.id;
 	if (!userId) throw Error('User not logged in');
 
 	const conversation = useSelector(
@@ -82,7 +82,7 @@ export const ConversationFeature: FC<Props> = ({ id, style, onPressBack }) => {
 
 	const createConversation = async () => {
 		if (conversation.type === 'individual') {
-			const userId = store.getState().user.profile?.id;
+			const userId = store().getState().user.profile?.id;
 			const friendId = conversation.members.find(
 				(member) => userId && userId != member.userId,
 			)?.userId;
@@ -109,7 +109,7 @@ export const ConversationFeature: FC<Props> = ({ id, style, onPressBack }) => {
 
 	const resolveInitialMessages = (conversationId: string) => {
 		const updatedConversation =
-			store.getState().chat.conversationsMap[conversationId];
+			store().getState().chat.conversationsMap[conversationId];
 		updatedConversation.messages?.map((message, index) => {
 			if (message.status !== 'initial') return;
 			sendMessage({

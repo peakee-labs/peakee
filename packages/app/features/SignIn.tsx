@@ -1,41 +1,59 @@
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+	ActivityIndicator,
+	Image,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 
 import { useAssets } from '../utils';
 
 type Props = {
-	onPressSignIn?: () => void;
+	onPressSignIn: () => Promise<void>;
 	style?: StyleProp<ViewStyle>;
-	titleStyle?: StyleProp<ViewStyle>;
+	titleContainerStyle?: StyleProp<ViewStyle>;
 	buttonStyle?: StyleProp<ViewStyle>;
 };
 
 const SignInFeature: FC<Props> = ({
 	onPressSignIn,
 	style,
-	titleStyle,
+	titleContainerStyle,
 	buttonStyle,
 }) => {
+	const [loading, setLoading] = useState(false);
 	const { assets } = useAssets();
+
+	const handlePressSignIn = async () => {
+		setLoading(true);
+		await onPressSignIn();
+		setLoading(false);
+	};
 
 	return (
 		<View style={style}>
-			<View style={titleStyle}>
-				<Text style={styles.title}>Peakee</Text>
+			<View style={[styles.titleContainer, titleContainerStyle]}>
+				<Text style={styles.titleText}>Peakee</Text>
 				<Image
 					style={styles.titleImage}
 					source={assets?.authImage}
 					resizeMode="contain"
 				/>
 			</View>
-			<TouchableOpacity
-				style={[styles.signInButton, buttonStyle]}
-				onPress={onPressSignIn}
-			>
-				<Image style={styles.googleImage} source={assets?.google} />
-				<Text style={styles.signInText}>Continue with Google</Text>
-			</TouchableOpacity>
+			{loading ? (
+				<ActivityIndicator />
+			) : (
+				<TouchableOpacity
+					style={[styles.signInButton, buttonStyle]}
+					onPress={handlePressSignIn}
+				>
+					<Image style={styles.googleImage} source={assets?.google} />
+					<Text style={styles.signInText}>Continue with Google</Text>
+				</TouchableOpacity>
+			)}
 		</View>
 	);
 };
@@ -43,12 +61,14 @@ const SignInFeature: FC<Props> = ({
 export default SignInFeature;
 
 const styles = StyleSheet.create({
-	title: {
+	titleContainer: {
+		gap: 60,
+	},
+	titleText: {
 		fontSize: 50,
 		fontWeight: '900',
 		color: '#FF7701',
 		alignSelf: 'center',
-		marginBottom: 60,
 	},
 	titleImage: {
 		width: '100%',

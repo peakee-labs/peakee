@@ -34,7 +34,7 @@ export async function getUsers(options: GetUsersOptions) {
 }
 
 export async function sendFriendRequest(friendId: string) {
-	const userId = store.getState().user.profile?.id;
+	const userId = store().getState().user.profile?.id;
 	if (!userId) return;
 
 	try {

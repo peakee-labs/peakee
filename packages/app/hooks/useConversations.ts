@@ -17,11 +17,11 @@ export const useConversations = () => {
 
 	useEffect(() => {
 		if (conversationsLoadStatus === 'unloaded') {
-			store.dispatch(updateConversationsLoading('loading'));
+			store().dispatch(updateConversationsLoading('loading'));
 			getConversations().then((conversations) => {
-				store.dispatch(updateConversationsLoading('loaded'));
+				store().dispatch(updateConversationsLoading('loaded'));
 				conversations.forEach((conversation) => {
-					store.dispatch(addConversation(conversation));
+					store().dispatch(addConversation(conversation));
 				});
 			});
 		}

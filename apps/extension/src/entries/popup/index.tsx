@@ -1,18 +1,40 @@
-import { createRoot } from 'react-dom/client';
-import { initAppConfig } from '@peakee/app/utils';
+/**
+ * apply persist app state before render
+ */
+import { applyPersistAppState } from '../../utils/state';
+applyPersistAppState();
 
+import { createRoot } from 'react-dom/client';
+import { StateProvider } from '@peakee/app/state';
+
+import { initApp } from '../../utils/bootstrap';
+import withAuth from '../../utils/withAuth';
+
+import { signInFromPopupPage } from './internal';
 import Popup from './Popup';
 
-// eslint-disable-next-line no-undef
-initAppConfig({
-	PEAKEE_API_URL,
-	PEAKEE_WS_URL,
-	BLINDERS_EXPLORE_URL,
-	BLINDERS_PRACTICE_URL,
+initApp();
+
+const AuthorizedPopup = withAuth(Popup, {
+	customSignIn: signInFromPopupPage,
+	containerStyle: {
+		width: 500,
+		height: 400,
+		padding: 20,
+	},
+	signInBoxStyle: {
+		height: '100%',
+		width: '100%',
+		borderWidth: 0,
+	},
 });
 
 const container = document.getElementById('app-container');
 if (container) {
 	const root = createRoot(container);
-	root.render(<Popup />);
+	root.render(
+		<StateProvider>
+			<AuthorizedPopup />
+		</StateProvider>,
+	);
 }
