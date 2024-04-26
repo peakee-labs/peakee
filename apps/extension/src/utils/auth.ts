@@ -24,9 +24,21 @@ const firebaseConfig = {
 };
 
 initializeApp(firebaseConfig);
-const auth = getAuth();
+export const auth = getAuth();
 
 export const signIn = async () => {
+	const token = await launchSignIn();
+	return signInWithToken(token);
+};
+
+export const signInWithToken = async (token: string) => {
+	const credential = GoogleAuthProvider.credential(null, token);
+	const { user } = await signInWithCredential(auth, credential);
+
+	return user;
+};
+
+export const launchSignIn = async () => {
 	const responseUrl = await chrome.identity.launchWebAuthFlow({
 		interactive: true,
 		url: getGoogleAuthURL(),
@@ -34,8 +46,8 @@ export const signIn = async () => {
 	const queryString = responseUrl?.split('#')?.[1];
 	const searchParams = new URLSearchParams(queryString);
 	const token = searchParams.get('access_token');
-	const credential = GoogleAuthProvider.credential(null, token);
-	await signInWithCredential(auth, credential);
+
+	return token as string;
 };
 
 const getGoogleAuthURL = () => {

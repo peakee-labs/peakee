@@ -1,11 +1,12 @@
 import type { ChangeEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { getSuggestTextInSentence } from '@peakee/app/api';
 import TranslateBox from '@peakee/app/features/TranslateBox';
+import { store } from '@peakee/app/state';
 
 import { type AskContext, AskBox } from './AskBox';
 import Highlight from './HighLight';
+import { requestExplain, signInFromContentScript } from './internal';
 import SimpleSuggestBox from './SimpleSuggestBox';
 import SuggestLoading from './SuggestLoading';
 import ToolBox from './ToolBox';
@@ -192,7 +193,21 @@ export const ContentApp = () => {
 		});
 	};
 
-	const handlePressToolIcon = () => {
+	const handlePressToolIcon = async () => {
+		const userProfile = store().getState().user.profile;
+		if (!userProfile) {
+			try {
+				setLoading(true);
+				await signInFromContentScript();
+			} catch (error) {
+				logger.log("can't sign in", error);
+			} finally {
+				setLoading(false);
+			}
+
+			return;
+		}
+
 		setToolBox((prev) => !prev);
 	};
 
@@ -218,7 +233,7 @@ export const ContentApp = () => {
 		setHighlight(true);
 		setLoading(true);
 
-		const suggestion = await getSuggestTextInSentence(text, sentence);
+		const suggestion = await requestExplain({ text, sentence });
 		if (suggestion) {
 			setSuggestion(suggestion);
 		}

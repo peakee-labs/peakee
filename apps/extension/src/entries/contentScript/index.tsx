@@ -1,11 +1,8 @@
 /**
  * apply persist app state before render
+ * contentScript does not have app state, it can only use some functions in proxy whitelist
  */
-import { applyPersistAppState } from '../../utils/state';
-applyPersistAppState();
-
 import { createRoot } from 'react-dom/client';
-import { StateProvider } from '@peakee/app/state';
 
 import { initApp } from '../../utils/bootstrap';
 
@@ -21,8 +18,4 @@ container.id = 'peakee-container';
 document.body.appendChild(container);
 
 const root = createRoot(container);
-root.render(
-	<StateProvider>
-		<ContentApp />
-	</StateProvider>,
-);
+root.render(<ContentApp />);

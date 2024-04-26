@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -50,8 +49,17 @@ const environments = [
 	return acc;
 }, {});
 
+const commonPlugins = [
+	new webpack.ProgressPlugin(),
+	new webpack.DefinePlugin({
+		__DEV__: process.env.NODE_ENV !== 'production' || true,
+		process: { env: {} },
+		...environments,
+	}),
+];
+
 /** @type { import('webpack').Configuration } */
-const configs = {
+const defaultConfig = {
 	mode: process.env.NODE_ENV || 'development',
 	target: 'web',
 	devtool: 'cheap-module-source-map',
@@ -60,14 +68,13 @@ const configs = {
 		options: './src/entries/options/index.tsx',
 		popup: './src/entries/popup/index.tsx',
 		background: './src/entries/background/index.ts',
-		contentScript: './src/entries/contentScript/index.tsx',
+		contentScriptNoProxy: './src/entries/contentScript/index.tsx',
 		devtools: './src/entries/devtools/index.ts',
 		panel: './src/entries/panel/index.tsx',
 	},
 	output: {
 		filename: '[name].bundle.js',
 		path: path.resolve(__dirname, 'build/ext'),
-		clean: true,
 	},
 	module: {
 		rules: [
@@ -121,13 +128,7 @@ const configs = {
 			]),
 	},
 	plugins: [
-		new CleanWebpackPlugin({ verbose: true }),
-		new webpack.ProgressPlugin(),
-		new webpack.DefinePlugin({
-			__DEV__: process.env.NODE_ENV !== 'production' || true,
-			process: { env: {} },
-			...environments,
-		}),
+		...commonPlugins,
 		new CopyWebpackPlugin({
 			patterns: [
 				{
@@ -149,7 +150,7 @@ const configs = {
 		new HtmlWebpackPlugin({
 			template: './src/entries/newtab/index.html',
 			filename: 'newtab.html',
-			chunks: ['newtab', 'contentScript'],
+			chunks: ['newtab', 'contentScriptNoProxy'],
 		}),
 		new HtmlWebpackPlugin({
 			template: './src/entries/options/index.html',
@@ -174,4 +175,26 @@ const configs = {
 	],
 };
 
-module.exports = configs;
+const proxyContentScriptServicesRequestsToKernel =
+	new webpack.NormalModuleReplacementPlugin(/api/, (resource) => {
+		if (
+			resource.contextInfo.issuer.includes('node_modules') ||
+			resource.contextInfo.issuer.includes('proxy')
+		) {
+			return;
+		}
+		console.log(resource);
+
+		resource.request = path.resolve(__dirname, './proxy.ts');
+	});
+
+/** @type { import('webpack').Configuration } */
+const bundleContentScriptWithProxy = {
+	...defaultConfig,
+	entry: {
+		contentScript: './src/entries/contentScript/index.tsx',
+	},
+	plugins: [proxyContentScriptServicesRequestsToKernel, ...commonPlugins],
+};
+
+module.exports = [defaultConfig, bundleContentScriptWithProxy];

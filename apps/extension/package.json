@@ -6,9 +6,9 @@
     "start": "node utils/webserver.js --port 3005",
     "start:staging": "node utils/webserver.js --envFile .env.staging --port 3006",
     "start:prod": "node utils/webserver.js --envFile .env.production --port 3007",
-    "build": "node utils/build.js",
-    "build:staging": "node utils/build.js --mode production --envFile .env.staging",
-    "build:prod": "node utils/build.js --mode production --envFile .env.production"
+    "build": "rimraf build/ext && node utils/build.js",
+    "build:staging": "rimraf build/ext && node utils/build.js --mode production --envFile .env.staging",
+    "build:prod": "rimraf build/ext && node utils/build.js --mode production --envFile .env.production"
   },
   "dependencies": {
     "@metacraft/crab": "0.0.5",
@@ -50,6 +50,7 @@
     "html-webpack-plugin": "^5.5.0",
     "react-refresh": "^0.14.0",
     "react-refresh-typescript": "^2.0.7",
+    "rimraf": "^5.0.5",
     "source-map-loader": "^3.0.1",
     "style-loader": "^3.3.1",
     "terser-webpack-plugin": "^5.3.6",
