@@ -1,6 +1,7 @@
 import type { ChangeEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { explainTextInSentence } from '@peakee/app/api';
 import TranslateBox from '@peakee/app/features/TranslateBox';
 import { store } from '@peakee/app/state';
 
@@ -233,7 +234,7 @@ export const ContentApp = () => {
 		setHighlight(true);
 		setLoading(true);
 
-		const suggestion = await requestExplain({ text, sentence });
+		const suggestion = await explainTextInSentence(text, sentence);
 		if (suggestion) {
 			setSuggestion(suggestion);
 		}
