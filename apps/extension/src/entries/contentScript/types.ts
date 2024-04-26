@@ -1,11 +1,11 @@
-import type { SuggestTextInSentenceResponse } from '@peakee/app/api';
+import type { ExplainTextInSentenceResponse } from '@peakee/app/api';
 
 export type Position = {
 	left: number;
 	top: number;
 };
 
-export type Suggestion = SuggestTextInSentenceResponse;
+export type Suggestion = ExplainTextInSentenceResponse;
 
 export type SimpleSuggestContext = {
 	text: string;
