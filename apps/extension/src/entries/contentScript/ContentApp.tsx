@@ -1,11 +1,11 @@
 import type { ChangeEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { explainTextInSentence } from '@peakee/app/api';
 import TranslateBox from '@peakee/app/features/TranslateBox';
 
 import { type AskContext, AskBox } from './AskBox';
 import Highlight from './HighLight';
+import { requestExplain, requestTranslateViaMessaging } from './messaging';
 import SimpleSuggestBox from './SimpleSuggestBox';
 import SuggestLoading from './SuggestLoading';
 import ToolBox from './ToolBox';
@@ -218,7 +218,7 @@ export const ContentApp = () => {
 		setHighlight(true);
 		setLoading(true);
 
-		const suggestion = await explainTextInSentence(text, sentence);
+		const suggestion = await requestExplain(text, sentence);
 		if (suggestion) {
 			setSuggestion(suggestion);
 		}
@@ -285,6 +285,7 @@ export const ContentApp = () => {
 					ref={translateBoxRef}
 					style={[translatePosition, styles.translateBox]}
 					initText={selectedText}
+					translate={requestTranslateViaMessaging}
 				/>
 			)}
 
