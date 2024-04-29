@@ -41,7 +41,10 @@ export const requestTranslateViaMessaging: TranslateFunction = async (
 	}
 };
 
-export const requestExplain: ExplainFunction = async (text, sentence) => {
+export const requestExplainViaMessage: ExplainFunction = async (
+	text,
+	sentence,
+) => {
 	const payload: ExplainPayload = {
 		text,
 		sentence,

@@ -5,7 +5,10 @@ import TranslateBox from '@peakee/app/features/TranslateBox';
 
 import { type AskContext, AskBox } from './AskBox';
 import Highlight from './HighLight';
-import { requestExplain, requestTranslateViaMessaging } from './messaging';
+import {
+	requestExplainViaMessage,
+	requestTranslateViaMessaging,
+} from './messaging';
 import SimpleSuggestBox from './SimpleSuggestBox';
 import SuggestLoading from './SuggestLoading';
 import ToolBox from './ToolBox';
@@ -218,7 +221,7 @@ export const ContentApp = () => {
 		setHighlight(true);
 		setLoading(true);
 
-		const suggestion = await requestExplain(text, sentence);
+		const suggestion = await requestExplainViaMessage(text, sentence);
 		if (suggestion) {
 			setSuggestion(suggestion);
 		}
