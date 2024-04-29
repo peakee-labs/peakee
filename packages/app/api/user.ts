@@ -33,6 +33,8 @@ export async function getOrInitUserProfile(initUser?: InitUser) {
 			);
 
 			return res.data;
+		} else {
+			console.log('Failed to get or init user profile', error);
 		}
 	}
 }
