@@ -119,6 +119,11 @@ const configs = {
 				'.ts',
 				'.tsx',
 			]),
+		modules: [
+			// resolve local node_modules first
+			path.resolve(__dirname, 'node_modules'),
+			'node_modules',
+		],
 	},
 	plugins: [
 		new CleanWebpackPlugin({ verbose: true }),
