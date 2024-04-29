@@ -6,6 +6,10 @@ import {
 	Route,
 } from 'react-router-dom';
 
+import './webPolyfill';
+import './entries/background';
+import './entries/contentScript';
+
 import Newtab from './entries/newtab/Newtab';
 import Popup from './entries/popup/Popup';
 import { App } from './App';

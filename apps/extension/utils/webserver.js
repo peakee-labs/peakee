@@ -38,6 +38,13 @@ config.optimization = {
 	runtimeChunk: 'single',
 };
 
+/**
+ * Remove .ext from web bundle
+ */
+config.resolve.extensions = config.resolve.extensions.filter(
+	(ext) => !ext.includes('.ext.'),
+);
+
 const port = getPortFromFlag() || '3000';
 for (var entryName in config.entry) {
 	config.entry[entryName] = [

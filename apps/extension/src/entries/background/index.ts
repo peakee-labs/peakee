@@ -5,12 +5,11 @@ import { initApp } from '../../utils/bootstrap';
 initApp();
 initAppAxios('fetch' as never);
 
-import { ChromeKernel } from '@metacraft/crab/chrome';
-
 import '../../utils/auth';
 
 import { Channels, Events } from '../../utils/messaging';
 
+import { kernel } from './kernel';
 import {
 	handleRequestExplain,
 	handleRequestTranslate,
@@ -21,8 +20,6 @@ import { logger } from './utils';
 
 logger.log('This is the background page.');
 logger.log('Put the background scripts here.');
-
-const kernel = new ChromeKernel<Channels, Events>();
 
 kernel
 	.use(requestLogger(kernel))

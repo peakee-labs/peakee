@@ -32,7 +32,7 @@ const resolvedTranspilePackages = transpilePackages.map((p) => {
 	if (fs.existsSync(localPackagePath)) {
 		return path.resolve(__dirname, 'node_modules', p);
 	} else {
-	return path.resolve(__dirname, '../../node_modules', p);
+		return path.resolve(__dirname, '../../node_modules', p);
 	}
 });
 
@@ -116,6 +116,10 @@ const configs = {
 		extensions: assetFileExtensions
 			.map((extension) => '.' + extension)
 			.concat([
+				'.ext.js',
+				'.ext.jsx',
+				'.ext.ts',
+				'.ext.tsx',
 				'.web.js',
 				'.web.jsx',
 				'.web.ts',

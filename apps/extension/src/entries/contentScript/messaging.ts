@@ -1,4 +1,3 @@
-import { ChromeChannel } from '@metacraft/crab/chrome';
 import type {
 	ExplainFunction,
 	ExplainTextInSentenceResponse,
@@ -7,11 +6,10 @@ import type {
 } from '@peakee/app/api';
 
 import type { ExplainPayload, TranslatePayload } from '../../utils/messaging';
-import { Channels, Events } from '../../utils/messaging';
+import { Events } from '../../utils/messaging';
 
+import { channel } from './channel';
 import { logger } from './utils';
-
-export const channel = new ChromeChannel(Channels.ContentScript);
 
 const ONE_MINUTES = 1000 * 60;
 const FIVE_MINUTES = 1000 * 60 * 5;
