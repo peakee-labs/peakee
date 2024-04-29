@@ -1,6 +1,14 @@
-import { ChromeKernel } from '@metacraft/crab/chrome';
+import { initAppAxios } from '@peakee/app/api/axios';
 
 import { initApp } from '../../utils/bootstrap';
+
+initApp();
+initAppAxios('fetch' as never);
+
+import { ChromeKernel } from '@metacraft/crab/chrome';
+
+import '../../utils/auth';
+
 import { Channels, Events } from '../../utils/messaging';
 
 import { handleSignIn, requestLogger } from './middlewares';
