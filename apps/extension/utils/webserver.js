@@ -25,7 +25,8 @@ config.plugins.push(
 	new HtmlWebpackPlugin({
 		template: './src/index.html',
 		filename: 'index.html',
-		chunks: ['index', 'contentScript', 'background'],
+		chunks: ['index'],
+		// chunks: ['index', 'contentScript', 'background'],
 	}),
 );
 
@@ -36,6 +37,13 @@ config.optimization = {
       */
 	runtimeChunk: 'single',
 };
+
+/**
+ * Remove .ext from web bundle
+ */
+config.resolve.extensions = config.resolve.extensions.filter(
+	(ext) => !ext.includes('.ext.'),
+);
 
 const port = getPortFromFlag() || '3000';
 for (var entryName in config.entry) {

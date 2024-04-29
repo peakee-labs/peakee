@@ -4858,7 +4858,7 @@ __metadata:
     "@types/react": "npm:^18.2.0"
     "@types/react-dom": "npm:^18.2.0"
     "@types/webpack-sources": "npm:^3"
-    axios: "npm:^1.6.8"
+    axios: "npm:1.7.0-beta.0"
     babel-loader: "npm:^9.1.2"
     babel-plugin-react-native-web: "npm:^0.19.10"
     babel-preset-react-app: "npm:^10.0.1"
@@ -8291,6 +8291,17 @@ __metadata:
     uuid: "npm:8.0.0"
     xml2js: "npm:0.6.2"
   checksum: 10/6aca507ce9b7b223e32b2e23093d83a1fff48d362a718120439876af718fb41538be3e40cf6a8e9b76d9a1411c80038743ea031c11a4a08ca3c2407801e66683
+  languageName: node
+  linkType: hard
+
+"axios@npm:1.7.0-beta.0":
+  version: 1.7.0-beta.0
+  resolution: "axios@npm:1.7.0-beta.0"
+  dependencies:
+    follow-redirects: "npm:^1.15.6"
+    form-data: "npm:^4.0.0"
+    proxy-from-env: "npm:^1.1.0"
+  checksum: 10/9fac975a7c545f2773db4bd76faf5250eab7e0a8b910ca854f8a2b2ab1055f80ac7d6c8e80a0f098b37293eac2825c28c992dde5448c48763466dfad4ed3f11e
   languageName: node
   linkType: hard
 

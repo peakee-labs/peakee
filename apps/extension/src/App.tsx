@@ -1,7 +1,5 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
-import './polyfill';
-
 export const App = () => {
 	return (
 		<View style={styles.container}>

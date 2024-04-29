@@ -14,16 +14,18 @@ import { Copy, Speaker, Switch } from '@peakee/icons';
 import Clipboard from '@react-native-community/clipboard';
 import { throttle } from 'lodash';
 
-import { translate } from '../api';
+import type { TranslateFunction } from '../api';
+import { translate as requestTranslateAPI } from '../api';
 
 export type Props = {
 	initText?: string;
 	initLanguages?: 'en-vi' | 'vi-en';
 	style?: StyleProp<ViewStyle>;
+	translate?: TranslateFunction;
 };
 
 const InternalTranslateBox = (
-	{ initText = '', initLanguages = 'en-vi', style }: Props,
+	{ initText = '', initLanguages = 'en-vi', style, translate }: Props,
 	ref: Ref<View>,
 ) => {
 	const [loading, setLoading] = useState(false);
@@ -35,7 +37,15 @@ const InternalTranslateBox = (
 	const fetchTranslation = useCallback(
 		throttle(async (text: string) => {
 			const languages = `${from}-${to}`;
-			const res = await translate(text, languages as never);
+			let res;
+			if (translate) {
+				/**
+				 * allow override translate function
+				 */
+				res = await translate(text, languages as never);
+			} else {
+				res = await requestTranslateAPI(text, languages as never);
+			}
 			if (res) setTranslated(res.translated);
 		}, 1000),
 		[from, to],

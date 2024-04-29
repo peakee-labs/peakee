@@ -3,6 +3,7 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const fs = require('fs');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -27,7 +28,12 @@ const transpilePackages = [
 ];
 
 const resolvedTranspilePackages = transpilePackages.map((p) => {
-	return path.resolve(__dirname, '../../node_modules', p);
+	const localPackagePath = path.resolve(__dirname, './node_modules', p);
+	if (fs.existsSync(localPackagePath)) {
+		return path.resolve(__dirname, 'node_modules', p);
+	} else {
+		return path.resolve(__dirname, '../../node_modules', p);
+	}
 });
 
 const environments = [
@@ -110,6 +116,10 @@ const configs = {
 		extensions: assetFileExtensions
 			.map((extension) => '.' + extension)
 			.concat([
+				'.ext.js',
+				'.ext.jsx',
+				'.ext.ts',
+				'.ext.tsx',
 				'.web.js',
 				'.web.jsx',
 				'.web.ts',
@@ -119,6 +129,11 @@ const configs = {
 				'.ts',
 				'.tsx',
 			]),
+		modules: [
+			// resolve local node_modules first
+			path.resolve(__dirname, 'node_modules'),
+			'node_modules',
+		],
 	},
 	plugins: [
 		new CleanWebpackPlugin({ verbose: true }),

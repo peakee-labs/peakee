@@ -2,7 +2,10 @@
  * apply persist app state before render
  */
 import { applyPersistAppState } from '../../utils/state';
+
 applyPersistAppState();
+initApp();
+// initAppAxios('fetch' as never);
 
 import { createRoot } from 'react-dom/client';
 import { StateProvider } from '@peakee/app/state';
@@ -11,8 +14,6 @@ import { initApp } from '../../utils/bootstrap';
 import withAuth from '../../utils/withAuth';
 
 import Newtab from './Newtab';
-
-initApp();
 
 const AuthorizedNewTab = withAuth(Newtab, {
 	showSignOut: true,
