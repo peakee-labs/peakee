@@ -8,10 +8,12 @@ export type TranslateResponse = {
 	languages: string;
 };
 
-export async function translate(
+export type TranslateFunction = (
 	text: string,
 	languages: 'en-vi' | 'vi-en',
-): Promise<TranslateResponse | undefined> {
+) => Promise<TranslateResponse | undefined>;
+
+export const translate: TranslateFunction = async (text, languages) => {
 	try {
 		const res = await axios().get<TranslateResponse>('/translate', {
 			params: { text, languages },
@@ -21,7 +23,7 @@ export async function translate(
 	} catch (error) {
 		console.error('Error translating text', error);
 	}
-}
+};
 
 export type ExplainTextInSentenceResponse = {
 	translate: string;
