@@ -9,6 +9,10 @@ import {
 import { initAppConfig } from '@peakee/app';
 import { store } from '@peakee/app/state';
 
+import './webPolyfill';
+import './entries/background';
+import './entries/contentScript';
+
 import Newtab from './entries/newtab/Newtab';
 import Popup from './entries/popup/Popup';
 import { App } from './App';

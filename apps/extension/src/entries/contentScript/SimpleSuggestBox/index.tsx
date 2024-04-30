@@ -1,13 +1,13 @@
 import type { Ref } from 'react';
 import { forwardRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import type { SuggestTextInSentenceResponse } from '@peakee/app/api';
+import type { ExplainTextInSentenceResponse } from '@peakee/app/api';
 
 import type { Position } from '../types';
 
 type Props = {
 	position: Position;
-	suggestion: SuggestTextInSentenceResponse;
+	suggestion: ExplainTextInSentenceResponse;
 };
 
 const InternalSimpleSuggestBox = (
