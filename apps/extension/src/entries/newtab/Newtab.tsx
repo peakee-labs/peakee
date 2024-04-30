@@ -6,15 +6,17 @@ import {
 	Text,
 	View,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { config } from '@peakee/app';
+import type { getPracticeUnitFunction } from '@peakee/app/api';
 import {
 	getPracticeWordForUser,
 	getRandomPracticeWord,
 	postFeedback,
 } from '@peakee/app/api';
-import type { RootState } from '@peakee/app/state';
 import type { locale, reviewWord } from '@peakee/app/types';
+import axios from 'axios';
 
+import { auth } from '../../utils/auth';
 import { initApp } from '../../utils/bootstrap';
 import useLocaleMap from '../../utils/hooks/useLocale';
 
@@ -40,8 +42,26 @@ const localeMap: Record<locale, Content> = {
 
 initApp();
 
+const getPracticeUnit: getPracticeUnitFunction = async () => {
+	if (!auth.currentUser) {
+		return undefined;
+	}
+	console.log(auth.currentUser.metadata);
+	const token = await auth.currentUser.getIdToken(true);
+	console.log(token);
+	const { data: word } = await axios.get<reviewWord>(
+		config().PEAKEE_API_URL + '/practice/unit',
+		{
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+			},
+		},
+	);
+	return word;
+};
+
 const Newtab = () => {
-	const profile = useSelector((state: RootState) => state.user);
 	const [locale, setLocale] = useState<locale>(navigator.language as locale);
 	const [isOpen, setIsOpen] = useState(false);
 	const [reviewContent, setReviewContent] = useState<reviewWord | undefined>(
@@ -50,23 +70,24 @@ const Newtab = () => {
 	const { changeLocale, localize } = useLocaleMap(localeMap, locale, 'en');
 
 	const getNewContent = async (locale: string) => {
-		try {
-			let data;
-			if (profile.profile) {
+		setTimeout(async () => {
+			try {
+				let data;
+				// const practice = await getPracticeUnit();
 				data = await getPracticeWordForUser();
+				if (!data) {
+					data = await getRandomPracticeWord(locale);
+				}
+				if (data) {
+					setReviewContent(data);
+				}
+			} catch (err) {
+				console.log(
+					'error while getting practice unit, try to get practice unit from public endpoint\nerr: ',
+					err,
+				);
 			}
-			if (!data) {
-				data = await getRandomPracticeWord(locale);
-			}
-			if (data) {
-				setReviewContent(data);
-			}
-		} catch (err) {
-			console.log(
-				'error while getting practice unit, try to get practice unit from public endpoint\nerr: ',
-				err,
-			);
-		}
+		}, 2000);
 	};
 
 	useEffect(() => {
