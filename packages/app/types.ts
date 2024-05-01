@@ -122,3 +122,22 @@ export type OnboardingValue = FormName &
 export type FormFeedback = {
 	Feedback: string;
 };
+
+export type locale = 'en-US' | 'en' | 'vi';
+
+export type explainRequest = {
+	text: string;
+	sentence: string;
+};
+
+export type explainResponse = {
+	word: string;
+	translate: string;
+	keyWords: string[];
+	expandWords: string[];
+};
+
+export type reviewWord = {
+	request: explainRequest;
+	response: explainResponse;
+};

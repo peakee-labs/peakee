@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import type { locale } from '@peakee/app/types';
 
-import type { locale } from '../../types';
 import useLocaleMap from '../../utils/hooks/useLocale';
 
 type Props = {

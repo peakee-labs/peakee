@@ -1,5 +1,7 @@
+import { initApp } from './utils/bootstrap';
 import { applyPersistAppState } from './utils/state';
 applyPersistAppState();
+initApp();
 
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';

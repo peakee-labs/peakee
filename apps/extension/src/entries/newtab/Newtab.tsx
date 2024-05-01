@@ -1,19 +1,26 @@
 import { useEffect, useState } from 'react';
 import {
 	ActivityIndicator,
-	Modal,
 	Pressable,
 	StyleSheet,
 	Text,
 	View,
 } from 'react-native';
-import { CircleXmark } from '@peakee/icons';
+import { config } from '@peakee/app';
+import type { getPracticeUnitFunction } from '@peakee/app/api';
+import {
+	getPracticeWordForUser,
+	getRandomPracticeWord,
+	postFeedback,
+} from '@peakee/app/api';
+import type { locale, reviewWord } from '@peakee/app/types';
 import axios from 'axios';
 
-import type { locale, reviewWord } from '../../types';
+import { auth } from '../../utils/auth';
+import { initApp } from '../../utils/bootstrap';
 import useLocaleMap from '../../utils/hooks/useLocale';
 
-import FeedbackForm from './Form';
+import { FeedbackModal } from './feedbackModal';
 import { ReviewWord } from './ReviewWord';
 
 type Content = Record<string, string>;
@@ -28,31 +35,30 @@ const localeMap: Record<locale, Content> = {
 		feedbackBtn: 'feedback',
 	},
 	vi: {
-		header: 'Pekee | Học và sử dụng ngôn ngữ mọi nơi',
+		header: 'Peakee | Học và sử dụng ngôn ngữ mọi nơi',
 		feedbackBtn: 'phản hồi',
 	},
 };
 
-// TODO: mock
-const mockContent: Record<locale, reviewWord> = {
-	'en-US': {
-		word: 'Metonymy',
-		explain:
-			'the act of referring to something by the name of something else that is closely connected with it',
-		synonyms: ['Metalepsis', 'synecdoche', 'tropeh'],
-	},
-	en: {
-		word: 'Metonymy',
-		explain:
-			'the act of referring to something by the name of something else that is closely connected with it',
-		synonyms: ['Metalepsis', 'synecdoche', 'tropeh'],
-	},
-	vi: {
-		word: 'Ẩn dụ',
-		explain:
-			'Hành động nhắc đến một vài thứ khác có liên quan đến vật hiện tại',
-		synonyms: ['hoán dụ', 'liên tưởng'],
-	},
+initApp();
+
+const getPracticeUnit: getPracticeUnitFunction = async () => {
+	if (!auth.currentUser) {
+		return undefined;
+	}
+	console.log(auth.currentUser.metadata);
+	const token = await auth.currentUser.getIdToken(true);
+	console.log(token);
+	const { data: word } = await axios.get<reviewWord>(
+		config().PEAKEE_API_URL + '/practice/unit',
+		{
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+			},
+		},
+	);
+	return word;
 };
 
 const Newtab = () => {
@@ -63,13 +69,25 @@ const Newtab = () => {
 	);
 	const { changeLocale, localize } = useLocaleMap(localeMap, locale, 'en');
 
-	const getNewContent = async (locale: locale) => {
-		// TODO: mock this, we have to make a request to backend here.
-		await new Promise((resolve) => setTimeout(resolve, 1000)).finally(
-			() => {
-				setReviewContent(mockContent[locale]);
-			},
-		);
+	const getNewContent = async (locale: string) => {
+		setTimeout(async () => {
+			try {
+				let data;
+				// const practice = await getPracticeUnit();
+				data = await getPracticeWordForUser();
+				if (!data) {
+					data = await getRandomPracticeWord(locale);
+				}
+				if (data) {
+					setReviewContent(data);
+				}
+			} catch (err) {
+				console.log(
+					'error while getting practice unit, try to get practice unit from public endpoint\nerr: ',
+					err,
+				);
+			}
+		}, 2000);
 	};
 
 	useEffect(() => {
@@ -85,22 +103,7 @@ const Newtab = () => {
 		setIsOpen((open) => !open);
 		if (feedback != '') console.log(feedback);
 
-		const handlePostForm = async (
-			userID: string,
-			form: { comment: string },
-		) => {
-			try {
-				// TODO: clean this
-				const { status: status } = await axios.post(
-					`http://localhost:8080/feedback/${userID}`,
-					form,
-				);
-				return status;
-			} catch (err) {
-				console.log('Error post feedback', err);
-			}
-		};
-		handlePostForm('sampleUser', { comment: feedback });
+		postFeedback({ Feedback: feedback });
 	};
 
 	return (
@@ -118,28 +121,12 @@ const Newtab = () => {
 						{localize('feedbackBtn')}
 					</Text>
 				</Pressable>
-				<Modal
-					animationType="fade"
-					transparent={true}
-					statusBarTranslucent
-					onRequestClose={handlePress}
+				<FeedbackModal
+					onClose={handlePress}
+					onSubmit={handleSubmitForm}
+					locale={locale}
 					visible={isOpen}
-				>
-					<View style={styles.modalOverlay}>
-						<View style={styles.modalContent}>
-							<Pressable
-								style={styles.modalCloseButton}
-								onPress={handlePress}
-							>
-								<CircleXmark color={'#000000'} size={20} />
-							</Pressable>
-							<FeedbackForm
-								onSubmit={handleSubmitForm}
-								locale={locale}
-							/>
-						</View>
-					</View>
-				</Modal>
+				/>
 			</View>
 		</View>
 	);
@@ -178,21 +165,5 @@ const styles = StyleSheet.create({
 	},
 	feedbackText: {
 		textTransform: 'capitalize',
-	},
-	modalOverlay: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: 'rgba(0, 0, 0, 0.5)',
-	},
-	modalContent: {
-		width: 850,
-		height: 500,
-		backgroundColor: '#ffffff',
-		padding: 20,
-		borderRadius: 10,
-	},
-	modalCloseButton: {
-		alignSelf: 'flex-end',
 	},
 });
