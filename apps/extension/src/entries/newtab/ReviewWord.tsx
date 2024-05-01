@@ -7,8 +7,8 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
+import type { locale, reviewWord } from '@peakee/app/types';
 
-import type { locale, reviewWord } from '../../types';
 import useLocaleMap from '../../utils/hooks/useLocale';
 
 type Props = {
@@ -36,7 +36,7 @@ export const ReviewWord: FC<Props> = ({ data, locale }) => {
 	return (
 		<View style={styles.reviewContainer}>
 			<View style={styles.title}>
-				{data.word.split('').map((c, idx) => {
+				{data.request.text.split('').map((c, idx) => {
 					return (
 						<Character
 							key={idx}
@@ -47,10 +47,11 @@ export const ReviewWord: FC<Props> = ({ data, locale }) => {
 					);
 				})}
 			</View>
-			<Text style={styles.explainText}>{data.explain}</Text>
-			{data.synonyms && (
+			<Text style={styles.explainText}>{data.response.translate}</Text>
+			{data.response.expandWords && (
 				<Text style={styles.synonyms}>
-					{localize('synonyms')}: {data.synonyms.join(', ')}
+					{localize('synonyms')}:{' '}
+					{data.response.expandWords.join(', ')}
 				</Text>
 			)}
 		</View>

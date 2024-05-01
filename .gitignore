@@ -49,4 +49,5 @@ node_modules
 .java-version
 .editorconfig
 
+.nvmrc
 .zed

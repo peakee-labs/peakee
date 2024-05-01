@@ -1,6 +1,5 @@
 import { useState } from 'react';
-
-import type { locale } from '../../types/types';
+import type { locale } from '@peakee/app/types';
 
 function useLocaleMap<TypeValue>(
 	localeMap: Record<locale, Record<string, TypeValue>>,

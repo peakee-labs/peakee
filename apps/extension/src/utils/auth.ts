@@ -24,7 +24,7 @@ const firebaseConfig = {
 };
 
 initializeApp(firebaseConfig);
-const auth = getAuth();
+export const auth = getAuth(); // FIXME: temporarily export this auth to use with newtab
 
 export const signIn = async () => {
 	const responseUrl = await chrome.identity.launchWebAuthFlow({
