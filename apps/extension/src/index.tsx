@@ -1,3 +1,6 @@
+import { applyPersistAppState } from './utils/state';
+applyPersistAppState();
+
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import {
@@ -5,6 +8,7 @@ import {
 	createRoutesFromElements,
 	Route,
 } from 'react-router-dom';
+import { StateProvider } from '@peakee/app/state';
 
 import './webPolyfill';
 import './entries/background';
@@ -12,8 +16,13 @@ import './entries/contentScript';
 
 import Newtab from './entries/newtab/Newtab';
 import Popup from './entries/popup/Popup';
+import withAuth from './utils/withAuth';
 import { App } from './App';
 import { Container } from './components';
+
+const AuthorizedApp = withAuth(App);
+const AuthorizedPopup = withAuth(Popup);
+const AuthorizedNewtab = withAuth(Newtab);
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -22,7 +31,7 @@ export const router = createBrowserRouter(
 				path="popup"
 				element={
 					<Container>
-						<Popup />
+						<AuthorizedPopup />
 					</Container>
 				}
 			/>
@@ -30,7 +39,7 @@ export const router = createBrowserRouter(
 				path="newtab"
 				element={
 					<Container>
-						<Newtab />
+						<AuthorizedNewtab />
 					</Container>
 				}
 			/>
@@ -38,7 +47,7 @@ export const router = createBrowserRouter(
 				path="/"
 				element={
 					<Container>
-						<App />
+						<AuthorizedApp />
 					</Container>
 				}
 			/>
@@ -46,7 +55,7 @@ export const router = createBrowserRouter(
 				path="/*"
 				element={
 					<Container>
-						<App />
+						<AuthorizedApp />
 					</Container>
 				}
 			/>
@@ -57,5 +66,9 @@ export const router = createBrowserRouter(
 const container = document.getElementById('app-container');
 if (container) {
 	const root = createRoot(container);
-	root.render(<RouterProvider router={router} />);
+	root.render(
+		<StateProvider>
+			<RouterProvider router={router} />
+		</StateProvider>,
+	);
 }

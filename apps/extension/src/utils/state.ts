@@ -1,3 +1,9 @@
-// no persist on web bundle
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-export const applyPersistAppState = () => {};
+import { applyPersistReducers } from '@peakee/app/state';
+import createWebStorage from 'redux-persist/es/storage/createWebStorage';
+
+export const applyPersistAppState = () => {
+	applyPersistReducers({
+		storage: createWebStorage('local'),
+		whitelist: ['user'],
+	});
+};
