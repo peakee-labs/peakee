@@ -1,3 +1,8 @@
+import {
+	getAuth,
+	GoogleAuthProvider,
+	signInWithCredential,
+} from '@firebase/auth/web-extension';
 import { initWebsocketWithProfile } from '@peakee/app';
 import { getOrInitUserProfile, setJWT } from '@peakee/app/api';
 import {
@@ -7,7 +12,6 @@ import {
 	store,
 } from '@peakee/app/state';
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 const firebaseConfig = {
 	appId: APP_ID,
@@ -20,11 +24,30 @@ const firebaseConfig = {
 };
 
 initializeApp(firebaseConfig);
-const provider = new GoogleAuthProvider();
-const auth = getAuth();
+export const auth = getAuth();
 
 export const signIn = async () => {
-	await signInWithPopup(auth, provider);
+	const responseUrl = await chrome.identity.launchWebAuthFlow({
+		interactive: true,
+		url: getGoogleAuthURL(),
+	});
+	const queryString = responseUrl?.split('#')?.[1];
+	const searchParams = new URLSearchParams(queryString);
+	const token = searchParams.get('access_token');
+	const credential = GoogleAuthProvider.credential(null, token);
+	await signInWithCredential(auth, credential);
+};
+
+const getGoogleAuthURL = () => {
+	const redirectURL = chrome.identity.getRedirectURL();
+	const scopes = ['openid', 'email', 'profile'];
+	let authURL = 'https://accounts.google.com/o/oauth2/auth';
+	authURL += `?client_id=${WEB_OAUTH_CLIENT_ID}`;
+	authURL += `&response_type=token`;
+	authURL += `&redirect_uri=${encodeURIComponent(redirectURL)}`;
+	authURL += `&scope=${encodeURIComponent(scopes.join(' '))}`;
+
+	return authURL;
 };
 
 export const signOut = async () => {
