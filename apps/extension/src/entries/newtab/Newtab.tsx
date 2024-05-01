@@ -6,63 +6,20 @@ import {
 	Text,
 	View,
 } from 'react-native';
-import { config } from '@peakee/app';
-import type { getPracticeUnitFunction } from '@peakee/app/api';
 import {
 	getPracticeWordForUser,
 	getRandomPracticeWord,
 	postFeedback,
 } from '@peakee/app/api';
 import type { locale, reviewWord } from '@peakee/app/types';
-import axios from 'axios';
 
-import { auth } from '../../utils/auth';
-import { initApp } from '../../utils/bootstrap';
 import useLocaleMap from '../../utils/hooks/useLocale';
 
 import { FeedbackModal } from './feedbackModal';
 import { ReviewWord } from './ReviewWord';
 
-type Content = Record<string, string>;
-
-const localeMap: Record<locale, Content> = {
-	'en-US': {
-		header: 'Peakee Tools | Learn and use Language everywhere',
-		feedbackBtn: 'feedback',
-	},
-	en: {
-		header: 'Peakee Tools | Learn and use Language everywhere',
-		feedbackBtn: 'feedback',
-	},
-	vi: {
-		header: 'Peakee | Học và sử dụng ngôn ngữ mọi nơi',
-		feedbackBtn: 'phản hồi',
-	},
-};
-
-initApp();
-
-const getPracticeUnit: getPracticeUnitFunction = async () => {
-	if (!auth.currentUser) {
-		return undefined;
-	}
-	console.log(auth.currentUser.metadata);
-	const token = await auth.currentUser.getIdToken(true);
-	console.log(token);
-	const { data: word } = await axios.get<reviewWord>(
-		config().PEAKEE_API_URL + '/practice/unit',
-		{
-			headers: {
-				Authorization: `Bearer ${token}`,
-				'Content-Type': 'application/json',
-			},
-		},
-	);
-	return word;
-};
-
 const Newtab = () => {
-	const [locale, setLocale] = useState<locale>(navigator.language as locale);
+	const [locale] = useState<locale>(navigator.language as locale);
 	const [isOpen, setIsOpen] = useState(false);
 	const [reviewContent, setReviewContent] = useState<reviewWord | undefined>(
 		undefined,
@@ -70,24 +27,17 @@ const Newtab = () => {
 	const { changeLocale, localize } = useLocaleMap(localeMap, locale, 'en');
 
 	const getNewContent = async (locale: string) => {
-		setTimeout(async () => {
-			try {
-				let data;
-				// const practice = await getPracticeUnit();
-				data = await getPracticeWordForUser();
-				if (!data) {
-					data = await getRandomPracticeWord(locale);
-				}
-				if (data) {
-					setReviewContent(data);
-				}
-			} catch (err) {
-				console.log(
-					'error while getting practice unit, try to get practice unit from public endpoint\nerr: ',
-					err,
-				);
-			}
-		}, 2000);
+		try {
+			let data;
+			data = await getPracticeWordForUser();
+			if (!data) data = await getRandomPracticeWord(locale);
+			if (data) setReviewContent(data);
+		} catch (err) {
+			console.log(
+				'error while getting practice unit, try to get practice unit from public endpoint\nerr: ',
+				err,
+			);
+		}
 	};
 
 	useEffect(() => {
@@ -167,3 +117,20 @@ const styles = StyleSheet.create({
 		textTransform: 'capitalize',
 	},
 });
+
+type Content = Record<string, string>;
+
+const localeMap: Record<locale, Content> = {
+	'en-US': {
+		header: 'Peakee Tools | Learn and use Language everywhere',
+		feedbackBtn: 'feedback',
+	},
+	en: {
+		header: 'Peakee Tools | Learn and use Language everywhere',
+		feedbackBtn: 'feedback',
+	},
+	vi: {
+		header: 'Peakee | Học và sử dụng ngôn ngữ mọi nơi',
+		feedbackBtn: 'phản hồi',
+	},
+};
