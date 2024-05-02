@@ -1,16 +1,12 @@
-import type { reviewWord } from '../types';
+import type { explainLog, practiceUnit } from '../types';
 
 import { axios } from './axios';
 
-export type getPracticeUnitFunction = (
+export const getRandomPracticeWord: (
 	locale?: string,
-) => Promise<reviewWord | undefined>;
-
-export const getRandomPracticeWord: getPracticeUnitFunction = async (
-	localeCode?: string,
-) => {
+) => Promise<practiceUnit | undefined> = async (localeCode?: string) => {
 	try {
-		const { data: word } = await axios().get<reviewWord>(
+		const { data: word } = await axios().get<practiceUnit>(
 			`/practice/public/unit?lang=${localeCode}`,
 		);
 		return word;
@@ -19,9 +15,13 @@ export const getRandomPracticeWord: getPracticeUnitFunction = async (
 	}
 };
 
+export type getPracticeUnitFunction = (
+	locale?: string,
+) => Promise<explainLog | undefined>;
+
 export const getPracticeWordForUser: getPracticeUnitFunction = async () => {
 	try {
-		const { data: word } = await axios().get<reviewWord>(`/practice/unit`);
+		const { data: word } = await axios().get<explainLog>(`/practice/unit`);
 		return word;
 	} catch (err) {
 		console.log('Error getting practice word', err);

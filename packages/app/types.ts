@@ -137,7 +137,13 @@ export type explainResponse = {
 	expandWords: string[];
 };
 
-export type reviewWord = {
+export type explainLog = {
 	request: explainRequest;
 	response: explainResponse;
+};
+
+export type practiceUnit = {
+	word: string;
+	explain: string;
+	expandWords: string[];
 };

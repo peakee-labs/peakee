@@ -6,22 +6,18 @@ import {
 	Text,
 	View,
 } from 'react-native';
-import { config } from '@peakee/app';
-import type { getPracticeUnitFunction } from '@peakee/app/api';
 import {
 	getPracticeWordForUser,
 	getRandomPracticeWord,
 	postFeedback,
 } from '@peakee/app/api';
-import type { locale, reviewWord } from '@peakee/app/types';
-import axios from 'axios';
+import type { locale } from '@peakee/app/types';
 
-import { auth } from '../../utils/auth';
 import { initApp } from '../../utils/bootstrap';
 import useLocaleMap from '../../utils/hooks/useLocale';
 
 import { FeedbackModal } from './feedbackModal';
-import { ReviewWord } from './ReviewWord';
+import { type ReviewContent, ReviewWord } from './ReviewWord';
 
 type Content = Record<string, string>;
 
@@ -42,44 +38,32 @@ const localeMap: Record<locale, Content> = {
 
 initApp();
 
-const getPracticeUnit: getPracticeUnitFunction = async () => {
-	if (!auth.currentUser) {
-		return undefined;
-	}
-	console.log(auth.currentUser.metadata);
-	const token = await auth.currentUser.getIdToken(true);
-	console.log(token);
-	const { data: word } = await axios.get<reviewWord>(
-		config().PEAKEE_API_URL + '/practice/unit',
-		{
-			headers: {
-				Authorization: `Bearer ${token}`,
-				'Content-Type': 'application/json',
-			},
-		},
-	);
-	return word;
-};
-
 const Newtab = () => {
 	const [locale, setLocale] = useState<locale>(navigator.language as locale);
 	const [isOpen, setIsOpen] = useState(false);
-	const [reviewContent, setReviewContent] = useState<reviewWord | undefined>(
-		undefined,
-	);
+	const [reviewContent, setReviewContent] = useState<
+		ReviewContent | undefined
+	>(undefined);
 	const { changeLocale, localize } = useLocaleMap(localeMap, locale, 'en');
 
 	const getNewContent = async (locale: string) => {
 		setTimeout(async () => {
 			try {
-				let data;
-				// const practice = await getPracticeUnit();
-				data = await getPracticeWordForUser();
-				if (!data) {
-					data = await getRandomPracticeWord(locale);
-				}
+				const data = await getPracticeWordForUser();
 				if (data) {
-					setReviewContent(data);
+					setReviewContent({
+						text: data.request.text,
+						content: data.response.translate,
+						symnonyms: data.response.expandWords,
+					});
+				} else {
+					const data = await getRandomPracticeWord(locale);
+					data &&
+						setReviewContent({
+							text: data.word,
+							content: data.explain,
+							symnonyms: data.expandWords,
+						});
 				}
 			} catch (err) {
 				console.log(
@@ -112,7 +96,7 @@ const Newtab = () => {
 
 			<View style={styles.contentContainer}>
 				{reviewContent ? (
-					<ReviewWord data={reviewContent} locale={locale} />
+					<ReviewWord {...reviewContent} locale={locale} />
 				) : (
 					<ActivityIndicator />
 				)}

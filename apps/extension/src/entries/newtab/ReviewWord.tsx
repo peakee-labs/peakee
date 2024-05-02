@@ -7,14 +7,18 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import type { locale, reviewWord } from '@peakee/app/types';
+import type { locale } from '@peakee/app/types';
 
 import useLocaleMap from '../../utils/hooks/useLocale';
 
-type Props = {
-	data: reviewWord;
-	locale: locale;
+export type ReviewContent = {
+	text: string;
+	content: string;
+	symnonyms: Array<string>;
 };
+export type Props = {
+	locale: locale;
+} & ReviewContent;
 
 type Content = Record<string, string>;
 
@@ -30,13 +34,18 @@ const localeMap: Record<locale, Content> = {
 	},
 };
 
-export const ReviewWord: FC<Props> = ({ data, locale }) => {
+export const ReviewWord: FC<Props> = ({
+	text,
+	content,
+	symnonyms: expandWords,
+	locale,
+}) => {
 	const { localize } = useLocaleMap(localeMap, locale, 'en');
 
 	return (
 		<View style={styles.reviewContainer}>
 			<View style={styles.title}>
-				{data.request.text.split('').map((c, idx) => {
+				{text.split('').map((c, idx) => {
 					return (
 						<Character
 							key={idx}
@@ -47,11 +56,10 @@ export const ReviewWord: FC<Props> = ({ data, locale }) => {
 					);
 				})}
 			</View>
-			<Text style={styles.explainText}>{data.response.translate}</Text>
-			{data.response.expandWords && (
+			<Text style={styles.explainText}>{content}</Text>
+			{expandWords && (
 				<Text style={styles.synonyms}>
-					{localize('synonyms')}:{' '}
-					{data.response.expandWords.join(', ')}
+					{localize('synonyms')}: {expandWords.join(', ')}
 				</Text>
 			)}
 		</View>
