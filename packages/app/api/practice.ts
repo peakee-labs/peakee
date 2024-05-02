@@ -2,11 +2,11 @@ import type { reviewWord } from '../types';
 
 import { axios } from './axios';
 
-export type getPracticeUnitFunction = (
+export type GetPracticeUnitFunction = (
 	locale?: string,
 ) => Promise<reviewWord | undefined>;
 
-export const getRandomPracticeWord: getPracticeUnitFunction = async (
+export const getRandomPracticeWord: GetPracticeUnitFunction = async (
 	localeCode?: string,
 ) => {
 	try {
@@ -19,7 +19,7 @@ export const getRandomPracticeWord: getPracticeUnitFunction = async (
 	}
 };
 
-export const getPracticeWordForUser: getPracticeUnitFunction = async () => {
+export const getPracticeWordForUser: GetPracticeUnitFunction = async () => {
 	try {
 		const { data: word } = await axios().get<reviewWord>(`/practice/unit`);
 		return word;
