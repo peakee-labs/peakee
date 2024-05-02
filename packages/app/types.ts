@@ -123,26 +123,26 @@ export type FormFeedback = {
 	Feedback: string;
 };
 
-export type locale = 'en-US' | 'en' | 'vi';
+export type Locale = 'en-US' | 'en' | 'vi';
 
-export type explainRequest = {
+export type ExplainRequest = {
 	text: string;
 	sentence: string;
 };
 
-export type explainResponse = {
+export type ExplainResponse = {
 	word: string;
 	translate: string;
 	keyWords: string[];
 	expandWords: string[];
 };
 
-export type explainLog = {
-	request: explainRequest;
-	response: explainResponse;
+export type ExplainLog = {
+	request: ExplainRequest;
+	response: ExplainResponse;
 };
 
-export type practiceUnit = {
+export type PracticeUnit = {
 	word: string;
 	explain: string;
 	expandWords: string[];
