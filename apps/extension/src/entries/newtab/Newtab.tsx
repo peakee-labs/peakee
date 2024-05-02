@@ -11,27 +11,39 @@ import {
 	getRandomPracticeWord,
 	postFeedback,
 } from '@peakee/app/api';
-import type { locale, reviewWord } from '@peakee/app/types';
+import type { Locale } from '@peakee/app/types';
 
 import useLocaleMap from '../../utils/hooks/useLocale';
 
 import { FeedbackModal } from './feedbackModal';
-import { ReviewWord } from './ReviewWord';
+import { type ReviewContent, ReviewWord } from './ReviewWord';
 
 const Newtab = () => {
-	const [locale] = useState<locale>(navigator.language as locale);
+	const [locale] = useState<Locale>(navigator.language as Locale);
 	const [isOpen, setIsOpen] = useState(false);
-	const [reviewContent, setReviewContent] = useState<reviewWord | undefined>(
-		undefined,
-	);
+	const [reviewContent, setReviewContent] = useState<
+		ReviewContent | undefined
+	>(undefined);
 	const { changeLocale, localize } = useLocaleMap(localeMap, locale, 'en');
 
-	const getNewContent = async (locale: string) => {
+	const getNewContent = async () => {
 		try {
-			let data;
-			data = await getPracticeWordForUser();
-			if (!data) data = await getRandomPracticeWord(locale);
-			if (data) setReviewContent(data);
+			const data = await getPracticeWordForUser();
+			if (data) {
+				setReviewContent({
+					text: data.request.text,
+					content: data.response.translate,
+					symnonyms: data.response.expandWords,
+				});
+			} else {
+				const data = await getRandomPracticeWord();
+				data &&
+					setReviewContent({
+						text: data.word,
+						content: data.explain,
+						symnonyms: data.expandWords,
+					});
+			}
 		} catch (err) {
 			console.log(
 				'error while getting practice unit, try to get practice unit from public endpoint\nerr: ',
@@ -41,7 +53,7 @@ const Newtab = () => {
 	};
 
 	useEffect(() => {
-		getNewContent(locale);
+		getNewContent();
 		changeLocale(locale);
 	}, [locale]);
 
@@ -62,7 +74,7 @@ const Newtab = () => {
 
 			<View style={styles.contentContainer}>
 				{reviewContent ? (
-					<ReviewWord data={reviewContent} locale={locale} />
+					<ReviewWord {...reviewContent} locale={locale} />
 				) : (
 					<ActivityIndicator />
 				)}
@@ -120,7 +132,7 @@ const styles = StyleSheet.create({
 
 type Content = Record<string, string>;
 
-const localeMap: Record<locale, Content> = {
+const localeMap: Record<Locale, Content> = {
 	'en-US': {
 		header: 'Peakee Tools | Learn and use Language everywhere',
 		feedbackBtn: 'feedback',
