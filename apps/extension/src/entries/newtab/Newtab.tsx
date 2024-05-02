@@ -11,71 +11,49 @@ import {
 	getRandomPracticeWord,
 	postFeedback,
 } from '@peakee/app/api';
-import type { locale } from '@peakee/app/types';
+import type { Locale } from '@peakee/app/types';
 
-import { initApp } from '../../utils/bootstrap';
 import useLocaleMap from '../../utils/hooks/useLocale';
 
 import { FeedbackModal } from './feedbackModal';
 import { type ReviewContent, ReviewWord } from './ReviewWord';
 
-type Content = Record<string, string>;
-
-const localeMap: Record<locale, Content> = {
-	'en-US': {
-		header: 'Peakee Tools | Learn and use Language everywhere',
-		feedbackBtn: 'feedback',
-	},
-	en: {
-		header: 'Peakee Tools | Learn and use Language everywhere',
-		feedbackBtn: 'feedback',
-	},
-	vi: {
-		header: 'Peakee | Học và sử dụng ngôn ngữ mọi nơi',
-		feedbackBtn: 'phản hồi',
-	},
-};
-
-initApp();
-
 const Newtab = () => {
-	const [locale, setLocale] = useState<locale>(navigator.language as locale);
+	const [locale] = useState<Locale>(navigator.language as Locale);
 	const [isOpen, setIsOpen] = useState(false);
 	const [reviewContent, setReviewContent] = useState<
 		ReviewContent | undefined
 	>(undefined);
 	const { changeLocale, localize } = useLocaleMap(localeMap, locale, 'en');
 
-	const getNewContent = async (locale: string) => {
-		setTimeout(async () => {
-			try {
-				const data = await getPracticeWordForUser();
-				if (data) {
+	const getNewContent = async () => {
+		try {
+			const data = await getPracticeWordForUser();
+			if (data) {
+				setReviewContent({
+					text: data.request.text,
+					content: data.response.translate,
+					symnonyms: data.response.expandWords,
+				});
+			} else {
+				const data = await getRandomPracticeWord();
+				data &&
 					setReviewContent({
-						text: data.request.text,
-						content: data.response.translate,
-						symnonyms: data.response.expandWords,
+						text: data.word,
+						content: data.explain,
+						symnonyms: data.expandWords,
 					});
-				} else {
-					const data = await getRandomPracticeWord(locale);
-					data &&
-						setReviewContent({
-							text: data.word,
-							content: data.explain,
-							symnonyms: data.expandWords,
-						});
-				}
-			} catch (err) {
-				console.log(
-					'error while getting practice unit, try to get practice unit from public endpoint\nerr: ',
-					err,
-				);
 			}
-		}, 2000);
+		} catch (err) {
+			console.log(
+				'error while getting practice unit, try to get practice unit from public endpoint\nerr: ',
+				err,
+			);
+		}
 	};
 
 	useEffect(() => {
-		getNewContent(locale);
+		getNewContent();
 		changeLocale(locale);
 	}, [locale]);
 
@@ -151,3 +129,20 @@ const styles = StyleSheet.create({
 		textTransform: 'capitalize',
 	},
 });
+
+type Content = Record<string, string>;
+
+const localeMap: Record<Locale, Content> = {
+	'en-US': {
+		header: 'Peakee Tools | Learn and use Language everywhere',
+		feedbackBtn: 'feedback',
+	},
+	en: {
+		header: 'Peakee Tools | Learn and use Language everywhere',
+		feedbackBtn: 'feedback',
+	},
+	vi: {
+		header: 'Peakee | Học và sử dụng ngôn ngữ mọi nơi',
+		feedbackBtn: 'phản hồi',
+	},
+};

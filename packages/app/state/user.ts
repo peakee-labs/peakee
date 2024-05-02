@@ -9,6 +9,7 @@ export interface UserState {
 	friends: Record<string, PublicUserProfile>;
 }
 
+// TODO: profileLoading must be false at init
 const initialState: UserState = {
 	profileLoading: true,
 	friends: {},

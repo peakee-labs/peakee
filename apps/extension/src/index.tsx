@@ -1,13 +1,16 @@
+import { initApp } from './utils/bootstrap';
+import { applyPersistAppState } from './utils/state';
+applyPersistAppState();
+initApp();
+
 import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 import {
 	createBrowserRouter,
 	createRoutesFromElements,
 	Route,
 } from 'react-router-dom';
-import { initAppConfig } from '@peakee/app';
-import { store } from '@peakee/app/state';
+import { StateProvider } from '@peakee/app/state';
 
 import './webPolyfill';
 import './entries/background';
@@ -15,11 +18,13 @@ import './entries/contentScript';
 
 import Newtab from './entries/newtab/Newtab';
 import Popup from './entries/popup/Popup';
+import withAuth from './utils/withAuth';
 import { App } from './App';
 import { Container } from './components';
 
-// eslint-disable-next-line no-undef
-initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL });
+const AuthorizedApp = withAuth(App);
+const AuthorizedPopup = withAuth(Popup);
+const AuthorizedNewtab = withAuth(Newtab);
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -28,7 +33,7 @@ export const router = createBrowserRouter(
 				path="popup"
 				element={
 					<Container>
-						<Popup />
+						<AuthorizedPopup />
 					</Container>
 				}
 			/>
@@ -36,7 +41,7 @@ export const router = createBrowserRouter(
 				path="newtab"
 				element={
 					<Container>
-						<Newtab />
+						<AuthorizedNewtab />
 					</Container>
 				}
 			/>
@@ -44,7 +49,7 @@ export const router = createBrowserRouter(
 				path="/"
 				element={
 					<Container>
-						<App />
+						<AuthorizedApp />
 					</Container>
 				}
 			/>
@@ -52,7 +57,7 @@ export const router = createBrowserRouter(
 				path="/*"
 				element={
 					<Container>
-						<App />
+						<AuthorizedApp />
 					</Container>
 				}
 			/>
@@ -64,8 +69,8 @@ const container = document.getElementById('app-container');
 if (container) {
 	const root = createRoot(container);
 	root.render(
-		<Provider store={store()}>
+		<StateProvider>
 			<RouterProvider router={router} />
-		</Provider>,
+		</StateProvider>,
 	);
 }
