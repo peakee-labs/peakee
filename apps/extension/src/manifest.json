@@ -15,7 +15,8 @@
     "activeTab",
     "clipboardWrite",
     "identity",
-    "storage"
+    "storage",
+    "alarms"
   ],
   "action": {
     "default_popup": "popup.html",
