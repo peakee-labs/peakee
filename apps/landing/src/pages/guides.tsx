@@ -65,7 +65,7 @@ export default function Guides() {
 				<Title>How to use the Peakee Extension</Title>
 
 				<ItemTitle>
-					Open by the pinned icon, and translate anything
+					Open the pinned icon, and translate anything
 				</ItemTitle>
 				<Image
 					src="/guides/use-chrome-extension/popup_translate.png"
