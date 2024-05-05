@@ -16,7 +16,9 @@ import {
 	handleSignIn,
 	requestLogger,
 } from './middlewares';
-import { logger } from './utils';
+import { keepBackgroundAlive, logger } from './utils';
+
+keepBackgroundAlive();
 
 logger.log('This is the background page.');
 logger.log('Put the background scripts here.');
