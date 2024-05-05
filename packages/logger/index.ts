@@ -12,3 +12,5 @@ export const createLogger = (name: string) => {
 		},
 	};
 };
+
+export type Logger = ReturnType<typeof createLogger>;

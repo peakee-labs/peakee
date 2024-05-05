@@ -1,9 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createLogger } from '@peakee/logger';
+
+import { setUtilsLogger } from '../../utils/logger';
 
 import type { WrappedDOMRect } from './types';
 
 export const logger = createLogger('ContentScript');
+setUtilsLogger(logger);
 
 export const retrieveSentenceOfWordsInSingleRange = (selection: Selection) => {
 	const selectedNode = selection.focusNode as Node;
@@ -98,8 +100,10 @@ export type SimpleBox = {
 	height: number;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const measure = (ref: any): Promise<SimpleBox> => {
 	return new Promise((resolve) => {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		ref.measure((x: any, y: any, width: any, height: any) =>
 			resolve({ x, y, width, height }),
 		);
