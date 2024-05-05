@@ -1,3 +1,5 @@
+import './internal';
+
 /**
  * apply persist app state before render
  */
