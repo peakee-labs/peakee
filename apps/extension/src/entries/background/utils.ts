@@ -22,7 +22,7 @@ export const keepBackgroundAlive = () => {
 
 		// Add a noop listener to the alarm. Without this, the service worker seems
 		// to be deemed as idle by Chrome and will be killed after 30s.
-		chrome.alarms.onAlarm.addListener(() => {
+		chrome.alarms?.onAlarm.addListener(() => {
 			Function.prototype();
 		});
 	}
