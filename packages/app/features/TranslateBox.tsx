@@ -22,10 +22,19 @@ export type Props = {
 	initLanguages?: 'en-vi' | 'vi-en';
 	style?: StyleProp<ViewStyle>;
 	translate?: TranslateFunction;
+	contentFontSize?: number;
+	experimentalDynamicSize?: boolean;
 };
 
 const InternalTranslateBox = (
-	{ initText = '', initLanguages = 'en-vi', style, translate }: Props,
+	{
+		initText = '',
+		initLanguages = 'en-vi',
+		style,
+		translate,
+		contentFontSize,
+		experimentalDynamicSize,
+	}: Props,
 	ref: Ref<View>,
 ) => {
 	const [loading, setLoading] = useState(false);
@@ -33,6 +42,13 @@ const InternalTranslateBox = (
 	const [translated, setTranslated] = useState('');
 	const [from, setFrom] = useState(initLanguages.split('-')[0]);
 	const [to, setTo] = useState(initLanguages.split('-')[1]);
+
+	const [dynamicWidth, setDynamicWidth] = useState(0);
+	const [dynamicHeight, setDynamicHeight] = useState(0);
+
+	const commonContentStyle = {
+		fontSize: contentFontSize,
+	};
 
 	const fetchTranslation = useCallback(
 		throttle(async (text: string) => {
@@ -85,8 +101,38 @@ const InternalTranslateBox = (
 		}
 	}, []);
 
+	useEffect(() => {
+		if (experimentalDynamicSize) {
+			const singleCharWidthUnit = 8;
+			const singleLineHeightUnit = 20;
+			const relativeWidthFromText = text.length * singleCharWidthUnit;
+			const dynamicWidth = Math.max(
+				300,
+				Math.min(600, relativeWidthFromText),
+			);
+			setDynamicWidth(dynamicWidth);
+			setDynamicHeight(
+				Math.max(
+					80,
+					Math.min(
+						200,
+						(singleLineHeightUnit * relativeWidthFromText) /
+							dynamicWidth,
+					),
+				),
+			);
+		}
+	}, [text]);
+
 	return (
-		<View ref={ref} style={[styles.container, style]}>
+		<View
+			ref={ref}
+			style={[
+				styles.container,
+				style,
+				experimentalDynamicSize && { width: dynamicWidth },
+			]}
+		>
 			<View style={styles.header}>
 				<Text style={styles.title}>
 					{from == 'en' ? 'English' : 'Vietnamese'}
@@ -103,9 +149,14 @@ const InternalTranslateBox = (
 				</View>
 			</View>
 
-			<View style={styles.textInputContainer}>
+			<View
+				style={[
+					styles.textInputContainer,
+					experimentalDynamicSize && { height: dynamicHeight },
+				]}
+			>
 				<TextInput
-					style={styles.textInput}
+					style={[styles.textInput, commonContentStyle]}
 					value={text}
 					onChangeText={handleChangeText}
 					placeholder="Type to translate..."
@@ -144,7 +195,10 @@ const InternalTranslateBox = (
 				{loading ? (
 					<ActivityIndicator />
 				) : (
-					<Text style={styles.translated} selectable={true}>
+					<Text
+						style={[styles.translated, commonContentStyle]}
+						selectable={true}
+					>
 						{translated}
 					</Text>
 				)}
@@ -177,10 +231,9 @@ const styles = StyleSheet.create({
 		gap: 12,
 	},
 	indicator: {
-		alignSelf: 'center',
+		marginHorizontal: 10,
 		height: 1.5,
 		borderRadius: 1,
-		width: 200,
 		backgroundColor: '#000000',
 		opacity: 0.2,
 		marginBottom: 20,
@@ -190,13 +243,15 @@ const styles = StyleSheet.create({
 		marginBottom: 10,
 	},
 	textInput: {
-		flex: 1,
+		// flex: 1,
+		flexGrow: 1,
 		fontSize: 24,
 		fontWeight: '300',
 		paddingHorizontal: 0,
 		paddingVertical: 0,
 		outlineStyle: 'none',
 		color: '#000000',
+		rows: 5,
 	} as never,
 	clearButton: {
 		position: 'absolute',
@@ -208,6 +263,7 @@ const styles = StyleSheet.create({
 	},
 	translatedContainer: {
 		minHeight: 80,
+		maxHeight: 200,
 		marginTop: 0,
 	},
 	translated: {

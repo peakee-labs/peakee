@@ -287,8 +287,10 @@ export const ContentApp = () => {
 				<TranslateBox
 					ref={translateBoxRef}
 					style={[translatePosition, styles.translateBox]}
+					contentFontSize={18}
 					initText={selectedText}
 					translate={requestTranslateViaMessaging}
+					experimentalDynamicSize
 				/>
 			)}
 
@@ -333,6 +335,8 @@ const styles = StyleSheet.create({
 		bottom: 0,
 	},
 	translateBox: {
+		minWidth: 300,
+		maxWidth: 800,
 		backgroundColor: '#FFFFFF',
 		position: 'absolute',
 		paddingVertical: 18,
