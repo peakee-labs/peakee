@@ -9,6 +9,8 @@ import {
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
+import { logger } from './logger';
+
 const firebaseConfig = {
 	appId: APP_ID,
 	apiKey: API_KEY,
@@ -21,7 +23,7 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
-const auth = getAuth();
+export const auth = getAuth();
 
 export const signIn = async () => {
 	await signInWithPopup(auth, provider);
@@ -31,6 +33,14 @@ export const signOut = async () => {
 	await auth.signOut();
 	store().dispatch(resetUserState());
 };
+
+let authResolve: () => void;
+/**
+ * Wait for the first time initialize auth
+ */
+export const authInitialized = new Promise<void>((resolve) => {
+	authResolve = resolve;
+});
 
 auth.onIdTokenChanged(async (firebaseUser) => {
 	if (firebaseUser) {
@@ -51,4 +61,11 @@ auth.onIdTokenChanged(async (firebaseUser) => {
 	}
 
 	store().dispatch(setProfileLoading(false));
+
+	if (authResolve) {
+		authResolve();
+		authResolve = undefined as never;
+	}
+
+	logger.log('auth updated');
 });

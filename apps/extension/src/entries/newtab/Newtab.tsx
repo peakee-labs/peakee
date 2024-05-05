@@ -13,6 +13,7 @@ import {
 } from '@peakee/app/api';
 import type { Locale } from '@peakee/app/types';
 
+import { authInitialized } from '../../utils/auth';
 import useLocaleMap from '../../utils/hooks/useLocale';
 
 import { FeedbackModal } from './feedbackModal';
@@ -27,6 +28,7 @@ const Newtab = () => {
 	const { changeLocale, localize } = useLocaleMap(localeMap, locale, 'en');
 
 	const getNewContent = async () => {
+		await authInitialized;
 		try {
 			const data = await getPracticeWordForUser();
 			if (data) {

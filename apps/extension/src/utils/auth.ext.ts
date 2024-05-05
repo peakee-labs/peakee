@@ -13,6 +13,8 @@ import {
 } from '@peakee/app/state';
 import { initializeApp } from 'firebase/app';
 
+import { logger } from './logger';
+
 const firebaseConfig = {
 	appId: APP_ID,
 	apiKey: API_KEY,
@@ -55,6 +57,14 @@ export const signOut = async () => {
 	store().dispatch(resetUserState());
 };
 
+let authResolve: () => void;
+/**
+ * Wait for the first time initialize auth
+ */
+export const authInitialized = new Promise<void>((resolve) => {
+	authResolve = resolve;
+});
+
 auth.onIdTokenChanged(async (firebaseUser) => {
 	if (firebaseUser) {
 		const jwt = await firebaseUser.getIdToken();
@@ -74,4 +84,11 @@ auth.onIdTokenChanged(async (firebaseUser) => {
 	}
 
 	store().dispatch(setProfileLoading(false));
+
+	if (authResolve) {
+		authResolve();
+		authResolve = undefined as never;
+	}
+
+	logger.log('auth updated');
 });
