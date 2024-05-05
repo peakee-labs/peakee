@@ -74,6 +74,10 @@ export const initWebsocketWithProfile = (userId: string, jwt: string) => {
 		wsMap.delete(WS_TYPE.DEFAULT);
 	}
 
-	const ws = initWebsocket(config().PEAKEE_WS_URL, jwt);
-	wsMap.set(WS_TYPE.DEFAULT, { connection: ws, id: userId });
+	try {
+		const ws = initWebsocket(config().PEAKEE_WS_URL, jwt);
+		wsMap.set(WS_TYPE.DEFAULT, { connection: ws, id: userId });
+	} catch (error) {
+		console.warn('Error connecting to websocket', error);
+	}
 };
