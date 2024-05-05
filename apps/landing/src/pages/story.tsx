@@ -22,8 +22,8 @@ export default function Story() {
 				<HeadingContent>
 					<Paragraph>Hi there,</Paragraph>
 					<Paragraph>
-						I am the founder of the Peakee project - using a foreign
-						language to learn a foreign language.
+						I am the founder of Peakee - an application helps people
+						learn English or any language by using it daily.
 					</Paragraph>
 				</HeadingContent>
 
