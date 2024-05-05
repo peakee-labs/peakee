@@ -19,7 +19,7 @@ export const MainSection = () => {
 
 	const downloadChromeExtension = () => {
 		window.open(
-			'/peakee-ext-0.0.1-production.zip',
+			'/peakee-ext-0.0.2-production.zip',
 			'_blank',
 			'noopener,noreferrer',
 		);
