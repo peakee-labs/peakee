@@ -30,7 +30,10 @@ export const Header = () => {
 					);
 				})}
 
-				<PrimaryButton title="Launch App" onClick={launchApp} />
+				<PrimaryButton
+					title="Download Chrome Extension"
+					onClick={launchApp}
+				/>
 			</HeaderItems>
 		</Container>
 	);

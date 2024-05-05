@@ -7,7 +7,8 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "deploy:prod": "sst deploy --stage prod"
+        "deploy:prod": "sst deploy --stage prod",
+        "load:ext": "cp -r ../extension/build/ext-zip/peakee-ext-*.zip ./public"
     },
     "dependencies": {
         "framer-motion": "^10.16.16",

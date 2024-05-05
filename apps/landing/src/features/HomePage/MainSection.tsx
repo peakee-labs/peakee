@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 import {
@@ -11,8 +12,21 @@ import {
 import { devices } from '@/config/responsive';
 
 export const MainSection = () => {
-	const launchApp = () => {
-		window.open('https://app.peakee.co', '_blank', 'noopener,noreferrer');
+	// const launchApp = () => {
+	// 	window.open('https://app.peakee.co', '_blank', 'noopener,noreferrer');
+	// };
+	const navigate = useRouter();
+
+	const downloadChromeExtension = () => {
+		window.open(
+			'/peakee-ext-0.0.1-production.zip',
+			'_blank',
+			'noopener,noreferrer',
+		);
+
+		setTimeout(() => {
+			navigate.push('/guides');
+		}, 1500);
 	};
 
 	const joinWaitlist = () => {
@@ -35,7 +49,11 @@ export const MainSection = () => {
 					suggestions, in-app translation and more...
 				</SubTitle>
 				<ButtonsBox>
-					<PrimaryButton title="Launch App" onClick={launchApp} />
+					<PrimaryButton
+						title="Download Chrome Extension"
+						onClick={downloadChromeExtension}
+					/>
+					{/* <PrimaryButton title="Launch App" onClick={launchApp} /> */}
 					<SecondaryButton
 						title="Join waitlist"
 						onClick={joinWaitlist}
