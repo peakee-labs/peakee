@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 import { HorizontalBox, PrimaryButton } from '@/components';
@@ -7,8 +8,21 @@ import { headerItems } from '@/config/content';
 import { devices } from '@/config/responsive';
 
 export const Header = () => {
-	const launchApp = () => {
-		window.open('https://app.peakee.co', '_blank', 'noopener,noreferrer');
+	// const launchApp = () => {
+	// 	window.open('https://app.peakee.co', '_blank', 'noopener,noreferrer');
+	// };
+	const navigate = useRouter();
+
+	const downloadChromeExtension = () => {
+		window.open(
+			'/peakee-ext-0.0.1-production.zip',
+			'_blank',
+			'noopener,noreferrer',
+		);
+
+		setTimeout(() => {
+			navigate.push('/guides');
+		}, 1500);
 	};
 
 	return (
@@ -32,7 +46,7 @@ export const Header = () => {
 
 				<PrimaryButton
 					title="Download Chrome Extension"
-					onClick={launchApp}
+					onClick={downloadChromeExtension}
 				/>
 			</HeaderItems>
 		</Container>

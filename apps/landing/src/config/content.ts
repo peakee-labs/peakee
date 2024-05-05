@@ -12,4 +12,8 @@ export const headerItems: HeaderItem[] = [
 		title: 'Contact',
 		link: '/contact',
 	},
+	{
+		title: 'Guides',
+		link: '/guides',
+	},
 ];
