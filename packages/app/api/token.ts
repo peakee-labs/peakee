@@ -1,9 +1,8 @@
-let defaultJWT: string;
+type GetJWTFunc = () => Promise<string | undefined> | string | undefined;
+export let getJWT: GetJWTFunc = () => {
+	throw Error("Missing 'getJWTFunc' in config");
+};
 
-export function getJWT() {
-	return defaultJWT;
-}
-
-export function setJWT(jwt: string) {
-	defaultJWT = jwt;
-}
+export const injectGetJWTFunc = (_getJWTFunc: GetJWTFunc) => {
+	getJWT = _getJWTFunc;
+};

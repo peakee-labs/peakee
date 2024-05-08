@@ -1,5 +1,5 @@
 import Config from 'react-native-config';
-import { getOrInitUserProfile, setJWT } from '@peakee/app/api';
+import { getOrInitUserProfile } from '@peakee/app/api';
 import {
 	resetChatState,
 	resetUserState,
@@ -55,8 +55,6 @@ export const signOut = async () => {
 
 auth().onIdTokenChanged(async (firebaseUser) => {
 	if (firebaseUser) {
-		const jwt = await firebaseUser.getIdToken();
-		setJWT(jwt);
 		if (!store().getState().user.profile) {
 			const user = await getOrInitUserProfile({
 				name: firebaseUser.displayName as string,

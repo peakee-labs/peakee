@@ -31,8 +31,8 @@ export function initAppAxios(adapter?: AxiosAdapter) {
 		adapter,
 	});
 
-	defaultAxios.interceptors.request.use((config) => {
-		const jwt = getJWT();
+	defaultAxios.interceptors.request.use(async (config) => {
+		const jwt = await getJWT();
 		if (jwt) {
 			config.headers.Authorization = 'Bearer ' + jwt;
 		}

@@ -1,5 +1,5 @@
 import { initWebsocketWithProfile } from '@peakee/app';
-import { getOrInitUserProfile, setJWT } from '@peakee/app/api';
+import { getOrInitUserProfile } from '@peakee/app/api';
 import {
 	resetUserState,
 	setProfile,
@@ -21,7 +21,7 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
-const auth = getAuth();
+export const auth = getAuth();
 
 export const signIn = async () => {
 	await signInWithPopup(auth, provider);
@@ -35,8 +35,6 @@ export const signOut = async () => {
 auth.onIdTokenChanged(async (firebaseUser) => {
 	if (firebaseUser) {
 		const jwt = await firebaseUser.getIdToken();
-		setJWT(jwt);
-
 		initWebsocketWithProfile(firebaseUser.uid, jwt);
 
 		const user = await getOrInitUserProfile({
@@ -46,8 +44,6 @@ auth.onIdTokenChanged(async (firebaseUser) => {
 		});
 
 		if (user) store().dispatch(setProfile(user));
-	} else {
-		setJWT('');
 	}
 
 	store().dispatch(setProfileLoading(false));
