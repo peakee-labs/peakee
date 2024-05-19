@@ -1,5 +1,5 @@
 <h1 align="center">Peakee</h1>
-<p align="center">Monorepo for a language learning platform.</p>
+<p align="center">Monorepo for a language learning platform. <3</p>
 <p align="center">React Native, ReactJS, NextJS, Babel, Webpack, Redux Toolkit, Reanimated, SST, AWS, Github Actions</p>
 
 ## Project structure
