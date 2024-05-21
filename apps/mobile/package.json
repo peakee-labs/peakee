@@ -1,5 +1,5 @@
 {
-    "name": "@peakee/mobile",
+    "name": "peakee",
     "version": "0.0.1",
     "private": true,
     "scripts": {
