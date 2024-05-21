@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
 	gestureHandlerRootHOC,
 	GestureHandlerRootView,
@@ -19,7 +19,8 @@ export const UIProvider = gestureHandlerRootHOC<UIProviderProps>(
 		return (
 			<GestureHandlerRootView style={styles.app}>
 				<BottomSheetModalProvider>
-					<SafeAreaView style={styles.app}>{children}</SafeAreaView>
+					{children}
+					{/* <SafeAreaView style={styles.app}>{children}</SafeAreaView> */}
 					<ReduxProvider store={uiStore}>
 						<ModalManager />
 					</ReduxProvider>
