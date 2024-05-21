@@ -13,8 +13,6 @@ import {
 	type RootState,
 	addExploreCandidate,
 	setExploreProfile,
-	updateExploreLoading,
-	updateExploreProfileLoading,
 } from '@peakee/app/state';
 import type { PublicUserProfile, UserExplore } from '@peakee/app/types';
 
@@ -32,15 +30,15 @@ export interface UserExploreData {
 }
 
 const ExploreFeature: FC = () => {
-	const {
-		explore: { exploreLoading, candidates: candidatesMap },
-		user: { profile },
-	} = useSelector((state: RootState) => state);
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
-	const exploreCandidates = useMemo(() => {
-		return Object.values(candidatesMap);
-	}, [candidatesMap]);
+
+	const { profile } = useSelector((state: RootState) => state.user);
+	const { candidatesMap } = useSelector((state: RootState) => state.explore);
+	const exploreCandidates = useMemo(
+		() => Object.values(candidatesMap),
+		[candidatesMap],
+	);
 
 	const handleGetSuggestUser = async () => {
 		try {
@@ -62,7 +60,6 @@ const ExploreFeature: FC = () => {
 					);
 				}
 				setLoading(false);
-				dispatch(updateExploreLoading(false));
 			}
 		} catch (e) {
 			console.log('get explore error', e);
@@ -79,7 +76,6 @@ const ExploreFeature: FC = () => {
 			if (currentExplore) {
 				dispatch(setExploreProfile(currentExplore));
 			}
-			dispatch(updateExploreProfileLoading(false));
 		}
 	};
 
@@ -95,7 +91,7 @@ const ExploreFeature: FC = () => {
 		<View style={styles.container}>
 			<QuoteBanner />
 			<Text style={styles.h2}>Who&apos;s around the corner</Text>
-			{!exploreLoading && !loading ? (
+			{!loading ? (
 				<FlatList
 					style={{ flex: 1 }}
 					data={exploreCandidates}
@@ -108,12 +104,6 @@ const ExploreFeature: FC = () => {
 					<ActivityIndicator />
 				</View>
 			)}
-			{/* <TouchableOpacity
-				style={styles.randomChatButton}
-				onPress={handleGetSuggestUser}
-			>
-				<Text style={styles.randomChatButtonText}>Random Chat</Text>
-			</TouchableOpacity> */}
 		</View>
 	);
 };

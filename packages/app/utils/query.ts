@@ -16,7 +16,7 @@ import {
  * load the public profile if not, dispatch to store, return public profile
  */
 export async function getFriendProfileWithState(id: string) {
-	let friend = store().getState().user.friends[id];
+	let friend = store().getState().user.friendsMap[id];
 	if (!friend) {
 		const loadedProfile = await getPublicProfileOfUser(id);
 		if (!loadedProfile) return;
@@ -39,7 +39,8 @@ export async function getConversationWithState(id: string) {
 }
 
 export async function getLatestMessageWithState(conversationId: string) {
-	const conversation = store().getState().chat.conversationsMap[conversationId];
+	const conversation =
+		store().getState().chat.conversationsMap[conversationId];
 	if (conversation.latestMessage) return conversation.latestMessage;
 
 	const latestMessage = await getLatestMessage(conversationId);

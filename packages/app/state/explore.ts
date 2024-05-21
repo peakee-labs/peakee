@@ -4,10 +4,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PublicUserProfile, UserExplore } from '../types';
 
 export interface ExploreState {
-	exploreLoading: boolean;
-	profileLoading: boolean;
 	profile?: UserExplore;
-	candidates: Record<string, ExploreData>;
+	candidatesMap: Record<string, ExploreData>;
 }
 
 type ExploreData = {
@@ -16,9 +14,7 @@ type ExploreData = {
 };
 
 const initialState: ExploreState = {
-	exploreLoading: true,
-	profileLoading: true,
-	candidates: {},
+	candidatesMap: {},
 	profile: undefined,
 } as ExploreState;
 
@@ -30,22 +26,13 @@ export const exploreSlice = createSlice({
 		setExploreProfile: (state, { payload }: PayloadAction<UserExplore>) => {
 			state.profile = payload;
 		},
-		updateExploreProfileLoading: (
-			state,
-			{ payload }: PayloadAction<boolean>,
-		) => {
-			state.profileLoading = payload;
-		},
-		updateExploreLoading: (state, action: PayloadAction<boolean>) => {
-			state.exploreLoading = action.payload;
-		},
 		addExploreCandidate: (state, action: PayloadAction<ExploreData>) => {
-			state.candidates[action.payload.profile.id] = action.payload;
+			state.candidatesMap[action.payload.profile.id] = action.payload;
 		},
 		setExploreCandidates: (state, action: PayloadAction<ExploreData[]>) => {
-			state.candidates = {};
+			state.candidatesMap = {};
 			action.payload.forEach((candidate) => {
-				state.candidates[candidate.profile.id] = candidate;
+				state.candidatesMap[candidate.profile.id] = candidate;
 			});
 		},
 	},
@@ -53,10 +40,8 @@ export const exploreSlice = createSlice({
 
 export const {
 	setExploreProfile,
-	updateExploreProfileLoading,
 	setExploreCandidates,
-	updateExploreLoading,
-	reset,
+	reset: resetExplore,
 	addExploreCandidate,
 } = exploreSlice.actions;
 

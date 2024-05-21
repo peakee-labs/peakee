@@ -22,11 +22,9 @@ type Props = {
 };
 
 const FriendsFeature: FC<Props> = ({ style, handlePressFriend }) => {
-	const {
-		profile,
-		profileLoading,
-		friends: friendsMap,
-	} = useSelector((state: RootState) => state.user);
+	const { profile, friendsMap } = useSelector(
+		(state: RootState) => state.user,
+	);
 	const friends = useMemo(() => {
 		return Object.values(friendsMap);
 	}, [friendsMap]);
@@ -65,9 +63,9 @@ const FriendsFeature: FC<Props> = ({ style, handlePressFriend }) => {
 
 	return (
 		<View style={style}>
-			{!profileLoading && !profile ? (
+			{!profile ? (
 				<Text>No profile found</Text>
-			) : profileLoading || loading ? (
+			) : loading ? (
 				<ActivityIndicator />
 			) : friends.length == 0 ? (
 				<Text>{"Let's add some friends"}</Text>

@@ -5,12 +5,7 @@ import {
 } from '@firebase/auth/web-extension';
 import { initWebsocketWithProfile } from '@peakee/app';
 import { getOrInitUserProfile } from '@peakee/app/api';
-import {
-	resetUserState,
-	setProfile,
-	setProfileLoading,
-	store,
-} from '@peakee/app/state';
+import { resetUserState, setProfile, store } from '@peakee/app/state';
 import { initializeApp } from 'firebase/app';
 
 import { logger } from './logger';
@@ -78,8 +73,6 @@ auth.onIdTokenChanged(async (firebaseUser) => {
 
 		if (user) store().dispatch(setProfile(user));
 	}
-
-	store().dispatch(setProfileLoading(false));
 
 	if (authResolve) {
 		authResolve();

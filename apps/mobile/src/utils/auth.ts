@@ -1,12 +1,13 @@
 import Config from 'react-native-config';
-import { getOrInitUserProfile } from '@peakee/app/api';
+import { resolveInitAuthPromise } from '@peakee/app';
+import { getOrInitUserProfile, setJWT } from '@peakee/app/api';
 import {
 	resetChatState,
 	resetUserState,
 	setProfile,
-	setProfileLoading,
 	store,
 } from '@peakee/app/state';
+import type { UnknownObject } from '@peakee/app/types';
 import auth from '@react-native-firebase/auth';
 import {
 	GoogleSignin,
@@ -16,8 +17,6 @@ import {
 GoogleSignin.configure({
 	webClientId: Config.WEB_CLIENT_ID,
 });
-
-type UnknownObject = Record<string, never>;
 
 export const signInWithGoogle = async () => {
 	try {
@@ -48,27 +47,34 @@ export const signInWithGoogle = async () => {
 };
 
 export const signOut = async () => {
+	store().dispatch(resetUserState());
+	store().dispatch(resetChatState());
+
 	await auth()
 		.signOut()
-		.then(() => console.log('User signed out!'));
+		.finally(() => console.log('User signed out!'));
 };
 
-auth().onIdTokenChanged(async (firebaseUser) => {
-	if (firebaseUser) {
-		if (!store().getState().user.profile) {
-			const user = await getOrInitUserProfile({
-				name: firebaseUser.displayName as string,
-				email: firebaseUser.email as string,
-				imageUrl: firebaseUser.photoURL as string,
-			});
-			if (user) {
-				store().dispatch(setProfile(user));
-			}
-			store().dispatch(setProfileLoading(false));
+auth().onIdTokenChanged(async (authUser) => {
+	if (authUser) {
+		const jwt = await authUser.getIdToken();
+		if (jwt) setJWT(jwt);
+
+		const currentUserState = store().getState().user.profile;
+		if (currentUserState) return;
+
+		const user = await getOrInitUserProfile({
+			name: authUser.displayName as string,
+			email: authUser.email as string,
+			imageUrl: authUser.photoURL as string,
+		});
+
+		if (user) {
+			store().dispatch(setProfile(user));
 		}
+
+		resolveInitAuthPromise(user);
 	} else {
-		console.log('not found firebase user');
-		store().dispatch(resetUserState());
-		store().dispatch(resetChatState());
+		resolveInitAuthPromise(undefined);
 	}
 });

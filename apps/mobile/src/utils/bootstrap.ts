@@ -1,10 +1,8 @@
 import Config from 'react-native-config';
 import { initAppConfig, initAssets } from '@peakee/app';
-import { injectGetJWTFunc } from '@peakee/app/api';
 import TranslateBox from '@peakee/app/features/TranslateBox';
 import { showModal } from '@peakee/ui';
 import { injectUtils } from '@peakee/utils';
-import auth from '@react-native-firebase/auth';
 
 export const initApp = () => {
 	initAssets({
@@ -38,6 +36,4 @@ export const initApp = () => {
 			});
 		},
 	});
-
-	injectGetJWTFunc(async () => await auth().currentUser?.getIdToken());
 };

@@ -5,15 +5,12 @@ import type { PublicUserProfile, UserProfile } from '../types';
 
 export interface UserState {
 	profile?: UserProfile;
-	profileLoading: boolean;
-	friends: Record<string, PublicUserProfile>;
+	friendsMap: Record<string, PublicUserProfile>;
 }
 
-// TODO: profileLoading must be false at init
 const initialState: UserState = {
-	profileLoading: true,
-	friends: {},
-} as UserState;
+	friendsMap: {},
+};
 
 export const userSlice = createSlice({
 	name: 'user',
@@ -23,19 +20,15 @@ export const userSlice = createSlice({
 		setProfile: (state, action: PayloadAction<UserProfile>) => {
 			state.profile = action.payload;
 		},
-		setProfileLoading: (state, action: PayloadAction<boolean>) => {
-			state.profileLoading = action.payload;
-		},
 		setFriendProfile: (state, action: PayloadAction<PublicUserProfile>) => {
 			const profile = action.payload;
-			state.friends[profile.id] = profile;
+			state.friendsMap[profile.id] = profile;
 		},
 	},
 });
 
 export const {
 	setProfile,
-	setProfileLoading,
 	reset: resetUserState,
 	setFriendProfile,
 } = userSlice.actions;

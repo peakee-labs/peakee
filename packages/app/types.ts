@@ -147,3 +147,5 @@ export type PracticeUnit = {
 	explain: string;
 	expandWords: string[];
 };
+
+export type UnknownObject = Record<string, never>;

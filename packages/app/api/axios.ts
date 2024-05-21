@@ -3,7 +3,7 @@ import Axios from 'axios';
 
 import { config } from '../utils';
 
-import { getJWT } from './token';
+import { JWT } from './token';
 
 let defaultAxios: AxiosInstance;
 
@@ -32,9 +32,8 @@ export function initAppAxios(adapter?: AxiosAdapter) {
 	});
 
 	defaultAxios.interceptors.request.use(async (config) => {
-		const jwt = await getJWT();
-		if (jwt) {
-			config.headers.Authorization = 'Bearer ' + jwt;
+		if (JWT) {
+			config.headers.Authorization = 'Bearer ' + JWT;
 		}
 		config.headers['Content-Type'] = 'application/json';
 

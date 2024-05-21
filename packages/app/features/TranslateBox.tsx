@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { TextInput } from 'react-native';
 import { Copy, Speaker, Switch } from '@peakee/icons';
-import Clipboard from '@react-native-community/clipboard';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { throttle } from 'lodash';
 
 import type { TranslateFunction } from '../api';

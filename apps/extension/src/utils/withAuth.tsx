@@ -1,10 +1,9 @@
 import type { JSX } from 'react';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { initAuthPromise } from '@peakee/app';
 import SignInFeature from '@peakee/app/features/SignIn';
-import type { RootState } from '@peakee/app/state';
 import { Button } from '@peakee/ui';
 
 import { signIn, signOut } from './auth';
@@ -22,22 +21,25 @@ export const withAuth = (
 	configs?: Configs,
 ) => {
 	const Authorized = () => {
-		const userProfile = useSelector(
-			(state: RootState) => state.user.profile,
-		);
-		const profileLoading = useSelector(
-			(state: RootState) => state.user.profileLoading,
-		);
+		const [loading, setLoading] = useState(true);
+		const [signedIn, setSignedIn] = useState(false);
+
+		useEffect(() => {
+			initAuthPromise.then((user) => {
+				setLoading(false);
+				if (user) setSignedIn(true);
+			});
+		}, []);
 
 		const containerStyle = [styles.container, configs?.containerStyle];
 
 		return (
 			<Fragment>
-				{profileLoading ? (
+				{loading ? (
 					<View style={containerStyle}>
 						<ActivityIndicator />
 					</View>
-				) : !userProfile ? (
+				) : !signedIn ? (
 					<View style={containerStyle}>
 						<SignInFeature
 							style={[styles.signInBox, configs?.signInBoxStyle]}

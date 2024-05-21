@@ -47,10 +47,10 @@ export const Friends = () => {
 
 	const router = useRouter();
 	useEffect(() => {
-		if (!explore.profileLoading && !explore.profile) {
+		if (!explore.profile) {
 			router.push('/onboarding');
 		}
-	}, [explore.profileLoading, explore.profile]);
+	}, [explore.profile]);
 
 	return (
 		<View style={styles.container}>

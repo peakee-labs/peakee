@@ -1255,7 +1255,7 @@ PODS:
     - React-logger (= 0.73.6)
     - React-perflogger (= 0.73.6)
   - RecaptchaInterop (100.0.0)
-  - RNCClipboard (1.5.1):
+  - RNCClipboard (1.14.1):
     - React-Core
   - RNCPicker (2.7.2):
     - React-Core
@@ -1275,7 +1275,7 @@ PODS:
   - RNGoogleSignin (10.1.1):
     - GoogleSignIn (~> 7.0)
     - React-Core
-  - RNReanimated (3.8.1):
+  - RNReanimated (3.11.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1370,7 +1370,7 @@ DEPENDENCIES:
   - React-runtimescheduler (from `../../../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
   - React-utils (from `../../../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
-  - "RNCClipboard (from `../../../node_modules/@react-native-community/clipboard`)"
+  - "RNCClipboard (from `../../../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCPicker (from `../../../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../../../node_modules/@react-native-community/datetimepicker`)"
   - "RNFBApp (from `../../../node_modules/@react-native-firebase/app`)"
@@ -1517,7 +1517,7 @@ EXTERNAL SOURCES:
   ReactCommon:
     :path: "../../../node_modules/react-native/ReactCommon"
   RNCClipboard:
-    :path: "../../../node_modules/@react-native-community/clipboard"
+    :path: "../../../node_modules/@react-native-clipboard/clipboard"
   RNCPicker:
     :path: "../../../node_modules/@react-native-picker/picker"
   RNDateTimePicker:
@@ -1618,14 +1618,14 @@ SPEC CHECKSUMS:
   React-utils: d16c1d2251c088ad817996621947d0ac8167b46c
   ReactCommon: 2aa35648354bd4c4665b9a5084a7d37097b89c10
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
-  RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
+  RNCClipboard: 0a720adef5ec193aa0e3de24c3977222c7e52a37
   RNCPicker: 82ccad5b08259dc09310082118cbb6c136d7da67
   RNDateTimePicker: 7b38b71bcd7c4cfa1cb95f2dff9a4f1faed2dced
   RNFBApp: 9b25191f7a5e72c185b7e43fffb0d906869c4659
   RNFBAuth: 95acca18353778903885b2b25c25ddb81c050fed
   RNGestureHandler: bc2cdb2dc42facdf34992ae364b8a728e19a3686
   RNGoogleSignin: aac5c1ec73422109dec1da770247a1e410dcc620
-  RNReanimated: 8763d306762d558ebc0df4cbf67128dcadfa6299
+  RNReanimated: d9219596344fd0118d20f614b4e05124860b554f
   RNScreens: b6b64d956af3715adbfe84808694ae82d3fec74f
   RNSVG: ba3e7232f45e34b7b47e74472386cf4e1a676d0a
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
