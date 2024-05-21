@@ -1,11 +1,11 @@
 {
-  "extends": "@peakee/tsconfig/application.json",
+  "extends": ["@react-native/typescript-config/tsconfig.json"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "assets/*": ["./assets/*"],
       "screens/*": ["./src/screens/*"],
-      "utils/*": ["./src/utils/*"],
+      "utils/*": ["./src/utils/*"]
     }
   }
 }
