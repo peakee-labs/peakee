@@ -114,9 +114,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	addButton: {
-		width: 48,
-		height: 48,
-		borderRadius: 48,
+		width: 52,
+		height: 52,
+		borderRadius: 26,
 		borderWidth: 1,
 		borderColor: '#e6e6e6',
 		justifyContent: 'center',
@@ -125,5 +125,6 @@ const styles = StyleSheet.create({
 	},
 	addText: {
 		color: '#9f9f9f',
+		marginTop: 2,
 	},
 });

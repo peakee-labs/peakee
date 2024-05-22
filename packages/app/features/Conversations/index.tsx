@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 
 import { useConversations } from '../../hooks/useConversations';
 import type { Conversation as ConversationStateType } from '../../types';
@@ -8,9 +8,13 @@ import Conversation from './Conversation';
 
 type Props = {
 	onPressConversation?: (conversation: ConversationStateType) => void;
+	EmptyElement?: FC;
 };
 
-export const ConversationsFeature: FC<Props> = ({ onPressConversation }) => {
+export const ConversationsFeature: FC<Props> = ({
+	onPressConversation,
+	EmptyElement,
+}) => {
 	const conversations = useConversations();
 
 	return (
@@ -20,13 +24,7 @@ export const ConversationsFeature: FC<Props> = ({ onPressConversation }) => {
 				contentContainerStyle={styles.flatListContentContainer}
 				data={conversations}
 				keyExtractor={(c) => c.id}
-				ListEmptyComponent={() => {
-					return (
-						<Text style={styles.emptyText}>
-							{"Let's add friend and start talking in English"}
-						</Text>
-					);
-				}}
+				ListEmptyComponent={EmptyElement}
 				renderItem={({ item: conversation }) => (
 					<Conversation
 						conversation={conversation}
@@ -50,8 +48,5 @@ const styles = StyleSheet.create({
 	flatListContentContainer: {
 		flexGrow: 1,
 		gap: 4,
-	},
-	emptyText: {
-		color: '#7b7a7a',
 	},
 });

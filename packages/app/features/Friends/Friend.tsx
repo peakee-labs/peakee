@@ -12,7 +12,7 @@ type Props = {
 export const Friend: FC<Props> = ({ profile, onPress }) => {
 	return (
 		<TouchableOpacity style={styles.container} onPress={onPress}>
-			<Avatar size={46} source={{ uri: profile.imageURL }} />
+			<Avatar size={52} source={{ uri: profile.imageURL }} />
 			<Text style={styles.nameText}>{splitName(profile.name)}</Text>
 		</TouchableOpacity>
 	);
