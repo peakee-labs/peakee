@@ -1,4 +1,4 @@
-package com.peakee
+package com.zenonian.peakee
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

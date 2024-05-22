@@ -1,4 +1,4 @@
-package com.peakee
+package com.zenonian.peakee
 
 import android.app.Application
 import com.facebook.react.PackageList
