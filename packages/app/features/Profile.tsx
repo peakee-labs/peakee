@@ -1,18 +1,23 @@
 import type { FC } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Avatar } from '@peakee/ui';
 
 import type { RootState } from '../state';
 
-export const ProfileFeature: FC = () => {
+type Props = {
+	style?: StyleProp<ViewStyle>;
+};
+
+export const ProfileFeature: FC<Props> = ({ style }) => {
 	const user = useSelector((state: RootState) => state.user.profile);
 
 	if (!user) return null;
 
 	return (
-		<View style={styles.container}>
-			<Avatar source={{ uri: user.imageURL }} />
+		<View style={[styles.container, style]}>
+			<Avatar size={60} source={{ uri: user.imageURL }} />
 			<View>
 				<Text style={styles.name}>{user.name}</Text>
 				<Text style={styles.id}>{user.email}</Text>
@@ -30,10 +35,10 @@ const styles = StyleSheet.create({
 		columnGap: 10,
 	},
 	name: {
-		fontSize: 16,
+		fontSize: 20,
 		fontWeight: '500',
 	},
 	id: {
-		fontSize: 12,
+		fontSize: 14,
 	},
 });

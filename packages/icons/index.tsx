@@ -20,6 +20,7 @@ export * from './components/Noti';
 export * from './components/People';
 export * from './components/Phone';
 export * from './components/Photo';
+export * from './components/Plus';
 export * from './components/Quote';
 export * from './components/QuoteRight';
 export * from './components/Search';

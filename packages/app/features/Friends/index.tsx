@@ -6,9 +6,11 @@ import {
 	FlatList,
 	StyleSheet,
 	Text,
+	TouchableOpacity,
 	View,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { Plus } from '@peakee/icons';
 
 import { getPublicProfileOfUser } from '../../api';
 import { type RootState, setFriendProfile } from '../../state';
@@ -19,9 +21,14 @@ import Friend from './Friend';
 type Props = {
 	style?: StyleProp<ViewStyle>;
 	handlePressFriend?: (friend: PublicUserProfile) => void;
+	onPressAddFriend?: () => void;
 };
 
-const FriendsFeature: FC<Props> = ({ style, handlePressFriend }) => {
+const FriendsFeature: FC<Props> = ({
+	style,
+	handlePressFriend,
+	onPressAddFriend,
+}) => {
 	const { profile, friendsMap } = useSelector(
 		(state: RootState) => state.user,
 	);
@@ -62,7 +69,18 @@ const FriendsFeature: FC<Props> = ({ style, handlePressFriend }) => {
 	}, [profile]);
 
 	return (
-		<View style={style}>
+		<View style={[styles.container, style]}>
+			<View style={styles.addContainer}>
+				<TouchableOpacity
+					style={styles.addButton}
+					onPress={onPressAddFriend}
+					hitSlop={14}
+				>
+					<Plus color={'#ccc'} size={24} strokeWidth="2" />
+				</TouchableOpacity>
+				<Text style={styles.addText}>Add friend</Text>
+			</View>
+
 			{!profile ? (
 				<Text>No profile found</Text>
 			) : loading ? (
@@ -84,8 +102,28 @@ const FriendsFeature: FC<Props> = ({ style, handlePressFriend }) => {
 export default FriendsFeature;
 
 const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		gap: 14,
+	},
 	listContainer: {
 		flexDirection: 'row',
 		gap: 10,
+	},
+	addContainer: {
+		alignItems: 'center',
+	},
+	addButton: {
+		width: 48,
+		height: 48,
+		borderRadius: 48,
+		borderWidth: 1,
+		borderColor: '#e6e6e6',
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#f6f6f6',
+	},
+	addText: {
+		color: '#9f9f9f',
 	},
 });
