@@ -5,13 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 // import { signInWithGoogle } from 'utils/auth';
 
 const OnboardingScreen = () => {
-	const navigation = useNavigation();
+	const { navigate } = useNavigation();
 
 	return (
 		<View style={styles.container}>
-			<OnboardingFeature
-				onDone={() => navigation.navigate('Home' as never)}
-			/>
+			<OnboardingFeature onDone={() => navigate('Home')} />
 		</View>
 	);
 };

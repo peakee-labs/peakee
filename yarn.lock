@@ -5903,7 +5903,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-navigation/native-stack@npm:^6.9.14":
+"@react-navigation/native-stack@npm:^6.9.26":
   version: 6.9.26
   resolution: "@react-navigation/native-stack@npm:6.9.26"
   dependencies:
@@ -5919,7 +5919,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-navigation/native@npm:^6.1.8":
+"@react-navigation/native@npm:^6.1.17":
   version: 6.1.17
   resolution: "@react-navigation/native@npm:6.1.17"
   dependencies:
@@ -15351,8 +15351,8 @@ __metadata:
     "@react-native/babel-preset": "npm:0.73.21"
     "@react-native/metro-config": "npm:0.73.5"
     "@react-native/typescript-config": "npm:0.73.1"
-    "@react-navigation/native": "npm:^6.1.8"
-    "@react-navigation/native-stack": "npm:^6.9.14"
+    "@react-navigation/native": "npm:^6.1.17"
+    "@react-navigation/native-stack": "npm:^6.9.26"
     "@reduxjs/toolkit": "npm:^1.9.6"
     "@types/react": "npm:^18.2.0"
     "@types/react-test-renderer": "npm:^18.0.0"

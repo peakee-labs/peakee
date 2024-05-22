@@ -4,17 +4,18 @@ import { store } from '@peakee/app/state';
 import { UIProvider } from '@peakee/ui';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ChatRoomScreen from 'screens/ChatRoom';
+import ConversationScreen from 'screens/Conversation';
 import ExploreScreen from 'screens/Explore';
 import HomeScreen from 'screens/Home';
 import OnboardingScreen from 'screens/Onboarding';
 import SignInScreen from 'screens/SignIn';
 import Splash from 'screens/Splash';
+import type { RootStackParamList } from 'utils/navigation';
 
 import 'utils/auth';
 import 'react-native-url-polyfill/auto';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 StatusBar.setTranslucent(true);
 StatusBar.setBackgroundColor('transparent');
@@ -29,18 +30,18 @@ function App(): JSX.Element {
 					<Stack.Navigator screenOptions={{ headerShown: false }}>
 						<Stack.Screen name="Splash" component={Splash} />
 						<Stack.Screen name="SignIn" component={SignInScreen} />
-						<Stack.Screen name="Home" component={HomeScreen} />
 						<Stack.Screen
-							name="ChatRoom"
-							component={ChatRoomScreen}
+							name="Onboarding"
+							component={OnboardingScreen}
 						/>
+						<Stack.Screen name="Home" component={HomeScreen} />
 						<Stack.Screen
 							name="Explore"
 							component={ExploreScreen}
 						/>
 						<Stack.Screen
-							name="Onboarding"
-							component={OnboardingScreen}
+							name="Conversation"
+							component={ConversationScreen}
 						/>
 					</Stack.Navigator>
 				</NavigationContainer>

@@ -9,7 +9,7 @@ const SignInScreen = () => {
 	const handleSignIn = async () => {
 		const userCredential = await signInWithGoogle();
 		if (userCredential) {
-			navigation.navigate('Home' as never);
+			navigation.navigate('Home');
 		}
 	};
 
