@@ -1,8 +1,15 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import {
+	ActivityIndicator,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { useDispatch } from 'react-redux';
-import { Avatar, Button } from '@peakee/ui';
+import { Cancel, Check } from '@peakee/icons';
+import { Avatar } from '@peakee/ui';
 
 import { getPublicProfileOfUser, respondFriendRequest } from '../../api';
 import {
@@ -47,22 +54,30 @@ const FriendRequest: FC<Props> = ({ index, request }) => {
 			<Avatar source={{ uri: request.user.imageURL }} />
 
 			<View style={styles.infoContainer}>
-				<Text style={styles.nameText}>{request.user.name}</Text>
-				<Text style={styles.emailText}>{request.user.email}</Text>
+				<Text style={styles.nameText} numberOfLines={1}>
+					{request.user.name}
+				</Text>
+				<Text style={styles.emailText} numberOfLines={1}>
+					{request.user.email}
+				</Text>
 			</View>
 
 			{actionLoading ? (
 				<ActivityIndicator />
 			) : (
-				<View style={styles.buttonsContainer}>
-					<Button
-						title="Accept"
+				<View style={styles.buttonContainer}>
+					<TouchableOpacity
 						onPress={() => handleAcceptRequest('accept')}
-					/>
-					<Button
-						title="Deny"
+						hitSlop={10}
+					>
+						<Check color={'#24B200'} strokeWidth="3" size={24} />
+					</TouchableOpacity>
+					<TouchableOpacity
 						onPress={() => handleAcceptRequest('deny')}
-					/>
+						hitSlop={10}
+					>
+						<Cancel color={'#ff3333'} strokeWidth="3" size={24} />
+					</TouchableOpacity>
 				</View>
 			)}
 		</View>
@@ -75,8 +90,10 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		gap: 10,
+		alignItems: 'center',
 	},
 	infoContainer: {
+		flex: 1,
 		marginRight: 'auto',
 	},
 	nameText: {
@@ -84,9 +101,10 @@ const styles = StyleSheet.create({
 	},
 	emailText: {
 		color: '#4d4d4d',
+		fontSize: 14,
 	},
-	buttonsContainer: {
+	buttonContainer: {
 		flexDirection: 'row',
-		gap: 4,
+		gap: 20,
 	},
 });

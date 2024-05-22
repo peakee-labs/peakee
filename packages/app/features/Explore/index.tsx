@@ -13,6 +13,7 @@ import {
 	type RootState,
 	addExploreCandidate,
 	setExploreProfile,
+	store,
 } from '@peakee/app/state';
 import type { PublicUserProfile, UserExplore } from '@peakee/app/types';
 
@@ -33,7 +34,6 @@ const ExploreFeature: FC = () => {
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
 
-	const { profile } = useSelector((state: RootState) => state.user);
 	const { candidatesMap } = useSelector((state: RootState) => state.explore);
 	const exploreCandidates = useMemo(
 		() => Object.values(candidatesMap),
@@ -42,7 +42,6 @@ const ExploreFeature: FC = () => {
 
 	const handleGetSuggestUser = async () => {
 		try {
-			setLoading(true);
 			const candidates = await getExploreCandidatesForUser();
 			if (!candidates) {
 				return;
@@ -71,20 +70,18 @@ const ExploreFeature: FC = () => {
 	}, []);
 
 	const fetchUserExplore = async () => {
-		if (profile?.id) {
-			const currentExplore = await getExploreProfileOfUser(profile.id);
-			if (currentExplore) {
-				dispatch(setExploreProfile(currentExplore));
-			}
+		const id = store().getState().user.profile?.id;
+		if (!id) throw Error('needed user profile from this screen');
+		const exploreProfile = await getExploreProfileOfUser(id);
+		if (exploreProfile) {
+			dispatch(setExploreProfile(exploreProfile));
 		}
 	};
 
 	useEffect(() => {
-		fetchUserExplore().catch((e) => console.log(e));
-	}, [profile?.id]);
-
-	useEffect(() => {
-		handleGetSuggestUser().catch((e) => console.log(e));
+		setLoading(true);
+		fetchUserExplore();
+		handleGetSuggestUser().then(() => setLoading(false));
 	}, []);
 
 	return (

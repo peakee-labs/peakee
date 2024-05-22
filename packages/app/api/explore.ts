@@ -21,6 +21,6 @@ export async function getExploreCandidatesForUser() {
 		);
 		return explores;
 	} catch (err) {
-		console.log('Error getting explores for user', err);
+		console.log('Error getting suggested profiles', err);
 	}
 }
