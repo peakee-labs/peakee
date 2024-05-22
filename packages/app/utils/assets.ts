@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
 import type { ImageSourcePropType } from 'react-native';
-import { Platform } from 'react-native';
 
 export type AppAssets = {
 	authImage: ImageSourcePropType;
@@ -11,19 +9,8 @@ export type AppAssets = {
 	background: ImageSourcePropType;
 };
 
-let appAssets: AppAssets = {} as never;
+export let assets: AppAssets;
 
-export const initAssets = (assets: AppAssets) => {
-	appAssets = assets;
-};
-
-export const useAssets = () => {
-	const [assets, setAssets] = useState<AppAssets>({} as AppAssets);
-	useEffect(() => {
-		if (window || Platform.OS !== 'web') {
-			setAssets(appAssets);
-		}
-	}, []);
-
-	return { assets };
+export const initAssets = (initAssets: AppAssets) => {
+	assets = initAssets;
 };

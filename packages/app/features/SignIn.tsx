@@ -9,7 +9,7 @@ import {
 	View,
 } from 'react-native';
 
-import { useAssets } from '../utils';
+import { assets } from '../utils';
 
 type Props = {
 	onPressSignIn: () => Promise<void>;
@@ -25,7 +25,6 @@ const SignInFeature: FC<Props> = ({
 	buttonStyle,
 }) => {
 	const [loading, setLoading] = useState(false);
-	const { assets } = useAssets();
 
 	const handlePressSignIn = async () => {
 		setLoading(true);
@@ -39,7 +38,7 @@ const SignInFeature: FC<Props> = ({
 				<Text style={styles.titleText}>Peakee</Text>
 				<Image
 					style={styles.titleImage}
-					source={assets?.authImage}
+					source={assets.authImage}
 					resizeMode="contain"
 				/>
 			</View>
@@ -50,7 +49,7 @@ const SignInFeature: FC<Props> = ({
 					style={[styles.signInButton, buttonStyle]}
 					onPress={handlePressSignIn}
 				>
-					<Image style={styles.googleImage} source={assets?.google} />
+					<Image style={styles.googleImage} source={assets.google} />
 					<Text style={styles.signInText}>Continue with Google</Text>
 				</TouchableOpacity>
 			)}

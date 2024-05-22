@@ -3,12 +3,11 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { type RootState } from '../../../state';
-import { useAssets } from '../../../utils';
+import { assets } from '../../../utils';
 import type { OnboardingProps } from '..';
 
 const OnboardingDone: FC<OnboardingProps> = ({ onNext }) => {
 	const { form } = useSelector((root: RootState) => root.onboarding);
-	const { assets } = useAssets();
 
 	const submitForm = () => {
 		console.log(form);

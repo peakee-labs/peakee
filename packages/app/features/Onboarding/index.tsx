@@ -5,7 +5,7 @@ import { Colors } from '@peakee/ui';
 
 import { postOnboardingForm } from '../../api/onboarding';
 import { type RootState, updateNumber, updateProgress } from '../../state';
-import { useAssets } from '../../utils';
+import { assets } from '../../utils';
 
 import OnboardingDob from './dateOfBirth/index';
 import OnboardingLearning from './language/learning';
@@ -37,7 +37,6 @@ export type Props = {
 
 const OnboardingFeature: FC<Props> = ({ onDone }) => {
 	const dispatch = useDispatch();
-	const { assets } = useAssets();
 	const { form, progress, number } = useSelector(
 		(root: RootState) => root.onboarding,
 	);
@@ -70,7 +69,7 @@ const OnboardingFeature: FC<Props> = ({ onDone }) => {
 						you&apos;ll love. Let&apos;s dive in and get you
 						learning with a twist!
 					</Text>
-					<Image source={assets?.message} style={styles.image} />
+					<Image source={assets.message} style={styles.image} />
 					<View style={styles.footer}>
 						<Text style={styles.footerDescription}>
 							Tap the &apos;Start&apos; to set up your information
