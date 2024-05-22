@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import 'utils/auth';
@@ -6,12 +6,9 @@ import 'utils/auth';
 const Splash = () => {
 	return (
 		<View style={styles.container}>
-			<Animated.Text style={styles.title} entering={FadeInUp}>
-				Peakee
-			</Animated.Text>
-			<Animated.Text style={styles.slogan} entering={FadeInUp.delay(200)}>
-				Use the language to learn
-			</Animated.Text>
+			<Animated.View entering={FadeInUp.duration(500)}>
+				<Text style={styles.title}>Peakee</Text>
+			</Animated.View>
 		</View>
 	);
 };

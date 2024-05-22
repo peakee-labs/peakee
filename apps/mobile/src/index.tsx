@@ -1,3 +1,4 @@
+import { StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from '@peakee/app/state';
 import { UIProvider } from '@peakee/ui';
@@ -15,9 +16,14 @@ import 'react-native-url-polyfill/auto';
 
 const Stack = createNativeStackNavigator();
 
+StatusBar.setTranslucent(true);
+StatusBar.setBackgroundColor('transparent');
+
 function App(): JSX.Element {
 	return (
 		<Provider store={store()}>
+			{/* this StatusBar as a node make animation lag */}
+			{/* <StatusBar translucent backgroundColor={'transparent'} /> */}
 			<UIProvider>
 				<NavigationContainer>
 					<Stack.Navigator screenOptions={{ headerShown: false }}>
