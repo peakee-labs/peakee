@@ -16,11 +16,12 @@ export default NotificationsScreen;
 
 const styles = StyleSheet.create({
 	title: {
-		fontSize: 14,
+		fontSize: 18,
 		fontWeight: '500',
 		marginBottom: 20,
 	},
 	sectionTitle: {
+		fontSize: 20,
 		fontWeight: '500',
 		marginBottom: 10,
 	},
