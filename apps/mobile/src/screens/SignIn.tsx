@@ -8,8 +8,8 @@ const SignInScreen = () => {
 	const navigation = useNavigation();
 
 	const handleSignIn = async () => {
-		const userCredential = await signInWithGoogle();
-		if (userCredential) {
+		const user = await signInWithGoogle();
+		if (user) {
 			navigation.navigate('Home');
 		}
 	};

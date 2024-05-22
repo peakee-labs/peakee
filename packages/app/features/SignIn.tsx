@@ -43,7 +43,9 @@ const SignInFeature: FC<Props> = ({
 				/>
 			</View>
 			{loading ? (
-				<ActivityIndicator />
+				<View style={styles.loadingContainer}>
+					<ActivityIndicator size={'large'} />
+				</View>
 			) : (
 				<TouchableOpacity
 					style={[styles.signInButton, buttonStyle]}
@@ -78,6 +80,9 @@ const styles = StyleSheet.create({
 		width: '100%',
 		height: 160,
 		alignSelf: 'center',
+	},
+	loadingContainer: {
+		height: 54,
 	},
 	signInButton: {
 		flexDirection: 'row',

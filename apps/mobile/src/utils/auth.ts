@@ -27,11 +27,20 @@ export const signInWithGoogle = async () => {
 			userInfo.idToken,
 		);
 
-		const userCredential = await auth().signInWithCredential(
-			googleCredential,
-		);
+		const credential = await auth().signInWithCredential(googleCredential);
+		setJWT(await credential.user.getIdToken());
 
-		return userCredential;
+		const user = await getOrInitUserProfile({
+			name: credential.user.displayName as string,
+			email: credential.user.email as string,
+			imageUrl: credential.user.photoURL as string,
+		});
+
+		if (user) {
+			store().dispatch(setProfile(user));
+		}
+
+		return user;
 	} catch (error) {
 		const err = error as UnknownObject;
 		if (err.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -41,7 +50,7 @@ export const signInWithGoogle = async () => {
 		} else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
 			console.debug('Play services not available');
 		} else {
-			console.debug('Unknown error', err);
+			console.debug('Unknown error', JSON.stringify(err));
 		}
 	}
 };
