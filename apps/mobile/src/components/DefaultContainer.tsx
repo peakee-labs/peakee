@@ -1,15 +1,17 @@
 import type { FC, ReactNode } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaContainer } from '@peakee/ui';
 
 type Props = {
 	children: ReactNode;
+	style?: StyleProp<ViewStyle>;
 };
 
-export const DefaultContainer: FC<Props> = ({ children }) => {
+export const DefaultContainer: FC<Props> = ({ children, style }) => {
 	return (
-		<View style={styles.container}>
-			<SafeAreaContainer>{children}</SafeAreaContainer>
+		<View style={[styles.container]}>
+			<SafeAreaContainer style={style}>{children}</SafeAreaContainer>
 		</View>
 	);
 };

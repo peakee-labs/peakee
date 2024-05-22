@@ -1,12 +1,12 @@
 import type { FC, ReactNode } from 'react';
-import type { ViewStyle } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { View } from 'react-native';
 import type { EdgeInsets } from 'react-native-safe-area-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface Props {
 	children: ReactNode;
-	style?: ViewStyle;
+	style?: StyleProp<ViewStyle>;
 	minInsets?: EdgeInsets;
 }
 
