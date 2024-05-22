@@ -22,10 +22,12 @@ export const setDefaultProps = (Component: any, defaultProps: any) => {
 setDefaultProps(Text, {
 	style: {
 		color: '#000',
+		fontSize: 16,
 	},
 });
 setDefaultProps(TextInput, {
 	style: {
 		color: '#000',
+		fontSize: 16,
 	},
 });
