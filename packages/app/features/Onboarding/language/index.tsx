@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
 		gap: 10,
 	},
 	title: {
-		color: '#000000',
 		fontSize: 28,
 		fontWeight: '600',
 	},

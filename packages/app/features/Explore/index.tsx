@@ -127,17 +127,14 @@ const styles = StyleSheet.create({
 	h1: {
 		fontSize: 40,
 		fontWeight: '700',
-		color: '#000000',
 	},
 	h2: {
 		fontSize: 28,
 		fontWeight: '600',
-		color: '#000000',
 	},
 	h3: {
 		fontSize: 18,
 		fontWeight: '600',
-		color: '#000000',
 	},
 	randomChatButton: {
 		backgroundColor: '#FE9E00',

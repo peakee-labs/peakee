@@ -250,7 +250,6 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 0,
 		paddingVertical: 0,
 		outlineStyle: 'none',
-		color: '#000000',
 		rows: 5,
 	} as never,
 	clearButton: {
@@ -258,9 +257,7 @@ const styles = StyleSheet.create({
 		bottom: -20,
 		right: 0,
 	},
-	clearText: {
-		color: '#000000',
-	},
+	clearText: {},
 	translatedContainer: {
 		minHeight: 80,
 		maxHeight: 200,
@@ -269,6 +266,5 @@ const styles = StyleSheet.create({
 	translated: {
 		fontSize: 24,
 		fontWeight: '300',
-		color: '#000000',
 	},
 });

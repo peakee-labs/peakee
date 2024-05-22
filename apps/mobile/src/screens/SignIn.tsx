@@ -1,5 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import SignInFeature from '@peakee/app/features/SignIn';
+import { SafeAreaContainer } from '@peakee/ui';
 import { useNavigation } from '@react-navigation/native';
 import { signInWithGoogle } from 'utils/auth';
 
@@ -14,12 +15,11 @@ const SignInScreen = () => {
 	};
 
 	return (
-		<SignInFeature
-			style={styles.container}
-			titleContainerStyle={styles.titleContainer}
-			buttonStyle={styles.signInButton}
-			onPressSignIn={handleSignIn}
-		/>
+		<View style={styles.container}>
+			<SafeAreaContainer>
+				<SignInFeature onPressSignIn={handleSignIn} />
+			</SafeAreaContainer>
+		</View>
 	);
 };
 
@@ -31,9 +31,4 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		backgroundColor: '#FFFFFF',
 	},
-	titleContainer: {
-		flex: 1,
-		justifyContent: 'center',
-	},
-	signInButton: {},
 });

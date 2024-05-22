@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
 	name: {
 		fontSize: 16,
 		fontWeight: '500',
-		color: '#000000',
 	},
 	id: {
 		fontSize: 12,

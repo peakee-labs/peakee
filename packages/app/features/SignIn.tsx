@@ -34,7 +34,7 @@ const SignInFeature: FC<Props> = ({
 	};
 
 	return (
-		<View style={style}>
+		<View style={[styles.container, style]}>
 			<View style={[styles.titleContainer, titleContainerStyle]}>
 				<Text style={styles.titleText}>Peakee</Text>
 				<Image
@@ -61,7 +61,12 @@ const SignInFeature: FC<Props> = ({
 export default SignInFeature;
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
 	titleContainer: {
+		flex: 1,
+		justifyContent: 'center',
 		gap: 60,
 	},
 	titleText: {

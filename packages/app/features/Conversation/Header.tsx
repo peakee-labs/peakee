@@ -123,7 +123,6 @@ const styles = StyleSheet.create({
 	},
 	name: {
 		fontWeight: '600',
-		color: '#000000',
 	},
 	description: {
 		fontSize: 12,

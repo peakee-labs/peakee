@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
 	base: {
 		flex: 1,
 		height: 10,
-		borderColor: '#000000',
 		borderRadius: 10,
 	},
 	active: {
