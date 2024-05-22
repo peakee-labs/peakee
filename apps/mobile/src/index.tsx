@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { store } from '@peakee/app/state';
@@ -26,8 +26,10 @@ import 'react-native-url-polyfill/auto';
 const Stack = createStackNavigator<RootStackParamList>();
 const HomeTab = createMaterialTopTabNavigator<HomeTabParamList>();
 
-StatusBar.setTranslucent(true);
-StatusBar.setBackgroundColor('transparent');
+if (Platform.OS === 'android') {
+	StatusBar.setTranslucent(true);
+	StatusBar.setBackgroundColor('transparent');
+}
 
 function App(): JSX.Element {
 	return (
