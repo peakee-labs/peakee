@@ -1,5 +1,8 @@
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {
+	SafeAreaProvider,
+	useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { store } from '@peakee/app/state';
 import { UIProvider } from '@peakee/ui';
@@ -69,9 +72,21 @@ function App(): JSX.Element {
 }
 
 const HomeTabStack = () => {
+	const insets = useSafeAreaInsets();
+
 	return (
 		<HomeTab.Navigator
-			screenOptions={homeTabOptions}
+			style={{ backgroundColor: '#fff' }}
+			screenOptions={homeTabOptions({
+				tabBarStyle: {
+					elevation: 0, // for Android
+					shadowOffset: {
+						width: 0,
+						height: 0, // for iOS
+					},
+					marginBottom: insets.bottom,
+				},
+			})}
 			tabBarPosition="bottom"
 		>
 			<HomeTab.Screen name="Conversations" component={HomeScreen} />
