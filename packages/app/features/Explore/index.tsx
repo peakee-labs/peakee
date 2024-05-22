@@ -98,7 +98,7 @@ const ExploreFeature: FC = () => {
 				/>
 			) : (
 				<View style={{ flex: 1 }}>
-					<ActivityIndicator />
+					<ActivityIndicator size={'large'} />
 				</View>
 			)}
 		</View>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
 		fontWeight: '700',
 	},
 	h2: {
-		fontSize: 28,
+		fontSize: 24,
 		fontWeight: '600',
 	},
 	h3: {
