@@ -79,10 +79,10 @@ const HomeTabStack = () => {
 			style={{ backgroundColor: '#fff' }}
 			screenOptions={homeTabOptions({
 				tabBarStyle: {
-					elevation: 0, // for Android
+					elevation: 8, // for Android
 					shadowOffset: {
 						width: 0,
-						height: 0, // for iOS
+						height: -0.5, // for iOS
 					},
 					marginBottom: insets.bottom,
 				},
