@@ -22,10 +22,13 @@ export type RootStackParamList = {
 	SignIn: undefined;
 	Onboarding: undefined;
 	Home: NavigatorScreenParams<HomeTabParamList>;
+	Conversation: {
+		conversationId: string;
+	};
 };
 
 export type HomeTabParamList = {
-	Conversations: undefined;
+	Chat: undefined;
 	Explore: undefined;
 	Practice: undefined;
 	Notifications: undefined;
@@ -67,7 +70,7 @@ export const TabIcon = ({
 	route: RouteProp<HomeTabParamList>;
 }) => {
 	let Icon: FC<IconProps>;
-	if (route.name === 'Conversations') {
+	if (route.name === 'Chat') {
 		Icon = Message;
 	} else if (route.name === 'Explore') {
 		Icon = Users;

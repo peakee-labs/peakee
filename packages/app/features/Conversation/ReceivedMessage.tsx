@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Animated, { LinearTransition } from 'react-native-reanimated';
 
 import { TranslatableText } from '../../components';
 
@@ -10,13 +9,13 @@ interface Props {
 
 export const ReceivedMessage: FC<Props> = ({ message }) => {
 	return (
-		<Animated.View layout={LinearTransition} style={styles.container}>
+		<View style={styles.container}>
 			<View style={styles.textContainer}>
 				<TranslatableText style={styles.text}>
 					{message}
 				</TranslatableText>
 			</View>
-		</Animated.View>
+		</View>
 	);
 };
 
@@ -24,10 +23,11 @@ export default ReceivedMessage;
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		alignSelf: 'flex-start',
+		paddingLeft: 4,
 	},
 	textContainer: {
-		flex: 1,
 		backgroundColor: '#F2F7FB',
 		paddingVertical: 10,
 		paddingHorizontal: 18,

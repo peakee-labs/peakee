@@ -7,6 +7,7 @@ import {
 	Platform,
 	StyleSheet,
 } from 'react-native';
+import Animated, { LinearTransition } from 'react-native-reanimated';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createNewIndividualConversation, getMessages } from '../../api';
@@ -132,16 +133,18 @@ export const ConversationFeature: FC<Props> = ({ id, style, onPressBack }) => {
 	};
 
 	const renderMessage = ({ item: message }: { item: Message }) => {
-		if (message.senderId === userId) {
-			return (
-				<SentMessage
-					message={message.content}
-					status={message.status as never}
-				/>
-			);
-		} else {
-			return <ReceivedMessage message={message.content} />;
-		}
+		return (
+			<Animated.View layout={LinearTransition}>
+				{message.senderId === userId ? (
+					<SentMessage
+						message={message.content}
+						status={message.status as never}
+					/>
+				) : (
+					<ReceivedMessage message={message.content} />
+				)}
+			</Animated.View>
+		);
 	};
 
 	useEffect(() => {
@@ -186,6 +189,7 @@ const styles = StyleSheet.create({
 	},
 	flatListContainer: {
 		flex: 1,
+		marginBottom: 10,
 	},
 	flatListContentContainer: {
 		flexGrow: 1,

@@ -20,13 +20,13 @@ import Friend from './Friend';
 
 type Props = {
 	style?: StyleProp<ViewStyle>;
-	handlePressFriend?: (friend: PublicUserProfile) => void;
+	onPressFriend?: (friend: PublicUserProfile) => void;
 	onPressAddFriend?: () => void;
 };
 
 const FriendsFeature: FC<Props> = ({
 	style,
-	handlePressFriend,
+	onPressFriend,
 	onPressAddFriend,
 }) => {
 	const { profile, friendsMap } = useSelector(
@@ -44,7 +44,7 @@ const FriendsFeature: FC<Props> = ({
 			return (
 				<Friend
 					profile={friend}
-					onPress={() => handlePressFriend?.(friend)}
+					onPress={() => onPressFriend?.(friend)}
 				/>
 			);
 		},

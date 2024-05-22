@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Animated, { LinearTransition } from 'react-native-reanimated';
 import { Circle, CircleCheck } from '@peakee/icons';
 
 import { TranslatableText } from '../../components';
@@ -12,7 +11,7 @@ interface Props {
 
 export const SentMessage: FC<Props> = ({ message, status }) => {
 	return (
-		<Animated.View layout={LinearTransition} style={styles.container}>
+		<View style={styles.container}>
 			<View style={styles.textContainer}>
 				<TranslatableText style={styles.text}>
 					{message}
@@ -23,7 +22,7 @@ export const SentMessage: FC<Props> = ({ message, status }) => {
 			) : status === 'delivered' ? (
 				<CircleCheck size={14} color={'#c4c2c2'} strokeWidth="3" />
 			) : null}
-		</Animated.View>
+		</View>
 	);
 };
 
@@ -31,13 +30,13 @@ export default SentMessage;
 
 const styles = StyleSheet.create({
 	container: {
-		alignSelf: 'flex-end',
+		flex: 1,
 		flexDirection: 'row',
+		justifyContent: 'flex-end',
 		alignItems: 'flex-end',
 		gap: 2,
 	},
 	textContainer: {
-		flex: 1,
 		backgroundColor: '#FF7701',
 		paddingVertical: 10,
 		paddingHorizontal: 18,

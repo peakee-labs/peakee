@@ -34,7 +34,8 @@ const Home: FC = () => {
 					<View style={styles.quoteContainer}>
 						<Quote color={'#FF9F00'} size={16} strokeWidth="1.5" />
 						<Text style={styles.quoteText}>
-							Hello {user?.name}! Welcome to Peakee world
+							Hello {user?.name as string}! Welcome to Peakee
+							world
 						</Text>
 					</View>
 				</View>
@@ -43,7 +44,7 @@ const Home: FC = () => {
 			<Text style={styles.subHeader}>Friends</Text>
 			<FriendsFeature
 				style={styles.friendsContainer}
-				handlePressFriend={startConversationWithFriend}
+				onPressFriend={startConversationWithFriend}
 			/>
 
 			<Text style={styles.subHeader}>Conversations</Text>

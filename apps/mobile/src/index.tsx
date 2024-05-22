@@ -9,6 +9,7 @@ import { UIProvider } from '@peakee/ui';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import ConversationScreen from 'screens/Conversation';
 import ExploreScreen from 'screens/Explore';
 import HomeScreen from 'screens/Home';
 import NotificationsScreen from 'screens/Notifications';
@@ -62,6 +63,10 @@ function App(): JSX.Element {
 									name="Home"
 									component={HomeTabStack}
 								/>
+								<Stack.Screen
+									name="Conversation"
+									component={ConversationScreen}
+								/>
 							</Stack.Navigator>
 						</NavigationContainer>
 					</UIProvider>
@@ -89,7 +94,7 @@ const HomeTabStack = () => {
 			})}
 			tabBarPosition="bottom"
 		>
-			<HomeTab.Screen name="Conversations" component={HomeScreen} />
+			<HomeTab.Screen name="Chat" component={HomeScreen} />
 			<HomeTab.Screen name="Explore" component={ExploreScreen} />
 			<HomeTab.Screen name="Practice" component={PracticeScreen} />
 			<HomeTab.Screen

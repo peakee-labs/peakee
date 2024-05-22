@@ -4,14 +4,14 @@ import type {
 	NativeSyntheticEvent,
 	TextInputContentSizeChangeEventData,
 } from 'react-native';
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import {
-	Camera,
-	ChevronRight,
-	Photo,
-	SendIcon,
-	Translate,
-} from '@peakee/icons';
+	Platform,
+	StyleSheet,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from 'react-native';
+import { ChevronRight, SendIcon, Translate } from '@peakee/icons';
 import { translate } from '@peakee/utils';
 
 interface Props {
@@ -72,12 +72,12 @@ export const Input: FC<Props> = ({ onPressSend }) => {
 					<TouchableOpacity onPress={handlePressTranslate}>
 						<Translate
 							size={20}
-							color="#000000"
-							strokeWidth="1.6"
+							color="#979797"
+							strokeWidth="2.5"
 						/>
 					</TouchableOpacity>
-					<Camera size={20} color="#000000" strokeWidth="1.6" />
-					<Photo size={20} color="#000000" strokeWidth="1.6" />
+					{/* <Camera size={20} color="#979797" strokeWidth="2.5" />
+					<Photo size={20} color="#979797" strokeWidth="2.5" /> */}
 				</View>
 			)}
 
@@ -86,11 +86,12 @@ export const Input: FC<Props> = ({ onPressSend }) => {
 					<TouchableOpacity
 						style={styles.openFeaturesButton}
 						onPress={openFeatures}
+						hitSlop={14}
 					>
 						<ChevronRight
 							size={20}
-							color="#000000"
-							strokeWidth="1.6"
+							color="#979797"
+							strokeWidth="3"
 						/>
 					</TouchableOpacity>
 				)}
@@ -98,8 +99,13 @@ export const Input: FC<Props> = ({ onPressSend }) => {
 				<TextInput
 					value={message}
 					onChangeText={handleOnChangeText}
-					style={[styles.input, { height: Math.max(height, 30) }]}
+					style={[
+						styles.input,
+						Platform.OS === 'web' && styles.inputWeb,
+						{ height: Math.max(height, 36) },
+					]}
 					placeholder="Type a message..."
+					placeholderTextColor={'#9c9c9c'}
 					onSubmitEditing={handleSendMessage}
 					blurOnSubmit={false}
 					enablesReturnKeyAutomatically
@@ -112,7 +118,7 @@ export const Input: FC<Props> = ({ onPressSend }) => {
 					style={styles.sendButton}
 					onPress={handleSendMessage}
 				>
-					<SendIcon size={20} color={'#000000'} strokeWidth="1.6" />
+					<SendIcon size={20} color={'#979797'} strokeWidth="3" />
 				</TouchableOpacity>
 			</View>
 		</View>
@@ -126,8 +132,10 @@ const styles = StyleSheet.create({
 		gap: 12,
 		flexDirection: 'row',
 		paddingHorizontal: 14,
-		paddingVertical: 10,
+		paddingVertical: 8,
 		backgroundColor: '#FFFFFF',
+		borderTopWidth: 1,
+		borderTopColor: '#ededed',
 	},
 	openFeaturesButton: {
 		height: 32,
@@ -135,6 +143,7 @@ const styles = StyleSheet.create({
 	},
 	featuresContainer: {
 		flexDirection: 'row',
+		alignItems: 'center',
 		gap: 8,
 	},
 	inputContainer: {
@@ -149,9 +158,11 @@ const styles = StyleSheet.create({
 		backgroundColor: '#F3F6F6',
 		paddingVertical: 6,
 		paddingHorizontal: 10,
-		borderRadius: 18,
-		outlineStyle: 'none',
+		borderRadius: 40,
 		maxHeight: 140,
+	},
+	inputWeb: {
+		outlineStyle: 'none',
 	} as never,
 	sendButton: {
 		height: 32,

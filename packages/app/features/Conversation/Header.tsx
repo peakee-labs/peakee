@@ -6,7 +6,7 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import { MoveLeft, Phone, VerticalDots } from '@peakee/icons';
+import { ChevronLeft } from '@peakee/icons';
 import { Avatar } from '@peakee/ui';
 
 import { store } from '../../state';
@@ -64,13 +64,21 @@ export const Header: FC<Props> = ({ conversation, onPressBack }) => {
 					<TouchableOpacity
 						style={styles.backButton}
 						onPress={onPressBack}
+						hitSlop={14}
 					>
-						<MoveLeft size={20} color={'#000000'} />
+						<ChevronLeft
+							size={20}
+							strokeWidth="3"
+							color={'#979797'}
+						/>
 					</TouchableOpacity>
 
 					{metadata ? (
 						<View style={styles.infoBlock}>
-							<Avatar source={{ uri: metadata?.image }} />
+							<Avatar
+								size={52}
+								source={{ uri: metadata?.image }}
+							/>
 							<View style={styles.textContainer}>
 								<Text style={styles.name}>
 									{metadata?.name}
@@ -85,8 +93,8 @@ export const Header: FC<Props> = ({ conversation, onPressBack }) => {
 					)}
 
 					<View style={styles.iconsBlock}>
-						<Phone size={20} color="#000000" />
-						<VerticalDots size={20} color="#000000" />
+						{/* <Phone size={20} color="#000000" />
+						<VerticalDots size={20} color="#000000" /> */}
 					</View>
 				</View>
 			)}
@@ -122,10 +130,10 @@ const styles = StyleSheet.create({
 		gap: 2,
 	},
 	name: {
+		fontSize: 18,
 		fontWeight: '600',
 	},
 	description: {
-		fontSize: 12,
 		color: '#7A7A7A',
 	},
 	iconsBlock: {

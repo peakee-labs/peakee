@@ -1,5 +1,5 @@
 import Config from 'react-native-config';
-import { resolveInitAuthPromise } from '@peakee/app';
+import { initWebsocketWithProfile, resolveInitAuthPromise } from '@peakee/app';
 import { getOrInitUserProfile, setJWT } from '@peakee/app/api';
 import {
 	resetChatState,
@@ -68,6 +68,7 @@ auth().onIdTokenChanged(async (authUser) => {
 	if (authUser) {
 		const jwt = await authUser.getIdToken();
 		if (jwt) setJWT(jwt);
+		initWebsocketWithProfile(authUser.uid, jwt);
 
 		const currentUserState = store().getState().user.profile;
 		if (currentUserState) return;
