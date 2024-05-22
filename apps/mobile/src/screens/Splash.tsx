@@ -1,13 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, runOnJS } from 'react-native-reanimated';
 import { initAuthPromise } from '@peakee/app';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import 'utils/auth';
 
 const Splash = () => {
-	const { navigate } = useNavigation();
+	const { navigate, reset } = useNavigation();
+	const firstRender = useRef(true);
 	const resolveAnimationRef = useRef(() => ({}));
 	const animationRef = useRef(
 		new Promise((resolve) => {
@@ -29,9 +30,18 @@ const Splash = () => {
 			]);
 			if (!user) navigate('SignIn');
 			else navigate('Home', { screen: 'Conversations' });
+			firstRender.current = false;
 		};
 		initApp();
 	}, []);
+
+	useFocusEffect(
+		useCallback(() => {
+			if (!firstRender.current) {
+				reset({ routes: [{ name: 'Splash' }] });
+			}
+		}, []),
+	);
 
 	return (
 		<View style={styles.container}>
