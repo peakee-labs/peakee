@@ -28,7 +28,7 @@ const Splash = () => {
 				animationRef.current,
 			]);
 			if (!user) navigate('SignIn');
-			else navigate('Home');
+			else navigate('Home', { screen: 'Conversations' });
 		};
 		initApp();
 	}, []);

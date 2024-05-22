@@ -1085,7 +1085,11 @@ PODS:
     - React-Core
   - react-native-date-picker (5.0.0):
     - React-Core
-  - react-native-safe-area-context (4.9.0):
+  - react-native-pager-view (6.3.1):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
+  - react-native-safe-area-context (4.10.1):
     - React-Core
   - React-nativeconfig (0.73.6)
   - React-NativeModulesApple (0.73.6):
@@ -1268,7 +1272,7 @@ PODS:
     - Firebase/Auth (= 10.20.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.16.0):
+  - RNGestureHandler (2.16.2):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1349,6 +1353,7 @@ DEPENDENCIES:
   - React-Mapbuffer (from `../../../node_modules/react-native/ReactCommon`)
   - react-native-config (from `../../../node_modules/react-native-config`)
   - react-native-date-picker (from `../../../node_modules/react-native-date-picker`)
+  - react-native-pager-view (from `../../../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../../../node_modules/react-native-safe-area-context`)
   - React-nativeconfig (from `../../../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../../../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
@@ -1474,6 +1479,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native-config"
   react-native-date-picker:
     :path: "../../../node_modules/react-native-date-picker"
+  react-native-pager-view:
+    :path: "../../../node_modules/react-native-pager-view"
   react-native-safe-area-context:
     :path: "../../../node_modules/react-native-safe-area-context"
   React-nativeconfig:
@@ -1596,7 +1603,8 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 84ea43c6c6232049135b1550b8c60b2faac19fab
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-date-picker: 656d78c3f8a5e79bc1642b8d1c587ce10aab2195
-  react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
+  react-native-pager-view: f1e72cb827406f1b49f007ab07400197d421b6e7
+  react-native-safe-area-context: dcab599c527c2d7de2d76507a523d20a0b83823d
   React-nativeconfig: b4d4e9901d4cabb57be63053fd2aa6086eb3c85f
   React-NativeModulesApple: cd26e56d56350e123da0c1e3e4c76cb58a05e1ee
   React-perflogger: 5f49905de275bac07ac7ea7f575a70611fa988f2
@@ -1623,7 +1631,7 @@ SPEC CHECKSUMS:
   RNDateTimePicker: 7b38b71bcd7c4cfa1cb95f2dff9a4f1faed2dced
   RNFBApp: 9b25191f7a5e72c185b7e43fffb0d906869c4659
   RNFBAuth: 95acca18353778903885b2b25c25ddb81c050fed
-  RNGestureHandler: bc2cdb2dc42facdf34992ae364b8a728e19a3686
+  RNGestureHandler: 96439cf6543defdde87459e48cd1a3f0e45a008e
   RNGoogleSignin: aac5c1ec73422109dec1da770247a1e410dcc620
   RNReanimated: d9219596344fd0118d20f614b4e05124860b554f
   RNScreens: b6b64d956af3715adbfe84808694ae82d3fec74f

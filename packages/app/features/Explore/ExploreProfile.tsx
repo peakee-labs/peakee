@@ -28,7 +28,7 @@ const ExploreProfile: FC<Props> = ({ profile, explore }) => {
 						<Text>{explore.like | 0}</Text>
 					</View>
 				</View>
-				<View style={styles.inforContainer}>
+				<View style={styles.infoContainer}>
 					<View style={{ ...styles.infoHeader }}>
 						<Text
 							style={styles.name}
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
 		gap: 3,
 		justifyContent: 'center',
 	},
-	inforContainer: {
+	infoContainer: {
 		display: 'flex',
 		flexDirection: 'column',
 		height: '100%',

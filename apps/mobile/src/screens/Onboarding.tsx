@@ -1,5 +1,5 @@
-import { StyleSheet, View } from 'react-native';
 import OnboardingFeature from '@peakee/app/features/Onboarding';
+import { SafeAreaContainer } from '@peakee/ui';
 // import SignInFeature from '@peakee/app/features/SignIn';
 import { useNavigation } from '@react-navigation/native';
 // import { signInWithGoogle } from 'utils/auth';
@@ -8,16 +8,12 @@ const OnboardingScreen = () => {
 	const { navigate } = useNavigation();
 
 	return (
-		<View style={styles.container}>
-			<OnboardingFeature onDone={() => navigate('Home')} />
-		</View>
+		<SafeAreaContainer>
+			<OnboardingFeature
+				onDone={() => navigate('Home', { screen: 'Conversations' })}
+			/>
+		</SafeAreaContainer>
 	);
 };
 
 export default OnboardingScreen;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-	},
-});

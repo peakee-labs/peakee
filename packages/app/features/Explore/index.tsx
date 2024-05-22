@@ -115,9 +115,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		gap: 16,
 		justifyContent: 'space-between',
-		backgroundColor: '#FFFFFF',
-		paddingHorizontal: 20,
-		paddingTop: 5,
 	},
 	exploreList: {
 		flex: 1,
