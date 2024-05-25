@@ -62,6 +62,15 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 		setRenderNext(false);
 	};
 
+	const handleNext = () => {
+		handleOk();
+	};
+
+	const handleBack = () => {
+		setCurrentIndex((idx) => idx + 1);
+		setRenderNext(false);
+	};
+
 	useEffect(() => {
 		setTimeout(() => {
 			if (!currentCardRef.current || !cardContainerRef.current) return;
@@ -132,10 +141,16 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 			</View>
 
 			<View style={styles.navigateContainer}>
-				<TouchableOpacity style={styles.backButton}>
+				<TouchableOpacity
+					style={styles.backButton}
+					onPress={handleBack}
+				>
 					<ChevronLeft size={40} strokeWidth="3" color={'#FE7E38'} />
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.nextButton}>
+				<TouchableOpacity
+					style={styles.nextButton}
+					onPress={handleNext}
+				>
 					<ChevronRight size={40} strokeWidth="3" color={'#FE7E38'} />
 				</TouchableOpacity>
 			</View>
