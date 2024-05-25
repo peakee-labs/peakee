@@ -1,10 +1,11 @@
-import { type FC } from 'react';
-import { StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
+import { type FC, useState } from 'react';
+import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
-	interpolate,
+	runOnJS,
 	useAnimatedStyle,
-	useDerivedValue,
 	useSharedValue,
+	withSpring,
 	withTiming,
 } from 'react-native-reanimated';
 
@@ -13,15 +14,37 @@ type Props = {
 	back: string;
 };
 
-export const Flashcard: FC<Props> = ({ front }) => {
+export const Flashcard: FC<Props> = ({ front, back }) => {
+	const xOffset = useSharedValue(0);
+	const yOffset = useSharedValue(0);
 	const yRotate = useSharedValue(0);
-	const rotation = useDerivedValue(() => {
-		return interpolate(yRotate.value, [0, 360], [0, 360]);
+	const [isFront, setIsFront] = useState(true);
+
+	const pan = Gesture.Pan()
+		.onChange((e) => {
+			xOffset.value = e.translationX;
+			yOffset.value = e.translationY;
+		})
+		.onFinalize(() => {
+			xOffset.value = withSpring(0);
+			yOffset.value = withSpring(0);
+		});
+
+	const animatedViewStyle = useAnimatedStyle(() => {
+		return {
+			transform: [
+				{ rotateY: yRotate.value + 'deg' },
+				{ translateX: xOffset.value },
+				{ translateY: yOffset.value },
+			],
+		};
 	});
 
-	const animatedStyle = useAnimatedStyle(() => {
+	const animatedTextStyle = useAnimatedStyle(() => {
+		if (yRotate.value >= 90) runOnJS(setIsFront)(false);
+		else runOnJS(setIsFront)(true);
 		return {
-			transform: [{ rotateY: rotation.value + 'deg' }],
+			transform: [{ rotateY: yRotate.value + 'deg' }],
 		};
 	});
 
@@ -34,11 +57,21 @@ export const Flashcard: FC<Props> = ({ front }) => {
 	};
 
 	return (
-		<TouchableWithoutFeedback style={styles.container} onPress={flip}>
-			<Animated.View style={[styles.container, animatedStyle]}>
-				<Text style={styles.title}>{front}</Text>
-			</Animated.View>
-		</TouchableWithoutFeedback>
+		<GestureDetector gesture={pan}>
+			<TouchableWithoutFeedback style={styles.container} onPress={flip}>
+				<Animated.View style={[styles.container, animatedViewStyle]}>
+					<Animated.Text
+						style={[
+							styles.title,
+							animatedTextStyle,
+							!isFront && styles.back,
+						]}
+					>
+						{isFront ? front : back}
+					</Animated.Text>
+				</Animated.View>
+			</TouchableWithoutFeedback>
+		</GestureDetector>
 	);
 };
 
@@ -58,5 +91,12 @@ const styles = StyleSheet.create({
 		fontWeight: '600',
 		textAlign: 'center',
 		color: '#004040',
+	},
+	back: {
+		transform: [
+			{
+				rotateY: '180deg',
+			},
+		],
 	},
 });
