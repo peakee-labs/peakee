@@ -32,6 +32,7 @@
         "react-hook-form": "^7.51.0",
         "react-native": "^0.73.6",
         "react-native-avoid-softinput": "^5.0.0",
+        "react-native-circular-progress": "^1.4.0",
         "react-native-config": "^1.5.1",
         "react-native-country-flag": "^2.0.2",
         "react-native-date-picker": "^5.0.0",
