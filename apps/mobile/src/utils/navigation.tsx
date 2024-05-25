@@ -22,6 +22,7 @@ export type RootStackParamList = {
 	SignIn: undefined;
 	Onboarding: undefined;
 	Home: NavigatorScreenParams<HomeTabParamList>;
+	PracticeStack: NavigatorScreenParams<PracticeParamList>;
 	Conversation: {
 		conversationId: string;
 	};
@@ -33,6 +34,12 @@ export type HomeTabParamList = {
 	Practice: undefined;
 	Notifications: undefined;
 	Settings: undefined;
+};
+
+export type PracticeParamList = {
+	Flashcard: {
+		collectionId: string;
+	};
 };
 
 type TabOptionsFunction = (props: {

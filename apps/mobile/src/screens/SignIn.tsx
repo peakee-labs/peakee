@@ -10,7 +10,7 @@ const SignInScreen = () => {
 	const handleSignIn = async () => {
 		const user = await signInWithGoogle();
 		if (user) {
-			navigation.navigate('Home', { screen: 'Conversations' });
+			navigation.navigate('Home', { screen: 'Chat' });
 		}
 	};
 

@@ -9,6 +9,7 @@ type Props = {
 	description: string;
 	reviewedCardCount: number;
 	totalCardCount: number;
+	onPressReview?: () => void;
 };
 
 export const FlashcardPreview: FC<Props> = ({
@@ -16,6 +17,7 @@ export const FlashcardPreview: FC<Props> = ({
 	description,
 	reviewedCardCount,
 	totalCardCount,
+	onPressReview,
 }) => {
 	const percent = (reviewedCardCount * 100) / totalCardCount;
 
@@ -24,7 +26,11 @@ export const FlashcardPreview: FC<Props> = ({
 			<View style={styles.contentContainer}>
 				<Text style={styles.title}>{name}</Text>
 				<Text style={styles.description}>{description}</Text>
-				<Button style={styles.reviewButton} title="Review" />
+				<Button
+					style={styles.reviewButton}
+					title="Review"
+					onPress={onPressReview}
+				/>
 			</View>
 			<ProcessCircle
 				title="Flashcard"

@@ -1,4 +1,5 @@
 export * from './components/Arrow';
+export * from './components/BackCircle';
 export * from './components/Book';
 export * from './components/Camera';
 export * from './components/Cancel';

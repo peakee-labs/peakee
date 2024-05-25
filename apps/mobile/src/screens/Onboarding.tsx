@@ -10,7 +10,7 @@ const OnboardingScreen = () => {
 	return (
 		<SafeAreaContainer>
 			<OnboardingFeature
-				onDone={() => navigate('Home', { screen: 'Conversations' })}
+				onDone={() => navigate('Home', { screen: 'Chat' })}
 			/>
 		</SafeAreaContainer>
 	);

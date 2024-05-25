@@ -16,9 +16,11 @@ import HomeScreen from 'screens/Home';
 import NotificationsScreen from 'screens/Notifications';
 import OnboardingScreen from 'screens/Onboarding';
 import PracticeScreen from 'screens/Practice';
+import FlashcardScreen from 'screens/Practice/Flashcard';
 import SettingsScreen from 'screens/Settings';
 import SignInScreen from 'screens/SignIn';
 import Splash from 'screens/Splash';
+import type { PracticeParamList } from 'utils/navigation';
 import {
 	type HomeTabParamList,
 	type RootStackParamList,
@@ -30,6 +32,7 @@ import 'react-native-url-polyfill/auto';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const HomeTab = createMaterialTopTabNavigator<HomeTabParamList>();
+const PracticeStack = createStackNavigator<PracticeParamList>();
 
 if (Platform.OS === 'android') {
 	StatusBar.setTranslucent(true);
@@ -40,42 +43,46 @@ function App(): JSX.Element {
 	return (
 		<View style={styles.container}>
 			<GestureHandlerRootView style={styles.gestureContainer}>
-				<ModalProvider>
-					<SafeAreaProvider>
-						{/* this StatusBar as a node make animation lag */}
-						{/* <StatusBar translucent backgroundColor={'transparent'} /> */}
-						{/* <UIProvider> */}
-						<Provider store={store()}>
-							<NavigationContainer>
-								<Stack.Navigator
-									screenOptions={{ headerShown: false }}
-								>
-									<Stack.Screen
-										name="Splash"
-										component={Splash}
-									/>
-									<Stack.Screen
-										name="SignIn"
-										component={SignInScreen}
-									/>
-									<Stack.Screen
-										name="Onboarding"
-										component={OnboardingScreen}
-									/>
-									<Stack.Screen
-										name="Home"
-										component={HomeTabStack}
-									/>
-									<Stack.Screen
-										name="Conversation"
-										component={ConversationScreen}
-									/>
-								</Stack.Navigator>
-							</NavigationContainer>
-						</Provider>
-						{/* </UIProvider> */}
-					</SafeAreaProvider>
-				</ModalProvider>
+				{/* <ModalProvider> */}
+				<SafeAreaProvider>
+					{/* this StatusBar as a node make animation lag */}
+					{/* <StatusBar translucent backgroundColor={'transparent'} /> */}
+					{/* <UIProvider> */}
+					<Provider store={store()}>
+						<NavigationContainer>
+							<Stack.Navigator
+								screenOptions={{ headerShown: false }}
+							>
+								<Stack.Screen
+									name="Splash"
+									component={Splash}
+								/>
+								<Stack.Screen
+									name="SignIn"
+									component={SignInScreen}
+								/>
+								<Stack.Screen
+									name="Onboarding"
+									component={OnboardingScreen}
+								/>
+								<Stack.Screen
+									name="Home"
+									component={HomeTabStack}
+								/>
+								<Stack.Screen
+									name="PracticeStack"
+									component={RootPracticeStack}
+								/>
+								<Stack.Screen
+									name="Conversation"
+									component={ConversationScreen}
+								/>
+							</Stack.Navigator>
+						</NavigationContainer>
+					</Provider>
+					{/* </UIProvider> */}
+				</SafeAreaProvider>
+				{/* </ModalProvider> */}
 			</GestureHandlerRootView>
 		</View>
 	);
@@ -108,6 +115,17 @@ const HomeTabStack = () => {
 			/>
 			<HomeTab.Screen name="Settings" component={SettingsScreen} />
 		</HomeTab.Navigator>
+	);
+};
+
+const RootPracticeStack = () => {
+	return (
+		<PracticeStack.Navigator screenOptions={{ headerShown: false }}>
+			<PracticeStack.Screen
+				name="Flashcard"
+				component={FlashcardScreen}
+			/>
+		</PracticeStack.Navigator>
 	);
 };
 
