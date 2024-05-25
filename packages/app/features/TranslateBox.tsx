@@ -3,6 +3,7 @@ import { forwardRef, useCallback, useEffect, useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import {
 	ActivityIndicator,
+	Platform,
 	ScrollView,
 	StyleSheet,
 	Text,
@@ -10,7 +11,7 @@ import {
 	View,
 } from 'react-native';
 import { TextInput } from 'react-native';
-import { Copy, Speaker, Switch } from '@peakee/icons';
+import { Copy, Switch } from '@peakee/icons';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { throttle } from 'lodash';
 
@@ -139,13 +140,13 @@ const InternalTranslateBox = (
 				</Text>
 
 				<View style={styles.icons}>
-					<TouchableOpacity onPress={switchLanguages}>
-						<Switch size={18} color={'#000000'} strokeWidth="1.5" />
+					<TouchableOpacity onPress={switchLanguages} hitSlop={14}>
+						<Switch size={18} color={'#9d9d9d'} strokeWidth="2.5" />
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => copy(text)}>
-						<Copy size={18} color={'#000000'} strokeWidth="1.5" />
+					<TouchableOpacity onPress={() => copy(text)} hitSlop={14}>
+						<Copy size={18} color={'#9d9d9d'} strokeWidth="2.5" />
 					</TouchableOpacity>
-					<Speaker size={18} color={'#000000'} strokeWidth="1.5" />
+					{/* <Speaker size={18} color={'#9d9d9d'} strokeWidth="2.5" /> */}
 				</View>
 			</View>
 
@@ -156,7 +157,11 @@ const InternalTranslateBox = (
 				]}
 			>
 				<TextInput
-					style={[styles.textInput, commonContentStyle]}
+					style={[
+						styles.textInput,
+						Platform.OS === 'web' && styles.textInputWeb,
+						commonContentStyle,
+					]}
 					value={text}
 					onChangeText={handleChangeText}
 					placeholder="Type to translate..."
@@ -184,10 +189,13 @@ const InternalTranslateBox = (
 				</Text>
 
 				<View style={styles.icons}>
-					<TouchableOpacity onPress={() => copy(translated)}>
-						<Copy size={18} color={'#000000'} strokeWidth="1.5" />
+					<TouchableOpacity
+						onPress={() => copy(translated)}
+						hitSlop={14}
+					>
+						<Copy size={18} color={'#9d9d9d'} strokeWidth="2.5" />
 					</TouchableOpacity>
-					<Speaker size={18} color={'#000000'} strokeWidth="1.5" />
+					{/* <Speaker size={18} color={'#9d9d9d'} strokeWidth="2.5" /> */}
 				</View>
 			</View>
 
@@ -220,6 +228,8 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 14,
+		fontWeight: '500',
+		color: '#5d5d5d',
 	},
 	header: {
 		flexDirection: 'row',
@@ -228,7 +238,7 @@ const styles = StyleSheet.create({
 	},
 	icons: {
 		flexDirection: 'row',
-		gap: 12,
+		gap: 18,
 	},
 	indicator: {
 		marginHorizontal: 10,
@@ -246,18 +256,28 @@ const styles = StyleSheet.create({
 		// flex: 1,
 		flexGrow: 1,
 		fontSize: 24,
-		fontWeight: '300',
+		color: '#504f4f',
 		paddingHorizontal: 0,
 		paddingVertical: 0,
-		outlineStyle: 'none',
+		textAlignVertical: 'top',
+	},
+	textInputWeb: {
 		rows: 5,
+		outlineStyle: 'none',
 	} as never,
 	clearButton: {
+		borderWidth: 1,
+		borderColor: '#d5d5d5',
+		borderRadius: 30,
+		paddingVertical: 2,
+		paddingHorizontal: 10,
 		position: 'absolute',
-		bottom: -20,
+		bottom: -6,
 		right: 0,
 	},
-	clearText: {},
+	clearText: {
+		color: '#a5a5a5',
+	},
 	translatedContainer: {
 		minHeight: 80,
 		maxHeight: 200,
@@ -265,6 +285,6 @@ const styles = StyleSheet.create({
 	},
 	translated: {
 		fontSize: 24,
-		fontWeight: '300',
+		color: '#504f4f',
 	},
 });

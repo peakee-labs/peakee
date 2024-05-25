@@ -5,10 +5,10 @@ import {
 } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { store } from '@peakee/app/state';
-import { UIProvider } from '@peakee/ui';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { ModalProvider } from 'empty-modal';
 import ConversationScreen from 'screens/Conversation';
 import ExploreScreen from 'screens/Explore';
 import HomeScreen from 'screens/Home';
@@ -42,7 +42,8 @@ function App(): JSX.Element {
 				<SafeAreaProvider>
 					{/* this StatusBar as a node make animation lag */}
 					{/* <StatusBar translucent backgroundColor={'transparent'} /> */}
-					<UIProvider>
+					{/* <UIProvider> */}
+					<ModalProvider>
 						<NavigationContainer>
 							<Stack.Navigator
 								screenOptions={{ headerShown: false }}
@@ -69,7 +70,8 @@ function App(): JSX.Element {
 								/>
 							</Stack.Navigator>
 						</NavigationContainer>
-					</UIProvider>
+					</ModalProvider>
+					{/* </UIProvider> */}
 				</SafeAreaProvider>
 			</Provider>
 		</View>

@@ -29,7 +29,7 @@ const Splash = () => {
 				animationRef.current,
 			]);
 			if (!user) navigate('SignIn');
-			else navigate('Home', { screen: 'Conversations' });
+			else navigate('Home', { screen: 'Chat' });
 			firstRender.current = false;
 		};
 		initApp();

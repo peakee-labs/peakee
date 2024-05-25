@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import type { GestureResponderEvent, TextProps } from 'react-native';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import { translate } from '@peakee/utils';
 
 export const TranslatableText: FC<TextProps> = ({
@@ -14,9 +14,9 @@ export const TranslatableText: FC<TextProps> = ({
 	};
 
 	return (
-		<Text onLongPress={handleLongPress} {...props}>
-			{children}
-		</Text>
+		<TouchableOpacity onPress={handleLongPress}>
+			<Text {...props}>{children}</Text>
+		</TouchableOpacity>
 	);
 };
 

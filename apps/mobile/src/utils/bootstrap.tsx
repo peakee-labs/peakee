@@ -1,8 +1,9 @@
 import Config from 'react-native-config';
 import { initAppConfig, initAssets } from '@peakee/app';
-import TranslateBox from '@peakee/app/features/TranslateBox';
-import { showModal } from '@peakee/ui';
 import { injectUtils } from '@peakee/utils';
+import { Align, showModal } from 'empty-modal';
+
+import TranslateBottomSheet from './TranslateBottomSheet';
 
 export const initApp = () => {
 	initAssets({
@@ -22,18 +23,18 @@ export const initApp = () => {
 
 	injectUtils({
 		translate: (text, languages = 'en-vi') => {
-			let snapIndex = 2;
-			if (!text) {
-				snapIndex = 3;
-			}
-			showModal({
-				id: 'translate',
-				index: snapIndex,
-				snapPoints: ['20%', '40%', '60%', '70%', '90%'],
-				useBackdrop: false,
-				Component: TranslateBox,
-				props: { initText: text, initLanguages: languages },
-			});
+			console.log('translate');
+			showModal(
+				<TranslateBottomSheet
+					initText={text}
+					initLanguages={languages}
+				/>,
+				{
+					id: 'translate-bottom-sheet',
+					align: Align.FullBottom,
+					showBackdrop: true,
+				},
+			);
 		},
 	});
 };
