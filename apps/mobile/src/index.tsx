@@ -43,46 +43,46 @@ function App(): JSX.Element {
 	return (
 		<View style={styles.container}>
 			<GestureHandlerRootView style={styles.gestureContainer}>
-				{/* <ModalProvider> */}
-				<SafeAreaProvider>
-					{/* this StatusBar as a node make animation lag */}
-					{/* <StatusBar translucent backgroundColor={'transparent'} /> */}
-					{/* <UIProvider> */}
-					<Provider store={store()}>
-						<NavigationContainer>
-							<Stack.Navigator
-								screenOptions={{ headerShown: false }}
-							>
-								<Stack.Screen
-									name="Splash"
-									component={Splash}
-								/>
-								<Stack.Screen
-									name="SignIn"
-									component={SignInScreen}
-								/>
-								<Stack.Screen
-									name="Onboarding"
-									component={OnboardingScreen}
-								/>
-								<Stack.Screen
-									name="Home"
-									component={HomeTabStack}
-								/>
-								<Stack.Screen
-									name="PracticeStack"
-									component={RootPracticeStack}
-								/>
-								<Stack.Screen
-									name="Conversation"
-									component={ConversationScreen}
-								/>
-							</Stack.Navigator>
-						</NavigationContainer>
-					</Provider>
-					{/* </UIProvider> */}
-				</SafeAreaProvider>
-				{/* </ModalProvider> */}
+				<ModalProvider>
+					<SafeAreaProvider>
+						{/* this StatusBar as a node make animation lag */}
+						{/* <StatusBar translucent backgroundColor={'transparent'} /> */}
+						{/* <UIProvider> */}
+						<Provider store={store()}>
+							<NavigationContainer>
+								<Stack.Navigator
+									screenOptions={{ headerShown: false }}
+								>
+									<Stack.Screen
+										name="Splash"
+										component={Splash}
+									/>
+									<Stack.Screen
+										name="SignIn"
+										component={SignInScreen}
+									/>
+									<Stack.Screen
+										name="Onboarding"
+										component={OnboardingScreen}
+									/>
+									<Stack.Screen
+										name="Home"
+										component={HomeTabStack}
+									/>
+									<Stack.Screen
+										name="PracticeStack"
+										component={RootPracticeStack}
+									/>
+									<Stack.Screen
+										name="Conversation"
+										component={ConversationScreen}
+									/>
+								</Stack.Navigator>
+							</NavigationContainer>
+						</Provider>
+						{/* </UIProvider> */}
+					</SafeAreaProvider>
+				</ModalProvider>
 			</GestureHandlerRootView>
 		</View>
 	);

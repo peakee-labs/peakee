@@ -1,4 +1,7 @@
-import { type FC, useState } from 'react';
+import type { Ref } from 'react';
+import { forwardRef, useState } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
+import type { View } from 'react-native';
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -12,9 +15,20 @@ import Animated, {
 type Props = {
 	front: string;
 	back: string;
+	theme?: 'blue' | 'yellow' | 'red';
+	containerStyle?: StyleProp<ViewStyle>;
+	onOk?: () => void;
+	onNotOk?: () => void;
+	onChange?: (ratio: number) => void;
 };
 
-export const Flashcard: FC<Props> = ({ front, back }) => {
+const xThreshold = 100;
+const yThreshold = 100;
+
+const _Flashcard = (
+	{ front, back, theme = 'blue', onChange, onOk, onNotOk }: Props,
+	ref: Ref<View>,
+) => {
 	const xOffset = useSharedValue(0);
 	const yOffset = useSharedValue(0);
 	const yRotate = useSharedValue(0);
@@ -22,12 +36,46 @@ export const Flashcard: FC<Props> = ({ front, back }) => {
 
 	const pan = Gesture.Pan()
 		.onChange((e) => {
-			xOffset.value = e.translationX;
-			yOffset.value = e.translationY;
+			let totalTranslation = 0;
+			if (Math.abs(e.translationX) <= xThreshold) {
+				totalTranslation += Math.abs(e.translationX);
+				if (isFront) {
+					xOffset.value = e.translationX;
+				} else {
+					xOffset.value = e.translationX;
+				}
+			} else {
+				totalTranslation += Math.abs(xThreshold);
+			}
+
+			if (Math.abs(e.translationY) <= yThreshold) {
+				totalTranslation += Math.abs(e.translationY);
+				if (isFront) {
+					yOffset.value = e.translationY;
+				} else {
+					yOffset.value = e.translationY;
+				}
+			} else {
+				totalTranslation += Math.abs(yThreshold);
+			}
+
+			if (onChange) {
+				runOnJS(onChange)(totalTranslation / (xThreshold + yThreshold));
+			}
 		})
 		.onFinalize(() => {
+			console.log(xOffset.value);
+			if (xOffset.value >= yThreshold * 0.9) {
+				if (onOk) runOnJS(onOk)();
+			} else if (xOffset.value <= -yThreshold * 0.9) {
+				if (onNotOk) runOnJS(onNotOk)();
+			}
 			xOffset.value = withSpring(0);
 			yOffset.value = withSpring(0);
+
+			if (onChange) {
+				runOnJS(onChange)(1);
+			}
 		});
 
 	const animatedViewStyle = useAnimatedStyle(() => {
@@ -58,10 +106,18 @@ export const Flashcard: FC<Props> = ({ front, back }) => {
 
 	return (
 		<GestureDetector gesture={pan}>
-			<TouchableWithoutFeedback style={styles.container} onPress={flip}>
-				<Animated.View style={[styles.container, animatedViewStyle]}>
+			<TouchableWithoutFeedback style={styles.card} onPress={flip}>
+				<Animated.View
+					ref={ref}
+					style={[
+						{ backgroundColor: colorMap[theme].background },
+						styles.card,
+						animatedViewStyle,
+					]}
+				>
 					<Animated.Text
 						style={[
+							{ color: colorMap[theme].title },
 							styles.title,
 							animatedTextStyle,
 							!isFront && styles.back,
@@ -75,12 +131,13 @@ export const Flashcard: FC<Props> = ({ front, back }) => {
 	);
 };
 
+export const Flashcard = forwardRef<View, Props>(_Flashcard);
+
 export default Flashcard;
 
 const styles = StyleSheet.create({
-	container: {
+	card: {
 		flex: 1,
-		backgroundColor: '#95FFFF',
 		borderRadius: 30,
 		maxHeight: 500,
 		alignItems: 'center',
@@ -90,7 +147,6 @@ const styles = StyleSheet.create({
 		fontSize: 36,
 		fontWeight: '600',
 		textAlign: 'center',
-		color: '#004040',
 	},
 	back: {
 		transform: [
@@ -100,3 +156,18 @@ const styles = StyleSheet.create({
 		],
 	},
 });
+
+export const colorMap = {
+	blue: {
+		background: '#95FFFF',
+		title: '#004040',
+	},
+	yellow: {
+		background: '#FFE6A1',
+		title: '#815F00',
+	},
+	red: {
+		background: '#FFC8CE',
+		title: '#69000B',
+	},
+};
