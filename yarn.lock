@@ -10704,16 +10704,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"empty-modal@npm:^0.0.3":
-  version: 0.0.3
-  resolution: "empty-modal@npm:0.0.3"
+"empty-modal@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "empty-modal@npm:0.0.5"
   dependencies:
     valtio: "npm:^1.13.2"
   peerDependencies:
     "@types/react": ^18.2.0
     react: ^18.2.0
     react-native: ^0.72.0 || ^0.73.0
-  checksum: 10/e2796834801ef93f30be25abbe67d7a8a9d4fe13bd154ce999cc4bcba929816b22a8dfc13f96123a0d9b2a2230c75f5ac98d5ec7b0e009ae92f901c39651a29c
+  checksum: 10/324b5d09ac7487ab08aeb94f517e1ee8a285cc1794acae6db85d6682bb325857c94abea45a466900aa9e0ec639073a6a26d432274ae61859039be8b41b6c464b
   languageName: node
   linkType: hard
 
@@ -15591,13 +15591,14 @@ __metadata:
     "@types/react-test-renderer": "npm:^18.0.0"
     axios: "npm:^1.6.8"
     babel-jest: "npm:^29.6.3"
-    empty-modal: "npm:^0.0.3"
+    empty-modal: "npm:^0.0.5"
     jest: "npm:^29.6.3"
     lottie-react-native: "npm:^6.7.2"
     openai: "npm:^4.14.2"
     react: "npm:18.2.0"
     react-hook-form: "npm:^7.51.0"
     react-native: "npm:^0.73.6"
+    react-native-avoid-softinput: "npm:^5.0.0"
     react-native-config: "npm:^1.5.1"
     react-native-country-flag: "npm:^2.0.2"
     react-native-date-picker: "npm:^5.0.0"
@@ -17141,6 +17142,16 @@ __metadata:
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 10/73b36281e58eeb27c9cc6031301b6ae19ecdc9f18ae2d518bdb39b0ac564e65c5779405d623f1df9abf378a13858b79442480244bd579968afc1faf9a2ce5e05
+  languageName: node
+  linkType: hard
+
+"react-native-avoid-softinput@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "react-native-avoid-softinput@npm:5.0.0"
+  peerDependencies:
+    react: ">=18.2.0"
+    react-native: ">=0.71.0"
+  checksum: 10/96c7962a3c6efea958d11d83fa6b72a9398b219d4ec2643cdb36e907c03fafd61e2ec0ac0c19b7de0b12069e3681df7b12ed1435cce72bb91bf4617ae1dd0de5
   languageName: node
   linkType: hard
 

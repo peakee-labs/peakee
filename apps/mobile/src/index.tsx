@@ -1,4 +1,5 @@
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
 	SafeAreaProvider,
 	useSafeAreaInsets,
@@ -38,42 +39,44 @@ if (Platform.OS === 'android') {
 function App(): JSX.Element {
 	return (
 		<View style={styles.container}>
-			<Provider store={store()}>
-				<SafeAreaProvider>
-					{/* this StatusBar as a node make animation lag */}
-					{/* <StatusBar translucent backgroundColor={'transparent'} /> */}
-					{/* <UIProvider> */}
-					<ModalProvider>
-						<NavigationContainer>
-							<Stack.Navigator
-								screenOptions={{ headerShown: false }}
-							>
-								<Stack.Screen
-									name="Splash"
-									component={Splash}
-								/>
-								<Stack.Screen
-									name="SignIn"
-									component={SignInScreen}
-								/>
-								<Stack.Screen
-									name="Onboarding"
-									component={OnboardingScreen}
-								/>
-								<Stack.Screen
-									name="Home"
-									component={HomeTabStack}
-								/>
-								<Stack.Screen
-									name="Conversation"
-									component={ConversationScreen}
-								/>
-							</Stack.Navigator>
-						</NavigationContainer>
-					</ModalProvider>
-					{/* </UIProvider> */}
-				</SafeAreaProvider>
-			</Provider>
+			<GestureHandlerRootView style={styles.gestureContainer}>
+				<ModalProvider>
+					<SafeAreaProvider>
+						{/* this StatusBar as a node make animation lag */}
+						{/* <StatusBar translucent backgroundColor={'transparent'} /> */}
+						{/* <UIProvider> */}
+						<Provider store={store()}>
+							<NavigationContainer>
+								<Stack.Navigator
+									screenOptions={{ headerShown: false }}
+								>
+									<Stack.Screen
+										name="Splash"
+										component={Splash}
+									/>
+									<Stack.Screen
+										name="SignIn"
+										component={SignInScreen}
+									/>
+									<Stack.Screen
+										name="Onboarding"
+										component={OnboardingScreen}
+									/>
+									<Stack.Screen
+										name="Home"
+										component={HomeTabStack}
+									/>
+									<Stack.Screen
+										name="Conversation"
+										component={ConversationScreen}
+									/>
+								</Stack.Navigator>
+							</NavigationContainer>
+						</Provider>
+						{/* </UIProvider> */}
+					</SafeAreaProvider>
+				</ModalProvider>
+			</GestureHandlerRootView>
 		</View>
 	);
 }
@@ -114,5 +117,8 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
+	},
+	gestureContainer: {
+		flex: 1,
 	},
 });
