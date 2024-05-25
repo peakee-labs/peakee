@@ -42,7 +42,7 @@ const _Flashcard = (
 				if (isFront) {
 					xOffset.value = e.translationX;
 				} else {
-					xOffset.value = e.translationX;
+					xOffset.value = -e.translationX;
 				}
 			} else {
 				totalTranslation += Math.abs(xThreshold);
