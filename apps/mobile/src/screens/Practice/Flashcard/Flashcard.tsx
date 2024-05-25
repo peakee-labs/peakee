@@ -64,18 +64,20 @@ const _Flashcard = (
 			}
 		})
 		.onFinalize(() => {
-			console.log(xOffset.value);
-			if (xOffset.value >= yThreshold * 0.9) {
-				if (onOk) runOnJS(onOk)();
-			} else if (xOffset.value <= -yThreshold * 0.9) {
-				if (onNotOk) runOnJS(onNotOk)();
-			}
-			xOffset.value = withSpring(0);
-			yOffset.value = withSpring(0);
-
 			if (onChange) {
 				runOnJS(onChange)(1);
 			}
+
+			if (xOffset.value >= yThreshold * 0.8) {
+				if (onOk) runOnJS(onOk)();
+				return;
+			} else if (xOffset.value <= -yThreshold * 0.8) {
+				if (onNotOk) runOnJS(onNotOk)();
+				return;
+			}
+
+			xOffset.value = withSpring(0);
+			yOffset.value = withSpring(0);
 		});
 
 	const animatedViewStyle = useAnimatedStyle(() => {

@@ -1,9 +1,11 @@
-import { type FC, useEffect, useRef, useState } from 'react';
+import { type FC, useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, {
+	runOnJS,
 	useAnimatedStyle,
 	useSharedValue,
 	withSpring,
+	ZoomIn,
 } from 'react-native-reanimated';
 import { ChevronLeft, ChevronRight } from '@peakee/icons';
 // can not use animation importing from @peakee/app ??????
@@ -14,6 +16,7 @@ import type { PracticeParamList } from 'utils/navigation';
 
 import { Flashcard } from './Flashcard';
 import Header from './Header';
+import { collection } from './mock';
 
 type Props = StackScreenProps<PracticeParamList, 'Flashcard'>;
 
@@ -22,9 +25,17 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 	const { collectionId } = route.params;
 	const currentCardRef = useRef<View>(null);
 	const cardContainerRef = useRef<View>(null);
+	const [renderNext, setRenderNext] = useState(false);
 	const [nextCardXOffset, setNextCardXOffset] = useState<number>();
 	const [nextCardYOffset, setNextCardYOffset] = useState<number>();
 	const nextCardScale = useSharedValue<number>(1);
+	const [currentIndex, setCurrentIndex] = useState(
+		collection.flashcards.length - 1,
+	);
+
+	const renderedFlashcards = useMemo(() => {
+		return collection.flashcards.reverse();
+	}, []);
 
 	const animatedNextCardStyle = useAnimatedStyle(() => {
 		return {
@@ -33,12 +44,22 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 	});
 
 	const handleOnChangeFlashcard = (ratio: number) => {
-		const nextValue = 1 + ratio / 10;
+		const nextValue = 1 + ratio / 20;
 		if (nextValue === 1) {
 			nextCardScale.value = withSpring(1);
 		} else {
 			nextCardScale.value = nextValue;
 		}
+	};
+
+	const handleOk = () => {
+		setCurrentIndex((idx) => idx - 1);
+		setRenderNext(false);
+	};
+
+	const handleNotOk = () => {
+		setCurrentIndex((idx) => idx - 1);
+		setRenderNext(false);
 	};
 
 	useEffect(() => {
@@ -48,7 +69,7 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 			currentCardRef.current.measureLayout(
 				cardContainerRef.current,
 				(left, top, width, height) => {
-					const addingXOffset = 30;
+					const addingXOffset = 50;
 					setNextCardXOffset(left + addingXOffset);
 					setNextCardYOffset(top + (addingXOffset * height) / width);
 				},
@@ -61,35 +82,53 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 			<Header />
 
 			<View style={styles.flashcardContainer} ref={cardContainerRef}>
-				{nextCardXOffset && nextCardYOffset && (
-					<Animated.View
-						style={[
-							styles.nextFlashcardContainer,
-							{
-								left: nextCardXOffset,
-								right: nextCardXOffset,
-								top: nextCardYOffset,
-								bottom: nextCardYOffset,
-							},
-							animatedNextCardStyle,
-						]}
-					>
-						<Flashcard front="" back="" theme="yellow" />
-					</Animated.View>
-				)}
-
-				<Flashcard
-					ref={currentCardRef}
-					onChange={handleOnChangeFlashcard}
-					onOk={() => {
-						console.log('ok');
-					}}
-					onNotOk={() => {
-						console.log('not ok');
-					}}
-					front="Hello world 2"
-					back="Xin chào"
-				/>
+				{renderedFlashcards.map((fc, index) => {
+					if (currentIndex === index) {
+						return (
+							<Animated.View
+								style={styles.currentCarContainer}
+								key={'current' + fc.id}
+								entering={ZoomIn.duration(300).withCallback(
+									() => runOnJS(setRenderNext)(true),
+								)}
+							>
+								<Flashcard
+									key={fc.id}
+									ref={currentCardRef}
+									onChange={handleOnChangeFlashcard}
+									onOk={handleOk}
+									onNotOk={handleNotOk}
+									front={fc.front}
+									back={fc.back}
+									theme={fc.theme}
+								/>
+							</Animated.View>
+						);
+					} else if (
+						renderNext &&
+						nextCardXOffset &&
+						nextCardYOffset &&
+						index < currentIndex
+					) {
+						return (
+							<Animated.View
+								key={fc.id}
+								style={[
+									styles.nextFlashcardContainer,
+									{
+										left: nextCardXOffset,
+										right: nextCardXOffset,
+										top: nextCardYOffset,
+										bottom: nextCardYOffset,
+									},
+									animatedNextCardStyle,
+								]}
+							>
+								<Flashcard front="" back="" theme={fc.theme} />
+							</Animated.View>
+						);
+					}
+				})}
 			</View>
 
 			<View style={styles.navigateContainer}>
@@ -113,6 +152,10 @@ const styles = StyleSheet.create({
 	flashcardContainer: {
 		flex: 1,
 		paddingHorizontal: 16,
+		justifyContent: 'center',
+	},
+	currentCarContainer: {
+		flex: 1,
 		justifyContent: 'center',
 	},
 	nextFlashcardContainer: {
