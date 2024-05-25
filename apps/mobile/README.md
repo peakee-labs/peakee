@@ -1,8 +1,8 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-# Upgrade 0.72.3 -> 0.73.6
+# Upgrade 0.72.3 -> 0.73.8
 
-https://react-native-community.github.io/upgrade-helper/?from=0.72.4&to=0.73.6
+https://react-native-community.github.io/upgrade-helper/?from=0.72.4&to=0.73.8
 
 # Getting Started
 
@@ -84,4 +84,4 @@ To learn more about React Native, take a look at the following resources:
 
 # Notes
 
-- Upgrade from `react-native@0.72.4` to `react-native@0.73.6`: [https://github.com/facebook/react-native/issues/43335](https://github.com/facebook/react-native/issues/43335)
+- Upgrade from `react-native@0.72.4` to `react-native@0.73.8`: [https://github.com/facebook/react-native/issues/43335](https://github.com/facebook/react-native/issues/43335)

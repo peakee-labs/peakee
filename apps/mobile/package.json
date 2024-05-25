@@ -30,7 +30,7 @@
         "openai": "^4.14.2",
         "react": "18.2.0",
         "react-hook-form": "^7.51.0",
-        "react-native": "^0.73.6",
+        "react-native": "^0.73.8",
         "react-native-avoid-softinput": "^5.0.0",
         "react-native-circular-progress": "^1.4.0",
         "react-native-config": "^1.5.1",

@@ -14,7 +14,7 @@
         "@reduxjs/toolkit": "^1.9.6",
         "axios": "^1.6.8",
         "react": "^18.2.0",
-        "react-native": "^0.73.6",
+        "react-native": "^0.73.8",
         "react-native-circular-progress": "^1.4.0",
         "react-native-gesture-handler": "^2.16.2",
         "react-native-reanimated": "^3.11.0",
