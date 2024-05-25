@@ -23,7 +23,6 @@ export const initApp = () => {
 
 	injectUtils({
 		translate: (text, languages = 'en-vi') => {
-			console.log('translate');
 			showModal(
 				<TranslateBottomSheet
 					initText={text}
