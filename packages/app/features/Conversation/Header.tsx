@@ -108,8 +108,10 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		paddingVertical: 8,
+		paddingVertical: 6,
 		paddingRight: 10,
+		borderBottomWidth: 1,
+		borderBottomColor: '#ededed',
 	},
 	loading: {
 		marginTop: 20,
