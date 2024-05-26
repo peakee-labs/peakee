@@ -7,6 +7,11 @@ import Animated, {
 	withSpring,
 	ZoomIn,
 } from 'react-native-reanimated';
+import {
+	getFlashCardCollectionById,
+	getFlashCardCollectionDefault,
+} from '@peakee/app/api';
+import type { PracticeFlashCardCollection } from '@peakee/app/types';
 import { ChevronLeft, ChevronRight } from '@peakee/icons';
 // can not use animation importing from @peakee/app ??????
 // import { Flashcard } from '@peakee/app/components';
@@ -15,8 +20,8 @@ import DefaultContainer from 'components/DefaultContainer';
 import type { PracticeParamList } from 'utils/navigation';
 
 import { Flashcard } from './Flashcard';
+import { ColorMapKeys } from './Flashcard';
 import Header from './Header';
-import { collection } from './mock';
 
 type Props = StackScreenProps<PracticeParamList, 'Flashcard'>;
 
@@ -29,13 +34,46 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 	const [nextCardXOffset, setNextCardXOffset] = useState<number>();
 	const [nextCardYOffset, setNextCardYOffset] = useState<number>();
 	const nextCardScale = useSharedValue<number>(1);
-	const [currentIndex, setCurrentIndex] = useState(
-		collection.flashcards.length - 1,
-	);
+	const [collection, setCollection] = useState<PracticeFlashCardCollection>();
+	const [currentIndex, setCurrentIndex] = useState<number>();
+
+	// fetch flashcard collection with collection Id
+	useEffect(() => {
+		const fetchFlashcardCollection = async (
+			collectionId: 'default' | string,
+		) => {
+			let collection: PracticeFlashCardCollection | undefined;
+			if (collectionId == 'default') {
+				collection = await getFlashCardCollectionDefault();
+			} else {
+				collection = await getFlashCardCollectionById(collectionId);
+			}
+
+			if (!collection) {
+				return;
+			}
+
+			// set theme field of each flashcard in collection
+			for (let i = 0; i < collection.flashcards.length; i++) {
+				if (collection.flashcards[i].theme === undefined) {
+					// set theme value to random key in colorMap
+					collection.flashcards[i].theme =
+						ColorMapKeys[
+							Math.floor(Math.random() * ColorMapKeys.length)
+						];
+				}
+			}
+
+			setCollection(collection);
+			setCurrentIndex(collection.flashcards.length - 1);
+		};
+
+		fetchFlashcardCollection(collectionId);
+	}, []);
 
 	const renderedFlashcards = useMemo(() => {
-		return collection.flashcards.reverse();
-	}, []);
+		return collection?.flashcards.reverse();
+	}, [collection]);
 
 	const animatedNextCardStyle = useAnimatedStyle(() => {
 		return {
@@ -53,12 +91,16 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 	};
 
 	const handleOk = () => {
-		setCurrentIndex((idx) => idx - 1);
+		setCurrentIndex((idx) =>
+			idx != undefined && idx - 1 >= -1 ? idx - 1 : idx,
+		);
 		setRenderNext(false);
 	};
 
 	const handleNotOk = () => {
-		setCurrentIndex((idx) => idx - 1);
+		setCurrentIndex((idx) =>
+			idx != undefined && idx - 1 >= -1 ? idx - 1 : idx,
+		);
 		setRenderNext(false);
 	};
 
@@ -67,7 +109,13 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 	};
 
 	const handleBack = () => {
-		setCurrentIndex((idx) => idx + 1);
+		setCurrentIndex((idx) =>
+			idx != undefined &&
+			collection != undefined &&
+			idx + 1 < collection.flashcards.length
+				? idx + 1
+				: idx,
+		);
 		setRenderNext(false);
 	};
 
@@ -88,10 +136,10 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 
 	return (
 		<DefaultContainer style={styles.container}>
-			<Header />
+			<Header collection={collection} />
 
 			<View style={styles.flashcardContainer} ref={cardContainerRef}>
-				{renderedFlashcards.map((fc, index) => {
+				{renderedFlashcards?.map((fc, index) => {
 					if (currentIndex === index) {
 						return (
 							<Animated.View
@@ -107,9 +155,9 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 									onChange={handleOnChangeFlashcard}
 									onOk={handleOk}
 									onNotOk={handleNotOk}
-									front={fc.front}
-									back={fc.back}
-									theme={fc.theme}
+									front={fc.frontText}
+									back={fc.backText}
+									theme={fc.theme as never}
 								/>
 							</Animated.View>
 						);
@@ -117,6 +165,7 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 						renderNext &&
 						nextCardXOffset &&
 						nextCardYOffset &&
+						currentIndex != undefined &&
 						index < currentIndex
 					) {
 						return (
@@ -133,7 +182,11 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 									animatedNextCardStyle,
 								]}
 							>
-								<Flashcard front="" back="" theme={fc.theme} />
+								<Flashcard
+									front=""
+									back=""
+									theme={fc.theme as never}
+								/>
 							</Animated.View>
 						);
 					}
