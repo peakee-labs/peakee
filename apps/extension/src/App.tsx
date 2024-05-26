@@ -10,25 +10,15 @@ export const App = () => {
 			<TextInput style={styles.input} placeholder="Type something..." />
 
 			<Text style={styles.textbox}>
-				Lorem Ipsum is simply dummy text of the printing and typesetting
-				industry. Lorem Ipsum has been the industry standard dummy text
-				ever since the 1500s, when an unknown printer took a galley of
-				type and scrambled it to make a type specimen book. It has
-				survived not only five centuries, but also the leap into
-				electronic typesetting, remaining essentially unchanged. It was
-				popularized in the 1960s with the release of Peakee sheets
-				containing Lorem Ipsum passages, and more recently with desktop
-				publishing software like Blinders PageMaker including versions
-				of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing
-				and typesetting industry. Lorem Ipsum has been the industry
-				standard dummy text ever since the 1500s, when an unknown
-				printer took a galley of type and scrambled it to make a type
-				specimen book. It has survived not only five centuries, but also
-				the leap into electronic typesetting, remaining essentially
-				unchanged. It was popularized in the 1960s with the release of
-				Peakee sheets containing Lorem Ipsum passages, and more recently
-				with desktop publishing software like Blinders PageMaker
-				including versions of Lorem Ipsum.
+				There is much that we do not yet know concerning how
+				electroreception functions. Although researchers have documented
+				how electroreception alters hunting, defence and communication
+				systems through observation, the exact neurological processes
+				that encode and decode this information are unclear. Scientists
+				are also exploring the role electroreception plays in
+				navigation. Some have proposed that salt water and magnetic
+				fields from the Earth’s core may interact to form electrical
+				currents that sharks use for migratory purposes.
 			</Text>
 
 			<Text style={styles.textbox}>
