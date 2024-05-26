@@ -20,6 +20,6 @@ export type TranslatePayload = {
 };
 
 export type ExplainPayload = {
-	text: string;
+	phrase: string;
 	sentence: string;
 };

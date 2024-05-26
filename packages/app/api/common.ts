@@ -23,6 +23,9 @@ export const translate: TranslateFunction = async (text, languages) => {
 	}
 };
 
+/**
+ * @deprecated use ExplainPhraseInSentenceResponse
+ */
 export type ExplainTextInSentenceResponse = {
 	translate: string;
 	grammar_analysis: {
@@ -35,15 +38,13 @@ export type ExplainTextInSentenceResponse = {
 	duration_in_seconds: number;
 };
 
-export type ExplainFunction = (
+/**
+ * @deprecated use explainPhraseInSentence, this function calls to legacy suggest API
+ */
+export const explainTextInSentence = async (
 	text: string,
 	sentence: string,
-) => Promise<ExplainTextInSentenceResponse | undefined>;
-
-export const explainTextInSentence: ExplainFunction = async (
-	text,
-	sentence,
-) => {
+): Promise<ExplainTextInSentenceResponse | undefined> => {
 	const type = 'explain-text-in-sentence';
 	try {
 		const res = await axios().get<ExplainTextInSentenceResponse>(
@@ -58,3 +59,67 @@ export const explainTextInSentence: ExplainFunction = async (
 		console.log('Error getting suggest text in sentence', error);
 	}
 };
+
+export type ExplainPhraseInSentenceResponse = {
+	translate: string;
+	IPA: string;
+	grammarAnalysis: {
+		tense: {
+			type: string;
+			identifier: string;
+		};
+		structure: {
+			type: string;
+			structure: string;
+			for: string;
+		};
+	};
+	keyWords: string[];
+	expandWords: string[];
+};
+
+export const explainPhraseInSentence = async (
+	phrase: string,
+	sentence: string,
+): Promise<ExplainPhraseInSentenceResponse | undefined> => {
+	const type = 'explain-phrase-in-sentence';
+	try {
+		const res = await axios().get<ExplainPhraseInSentenceResponse>(
+			'/suggest/v2',
+			{ params: { type, phrase, sentence } },
+		);
+
+		return res.data;
+	} catch (error) {
+		console.log('Error getting suggest phrase in sentence', error);
+	}
+
+	return;
+};
+
+// {
+//     "translate": "một từ vựng ấn tượng",
+//     "IPA": "/ən ɪmˈprɛsɪv ˈvɒkəbʊləri wɜːrd/",
+//     "grammarAnalysis": {
+//         "tense": {
+//             "type": "Future Simple",
+//             "identifier": "won't be testing, won't care"
+//         },
+//         "structure": {
+//             "type": "Complex Sentence",
+//             "structure": "Other people won't do something, and they probably won't do something else",
+//             "for": "to express two unlikely actions"
+//         }
+//     },
+//     "keyWords": [
+//         "vocabulary",
+//         "impressive",
+//         "grammar"
+//     ],
+//     "expandWords": [
+//         "sophisticated",
+//         "articulate",
+//         "erudite"
+//     ],
+//     "durationInSeconds": 0
+// }

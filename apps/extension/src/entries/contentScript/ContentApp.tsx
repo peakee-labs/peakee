@@ -1,19 +1,20 @@
 import type { ChangeEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import type { ExplainPhraseInSentenceResponse } from '@peakee/app/api';
 import TranslateBox from '@peakee/app/features/TranslateBox';
 
 import { type AskContext, AskBox } from './AskBox';
+import ExplanationBox from './ExplanationBox';
 import Highlight from './HighLight';
 import {
 	requestExplainViaMessage,
 	requestTranslateViaMessaging,
 } from './messaging';
-import SimpleSuggestBox from './SimpleSuggestBox';
 import SuggestLoading from './SuggestLoading';
 import ToolBox from './ToolBox';
 import ToolIcon from './ToolIcon';
-import type { Position, Suggestion, WrappedDOMRect } from './types';
+import type { Position, WrappedDOMRect } from './types';
 import {
 	isInside,
 	logger,
@@ -32,9 +33,11 @@ export const ContentApp = () => {
 	const [selectedText, setSelectedText] = useState('');
 	const translateBoxRef = useRef(null);
 
-	const [suggestion, setSuggestion] = useState<Suggestion>();
-	const [suggestBoxPosition, setSuggestBoxPosition] = useState<Position>();
-	const suggestBoxRef = useRef(null);
+	const [explanation, setSuggestion] =
+		useState<ExplainPhraseInSentenceResponse>();
+	const [explanationBoxPosition, setExplanationBoxPosition] =
+		useState<Position>();
+	const explanationBoxRef = useRef(null);
 
 	const [highlight, setHighlight] = useState<boolean>(false);
 	const [rects, setRects] = useState<WrappedDOMRect[]>([]);
@@ -76,12 +79,12 @@ export const ContentApp = () => {
 
 			if (
 				askBoxRef.current &&
-				(suggestBoxRef.current || suggestBoxRef.current)
+				(explanationBoxRef.current || explanationBoxRef.current)
 			) {
 				const askBox = await measure(askBoxRef.current);
 				const isSelectInsideAskBox = isInside(selectBox, askBox);
 
-				const suggestBox = await measure(suggestBoxRef.current);
+				const suggestBox = await measure(explanationBoxRef.current);
 				const isSelectInsideSuggestBox = isInside(
 					selectBox,
 					suggestBox,
@@ -127,8 +130,8 @@ export const ContentApp = () => {
 					setIconPosition(undefined);
 					setToolBox(false);
 				}
-			} else if (suggestBoxRef.current) {
-				const box = await measure(suggestBoxRef.current);
+			} else if (explanationBoxRef.current) {
+				const box = await measure(explanationBoxRef.current);
 				const isSelectInsideSuggestBox = isInside(selectBox, box);
 				if (!isSelectInsideSuggestBox) resetSuggestBox();
 			} else if (translateBoxRef.current) {
@@ -207,10 +210,10 @@ export const ContentApp = () => {
 		}
 		const result = retrieveSentenceOfWordsInSingleRange(selection);
 		if (!result) return;
-		const { text, wrappedRects, sentence, resetInspecting } = result;
+		const { phrase, wrappedRects, sentence, resetInspecting } = result;
 		setRects(wrappedRects);
 		resetLastSelection.current = resetInspecting;
-		setSuggestBoxPosition({
+		setExplanationBoxPosition({
 			top:
 				window.scrollY +
 				wrappedRects[wrappedRects.length - 1].rect.top +
@@ -221,9 +224,9 @@ export const ContentApp = () => {
 		setHighlight(true);
 		setLoading(true);
 
-		const suggestion = await requestExplainViaMessage(text, sentence);
-		if (suggestion) {
-			setSuggestion(suggestion);
+		const explanation = await requestExplainViaMessage(phrase, sentence);
+		if (explanation) {
+			setSuggestion(explanation);
 		}
 		setLoading(false);
 		setIconPosition(undefined);
@@ -253,7 +256,7 @@ export const ContentApp = () => {
 		resetLastSelection?.current?.();
 		resetLastSelection.current = undefined;
 		setSuggestion(undefined);
-		setSuggestBoxPosition(undefined);
+		setExplanationBoxPosition(undefined);
 		setHighlight(false);
 		setRects([]);
 		setIconPosition(undefined);
@@ -275,11 +278,11 @@ export const ContentApp = () => {
 				/>
 			)}
 
-			{suggestion && suggestBoxPosition && (
-				<SimpleSuggestBox
-					ref={suggestBoxRef}
-					position={suggestBoxPosition}
-					suggestion={suggestion}
+			{explanation && explanationBoxPosition && (
+				<ExplanationBox
+					ref={explanationBoxRef}
+					position={explanationBoxPosition}
+					explanation={explanation}
 				/>
 			)}
 

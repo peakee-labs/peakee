@@ -1,6 +1,5 @@
 import type {
-	ExplainFunction,
-	ExplainTextInSentenceResponse,
+	ExplainPhraseInSentenceResponse,
 	TranslateFunction,
 	TranslateResponse,
 } from '@peakee/app/api';
@@ -41,16 +40,16 @@ export const requestTranslateViaMessaging: TranslateFunction = async (
 	}
 };
 
-export const requestExplainViaMessage: ExplainFunction = async (
-	text,
-	sentence,
+export const requestExplainViaMessage = async (
+	phrase: string,
+	sentence: string,
 ) => {
 	const payload: ExplainPayload = {
-		text,
+		phrase,
 		sentence,
 	};
 	try {
-		const res = await channel.request<ExplainTextInSentenceResponse>(
+		const res = await channel.request<ExplainPhraseInSentenceResponse>(
 			{ type: Events.REQUEST_EXPLAIN, ...payload },
 			ONE_MINUTES,
 		);
