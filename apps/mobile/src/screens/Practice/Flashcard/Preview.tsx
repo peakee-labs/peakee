@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { FlashcardPreview } from '@peakee/app/features/Practice/FlashcardPreview';
 import type { PracticeFlashCardCollectionInformation } from '@peakee/app/types';
 import { useNavigation } from '@react-navigation/native';

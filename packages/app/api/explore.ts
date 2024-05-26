@@ -1,12 +1,12 @@
 import type { UserExplore } from '../types';
-import { config } from '../utils';
 
+// import { config } from '../utils';
 import { axios } from './axios';
 
 export async function getExploreProfileOfUser(id: string) {
 	try {
 		const { data: user } = await axios().get<UserExplore>(
-			`${config().BLINDERS_EXPLORE_URL}/explore/${id}`,
+			`/explore/profiles/${id}`,
 		);
 		return user;
 	} catch (err) {
@@ -17,7 +17,7 @@ export async function getExploreProfileOfUser(id: string) {
 export async function getExploreCandidatesForUser() {
 	try {
 		const { data: explores } = await axios().get<UserExplore[]>(
-			`${config().BLINDERS_EXPLORE_URL}/explore/suggest`,
+			`/explore/suggest`,
 		);
 		return explores;
 	} catch (err) {
