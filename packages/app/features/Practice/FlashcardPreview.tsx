@@ -5,7 +5,7 @@ import { Button } from '@peakee/ui';
 import ProcessCircle from './ProcessCircle';
 
 type Props = {
-	name: string;
+	name?: string;
 	description: string;
 	reviewedCardCount: number;
 	totalCardCount: number;
@@ -24,8 +24,20 @@ export const FlashcardPreview: FC<Props> = ({
 	return (
 		<View style={styles.container}>
 			<View style={styles.contentContainer}>
-				<Text style={styles.title}>{name}</Text>
-				<Text style={styles.description}>{description}</Text>
+				<Text
+					style={styles.title}
+					numberOfLines={1}
+					ellipsizeMode="tail"
+				>
+					{name ? name : 'Collection'}
+				</Text>
+				<Text
+					style={styles.description}
+					numberOfLines={1}
+					ellipsizeMode="tail"
+				>
+					{description}
+				</Text>
 				<Button
 					style={styles.reviewButton}
 					title="Review"
@@ -57,13 +69,16 @@ const styles = StyleSheet.create({
 		paddingVertical: 4,
 		paddingLeft: 4,
 		gap: 2,
+		flex: 1,
 	},
 	title: {
 		fontSize: 19,
+		maxWidth: '90%',
 		fontWeight: '600',
 	},
 	description: {
 		fontSize: 16,
+		maxWidth: '90%',
 		color: '#484C52',
 	},
 	reviewButton: {
