@@ -16,26 +16,30 @@ const _ExplanationBox = ({ explanation, position }: Props, ref: Ref<View>) => {
 			<Text style={styles.heading}>Translate</Text>
 			<Text style={styles.content}>{explanation.translate}</Text>
 
-			<Text style={styles.heading}>Tense</Text>
-			<Text style={styles.content}>
-				Type: {explanation.grammarAnalysis.tense.type}
-			</Text>
-			<Text style={styles.content}>
-				Identifier: {explanation.grammarAnalysis.tense.identifier}
-			</Text>
+			<Text style={styles.heading}>Sentence tense</Text>
+			<View style={styles.tenseContainer}>
+				<Text style={styles.mainContent}>
+					{explanation.grammarAnalysis.tense.type}
+				</Text>
+				<Text style={styles.content}>
+					Identifier: {explanation.grammarAnalysis.tense.identifier}
+				</Text>
+			</View>
 
-			<Text style={styles.heading}>Structure</Text>
-			<Text style={styles.content}>
-				Type: {explanation.grammarAnalysis.structure.type}
-			</Text>
-			<Text style={styles.content}>
-				Structure: {explanation.grammarAnalysis.structure.structure}
-			</Text>
-			<Text style={styles.content}>
-				Usage: {explanation.grammarAnalysis.structure.for}
-			</Text>
+			<Text style={styles.heading}>Sentence structure</Text>
+			<View style={styles.structureContainer}>
+				<Text style={styles.mainContent}>
+					{explanation.grammarAnalysis.structure.structure}
+				</Text>
+				{/* <Text style={styles.content}>
+					Type: {explanation.grammarAnalysis.structure.type}
+				</Text> */}
+				<Text style={styles.content}>
+					Usage: {explanation.grammarAnalysis.structure.for}
+				</Text>
+			</View>
 
-			<Text style={styles.heading}>Main words</Text>
+			<Text style={styles.heading}>Main words in sentence</Text>
 			<View style={styles.examplesContainer}>
 				{explanation.keyWords.map((w, index) => {
 					return (
@@ -46,7 +50,7 @@ const _ExplanationBox = ({ explanation, position }: Props, ref: Ref<View>) => {
 				})}
 			</View>
 
-			<Text style={styles.heading}>Relevant examples</Text>
+			<Text style={styles.heading}>Relevant words</Text>
 			<View style={styles.examplesContainer}>
 				{explanation.expandWords.map((w, index) => {
 					return (
@@ -69,20 +73,31 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		backgroundColor: '#FFFFFF',
 		paddingHorizontal: 16,
-		width: 300,
+		width: 360,
 		paddingBottom: 50,
 		borderWidth: 1,
 		borderRadius: 20,
 		borderColor: '#B1B6C1',
 	},
+	tenseContainer: {
+		gap: 4,
+	},
+	structureContainer: {
+		gap: 4,
+	},
 	heading: {
 		fontSize: 12,
 		fontWeight: '500',
+		color: '#79869c',
 		marginTop: 20,
 		marginBottom: 8,
 	},
+	mainContent: {
+		fontWeight: '500',
+		fontSize: 18,
+	},
 	content: {
-		fontSize: 20,
+		fontSize: 14,
 	},
 	examplesContainer: {
 		flexDirection: 'row',
