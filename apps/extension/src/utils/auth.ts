@@ -1,5 +1,5 @@
-import { initWebsocketWithProfile } from '@peakee/app';
-import { getOrInitUserProfile } from '@peakee/app/api';
+import { initWebsocketWithProfile, resolveInitAuthPromise } from '@peakee/app';
+import { getOrInitUserProfile, setJWT } from '@peakee/app/api';
 import { resetUserState, setProfile, store } from '@peakee/app/state';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
@@ -29,18 +29,10 @@ export const signOut = async () => {
 	store().dispatch(resetUserState());
 };
 
-let authResolve: () => void;
-/**
- * Wait for the first time initialize auth
- */
-export const authInitialized = new Promise<void>((resolve) => {
-	authResolve = resolve;
-});
-
 auth.onIdTokenChanged(async (firebaseUser) => {
 	if (firebaseUser) {
 		const jwt = await firebaseUser.getIdToken();
-
+		setJWT(jwt);
 		initWebsocketWithProfile(firebaseUser.uid, jwt);
 
 		const user = await getOrInitUserProfile({
@@ -49,12 +41,11 @@ auth.onIdTokenChanged(async (firebaseUser) => {
 			imageUrl: firebaseUser.photoURL as string,
 		});
 
-		if (user) store().dispatch(setProfile(user));
-	}
+		resolveInitAuthPromise(user);
 
-	if (authResolve) {
-		authResolve();
-		authResolve = undefined as never;
+		if (user) store().dispatch(setProfile(user));
+	} else {
+		resolveInitAuthPromise(undefined);
 	}
 
 	logger.log('auth updated');

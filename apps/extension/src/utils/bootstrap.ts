@@ -1,7 +1,4 @@
 import { initAppConfig, initAssets } from '@peakee/app';
-import { injectGetJWTFunc } from '@peakee/app/api';
-
-import { auth } from './auth';
 
 export const initApp = () => {
 	initAssets({
@@ -14,6 +11,4 @@ export const initApp = () => {
 	});
 
 	initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL });
-
-	injectGetJWTFunc(async () => await auth.currentUser?.getIdToken());
 };
