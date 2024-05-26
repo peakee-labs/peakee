@@ -1,5 +1,11 @@
 import { type FC, useEffect, useMemo, useRef, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+	ActivityIndicator,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import Animated, {
 	runOnJS,
 	useAnimatedStyle,
@@ -36,6 +42,7 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 	const nextCardScale = useSharedValue<number>(1);
 	const [collection, setCollection] = useState<PracticeFlashCardCollection>();
 	const [currentIndex, setCurrentIndex] = useState<number>();
+	const [isLoading, setIsLoading] = useState(true);
 
 	// fetch flashcard collection with collection Id
 	useEffect(() => {
@@ -66,6 +73,7 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 
 			setCollection(collection);
 			setCurrentIndex(collection.flashcards.length - 1);
+			setIsLoading(false);
 		};
 
 		fetchFlashcardCollection(collectionId);
@@ -139,58 +147,69 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 			<Header collection={collection} />
 
 			<View style={styles.flashcardContainer} ref={cardContainerRef}>
-				{renderedFlashcards?.map((fc, index) => {
-					if (currentIndex === index) {
-						return (
-							<Animated.View
-								style={styles.currentCarContainer}
-								key={'current' + fc.id}
-								entering={ZoomIn.duration(300).withCallback(
-									() => runOnJS(setRenderNext)(true),
-								)}
-							>
-								<Flashcard
+				{isLoading ? (
+					<View style={styles.skeletonContainer}>
+						<Text>
+							Hold on tight! Your flashcard is being delivered by
+							a fleet of hyperactive squirrels. Please wait a
+							second...
+						</Text>
+						<ActivityIndicator />
+					</View>
+				) : (
+					renderedFlashcards?.map((fc, index) => {
+						if (currentIndex === index) {
+							return (
+								<Animated.View
+									style={styles.currentCarContainer}
+									key={'current' + fc.id}
+									entering={ZoomIn.duration(300).withCallback(
+										() => runOnJS(setRenderNext)(true),
+									)}
+								>
+									<Flashcard
+										key={fc.id}
+										ref={currentCardRef}
+										onChange={handleOnChangeFlashcard}
+										onOk={handleOk}
+										onNotOk={handleNotOk}
+										front={fc.frontText}
+										back={fc.backText}
+										theme={fc.theme as never}
+									/>
+								</Animated.View>
+							);
+						} else if (
+							renderNext &&
+							nextCardXOffset &&
+							nextCardYOffset &&
+							currentIndex != undefined &&
+							index < currentIndex
+						) {
+							return (
+								<Animated.View
 									key={fc.id}
-									ref={currentCardRef}
-									onChange={handleOnChangeFlashcard}
-									onOk={handleOk}
-									onNotOk={handleNotOk}
-									front={fc.frontText}
-									back={fc.backText}
-									theme={fc.theme as never}
-								/>
-							</Animated.View>
-						);
-					} else if (
-						renderNext &&
-						nextCardXOffset &&
-						nextCardYOffset &&
-						currentIndex != undefined &&
-						index < currentIndex
-					) {
-						return (
-							<Animated.View
-								key={fc.id}
-								style={[
-									styles.nextFlashcardContainer,
-									{
-										left: nextCardXOffset,
-										right: nextCardXOffset,
-										top: nextCardYOffset,
-										bottom: nextCardYOffset,
-									},
-									animatedNextCardStyle,
-								]}
-							>
-								<Flashcard
-									front=""
-									back=""
-									theme={fc.theme as never}
-								/>
-							</Animated.View>
-						);
-					}
-				})}
+									style={[
+										styles.nextFlashcardContainer,
+										{
+											left: nextCardXOffset,
+											right: nextCardXOffset,
+											top: nextCardYOffset,
+											bottom: nextCardYOffset,
+										},
+										animatedNextCardStyle,
+									]}
+								>
+									<Flashcard
+										front=""
+										back=""
+										theme={fc.theme as never}
+									/>
+								</Animated.View>
+							);
+						}
+					})
+				)}
 			</View>
 
 			<View style={styles.navigateContainer}>
@@ -221,6 +240,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingHorizontal: 16,
 		justifyContent: 'center',
+	},
+	skeletonContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	currentCarContainer: {
 		flex: 1,

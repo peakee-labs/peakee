@@ -1,11 +1,16 @@
+import type { FC } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import type { PracticeFlashCardCollection } from '@peakee/app/types';
 import { BackCircle } from '@peakee/icons';
 import { useNavigation } from '@react-navigation/native';
 
 import { OrangeBadge } from './Badges';
-import { collection } from './mock';
 
-export const Header = () => {
+export type Props = {
+	collection?: PracticeFlashCardCollection;
+};
+
+export const Header: FC<Props> = ({ collection }) => {
 	const { goBack } = useNavigation();
 
 	return (
@@ -14,14 +19,18 @@ export const Header = () => {
 				style={styles.icon}
 				source={require('assets/flashcard.png')}
 			/>
-			<View style={styles.titleContainer}>
-				<Text style={styles.title}>{collection.title}</Text>
-				<View>
-					<OrangeBadge
-						title={`${collection.flashcards.length} cards`}
-					/>
+			{collection ? (
+				<View style={styles.titleContainer}>
+					<Text style={styles.title}>{collection.metadata.name}</Text>
+					<View>
+						<OrangeBadge
+							title={`${collection.flashcards.length} cards`}
+						/>
+					</View>
 				</View>
-			</View>
+			) : (
+				<View></View>
+			)}
 
 			<TouchableOpacity
 				style={styles.backButton}
