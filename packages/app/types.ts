@@ -148,4 +148,24 @@ export type PracticeUnit = {
 	expandWords: string[];
 };
 
+export type PracticeFlashCard = {
+	id: string;
+	frontText: string;
+	backText: string;
+	theme: string;
+};
+
+export type PracticeFlashCardCollectionInformation = {
+	id: string;
+	name: string;
+	description: string;
+	total: string[];
+	reviewed: string[];
+};
+
+export type PracticeFlashCardCollection = {
+	flashcards: PracticeFlashCard[];
+	metadata: PracticeFlashCardCollectionInformation;
+};
+
 export type UnknownObject = Record<string, never>;

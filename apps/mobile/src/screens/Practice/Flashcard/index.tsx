@@ -1,5 +1,11 @@
 import { type FC, useEffect, useMemo, useRef, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+	ActivityIndicator,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import Animated, {
 	runOnJS,
 	useAnimatedStyle,
@@ -7,6 +13,11 @@ import Animated, {
 	withSpring,
 	ZoomIn,
 } from 'react-native-reanimated';
+import {
+	getFlashCardCollectionById,
+	getFlashCardCollectionDefault,
+} from '@peakee/app/api';
+import type { PracticeFlashCardCollection } from '@peakee/app/types';
 import { ChevronLeft, ChevronRight } from '@peakee/icons';
 // can not use animation importing from @peakee/app ??????
 // import { Flashcard } from '@peakee/app/components';
@@ -15,8 +26,8 @@ import DefaultContainer from 'components/DefaultContainer';
 import type { PracticeParamList } from 'utils/navigation';
 
 import { Flashcard } from './Flashcard';
+import { ColorMapKeys } from './Flashcard';
 import Header from './Header';
-import { collection } from './mock';
 
 type Props = StackScreenProps<PracticeParamList, 'Flashcard'>;
 
@@ -29,13 +40,48 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 	const [nextCardXOffset, setNextCardXOffset] = useState<number>();
 	const [nextCardYOffset, setNextCardYOffset] = useState<number>();
 	const nextCardScale = useSharedValue<number>(1);
-	const [currentIndex, setCurrentIndex] = useState(
-		collection.flashcards.length - 1,
-	);
+	const [collection, setCollection] = useState<PracticeFlashCardCollection>();
+	const [currentIndex, setCurrentIndex] = useState<number>();
+	const [isLoading, setIsLoading] = useState(true);
+
+	// fetch flashcard collection with collection Id
+	useEffect(() => {
+		const fetchFlashcardCollection = async (
+			collectionId: 'default' | string,
+		) => {
+			let collection: PracticeFlashCardCollection | undefined;
+			if (collectionId == 'default') {
+				collection = await getFlashCardCollectionDefault();
+			} else {
+				collection = await getFlashCardCollectionById(collectionId);
+			}
+
+			if (!collection) {
+				return;
+			}
+
+			// set theme field of each flashcard in collection
+			for (let i = 0; i < collection.flashcards.length; i++) {
+				if (collection.flashcards[i].theme === undefined) {
+					// set theme value to random key in colorMap
+					collection.flashcards[i].theme =
+						ColorMapKeys[
+							Math.floor(Math.random() * ColorMapKeys.length)
+						];
+				}
+			}
+
+			setCollection(collection);
+			setCurrentIndex(collection.flashcards.length - 1);
+			setIsLoading(false);
+		};
+
+		fetchFlashcardCollection(collectionId);
+	}, []);
 
 	const renderedFlashcards = useMemo(() => {
-		return collection.flashcards.reverse();
-	}, []);
+		return collection?.flashcards.reverse();
+	}, [collection]);
 
 	const animatedNextCardStyle = useAnimatedStyle(() => {
 		return {
@@ -53,12 +99,16 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 	};
 
 	const handleOk = () => {
-		setCurrentIndex((idx) => idx - 1);
+		setCurrentIndex((idx) =>
+			idx != undefined && idx - 1 >= -1 ? idx - 1 : idx,
+		);
 		setRenderNext(false);
 	};
 
 	const handleNotOk = () => {
-		setCurrentIndex((idx) => idx - 1);
+		setCurrentIndex((idx) =>
+			idx != undefined && idx - 1 >= -1 ? idx - 1 : idx,
+		);
 		setRenderNext(false);
 	};
 
@@ -67,7 +117,13 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 	};
 
 	const handleBack = () => {
-		setCurrentIndex((idx) => idx + 1);
+		setCurrentIndex((idx) =>
+			idx != undefined &&
+			collection != undefined &&
+			idx + 1 < collection.flashcards.length
+				? idx + 1
+				: idx,
+		);
 		setRenderNext(false);
 	};
 
@@ -88,56 +144,72 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 
 	return (
 		<DefaultContainer style={styles.container}>
-			<Header />
+			<Header collection={collection} />
 
 			<View style={styles.flashcardContainer} ref={cardContainerRef}>
-				{renderedFlashcards.map((fc, index) => {
-					if (currentIndex === index) {
-						return (
-							<Animated.View
-								style={styles.currentCarContainer}
-								key={'current' + fc.id}
-								entering={ZoomIn.duration(300).withCallback(
-									() => runOnJS(setRenderNext)(true),
-								)}
-							>
-								<Flashcard
+				{isLoading ? (
+					<View style={styles.skeletonContainer}>
+						<Text>
+							Hold on tight! Your flashcard is being delivered by
+							a fleet of hyperactive squirrels. Please wait a
+							second...
+						</Text>
+						<ActivityIndicator />
+					</View>
+				) : (
+					renderedFlashcards?.map((fc, index) => {
+						if (currentIndex === index) {
+							return (
+								<Animated.View
+									style={styles.currentCarContainer}
+									key={'current' + fc.id}
+									entering={ZoomIn.duration(300).withCallback(
+										() => runOnJS(setRenderNext)(true),
+									)}
+								>
+									<Flashcard
+										key={fc.id}
+										ref={currentCardRef}
+										onChange={handleOnChangeFlashcard}
+										onOk={handleOk}
+										onNotOk={handleNotOk}
+										front={fc.frontText}
+										back={fc.backText}
+										theme={fc.theme as never}
+									/>
+								</Animated.View>
+							);
+						} else if (
+							renderNext &&
+							nextCardXOffset &&
+							nextCardYOffset &&
+							currentIndex != undefined &&
+							index < currentIndex
+						) {
+							return (
+								<Animated.View
 									key={fc.id}
-									ref={currentCardRef}
-									onChange={handleOnChangeFlashcard}
-									onOk={handleOk}
-									onNotOk={handleNotOk}
-									front={fc.front}
-									back={fc.back}
-									theme={fc.theme}
-								/>
-							</Animated.View>
-						);
-					} else if (
-						renderNext &&
-						nextCardXOffset &&
-						nextCardYOffset &&
-						index < currentIndex
-					) {
-						return (
-							<Animated.View
-								key={fc.id}
-								style={[
-									styles.nextFlashcardContainer,
-									{
-										left: nextCardXOffset,
-										right: nextCardXOffset,
-										top: nextCardYOffset,
-										bottom: nextCardYOffset,
-									},
-									animatedNextCardStyle,
-								]}
-							>
-								<Flashcard front="" back="" theme={fc.theme} />
-							</Animated.View>
-						);
-					}
-				})}
+									style={[
+										styles.nextFlashcardContainer,
+										{
+											left: nextCardXOffset,
+											right: nextCardXOffset,
+											top: nextCardYOffset,
+											bottom: nextCardYOffset,
+										},
+										animatedNextCardStyle,
+									]}
+								>
+									<Flashcard
+										front=""
+										back=""
+										theme={fc.theme as never}
+									/>
+								</Animated.View>
+							);
+						}
+					})
+				)}
 			</View>
 
 			<View style={styles.navigateContainer}>
@@ -168,6 +240,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingHorizontal: 16,
 		justifyContent: 'center',
+	},
+	skeletonContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	currentCarContainer: {
 		flex: 1,

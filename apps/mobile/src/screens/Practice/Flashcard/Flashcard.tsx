@@ -173,3 +173,5 @@ export const colorMap = {
 		title: '#69000B',
 	},
 };
+
+export const ColorMapKeys = Object.keys(colorMap) as (keyof typeof colorMap)[];
