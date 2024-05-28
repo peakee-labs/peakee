@@ -1,4 +1,4 @@
-import { type FC, useEffect, useMemo, useRef, useState } from 'react';
+import { type FC, Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import {
 	ActivityIndicator,
 	StyleSheet,
@@ -31,7 +31,10 @@ import Header from './Header';
 
 type Props = StackScreenProps<PracticeParamList, 'Flashcard'>;
 
-export const FlashcardScreen: FC<Props> = ({ route }) => {
+export const FlashcardScreen: FC<Props> = ({
+	route,
+	navigation: { goBack },
+}) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { collectionId } = route.params;
 	const currentCardRef = useRef<View>(null);
@@ -43,6 +46,7 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 	const [collection, setCollection] = useState<PracticeFlashCardCollection>();
 	const [currentIndex, setCurrentIndex] = useState<number>();
 	const [isLoading, setIsLoading] = useState(true);
+	const isEnded = currentIndex === -1;
 
 	// fetch flashcard collection with collection Id
 	useEffect(() => {
@@ -208,21 +212,46 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 						}
 					})
 				)}
+				{isEnded && (
+					<View>
+						<Text style={styles.endedText}>
+							Congrats! You reviewed this collection
+						</Text>
+						<TouchableOpacity
+							style={styles.goBackButton}
+							onPress={goBack}
+						>
+							<Text style={styles.goBackTitle}>Go to Home</Text>
+						</TouchableOpacity>
+					</View>
+				)}
 			</View>
 
 			<View style={styles.navigateContainer}>
-				<TouchableOpacity
-					style={styles.backButton}
-					onPress={handleBack}
-				>
-					<ChevronLeft size={40} strokeWidth="3" color={'#FE7E38'} />
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={styles.nextButton}
-					onPress={handleNext}
-				>
-					<ChevronRight size={40} strokeWidth="3" color={'#FE7E38'} />
-				</TouchableOpacity>
+				{!isEnded && (
+					<Fragment>
+						<TouchableOpacity
+							style={styles.backButton}
+							onPress={handleBack}
+						>
+							<ChevronLeft
+								size={40}
+								strokeWidth="3"
+								color={'#FE7E38'}
+							/>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={styles.nextButton}
+							onPress={handleNext}
+						>
+							<ChevronRight
+								size={40}
+								strokeWidth="3"
+								color={'#FE7E38'}
+							/>
+						</TouchableOpacity>
+					</Fragment>
+				)}
 			</View>
 		</DefaultContainer>
 	);
@@ -276,5 +305,24 @@ const styles = StyleSheet.create({
 		backgroundColor: '#FEEFE1',
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	endedText: {
+		fontSize: 30,
+		textAlign: 'center',
+	},
+	goBackButton: {
+		padding: 10,
+		paddingHorizontal: 24,
+		borderRadius: 30,
+		backgroundColor: '#FEEFE1',
+		justifyContent: 'center',
+		alignItems: 'center',
+		alignSelf: 'center',
+		marginTop: 20,
+	},
+	goBackTitle: {
+		fontSize: 18,
+		fontWeight: '500',
+		color: '#FE7E38',
 	},
 });

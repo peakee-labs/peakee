@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { getFlashCardCollectionsInformation } from '@peakee/app/api';
 import type { PracticeFlashCardCollectionInformation } from '@peakee/app/types';
 import DefaultContainer from 'components/DefaultContainer';
