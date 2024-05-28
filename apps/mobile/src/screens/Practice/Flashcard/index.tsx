@@ -149,12 +149,10 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 			<View style={styles.flashcardContainer} ref={cardContainerRef}>
 				{isLoading ? (
 					<View style={styles.skeletonContainer}>
-						<Text>
-							Hold on tight! Your flashcard is being delivered by
-							a fleet of hyperactive squirrels. Please wait a
-							second...
+						<Text style={styles.skeletonText}>
+							Hold on tight! Please wait a second...
 						</Text>
-						<ActivityIndicator />
+						<ActivityIndicator size={'large'} />
 					</View>
 				) : (
 					renderedFlashcards?.map((fc, index) => {
@@ -245,6 +243,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+		gap: 14,
+	},
+	skeletonText: {
+		fontSize: 20,
+		textAlign: 'center',
 	},
 	currentCarContainer: {
 		flex: 1,
