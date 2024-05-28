@@ -31,9 +31,14 @@ export const chatSlice = createSlice({
 			if (!state.conversationsMap[conversationId].messages) {
 				state.conversationsMap[conversationId].messages = [message];
 			} else {
-				state.conversationsMap[conversationId].messages?.unshift(
-					message,
-				);
+				const messages =
+					state.conversationsMap[conversationId].messages;
+				const isMessageExisted = !!messages?.find((m) => {
+					return m.id === message.id;
+				});
+				if (!isMessageExisted) {
+					messages?.unshift(message);
+				}
 			}
 		},
 		resolveMessage: (
