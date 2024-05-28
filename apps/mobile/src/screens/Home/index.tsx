@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import ConversationsFeature from '@peakee/app/features/Conversations';
 import FriendsFeature from '@peakee/app/features/Friends';
 import ProfileFeature from '@peakee/app/features/Profile';
-import type { PublicUserProfile } from '@peakee/app/types';
+import type { Conversation, PublicUserProfile } from '@peakee/app/types';
 import type { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import { useNavigation } from '@react-navigation/native';
 import DefaultContainer from 'components/DefaultContainer';
@@ -16,12 +16,17 @@ type Props = MaterialTopTabScreenProps<HomeTabParamList, 'Chat'>;
 
 const HomeScreen: FC<Props> = () => {
 	const { navigate } = useNavigation();
+
 	const handlePressAddFriend = () => {
 		navigate('Home', { screen: 'Explore' });
 	};
 
 	const startConversationWithFriend = (friend: PublicUserProfile) => {
 		navigate('Conversation', { conversationId: `new-${friend.id}` });
+	};
+
+	const handlePressConversation = (conversation: Conversation) => {
+		navigate('Conversation', { conversationId: conversation.id });
 	};
 
 	return (
@@ -33,7 +38,10 @@ const HomeScreen: FC<Props> = () => {
 				onPressFriend={startConversationWithFriend}
 			/>
 			<Text style={styles.sectionTitle}>Conversations</Text>
-			<ConversationsFeature EmptyElement={EmptyConversations} />
+			<ConversationsFeature
+				EmptyElement={EmptyConversations}
+				onPressConversation={handlePressConversation}
+			/>
 		</DefaultContainer>
 	);
 };
