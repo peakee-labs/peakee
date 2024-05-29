@@ -18,6 +18,7 @@ module.exports = {
 		'@gorhom/bottom-sheet',
 		'react-native-picker-select',
 		'@react-native-picker/picker',
+		'react-native-safe-area-context',
 	],
 	webpack: (config) => {
 		config.resolve.alias['react-native$'] = 'react-native-web';
