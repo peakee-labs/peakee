@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { View } from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from '@peakee/app/state';
@@ -11,10 +10,10 @@ import { useWrappedDimensions } from '../utils/hooks';
 
 import '../../global.css';
 
+initApp();
+
 const App = ({ Component, pageProps }: AppProps) => {
 	const { height } = useWrappedDimensions();
-
-	useEffect(() => initApp(), []);
 
 	return (
 		<Provider store={store()}>
