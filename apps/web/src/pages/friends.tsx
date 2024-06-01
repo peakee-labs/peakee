@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { getUsers, sendFriendRequest } from '@peakee/app/api';
 import { Search } from '@peakee/app/components';
 import ExploreFeature from '@peakee/app/features/Explore';
-import { type RootState } from '@peakee/app/state';
+import { type RootState, store } from '@peakee/app/state';
 import type { PublicUserProfile } from '@peakee/app/types';
 import { Avatar, Button } from '@peakee/ui';
 import { throttle } from 'lodash';
@@ -47,7 +47,7 @@ export const Friends = () => {
 
 	const router = useRouter();
 	useEffect(() => {
-		if (!explore.profile) {
+		if (!store().getState().explore.profile) {
 			router.push('/onboarding');
 		}
 	}, [explore.profile]);
