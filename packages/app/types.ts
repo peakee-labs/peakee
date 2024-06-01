@@ -133,6 +133,7 @@ export type ExplainRequest = {
 export type ExplainResponse = {
 	word: string;
 	translate: string;
+	IPA: string;
 	keyWords: string[];
 	expandWords: string[];
 };

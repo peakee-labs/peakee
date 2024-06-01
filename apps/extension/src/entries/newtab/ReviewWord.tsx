@@ -14,6 +14,7 @@ import useLocaleMap from '../../utils/hooks/useLocale';
 export type ReviewContent = {
 	text: string;
 	content: string;
+	IPA?: string;
 	symnonyms: Array<string>;
 };
 export type Props = {
@@ -37,6 +38,7 @@ const localeMap: Record<Locale, Content> = {
 export const ReviewWord: FC<Props> = ({
 	text,
 	content,
+	IPA,
 	symnonyms: expandWords,
 	locale,
 }) => {
@@ -56,6 +58,7 @@ export const ReviewWord: FC<Props> = ({
 					);
 				})}
 			</View>
+			<Text style={styles.explainText}>{IPA}</Text>
 			<Text style={styles.explainText}>{content}</Text>
 			{expandWords && (
 				<Text style={styles.synonyms}>
@@ -84,8 +87,15 @@ const styles = StyleSheet.create({
 		fontWeight: '600',
 		textAlign: 'center',
 	},
+	IPAText: {
+		fontSize: 24,
+		fontStyle: 'italic',
+		fontWeight: '300',
+		color: '#636363',
+		textAlign: 'center',
+	},
 	explainText: {
-		fontSize: 20,
+		fontSize: 24,
 		fontStyle: 'italic',
 		fontWeight: '300',
 		color: '#636363',
