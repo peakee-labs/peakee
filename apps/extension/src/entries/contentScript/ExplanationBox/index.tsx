@@ -16,6 +16,9 @@ const _ExplanationBox = ({ explanation, position }: Props, ref: Ref<View>) => {
 			<Text style={styles.heading}>Translate</Text>
 			<Text style={styles.content}>{explanation.translate}</Text>
 
+			<Text style={styles.heading}>IPA</Text>
+			<Text style={styles.content}>{explanation.IPA}</Text>
+
 			<Text style={styles.heading}>Sentence tense</Text>
 			<View style={styles.tenseContainer}>
 				<Text style={styles.mainContent}>
