@@ -1,5 +1,3 @@
-import { err } from 'react-native-svg';
-
 import type {
 	ExplainLog,
 	PracticeFlashCardCollection,

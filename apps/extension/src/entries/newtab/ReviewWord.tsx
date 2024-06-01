@@ -7,7 +7,7 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import type { locale } from '@peakee/app/types';
+import type { Locale } from '@peakee/app/types';
 
 import useLocaleMap from '../../utils/hooks/useLocale';
 
@@ -17,12 +17,12 @@ export type ReviewContent = {
 	symnonyms: Array<string>;
 };
 export type Props = {
-	locale: locale;
+	locale: Locale;
 } & ReviewContent;
 
 type Content = Record<string, string>;
 
-const localeMap: Record<locale, Content> = {
+const localeMap: Record<Locale, Content> = {
 	'en-US': {
 		synonyms: 'Synonyms',
 	},
