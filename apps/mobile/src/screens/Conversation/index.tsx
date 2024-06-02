@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
@@ -8,6 +8,7 @@ import {
 	getFriendConversationWithState,
 	initializeNewConversationState,
 } from '@peakee/app';
+import type { Selection } from '@peakee/app/components';
 import ConversationFeature from '@peakee/app/features/Conversation';
 import { updatePendingMessageInput } from '@peakee/app/state';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -23,11 +24,15 @@ export const ConversationScreen: FC<Props> = ({
 	navigation: { navigate, goBack },
 }) => {
 	const { top, bottom } = useSafeAreaInsets();
-	const conversationId = route.params.conversationId;
+	const [currentSelection, setCurrentSelection] = useState<Selection>();
 	const [ready, setReady] = useState(false);
 	const dispatch = useDispatch();
 
-	const handleTranslateText = (text = '') => {
+	const conversationId = useMemo(() => {
+		return route.params.conversationId;
+	}, []);
+
+	const handleTranslateText = useCallback((text = '') => {
 		const { cleanModal } = showModalWithComponent(TranslateBottomSheet, {
 			id: 'translate-bottom-sheet',
 			align: Align.FullBottom,
@@ -46,16 +51,16 @@ export const ConversationScreen: FC<Props> = ({
 				},
 			},
 		});
-	};
+	}, []);
 
-	const handleOnChangeInputText = (text: string) => {
+	const handleOnChangeInputText = useCallback((text: string) => {
 		dispatch(
 			updatePendingMessageInput({
 				conversationId,
 				input: text,
 			}),
 		);
-	};
+	}, []);
 
 	const initConversation = async () => {
 		const isNewConversation = conversationId.startsWith('new-');
@@ -79,6 +84,10 @@ export const ConversationScreen: FC<Props> = ({
 		initConversation();
 	}, []);
 
+	useEffect(() => {
+		console.log(currentSelection);
+	}, [currentSelection]);
+
 	return (
 		<View
 			style={[
@@ -88,11 +97,12 @@ export const ConversationScreen: FC<Props> = ({
 		>
 			{ready ? (
 				<ConversationFeature
-					conversationId={conversationId}
+					conversationId={defaultConversationId}
 					onPressBack={goBack}
 					onPressText={handleTranslateText}
 					onPressTranslateTool={handleTranslateText}
 					onChangeInputText={handleOnChangeInputText}
+					onSelection={setCurrentSelection}
 				/>
 			) : (
 				<ActivityIndicator style={styles.loading} />
@@ -100,6 +110,8 @@ export const ConversationScreen: FC<Props> = ({
 		</View>
 	);
 };
+
+const defaultConversationId = '664debb95ce86898aa092815';
 
 export default ConversationScreen;
 

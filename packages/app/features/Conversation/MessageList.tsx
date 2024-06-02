@@ -3,6 +3,7 @@ import type { ListRenderItem } from 'react-native';
 import { FlatList, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 
+import type { OnSelectionFunction } from '../../components';
 import type { RootState } from '../../state';
 import type { Message } from '../../types';
 
@@ -11,9 +12,14 @@ import WrappedMessage from './WrappedMessage';
 type Props = {
 	conversationId: string;
 	onPressText?: (text: string) => void;
+	onSelection?: OnSelectionFunction;
 };
 
-export const MessageList: FC<Props> = ({ conversationId, onPressText }) => {
+export const MessageList: FC<Props> = ({
+	conversationId,
+	onPressText,
+	onSelection,
+}) => {
 	const messages =
 		useSelector(
 			(state: RootState) =>
@@ -27,6 +33,7 @@ export const MessageList: FC<Props> = ({ conversationId, onPressText }) => {
 					message={message}
 					index={index}
 					onPressText={onPressText}
+					onSelection={onSelection}
 				/>
 			);
 		},

@@ -6,6 +6,7 @@ import { AvoidSoftInputView } from 'react-native-avoid-softinput';
 import { useDispatch } from 'react-redux';
 
 import { getMessages } from '../../api';
+import type { OnSelectionFunction } from '../../components';
 import { store, updateMessagesOfConversation } from '../../state';
 
 import Header from './Header';
@@ -19,6 +20,7 @@ type Props = {
 	onPressText?: (text: string) => void;
 	onPressTranslateTool?: () => void;
 	onChangeInputText?: (text: string) => void;
+	onSelection?: OnSelectionFunction;
 };
 
 /**
@@ -31,6 +33,7 @@ const _ConversationFeature: FC<Props> = ({
 	onPressText,
 	onPressTranslateTool,
 	onChangeInputText,
+	onSelection,
 }) => {
 	const dispatch = useDispatch();
 
@@ -57,6 +60,7 @@ const _ConversationFeature: FC<Props> = ({
 			<MessageList
 				conversationId={conversationId}
 				onPressText={onPressText}
+				onSelection={onSelection}
 			/>
 			<Input
 				conversationId={conversationId}

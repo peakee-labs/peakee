@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import Animated, { SlideInRight } from 'react-native-reanimated';
 import { Circle, CircleCheck } from '@peakee/icons';
 
+import type { OnSelectionFunction } from '../../components';
 import { SelectableText } from '../../components';
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 	status?: 'pending' | 'delivered' | 'read';
 	type?: 'start' | 'end';
 	onPressText?: (text: string) => void;
+	onSelection?: OnSelectionFunction;
 }
 
 export const SentMessage: FC<Props> = ({
@@ -17,6 +19,7 @@ export const SentMessage: FC<Props> = ({
 	message,
 	status,
 	onPressText,
+	onSelection,
 }) => {
 	return (
 		<Animated.View entering={SlideInRight} style={styles.container}>
@@ -30,6 +33,7 @@ export const SentMessage: FC<Props> = ({
 				<SelectableText
 					style={styles.text}
 					onPress={() => onPressText?.(message)}
+					onSelection={onSelection}
 				>
 					{message}
 				</SelectableText>

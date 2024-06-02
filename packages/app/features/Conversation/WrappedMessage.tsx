@@ -4,6 +4,7 @@ import Animated, { LinearTransition } from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
 import { Avatar } from '@peakee/ui';
 
+import type { OnSelectionFunction } from '../../components';
 import type { RootState } from '../../state';
 import type { Message } from '../../types';
 
@@ -14,10 +15,15 @@ type Props = {
 	index: number;
 	message: Message;
 	onPressText?: (text: string) => void;
+	onSelection?: OnSelectionFunction;
 };
 
-export const WrappedMessage: FC<Props> = ({ index, message, onPressText }) => {
-	// console.log('render', message.content);
+export const WrappedMessage: FC<Props> = ({
+	index,
+	message,
+	onPressText,
+	onSelection,
+}) => {
 	const messages =
 		useSelector(
 			(state: RootState) =>
@@ -45,6 +51,7 @@ export const WrappedMessage: FC<Props> = ({ index, message, onPressText }) => {
 					message={message.content}
 					status={sendStatus}
 					onPressText={onPressText}
+					onSelection={onSelection}
 				/>
 			) : (
 				<ReceivedMessage

@@ -1,20 +1,23 @@
 import type { FC, ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import type { OnSelectionFunction } from '../../components';
 import { SelectableText } from '../../components';
 
 interface Props {
 	message: string;
 	type?: 'start' | 'end';
-	onPressText?: (text: string) => void;
 	prefix?: ReactNode;
+	onPressText?: (text: string) => void;
+	onSelection?: OnSelectionFunction;
 }
 
 export const ReceivedMessage: FC<Props> = ({
 	type,
 	message,
-	onPressText,
 	prefix,
+	onPressText,
+	onSelection,
 }) => {
 	return (
 		<View style={styles.container}>
@@ -29,6 +32,7 @@ export const ReceivedMessage: FC<Props> = ({
 				<SelectableText
 					style={styles.text}
 					onPress={() => onPressText?.(message)}
+					onSelection={onSelection}
 				>
 					{message}
 				</SelectableText>

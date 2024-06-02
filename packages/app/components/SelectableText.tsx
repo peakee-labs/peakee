@@ -6,20 +6,23 @@ import type {
 } from 'react-native';
 import { StyleSheet, TextInput } from 'react-native';
 
-type Props = Omit<TextInputProps, 'children' | 'value'> & {
-	onPress?: () => void;
-	onSelection?: (text: string, start: number, end: number) => void;
-	children: string;
-};
-
-type Selection = {
+export type Selection = {
+	text: string;
 	start: number;
 	end: number;
 };
 
+export type OnSelectionFunction = (selection: Selection) => void;
+
+type Props = Omit<TextInputProps, 'children' | 'value'> & {
+	onPress?: () => void;
+	onSelection?: OnSelectionFunction;
+	children: string;
+};
+
 export const SelectableText: FC<Props> = ({
 	style,
-	children,
+	children: text,
 	onPress,
 	onSelection,
 	...props
@@ -30,22 +33,23 @@ export const SelectableText: FC<Props> = ({
 	) => {
 		const isPreviousSelectionEmpty =
 			selectionRef.current?.end === selectionRef.current?.start;
-		const isEmptySelection =
-			e.nativeEvent.selection.end === e.nativeEvent.selection.start;
+
+		const { start, end } = e.nativeEvent.selection;
+		const isEmptySelection = end === start;
+		const selection = { text, start, end };
 		if (isEmptySelection && isPreviousSelectionEmpty) {
 			onPress?.();
 		} else {
-			const { start, end } = e.nativeEvent.selection;
-			onSelection?.(children, start, end);
+			onSelection?.(selection);
 		}
 
-		selectionRef.current = e.nativeEvent.selection;
+		selectionRef.current = selection;
 	};
 
 	return (
 		<TextInput
 			style={[styles.default, style]}
-			value={children}
+			value={text}
 			editable={true}
 			multiline={true}
 			onSelectionChange={handleSelectionChange}
