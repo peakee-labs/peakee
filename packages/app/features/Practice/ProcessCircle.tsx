@@ -23,7 +23,7 @@ export const ProcessCircle: FC<Props> = ({ title, percent, color }) => {
 					<View style={styles.titleContainer}>
 						<Text style={styles.title}>{title}</Text>
 						<Text style={[styles.percent, { color }]}>
-							{percent.toFixed(1)}%
+							{percent.toFixed(0)}%
 						</Text>
 					</View>
 				)}
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 	},
 	percent: {
 		top: 6,
-		fontSize: 28,
+		fontSize: 24,
 		fontWeight: '800',
 	},
 });
