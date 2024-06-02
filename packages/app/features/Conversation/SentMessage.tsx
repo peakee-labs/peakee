@@ -1,5 +1,6 @@
-import type { FC } from 'react';
+import { type FC } from 'react';
 import { StyleSheet, View } from 'react-native';
+import Animated, { SlideInRight } from 'react-native-reanimated';
 import { Circle, CircleCheck } from '@peakee/icons';
 
 import { SelectableText } from '../../components';
@@ -7,17 +8,28 @@ import { SelectableText } from '../../components';
 interface Props {
 	message: string;
 	status?: 'pending' | 'delivered' | 'read';
+	type?: 'start' | 'end';
 	onPressText?: (text: string) => void;
 }
 
-export const SentMessage: FC<Props> = ({ message, status, onPressText }) => {
+export const SentMessage: FC<Props> = ({
+	type,
+	message,
+	status,
+	onPressText,
+}) => {
 	return (
-		<View style={styles.container}>
-			<View style={styles.textContainer}>
+		<Animated.View entering={SlideInRight} style={styles.container}>
+			<View
+				style={[
+					styles.textContainer,
+					type === 'start' && styles.start,
+					type === 'end' && styles.end,
+				]}
+			>
 				<SelectableText
 					style={styles.text}
 					onPress={() => onPressText?.(message)}
-					selectionColor="orange"
 				>
 					{message}
 				</SelectableText>
@@ -26,8 +38,10 @@ export const SentMessage: FC<Props> = ({ message, status, onPressText }) => {
 				<Circle size={14} color={'#c4c2c2'} strokeWidth="3" />
 			) : status === 'delivered' ? (
 				<CircleCheck size={14} color={'#c4c2c2'} strokeWidth="3" />
-			) : null}
-		</View>
+			) : (
+				<View style={{ width: 14 }} />
+			)}
+		</Animated.View>
 	);
 };
 
@@ -41,16 +55,27 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-end',
 		gap: 2,
 	},
+	start: {
+		marginTop: 18,
+		borderTopRightRadius: 22,
+		borderBottomRightRadius: 4,
+	},
+	end: {
+		borderTopRightRadius: 6,
+		borderBottomRightRadius: 22,
+	},
 	textContainer: {
-		backgroundColor: '#FF7701',
-		paddingVertical: 2,
-		paddingHorizontal: 18,
+		backgroundColor: '#2a77dc',
+		paddingVertical: 6,
+		paddingHorizontal: 12,
 		borderRadius: 20,
 		marginLeft: 50,
+		borderTopRightRadius: 10,
+		borderBottomRightRadius: 10,
 	},
 	text: {
 		fontSize: 16,
-		lineHeight: 36,
+		lineHeight: 21,
 		color: '#FFFFFF',
 	},
 });
