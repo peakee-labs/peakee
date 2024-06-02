@@ -1,21 +1,23 @@
 import type { FC } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Circle, CircleCheck } from '@peakee/icons';
-
-import { TranslatableText } from '../../components';
 
 interface Props {
 	message: string;
 	status?: 'pending' | 'delivered' | 'read';
+	onPressText?: (text: string) => void;
 }
 
-export const SentMessage: FC<Props> = ({ message, status }) => {
+export const SentMessage: FC<Props> = ({ message, status, onPressText }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.textContainer}>
-				<TranslatableText style={styles.text}>
+				<Text
+					style={styles.text}
+					onPress={() => onPressText?.(message)}
+				>
 					{message}
-				</TranslatableText>
+				</Text>
 			</View>
 			{status === 'pending' ? (
 				<Circle size={14} color={'#c4c2c2'} strokeWidth="3" />

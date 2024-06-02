@@ -1,19 +1,21 @@
 import type { FC } from 'react';
-import { StyleSheet, View } from 'react-native';
-
-import { TranslatableText } from '../../components';
+import { StyleSheet, Text, View } from 'react-native';
 
 interface Props {
 	message: string;
+	onPressText?: (text: string) => void;
 }
 
-export const ReceivedMessage: FC<Props> = ({ message }) => {
+export const ReceivedMessage: FC<Props> = ({ message, onPressText }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.textContainer}>
-				<TranslatableText style={styles.text}>
+				<Text
+					style={styles.text}
+					onPress={() => onPressText?.(message)}
+				>
 					{message}
-				</TranslatableText>
+				</Text>
 			</View>
 		</View>
 	);

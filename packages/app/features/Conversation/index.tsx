@@ -32,15 +32,19 @@ type Props = {
 	id: string;
 	style?: StyleProp<ViewStyle>;
 	onPressBack?: () => void;
+	onPressText?: (text: string) => void;
 };
 
 /**
  * Always make sure that the conversation state is available
  */
-export const ConversationFeature: FC<Props> = ({ id, style, onPressBack }) => {
-	const userId = store().getState().user.profile?.id;
-	if (!userId) throw Error('User not logged in');
-
+export const ConversationFeature: FC<Props> = ({
+	id,
+	style,
+	onPressBack,
+	onPressText,
+}) => {
+	const { profile } = useSelector((state: RootState) => state.user);
 	const conversation = useSelector(
 		(state: RootState) => state.chat.conversationsMap[id],
 	);
@@ -54,7 +58,7 @@ export const ConversationFeature: FC<Props> = ({ id, style, onPressBack }) => {
 			content,
 			conversationId: conversation.id,
 			status: 'initial',
-			senderId: userId,
+			senderId: profile?.id as string,
 			createdAt: new Date().toISOString(),
 			updatedAt: new Date().toISOString(),
 			resolveId: createRandomString(),
@@ -135,13 +139,17 @@ export const ConversationFeature: FC<Props> = ({ id, style, onPressBack }) => {
 	const renderMessage = ({ item: message }: { item: Message }) => {
 		return (
 			<Animated.View layout={LinearTransition}>
-				{message.senderId === userId ? (
+				{message.senderId === profile?.id ? (
 					<SentMessage
 						message={message.content}
 						status={message.status as never}
+						onPressText={onPressText}
 					/>
 				) : (
-					<ReceivedMessage message={message.content} />
+					<ReceivedMessage
+						message={message.content}
+						onPressText={onPressText}
+					/>
 				)}
 			</Animated.View>
 		);
@@ -176,7 +184,10 @@ export const ConversationFeature: FC<Props> = ({ id, style, onPressBack }) => {
 				showsVerticalScrollIndicator={false}
 			/>
 
-			<Input onPressSend={handleSendMessage} />
+			<Input
+				value={conversation.pendingMessageInput}
+				onPressSend={handleSendMessage}
+			/>
 		</KeyboardAvoidingView>
 	);
 };
