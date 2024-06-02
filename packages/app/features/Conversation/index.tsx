@@ -82,7 +82,7 @@ export const ConversationFeature: FC<Props> = ({
 			});
 		}
 
-		dispatch(addMessage({ conversationId: id, message }));
+		dispatch(addMessage({ message }));
 	};
 
 	const createConversation = async () => {

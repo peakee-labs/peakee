@@ -23,34 +23,31 @@ export const chatSlice = createSlice({
 		reset: () => initialState,
 		addMessage: (
 			state,
-			{
-				payload,
-			}: PayloadAction<{ conversationId: string; message: Message }>,
+			{ payload }: PayloadAction<{ message: Message }>,
 		) => {
-			const { conversationId, message } = payload;
+			const { message } = payload;
+			const { id, conversationId, resolveId } = message;
 			if (!state.conversationsMap[conversationId].messages) {
 				state.conversationsMap[conversationId].messages = [message];
 			} else {
 				const messages =
 					state.conversationsMap[conversationId].messages;
 				const isMessageExisted = !!messages?.find((m) => {
-					return m.id === message.id;
+					return m.id === id || resolveId === resolveId;
 				});
-				if (!isMessageExisted) {
-					messages?.unshift(message);
-				}
+				if (!isMessageExisted) messages?.unshift(message);
 			}
 		},
 		resolveMessage: (
 			state,
 			{ payload: message }: PayloadAction<Message>,
 		) => {
-			const messages =
-				state.conversationsMap[message.conversationId].messages;
+			const { conversationId, resolveId } = message;
+			const messages = state.conversationsMap[conversationId].messages;
 			if (!messages) return;
 
 			const targetMessageIndex = messages?.findIndex((m) => {
-				return m.resolveId === message.resolveId;
+				return m.resolveId === resolveId;
 			});
 			messages[targetMessageIndex] = message;
 		},

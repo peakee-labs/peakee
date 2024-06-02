@@ -35,12 +35,7 @@ function initWebsocket(endpoint: string, token: string) {
 				await getConversationWithState(payload.message.conversationId);
 			}
 
-			store().dispatch(
-				addMessage({
-					conversationId: payload.message.conversationId,
-					message: payload.message,
-				}),
-			);
+			store().dispatch(addMessage({ message: payload.message }));
 			store().dispatch(
 				updateLatestMessage({
 					conversationId: payload.message.conversationId,
