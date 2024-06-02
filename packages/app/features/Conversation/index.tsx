@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { AvoidSoftInputView } from 'react-native-avoid-softinput';
@@ -24,7 +24,7 @@ type Props = {
 /**
  * Always make sure that the conversation state is available
  */
-export const ConversationFeature: FC<Props> = ({
+const _ConversationFeature: FC<Props> = ({
 	conversationId,
 	style,
 	onPressBack,
@@ -66,6 +66,8 @@ export const ConversationFeature: FC<Props> = ({
 		</AvoidSoftInputView>
 	);
 };
+
+export const ConversationFeature = memo(_ConversationFeature);
 
 export default ConversationFeature;
 
