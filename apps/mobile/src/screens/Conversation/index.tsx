@@ -10,10 +10,17 @@ import {
 } from '@peakee/app';
 import ConversationFeature from '@peakee/app/features/Conversation';
 import type { RootState } from '@peakee/app/state';
-import { addConversation, store } from '@peakee/app/state';
+import {
+	addConversation,
+	store,
+	updatePendingMessageInput,
+} from '@peakee/app/state';
 import type { Conversation } from '@peakee/app/types';
 import type { StackScreenProps } from '@react-navigation/stack';
+import { Align } from 'empty-modal';
+import { showModalWithComponent } from 'empty-modal/state';
 import type { RootStackParamList } from 'utils/navigation';
+import TranslateBottomSheet from 'utils/TranslateBottomSheet';
 
 type Props = StackScreenProps<RootStackParamList, 'Conversation'>;
 
@@ -46,6 +53,26 @@ export const ConversationScreen: FC<Props> = ({
 		};
 
 		dispatch(addConversation(newConversation));
+	};
+
+	const handlePressMessageText = (text: string) => {
+		showModalWithComponent(TranslateBottomSheet, {
+			id: 'translate-bottom-sheet',
+			align: Align.FullBottom,
+			showBackdrop: true,
+			props: {
+				initText: text,
+				initLanguages: 'en-vi',
+				onPressUseEnglishText: (text) => {
+					dispatch(
+						updatePendingMessageInput({
+							conversationId,
+							input: text,
+						}),
+					);
+				},
+			},
+		});
 	};
 
 	useEffect(() => {
@@ -85,7 +112,11 @@ export const ConversationScreen: FC<Props> = ({
 			]}
 		>
 			{conversation ? (
-				<ConversationFeature id={conversationId} onPressBack={goBack} />
+				<ConversationFeature
+					id={conversationId}
+					onPressBack={goBack}
+					onPressText={handlePressMessageText}
+				/>
 			) : !ready ? (
 				<ActivityIndicator style={styles.loading} />
 			) : (

@@ -1,5 +1,5 @@
 import type { Ref } from 'react';
-import { useEffect } from 'react';
+import { forwardRef, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
 	AvoidSoftInput,
@@ -17,7 +17,7 @@ export type WrappedProps = Props & {
 	onClose?: () => void;
 };
 
-export const TranslateBottomSheet = (
+export const _TranslateBottomSheet = (
 	{ ...props }: WrappedProps,
 	ref: Ref<View>,
 ) => {
@@ -71,6 +71,10 @@ export const TranslateBottomSheet = (
 		</GestureDetector>
 	);
 };
+
+export const TranslateBottomSheet = forwardRef<View, WrappedProps>(
+	_TranslateBottomSheet,
+);
 
 export default TranslateBottomSheet;
 
