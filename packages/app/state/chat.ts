@@ -26,16 +26,13 @@ export const chatSlice = createSlice({
 			{ payload }: PayloadAction<{ message: Message }>,
 		) => {
 			const { message } = payload;
-			const { id, conversationId, resolveId } = message;
+			const { conversationId } = message;
 			if (!state.conversationsMap[conversationId].messages) {
 				state.conversationsMap[conversationId].messages = [message];
 			} else {
 				const messages =
 					state.conversationsMap[conversationId].messages;
-				const isMessageExisted = !!messages?.find((m) => {
-					return m.id === id || m.resolveId === resolveId;
-				});
-				if (!isMessageExisted) messages?.unshift(message);
+				messages?.unshift(message);
 			}
 		},
 		resolveMessage: (
