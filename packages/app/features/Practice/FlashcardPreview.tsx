@@ -19,7 +19,7 @@ export const FlashcardPreview: FC<Props> = ({
 	totalCardCount,
 	onPressReview,
 }) => {
-	const percent = (reviewedCardCount * 100) / totalCardCount;
+	const percent = ((reviewedCardCount * 100) / totalCardCount) | 0;
 
 	return (
 		<View style={styles.container}>

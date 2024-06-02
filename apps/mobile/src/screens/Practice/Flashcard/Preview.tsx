@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { FlashcardPreview } from '@peakee/app/features/Practice/FlashcardPreview';
-import type { PracticeFlashCardCollectionInformation } from '@peakee/app/types';
+import type { PracticeFlashCardCollection } from '@peakee/app/types';
 import { useNavigation } from '@react-navigation/native';
 
 export type Props = {
-	collection: PracticeFlashCardCollectionInformation;
+	collection: PracticeFlashCardCollection;
 };
 export const FlashCardPreview: FC<Props> = ({ collection }) => {
 	const { navigate } = useNavigation();
@@ -16,16 +16,21 @@ export const FlashCardPreview: FC<Props> = ({ collection }) => {
 			params: { collectionId: collection.id },
 		});
 	};
+	const viewed = collection.flashcards
+		? collection.flashcards.reduce(
+				(prev, curr) => prev + (curr.isViewed ? 1 : 0),
+				0,
+		  )
+		: 0;
+	const total = collection.flashcards ? collection.flashcards.length : 0;
 
 	return (
 		<View style={styles.container}>
 			<FlashcardPreview
 				name={collection.name}
 				description={collection.description}
-				reviewedCardCount={
-					collection.reviewed ? collection.reviewed.length : 0
-				}
-				totalCardCount={collection.total ? collection.total.length : 0}
+				reviewedCardCount={viewed}
+				totalCardCount={total}
 				onPressReview={handlePressLatestFlashcardReview2}
 			/>
 		</View>

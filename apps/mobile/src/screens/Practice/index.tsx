@@ -1,33 +1,76 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
-import { getFlashCardCollectionsInformation } from '@peakee/app/api';
-import type { PracticeFlashCardCollectionInformation } from '@peakee/app/types';
+import { useCallback, useEffect, useState } from 'react';
+import {
+	ActivityIndicator,
+	RefreshControl,
+	ScrollView,
+	StyleSheet,
+} from 'react-native';
+import { useDispatch } from 'react-redux';
+import {
+	getFlashCardCollectionsInformation,
+	getPendingExplainLog,
+} from '@peakee/app/api';
+import {
+	addCollectionsInformation,
+	addPendingCollection,
+} from '@peakee/app/state/practice';
 import DefaultContainer from 'components/DefaultContainer';
 
 import { CollectionPreviews } from './CollectionPreview';
 import Header from './Header';
 import LatestReview from './LatestReview';
+import PendingReview from './PendingReview';
 
 export const PracticeScreen = () => {
-	const [collections, setCollections] = useState<
-		PracticeFlashCardCollectionInformation[]
-	>([]);
+	const [loading, setLoading] = useState(false);
+	const [refreshing, setRefreshing] = useState(false);
+	const dispatch = useDispatch();
+	const fetchCollections = async () => {
+		const collections = await getFlashCardCollectionsInformation();
+		if (collections) {
+			dispatch(addCollectionsInformation(collections));
+		}
+		const pendingCollection = await getPendingExplainLog();
+		if (pendingCollection && pendingCollection.flashcards?.length) {
+			dispatch(addPendingCollection(pendingCollection));
+		}
+		setLoading(false);
+	};
+
+	const onRefresh = useCallback(() => {
+		setRefreshing(true);
+		fetchCollections();
+		setTimeout(() => {
+			setRefreshing(false);
+		}, 2000);
+	}, []);
 
 	useEffect(() => {
-		const fetchCollections = async () => {
-			const collections = await getFlashCardCollectionsInformation();
-			if (collections) {
-				setCollections(collections);
-			}
-		};
+		setLoading(true);
 		fetchCollections();
 	}, []);
 
 	return (
 		<DefaultContainer style={styles.container}>
 			<Header />
-			<LatestReview />
-			<CollectionPreviews collections={collections} />
+			{loading ? (
+				<ActivityIndicator />
+			) : (
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					refreshControl={
+						<RefreshControl
+							refreshing={refreshing}
+							onRefresh={onRefresh}
+						/>
+					}
+					contentContainerStyle={styles.collectionsContainer}
+				>
+					<LatestReview />
+					<PendingReview />
+					<CollectionPreviews />
+				</ScrollView>
+			)}
 		</DefaultContainer>
 	);
 };
@@ -36,6 +79,9 @@ export default PracticeScreen;
 
 const styles = StyleSheet.create({
 	container: {
+		gap: 14,
+	},
+	collectionsContainer: {
 		gap: 14,
 	},
 });

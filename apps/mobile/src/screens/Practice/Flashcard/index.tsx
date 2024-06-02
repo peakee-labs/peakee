@@ -13,10 +13,13 @@ import Animated, {
 	withSpring,
 	ZoomIn,
 } from 'react-native-reanimated';
+import { useDispatch, useSelector } from 'react-redux';
 import {
 	getFlashCardCollectionById,
 	getFlashCardCollectionDefault,
 } from '@peakee/app/api';
+import type { RootState } from '@peakee/app/state';
+import { addCollectionFlashcards } from '@peakee/app/state/practice';
 import type { PracticeFlashCardCollection } from '@peakee/app/types';
 import { ChevronLeft, ChevronRight } from '@peakee/icons';
 // can not use animation importing from @peakee/app ??????
@@ -33,55 +36,73 @@ type Props = StackScreenProps<PracticeParamList, 'Flashcard'>;
 
 export const FlashcardScreen: FC<Props> = ({ route }) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const dispatch = useDispatch();
 	const { collectionId } = route.params;
+	const collectionState = useSelector(
+		(root: RootState) =>
+			root.practice.flashcardCollectionsMap[collectionId],
+	);
 	const currentCardRef = useRef<View>(null);
 	const cardContainerRef = useRef<View>(null);
 	const [renderNext, setRenderNext] = useState(false);
 	const [nextCardXOffset, setNextCardXOffset] = useState<number>();
 	const [nextCardYOffset, setNextCardYOffset] = useState<number>();
 	const nextCardScale = useSharedValue<number>(1);
-	const [collection, setCollection] = useState<PracticeFlashCardCollection>();
+	const [collection, setCollection] =
+		useState<PracticeFlashCardCollection>(collectionState);
 	const [currentIndex, setCurrentIndex] = useState<number>();
 	const [isLoading, setIsLoading] = useState(true);
 
-	// fetch flashcard collection with collection Id
 	useEffect(() => {
 		const fetchFlashcardCollection = async (
 			collectionId: 'default' | string,
 		) => {
-			let collection: PracticeFlashCardCollection | undefined;
+			let col: PracticeFlashCardCollection | undefined;
 			if (collectionId == 'default') {
-				collection = await getFlashCardCollectionDefault();
+				col = await getFlashCardCollectionDefault();
 			} else {
-				collection = await getFlashCardCollectionById(collectionId);
+				col = await getFlashCardCollectionById(collectionId);
 			}
 
-			if (!collection) {
+			if (!col || !col.flashcards) {
 				return;
 			}
 
 			// set theme field of each flashcard in collection
-			for (let i = 0; i < collection.flashcards.length; i++) {
-				if (collection.flashcards[i].theme === undefined) {
+			for (let i = 0; i < col.flashcards.length; i++) {
+				if (col.flashcards[i].theme === undefined) {
 					// set theme value to random key in colorMap
-					collection.flashcards[i].theme =
+					col.flashcards[i].theme =
 						ColorMapKeys[
 							Math.floor(Math.random() * ColorMapKeys.length)
 						];
 				}
 			}
 
-			setCollection(collection);
-			setCurrentIndex(collection.flashcards.length - 1);
+			dispatch(
+				addCollectionFlashcards({
+					collectionID: collectionId,
+					flashcards: col.flashcards,
+				}),
+			);
+			setCollection(col);
+
+			setCurrentIndex(col.flashcards.length - 1);
 			setIsLoading(false);
 		};
 
-		fetchFlashcardCollection(collectionId);
-	}, []);
+		if (!collectionState || !collectionState.flashcards) {
+			fetchFlashcardCollection(collectionId);
+		} else {
+			setCurrentIndex(collectionState.flashcards.length - 1);
+			setCollection(collectionState);
+			setIsLoading(() => false);
+		}
+	}, [collectionState]);
 
 	const renderedFlashcards = useMemo(() => {
-		return collection?.flashcards.reverse();
-	}, [collection]);
+		return collection?.flashcards?.reverse();
+	}, [collection, collectionState]);
 
 	const animatedNextCardStyle = useAnimatedStyle(() => {
 		return {
@@ -119,7 +140,7 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 	const handleBack = () => {
 		setCurrentIndex((idx) =>
 			idx != undefined &&
-			collection != undefined &&
+			collection?.flashcards &&
 			idx + 1 < collection.flashcards.length
 				? idx + 1
 				: idx,

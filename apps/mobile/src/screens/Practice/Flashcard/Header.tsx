@@ -19,9 +19,9 @@ export const Header: FC<Props> = ({ collection }) => {
 				style={styles.icon}
 				source={require('assets/flashcard.png')}
 			/>
-			{collection ? (
+			{collection?.flashcards ? (
 				<View style={styles.titleContainer}>
-					<Text style={styles.title}>{collection.metadata.name}</Text>
+					<Text style={styles.title}>{collection.name}</Text>
 					<View>
 						<OrangeBadge
 							title={`${collection.flashcards.length} cards`}
