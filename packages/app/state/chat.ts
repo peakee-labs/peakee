@@ -33,7 +33,7 @@ export const chatSlice = createSlice({
 				const messages =
 					state.conversationsMap[conversationId].messages;
 				const isMessageExisted = !!messages?.find((m) => {
-					return m.id === id || resolveId === resolveId;
+					return m.id === id || m.resolveId === resolveId;
 				});
 				if (!isMessageExisted) messages?.unshift(message);
 			}
