@@ -48,7 +48,7 @@ export const TranslateBottomSheet: FC<WrappedProps> = ({ ...props }) => {
 	useSoftInputHeightChanged(({ softInputHeight }) => {
 		console.log(yOffset.value, softInputHeight);
 		if (Math.abs(yOffset.value) < softInputHeight) {
-			yOffset.value -= softInputHeight;
+			yOffset.value = -softInputHeight;
 		}
 	});
 
