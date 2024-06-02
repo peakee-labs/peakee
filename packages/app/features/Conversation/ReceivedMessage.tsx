@@ -1,5 +1,7 @@
 import type { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
+import { SelectableText } from '../../components';
 
 interface Props {
 	message: string;
@@ -10,12 +12,12 @@ export const ReceivedMessage: FC<Props> = ({ message, onPressText }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.textContainer}>
-				<Text
+				<SelectableText
 					style={styles.text}
 					onPress={() => onPressText?.(message)}
 				>
 					{message}
-				</Text>
+				</SelectableText>
 			</View>
 		</View>
 	);
@@ -38,5 +40,6 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		fontSize: 16,
+		lineHeight: 24,
 	},
 });
