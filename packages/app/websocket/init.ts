@@ -69,9 +69,14 @@ export const wsMap: Map<WS_TYPE, { connection: WebSocket; id: string }> =
 	new Map();
 
 export const initWebsocketWithProfile = (userId: string, jwt: string) => {
-	if (wsMap.has(WS_TYPE.DEFAULT)) {
-		wsMap.get(WS_TYPE.DEFAULT)?.connection.close();
-		wsMap.delete(WS_TYPE.DEFAULT);
+	const ws = wsMap.get(WS_TYPE.DEFAULT)?.connection;
+
+	const isWsInitializedAndAlive =
+		ws &&
+		ws.readyState !== WebSocket.CLOSED &&
+		ws.readyState !== WebSocket.CLOSING;
+	if (isWsInitializedAndAlive) {
+		return;
 	}
 
 	try {

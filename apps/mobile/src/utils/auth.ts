@@ -67,8 +67,10 @@ export const signOut = async () => {
 auth().onIdTokenChanged(async (authUser) => {
 	if (authUser) {
 		const jwt = await authUser.getIdToken();
-		if (jwt) setJWT(jwt);
-		initWebsocketWithProfile(authUser.uid, jwt);
+		if (jwt) {
+			setJWT(jwt);
+			initWebsocketWithProfile(authUser.uid, jwt);
+		}
 
 		const currentUserState = store().getState().user.profile;
 		if (currentUserState) return;
