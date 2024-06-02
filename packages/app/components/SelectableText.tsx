@@ -51,6 +51,8 @@ export const SelectableText: FC<Props> = ({
 			onSelectionChange={handleSelectionChange}
 			cursorColor={'transparent'}
 			showSoftInputOnFocus={false}
+			spellCheck={false}
+			aria-checked={false}
 			{...props}
 		/>
 	);
