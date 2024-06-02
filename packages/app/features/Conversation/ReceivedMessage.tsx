@@ -33,13 +33,13 @@ const styles = StyleSheet.create({
 	},
 	textContainer: {
 		backgroundColor: '#F2F7FB',
-		paddingVertical: 10,
+		paddingVertical: 2,
 		paddingHorizontal: 18,
 		borderRadius: 20,
 		marginRight: 50,
 	},
 	text: {
 		fontSize: 16,
-		lineHeight: 24,
+		lineHeight: 36,
 	},
 });
