@@ -11,21 +11,28 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import { ChevronRight, SendIcon, Translate } from '@peakee/icons';
 
+import type { RootState } from '../../state';
+
+import { handleSendMessage as sendMessage } from './shared';
+
 interface Props {
-	value?: string;
+	conversationId: string;
 	onChangeText?: (text: string) => void;
-	onPressSend: (message: string) => void;
 	onPressTranslateTool?: () => void;
 }
 
 export const Input: FC<Props> = ({
-	value,
-	onPressSend,
+	conversationId,
 	onChangeText,
 	onPressTranslateTool,
 }) => {
+	const pendingMessage = useSelector(
+		(state: RootState) =>
+			state.chat.conversationsMap[conversationId].pendingMessageInput,
+	);
 	const [height, setHeight] = useState(0);
 	const [message, setMessage] = useState('');
 	const [maxHeightOnTextInput, setMaxHeightOnTextInput] = useState(0);
@@ -33,7 +40,7 @@ export const Input: FC<Props> = ({
 	const [renderFeatures, setRenderFeatures] = useState(false);
 
 	const handleSendMessage = () => {
-		onPressSend(message);
+		sendMessage(conversationId, message);
 		setMessage('');
 	};
 
@@ -69,8 +76,8 @@ export const Input: FC<Props> = ({
 	};
 
 	useEffect(() => {
-		if (value) setMessage(value);
-	}, [value]);
+		if (pendingMessage) setMessage(pendingMessage);
+	}, [pendingMessage]);
 
 	useEffect(() => {
 		onChangeText?.(message);

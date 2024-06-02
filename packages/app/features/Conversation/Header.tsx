@@ -6,15 +6,16 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import { ChevronLeft } from '@peakee/icons';
 import { Avatar } from '@peakee/ui';
 
+import type { RootState } from '../../state';
 import { store } from '../../state';
-import type { Conversation } from '../../types';
 import { getFriendProfileWithState, getUsername } from '../../utils';
 
 interface Props {
-	conversation: Conversation;
+	conversationId: string;
 	onPressBack?: () => void;
 }
 
@@ -24,7 +25,11 @@ type Metadata = {
 	image: string;
 };
 
-export const Header: FC<Props> = ({ conversation, onPressBack }) => {
+export const Header: FC<Props> = ({ conversationId, onPressBack }) => {
+	const conversation = useSelector(
+		(state: RootState) => state.chat.conversationsMap[conversationId],
+	);
+
 	const [metadata, setMetadata] = useState<Metadata>();
 	const [loading, setLoading] = useState(false);
 
@@ -76,7 +81,7 @@ export const Header: FC<Props> = ({ conversation, onPressBack }) => {
 					{metadata ? (
 						<View style={styles.infoBlock}>
 							<Avatar
-								size={52}
+								size={42}
 								source={{ uri: metadata?.image }}
 							/>
 							<View style={styles.textContainer}>
@@ -126,17 +131,16 @@ const styles = StyleSheet.create({
 	infoBlock: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 6,
+		gap: 8,
 	},
-	textContainer: {
-		gap: 2,
-	},
+	textContainer: {},
 	name: {
-		fontSize: 18,
+		fontSize: 16,
 		fontWeight: '600',
 	},
 	description: {
 		color: '#7A7A7A',
+		fontSize: 14,
 	},
 	iconsBlock: {
 		flexDirection: 'row',
