@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@peakee/app/state';
@@ -9,16 +9,18 @@ export const CollectionPreviews: FC = () => {
 	const { flashcardCollectionsMap } = useSelector(
 		(state: RootState) => state.practice,
 	);
+	const renderedCollections = useMemo(() => {
+		return Object.values(flashcardCollectionsMap).map((collection) => (
+			<FlashCardPreview
+				key={'collection' + collection.id}
+				collection={collection}
+			/>
+		));
+	}, [flashcardCollectionsMap]);
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>My Collections</Text>
-			{flashcardCollectionsMap &&
-				Object.values(flashcardCollectionsMap).map((collection) => (
-					<FlashCardPreview
-						key={'collection' + collection.id}
-						collection={collection}
-					/>
-				))}
+			{renderedCollections}
 		</View>
 	);
 };

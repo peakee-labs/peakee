@@ -34,6 +34,31 @@ export const practiceSlice = createSlice({
 			state.pendingCollection = action.payload;
 			state.flashcardCollectionsMap[action.payload.id] = action.payload;
 		},
+		updateFlashcardViewStatus: (
+			state,
+			action: PayloadAction<{
+				collectionID: string;
+				id: string;
+				status: boolean;
+			}>,
+		) => {
+			const collection =
+				state.flashcardCollectionsMap[action.payload.collectionID];
+			if (!collection || !collection.flashcards) {
+				return;
+			}
+			console.log(
+				'collection.flashcards[action.payload.idx].id',
+				action.payload.id,
+			);
+			if (action.payload.status) {
+				collection.viewed.push(action.payload.id);
+			} else {
+				collection.viewed = collection.viewed.filter(
+					(id) => id !== action.payload.id,
+				);
+			}
+		},
 		addCollectionFlashcards: (
 			state,
 			action: PayloadAction<{
@@ -55,6 +80,7 @@ export const {
 	reset: resetExplore,
 	addPendingCollection,
 	addCollectionFlashcards,
+	updateFlashcardViewStatus,
 	addCollectionsInformation,
 } = practiceSlice.actions;
 

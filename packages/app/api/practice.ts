@@ -82,3 +82,21 @@ export const getPendingExplainLog = async () => {
 		console.log('Error getting flashcard collections', err);
 	}
 };
+
+export const updateCardStatus = async (
+	collectionID: string,
+	cardID: string,
+	viewStatus: boolean,
+) => {
+	try {
+		console.log(collectionID, '<====collectionID');
+		console.log(cardID, '<====cardID');
+		console.log(viewStatus, '<====viewStatus');
+		await axios().put(
+			`/practice/flashcards/collections/${collectionID}/${cardID}/status?viewed=${viewStatus}`,
+		);
+		return true;
+	} catch (err) {
+		console.log('Error updating card status', err);
+	}
+};
