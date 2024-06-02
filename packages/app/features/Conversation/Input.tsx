@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type {
 	NativeSyntheticEvent,
 	TextInputContentSizeChangeEventData,
@@ -15,10 +15,11 @@ import { ChevronRight, SendIcon, Translate } from '@peakee/icons';
 import { translate } from '@peakee/utils';
 
 interface Props {
+	value?: string;
 	onPressSend: (message: string) => void;
 }
 
-export const Input: FC<Props> = ({ onPressSend }) => {
+export const Input: FC<Props> = ({ value, onPressSend }) => {
 	const [height, setHeight] = useState(0);
 	const [message, setMessage] = useState('');
 	const [maxHeightOnTextInput, setMaxHeightOnTextInput] = useState(0);
@@ -64,6 +65,10 @@ export const Input: FC<Props> = ({ onPressSend }) => {
 			setMaxHeightOnTextInput(newHeight);
 		}
 	};
+
+	useEffect(() => {
+		if (value) setMessage(value);
+	}, [value]);
 
 	return (
 		<View style={styles.container}>

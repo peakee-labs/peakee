@@ -109,6 +109,14 @@ export const chatSlice = createSlice({
 			const { conversationId, message } = payload;
 			state.conversationsMap[conversationId].latestMessage = message;
 		},
+		updatePendingMessageInput: (
+			state,
+			{
+				payload: { conversationId, input },
+			}: PayloadAction<{ conversationId: string; input: string }>,
+		) => {
+			state.conversationsMap[conversationId].pendingMessageInput = input;
+		},
 	},
 });
 
@@ -122,6 +130,7 @@ export const {
 	updateMessagesOfConversation,
 	updateConversationsLoading,
 	updateLatestMessage,
+	updatePendingMessageInput,
 } = chatSlice.actions;
 
 export const chatReducer = chatSlice.reducer;
