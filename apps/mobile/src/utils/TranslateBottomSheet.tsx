@@ -7,6 +7,8 @@ import {
 } from 'react-native-avoid-softinput';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
+	SlideInDown,
+	SlideOutDown,
 	useAnimatedStyle,
 	useSharedValue,
 } from 'react-native-reanimated';
@@ -60,7 +62,12 @@ export const _TranslateBottomSheet = (
 
 	return (
 		<GestureDetector gesture={pan}>
-			<Animated.View ref={ref} style={[styles.container, animatedStyles]}>
+			<Animated.View
+				ref={ref}
+				style={[styles.container, animatedStyles]}
+				entering={SlideInDown}
+				exiting={SlideOutDown}
+			>
 				<View style={styles.indicator} />
 				<TranslateBox
 					{...props}
