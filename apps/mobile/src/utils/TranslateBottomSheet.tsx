@@ -20,7 +20,11 @@ export type WrappedProps = Props & {
 };
 
 export const _TranslateBottomSheet = (
-	{ ...props }: WrappedProps,
+	{
+		// this style prop is from ModalContainer (empty-modal), includes layout measurement of float modal
+		style,
+		...props
+	}: WrappedProps,
 	ref: Ref<View>,
 ) => {
 	const xOffset = useSharedValue<number>(0);
@@ -37,12 +41,12 @@ export const _TranslateBottomSheet = (
 
 	const animatedStyles = useAnimatedStyle(() => {
 		return {
-			top: yOffset.value,
-			left: xOffset.value,
-			// transform: [
-			// 	{ translateY: yOffset.value },
-			// 	{ translateX: xOffset.value },
-			// ],
+			// top: yOffset.value,
+			// left: xOffset.value,
+			transform: [
+				{ translateY: yOffset.value },
+				{ translateX: xOffset.value },
+			],
 		};
 	});
 
@@ -54,7 +58,6 @@ export const _TranslateBottomSheet = (
 	}, []);
 
 	useSoftInputHeightChanged(({ softInputHeight }) => {
-		console.log(yOffset.value, softInputHeight);
 		if (Math.abs(yOffset.value) < softInputHeight) {
 			yOffset.value = -softInputHeight;
 		}
@@ -64,7 +67,7 @@ export const _TranslateBottomSheet = (
 		<GestureDetector gesture={pan}>
 			<Animated.View
 				ref={ref}
-				style={[styles.container, animatedStyles]}
+				style={[style, styles.container, animatedStyles]}
 				entering={SlideInDown}
 				exiting={SlideOutDown}
 			>

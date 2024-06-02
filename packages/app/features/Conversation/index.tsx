@@ -1,12 +1,8 @@
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import {
-	FlatList,
-	KeyboardAvoidingView,
-	Platform,
-	StyleSheet,
-} from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
+import { AvoidSoftInputView } from 'react-native-avoid-softinput';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -172,11 +168,12 @@ export const ConversationFeature: FC<Props> = ({
 	}, []);
 
 	return (
-		<KeyboardAvoidingView
-			style={[styles.container, style]}
-			behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-			keyboardVerticalOffset={Platform.OS === 'ios' ? 18 : 0}
-		>
+		// <KeyboardAvoidingView
+		// 	style={[styles.container, style]}
+		// 	behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+		// 	// keyboardVerticalOffset={Platform.OS === 'ios' ? 18 : 0}
+		// >
+		<AvoidSoftInputView style={[styles.container, style]}>
 			<Header conversation={conversation} onPressBack={onPressBack} />
 
 			<FlatList
@@ -194,7 +191,8 @@ export const ConversationFeature: FC<Props> = ({
 				onChangeText={onChangeInputText}
 				onPressTranslateTool={onPressTranslateTool}
 			/>
-		</KeyboardAvoidingView>
+		</AvoidSoftInputView>
+		//  </KeyboardAvoidingView>
 	);
 };
 
