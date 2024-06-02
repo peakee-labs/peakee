@@ -12,14 +12,20 @@ import {
 	View,
 } from 'react-native';
 import { ChevronRight, SendIcon, Translate } from '@peakee/icons';
-import { translate } from '@peakee/utils';
 
 interface Props {
 	value?: string;
+	onChangeText?: (text: string) => void;
 	onPressSend: (message: string) => void;
+	onPressTranslateTool?: () => void;
 }
 
-export const Input: FC<Props> = ({ value, onPressSend }) => {
+export const Input: FC<Props> = ({
+	value,
+	onPressSend,
+	onChangeText,
+	onPressTranslateTool,
+}) => {
 	const [height, setHeight] = useState(0);
 	const [message, setMessage] = useState('');
 	const [maxHeightOnTextInput, setMaxHeightOnTextInput] = useState(0);
@@ -37,10 +43,6 @@ export const Input: FC<Props> = ({ value, onPressSend }) => {
 
 	const closeFeatures = () => {
 		setRenderFeatures(false);
-	};
-
-	const handlePressTranslate = () => {
-		translate?.();
 	};
 
 	const handleOnChangeText = (text: string) => {
@@ -70,11 +72,15 @@ export const Input: FC<Props> = ({ value, onPressSend }) => {
 		if (value) setMessage(value);
 	}, [value]);
 
+	useEffect(() => {
+		onChangeText?.(message);
+	}, [message]);
+
 	return (
 		<View style={styles.container}>
 			{renderFeatures && (
 				<View style={styles.featuresContainer}>
-					<TouchableOpacity onPress={handlePressTranslate}>
+					<TouchableOpacity onPress={onPressTranslateTool}>
 						<Translate
 							size={20}
 							color="#979797"

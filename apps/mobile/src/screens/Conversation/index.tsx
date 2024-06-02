@@ -55,8 +55,8 @@ export const ConversationScreen: FC<Props> = ({
 		dispatch(addConversation(newConversation));
 	};
 
-	const handlePressMessageText = (text: string) => {
-		showModalWithComponent(TranslateBottomSheet, {
+	const handleTranslateText = (text = '') => {
+		const { cleanModal } = showModalWithComponent(TranslateBottomSheet, {
 			id: 'translate-bottom-sheet',
 			align: Align.FullBottom,
 			showBackdrop: true,
@@ -70,9 +70,19 @@ export const ConversationScreen: FC<Props> = ({
 							input: text,
 						}),
 					);
+					cleanModal();
 				},
 			},
 		});
+	};
+
+	const handleOnChangeInputText = (text: string) => {
+		dispatch(
+			updatePendingMessageInput({
+				conversationId,
+				input: text,
+			}),
+		);
 	};
 
 	useEffect(() => {
@@ -115,7 +125,9 @@ export const ConversationScreen: FC<Props> = ({
 				<ConversationFeature
 					id={conversationId}
 					onPressBack={goBack}
-					onPressText={handlePressMessageText}
+					onPressText={handleTranslateText}
+					onPressTranslateTool={handleTranslateText}
+					onChangeInputText={handleOnChangeInputText}
 				/>
 			) : !ready ? (
 				<ActivityIndicator style={styles.loading} />

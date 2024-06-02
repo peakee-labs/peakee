@@ -33,6 +33,8 @@ type Props = {
 	style?: StyleProp<ViewStyle>;
 	onPressBack?: () => void;
 	onPressText?: (text: string) => void;
+	onPressTranslateTool?: () => void;
+	onChangeInputText?: (text: string) => void;
 };
 
 /**
@@ -43,6 +45,8 @@ export const ConversationFeature: FC<Props> = ({
 	style,
 	onPressBack,
 	onPressText,
+	onPressTranslateTool,
+	onChangeInputText,
 }) => {
 	const { profile } = useSelector((state: RootState) => state.user);
 	const conversation = useSelector(
@@ -187,6 +191,8 @@ export const ConversationFeature: FC<Props> = ({
 			<Input
 				value={conversation.pendingMessageInput}
 				onPressSend={handleSendMessage}
+				onChangeText={onChangeInputText}
+				onPressTranslateTool={onPressTranslateTool}
 			/>
 		</KeyboardAvoidingView>
 	);
