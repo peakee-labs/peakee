@@ -10797,16 +10797,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"empty-modal@npm:^0.0.5":
-  version: 0.0.5
-  resolution: "empty-modal@npm:0.0.5"
+"empty-modal@npm:^0.0.7":
+  version: 0.0.7
+  resolution: "empty-modal@npm:0.0.7"
   dependencies:
     valtio: "npm:^1.13.2"
   peerDependencies:
     "@types/react": ^18.2.0
     react: ^18.2.0
     react-native: ^0.72.0 || ^0.73.0
-  checksum: 10/324b5d09ac7487ab08aeb94f517e1ee8a285cc1794acae6db85d6682bb325857c94abea45a466900aa9e0ec639073a6a26d432274ae61859039be8b41b6c464b
+  checksum: 10/8897163d94127e3dca4b5f2cf3b7d51465bbb3543e2ea00235ab018f97dcee959f7200dbcf0602c83573136923446fe6bacb84ed957f29460186af85393ab5af
   languageName: node
   linkType: hard
 
@@ -15684,7 +15684,7 @@ __metadata:
     "@types/react-test-renderer": "npm:^18.0.0"
     axios: "npm:^1.6.8"
     babel-jest: "npm:^29.6.3"
-    empty-modal: "npm:^0.0.5"
+    empty-modal: "npm:^0.0.7"
     jest: "npm:^29.6.3"
     lottie-react-native: "npm:^6.7.2"
     openai: "npm:^4.14.2"

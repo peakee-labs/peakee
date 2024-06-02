@@ -1,8 +1,12 @@
+import { forwardRef } from 'react';
+import type { View } from 'react-native';
 import Config from 'react-native-config';
 import { initAppConfig, initAssets } from '@peakee/app';
 import { injectUtils } from '@peakee/utils';
-import { Align, showModal } from 'empty-modal';
+import { Align } from 'empty-modal';
+import { showModalWithComponent } from 'empty-modal/state';
 
+import type { WrappedProps as TranslateBottomSheetProps } from './TranslateBottomSheet';
 import TranslateBottomSheet from './TranslateBottomSheet';
 
 export const initApp = () => {
@@ -23,15 +27,18 @@ export const initApp = () => {
 
 	injectUtils({
 		translate: (text, languages = 'en-vi') => {
-			showModal(
-				<TranslateBottomSheet
-					initText={text}
-					initLanguages={languages}
-				/>,
+			showModalWithComponent(
+				forwardRef<View, TranslateBottomSheetProps>(
+					TranslateBottomSheet,
+				),
 				{
 					id: 'translate-bottom-sheet',
 					align: Align.FullBottom,
 					showBackdrop: true,
+					props: {
+						initText: text,
+						initLanguages: languages,
+					},
 				},
 			);
 		},

@@ -1,4 +1,5 @@
-import { type FC, useEffect } from 'react';
+import type { Ref } from 'react';
+import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
 	AvoidSoftInput,
@@ -12,11 +13,14 @@ import Animated, {
 import type { Props } from '@peakee/app/features/TranslateBox';
 import TranslateBox from '@peakee/app/features/TranslateBox';
 
-type WrappedProps = Props & {
+export type WrappedProps = Props & {
 	onClose?: () => void;
 };
 
-export const TranslateBottomSheet: FC<WrappedProps> = ({ ...props }) => {
+export const TranslateBottomSheet = (
+	{ ...props }: WrappedProps,
+	ref: Ref<View>,
+) => {
 	const xOffset = useSharedValue<number>(0);
 	const yOffset = useSharedValue<number>(0);
 
@@ -31,10 +35,12 @@ export const TranslateBottomSheet: FC<WrappedProps> = ({ ...props }) => {
 
 	const animatedStyles = useAnimatedStyle(() => {
 		return {
-			transform: [
-				{ translateY: yOffset.value },
-				{ translateX: xOffset.value },
-			],
+			top: yOffset.value,
+			left: xOffset.value,
+			// transform: [
+			// 	{ translateY: yOffset.value },
+			// 	{ translateX: xOffset.value },
+			// ],
 		};
 	});
 
@@ -54,7 +60,7 @@ export const TranslateBottomSheet: FC<WrappedProps> = ({ ...props }) => {
 
 	return (
 		<GestureDetector gesture={pan}>
-			<Animated.View style={[styles.container, animatedStyles]}>
+			<Animated.View ref={ref} style={[styles.container, animatedStyles]}>
 				<View style={styles.indicator} />
 				<TranslateBox
 					{...props}
