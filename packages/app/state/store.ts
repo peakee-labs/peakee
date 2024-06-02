@@ -20,6 +20,8 @@ import type { NotificationsState } from './notifications';
 import { notificationsReducer } from './notifications';
 import type { OnboardingState } from './onboarding';
 import { onboardingReducer } from './onboarding';
+import type { PracticeState } from './practice';
+import { practiceReducer } from './practice';
 import type { UserState } from './user';
 import { userReducer } from './user';
 
@@ -29,6 +31,7 @@ export type RootState = {
 	notifications: NotificationsState;
 	explore: ExploreState;
 	onboarding: OnboardingState;
+	practice: PracticeState;
 };
 
 let internalStore: ToolkitStore<RootState>;
@@ -39,6 +42,7 @@ let rootReducer = combineReducers({
 	notifications: notificationsReducer,
 	explore: exploreReducer,
 	onboarding: onboardingReducer,
+	practice: practiceReducer,
 });
 
 export const store = (): ToolkitStore<RootState> => {
