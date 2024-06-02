@@ -17,9 +17,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	getFlashCardCollectionById,
 	getFlashCardCollectionDefault,
+	updateCardStatus,
 } from '@peakee/app/api';
 import type { RootState } from '@peakee/app/state';
-import { addCollectionFlashcards } from '@peakee/app/state/practice';
+import {
+	addCollectionFlashcards,
+	updateFlashcardViewStatus,
+} from '@peakee/app/state/practice';
 import type { PracticeFlashCardCollection } from '@peakee/app/types';
 import { ChevronLeft, ChevronRight } from '@peakee/icons';
 // can not use animation importing from @peakee/app ??????
@@ -67,6 +71,7 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 			if (!col || !col.flashcards) {
 				return;
 			}
+			console.log(col, '<===col');
 
 			// set theme field of each flashcard in collection
 			for (let i = 0; i < col.flashcards.length; i++) {
@@ -98,11 +103,11 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 			setCollection(collectionState);
 			setIsLoading(() => false);
 		}
-	}, [collectionState]);
+	}, []);
 
 	const renderedFlashcards = useMemo(() => {
-		return collection?.flashcards?.reverse();
-	}, [collection, collectionState]);
+		return [...(collection?.flashcards || [])].reverse();
+	}, [collection]);
 
 	const animatedNextCardStyle = useAnimatedStyle(() => {
 		return {
@@ -119,18 +124,51 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 		}
 	};
 
+	const handleUpdateStatus = async (
+		cardIdx: number | undefined,
+		status: boolean,
+	) => {
+		if (
+			cardIdx == undefined ||
+			!collection?.flashcards ||
+			cardIdx > collection.flashcards.length - 1
+		) {
+			return;
+		}
+		const card = collection.flashcards.at(cardIdx);
+		if (!card || status == collection.viewed.includes(card.id)) {
+			return;
+		}
+
+		const success = await updateCardStatus(collection.id, card.id, status);
+		if (success)
+			dispatch(
+				updateFlashcardViewStatus({
+					collectionID: collection.id,
+					id: card.id,
+					status: status,
+				}),
+			);
+	};
+
 	const handleOk = () => {
 		setCurrentIndex((idx) =>
-			idx != undefined && idx - 1 >= -1 ? idx - 1 : idx,
+			idx != undefined && idx >= 0 ? idx - 1 : idx,
 		);
 		setRenderNext(false);
+		setTimeout(() => {
+			handleUpdateStatus(currentIndex, true);
+		}, 500);
 	};
 
 	const handleNotOk = () => {
 		setCurrentIndex((idx) =>
-			idx != undefined && idx - 1 >= -1 ? idx - 1 : idx,
+			idx != undefined && idx >= 0 ? idx - 1 : idx,
 		);
 		setRenderNext(false);
+		setTimeout(() => {
+			handleUpdateStatus(currentIndex, false);
+		}, 500);
 	};
 
 	const handleNext = () => {

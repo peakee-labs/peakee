@@ -15,7 +15,7 @@ export const LatestReview = () => {
 	if (
 		latestCollection &&
 		latestCollection.flashcards &&
-		latestCollection.flashcards.findIndex((f) => f.isViewed) !== -1
+		latestCollection.viewed.length != 0
 	) {
 		return (
 			<View style={styles.container}>

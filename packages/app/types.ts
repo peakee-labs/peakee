@@ -153,13 +153,14 @@ export type PracticeFlashCard = {
 	frontText: string;
 	backText: string;
 	theme: string;
-	isViewed: boolean;
 };
 
 export type PracticeFlashCardCollection = {
 	id: string;
 	name: string;
 	description: string;
+	viewed: string[];
+	total: string[];
 	createdAt: number;
 	updatedAt: number;
 	flashcards?: PracticeFlashCard[];

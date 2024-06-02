@@ -16,13 +16,8 @@ export const FlashCardPreview: FC<Props> = ({ collection }) => {
 			params: { collectionId: collection.id },
 		});
 	};
-	const viewed = collection.flashcards
-		? collection.flashcards.reduce(
-				(prev, curr) => prev + (curr.isViewed ? 1 : 0),
-				0,
-		  )
-		: 0;
-	const total = collection.flashcards ? collection.flashcards.length : 0;
+	const viewed = collection.viewed ? collection.viewed.length : 0;
+	const total = collection.total ? collection.total.length : 0;
 
 	return (
 		<View style={styles.container}>
