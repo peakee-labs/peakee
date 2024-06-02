@@ -153,19 +153,16 @@ export type PracticeFlashCard = {
 	frontText: string;
 	backText: string;
 	theme: string;
-};
-
-export type PracticeFlashCardCollectionInformation = {
-	id: string;
-	name: string;
-	description: string;
-	total: string[];
-	reviewed: string[];
+	isViewed: boolean;
 };
 
 export type PracticeFlashCardCollection = {
-	flashcards: PracticeFlashCard[];
-	metadata: PracticeFlashCardCollectionInformation;
+	id: string;
+	name: string;
+	description: string;
+	createdAt: number;
+	updatedAt: number;
+	flashcards?: PracticeFlashCard[];
 };
 
 export type UnknownObject = Record<string, never>;

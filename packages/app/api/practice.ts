@@ -1,9 +1,6 @@
-import { err } from 'react-native-svg';
-
 import type {
 	ExplainLog,
 	PracticeFlashCardCollection,
-	PracticeFlashCardCollectionInformation,
 	PracticeUnit,
 } from '../types';
 
@@ -66,8 +63,20 @@ export const getFlashCardCollectionById = async (collectionID: string) => {
 export const getFlashCardCollectionsInformation = async () => {
 	try {
 		const { data: collections } = await axios().get<
-			PracticeFlashCardCollectionInformation[]
+			PracticeFlashCardCollection[]
 		>(`/practice/flashcards/collections/preview`);
+		return collections;
+	} catch (err) {
+		console.log('Error getting flashcard collections', err);
+	}
+};
+
+export const getPendingExplainLog = async () => {
+	try {
+		const { data: collections } =
+			await axios().get<PracticeFlashCardCollection>(
+				`/practice/flashcards/sync-explain-logs`,
+			);
 		return collections;
 	} catch (err) {
 		console.log('Error getting flashcard collections', err);
