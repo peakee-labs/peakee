@@ -24,6 +24,9 @@ export const WrappedMessage: FC<Props> = ({ index, message, onPressText }) => {
 				state.chat.conversationsMap[message.conversationId].messages,
 		) || [];
 	const profile = useSelector((state: RootState) => state.user.profile);
+	const friendProfile = useSelector(
+		(state: RootState) => state.user.friendsMap[message.senderId],
+	);
 
 	const sendStatus = index <= 2 ? (message.status as never) : undefined;
 	const lastIndex = messages.length - 1;
@@ -50,11 +53,11 @@ export const WrappedMessage: FC<Props> = ({ index, message, onPressText }) => {
 					onPressText={onPressText}
 					prefix={
 						isEnd &&
-						profile?.imageURL && (
+						friendProfile?.imageURL && (
 							<View style={styles.avatar}>
 								<Avatar
 									size={34}
-									source={{ uri: profile.imageURL }}
+									source={{ uri: friendProfile.imageURL }}
 								/>
 							</View>
 						)
@@ -69,6 +72,6 @@ export default WrappedMessage;
 
 const styles = StyleSheet.create({
 	avatar: {
-		bottom: -6,
+		bottom: -14,
 	},
 });
