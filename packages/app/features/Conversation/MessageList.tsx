@@ -48,6 +48,7 @@ export const MessageList: FC<Props> = ({
 			renderItem={renderMessage}
 			keyExtractor={(item) => item.resolveId || item.id}
 			showsVerticalScrollIndicator={false}
+			initialNumToRender={20}
 			inverted
 		/>
 	);

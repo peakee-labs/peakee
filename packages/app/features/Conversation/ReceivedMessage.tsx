@@ -1,5 +1,6 @@
 import type { FC, ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
+import Animated, { SlideInLeft } from 'react-native-reanimated';
 
 import type { OnSelectionFunction } from '../../components';
 import { SelectableText } from '../../components';
@@ -20,7 +21,7 @@ export const ReceivedMessage: FC<Props> = ({
 	onSelection,
 }) => {
 	return (
-		<View style={styles.container}>
+		<Animated.View style={styles.container} entering={SlideInLeft}>
 			{prefix}
 			<View
 				style={[
@@ -37,7 +38,7 @@ export const ReceivedMessage: FC<Props> = ({
 					{message}
 				</SelectableText>
 			</View>
-		</View>
+		</Animated.View>
 	);
 };
 
