@@ -109,7 +109,10 @@ export const FlashcardScreen: FC<Props> = ({
 	}, []);
 
 	const renderedFlashcards = useMemo(() => {
-		return [...(collection?.flashcards || [])].reverse();
+		if (collection.flashcards) {
+			return [...collection.flashcards].reverse();
+		}
+		return [];
 	}, [collection]);
 
 	const animatedNextCardStyle = useAnimatedStyle(() => {
