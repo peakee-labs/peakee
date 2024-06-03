@@ -12,7 +12,7 @@ export type Selection = {
 	end: number;
 };
 
-export type OnSelectionFunction = (selection: Selection) => void;
+export type OnSelectionFunction = (selection?: Selection) => void;
 
 type Props = Omit<TextInputProps, 'children' | 'value'> & {
 	onPress?: () => void;
@@ -39,6 +39,7 @@ export const SelectableText: FC<Props> = ({
 		const selection = { text, start, end };
 		if (isEmptySelection && isPreviousSelectionEmpty) {
 			onPress?.();
+			onSelection?.(undefined);
 		} else {
 			onSelection?.(selection);
 		}

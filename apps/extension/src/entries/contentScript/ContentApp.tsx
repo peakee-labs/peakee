@@ -2,10 +2,10 @@ import type { ChangeEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { ExplainPhraseInSentenceResponse } from '@peakee/app/api';
+import ExplanationBox from '@peakee/app/features/ExplanationBox';
 import TranslateBox from '@peakee/app/features/TranslateBox';
 
 import { type AskContext, AskBox } from './AskBox';
-import ExplanationBox from './ExplanationBox';
 import Highlight from './HighLight';
 import {
 	requestExplainViaMessage,
@@ -280,6 +280,7 @@ export const ContentApp = () => {
 
 			{explanation && explanationBoxPosition && (
 				<ExplanationBox
+					style={styles.explanationBox}
 					ref={explanationBoxRef}
 					position={explanationBoxPosition}
 					explanation={explanation}
@@ -346,5 +347,15 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: '#B1B6C1',
 		borderRadius: 10,
+	},
+	explanationBox: {
+		position: 'absolute',
+		backgroundColor: '#FFFFFF',
+		paddingHorizontal: 16,
+		width: 360,
+		paddingBottom: 50,
+		borderWidth: 1,
+		borderRadius: 20,
+		borderColor: '#B1B6C1',
 	},
 });

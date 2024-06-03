@@ -1,63 +1,88 @@
 import type { Ref } from 'react';
 import { forwardRef } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import type { ExplainPhraseInSentenceResponse } from '@peakee/app/api';
 
-import type { Position } from '../types';
-
-type Props = {
-	position: Position;
+export type Props = {
+	style?: StyleProp<ViewStyle>;
+	position?: Position;
 	explanation: ExplainPhraseInSentenceResponse;
+	titleSize?: number;
+	mainContentSize?: number;
+	contentSize?: number;
 };
 
-const _ExplanationBox = ({ explanation, position }: Props, ref: Ref<View>) => {
+export type Position = {
+	left: number;
+	top: number;
+};
+
+const _ExplanationBox = (
+	{
+		style,
+		explanation,
+		position,
+		contentSize,
+		titleSize,
+		mainContentSize,
+	}: Props,
+	ref: Ref<View>,
+) => {
+	const titleStyle = [styles.heading, { fontSize: titleSize }];
+	const contentStyle = [styles.content, { fontSize: contentSize }];
+	const mainContentStyle = [
+		styles.mainContent,
+		{ fontSize: mainContentSize },
+	];
+
 	return (
-		<View ref={ref} style={[styles.container, position]}>
-			<Text style={styles.heading}>Translate</Text>
-			<Text style={styles.content}>{explanation.translate}</Text>
+		<View ref={ref} style={[styles.container, position, style]}>
+			<Text style={titleStyle}>Translate</Text>
+			<Text style={contentStyle}>{explanation.translate}</Text>
 
-			<Text style={styles.heading}>IPA</Text>
-			<Text style={styles.content}>{explanation.IPA}</Text>
+			<Text style={titleStyle}>IPA</Text>
+			<Text style={contentStyle}>{explanation.IPA}</Text>
 
-			<Text style={styles.heading}>Sentence tense</Text>
+			<Text style={titleStyle}>Sentence tense</Text>
 			<View style={styles.tenseContainer}>
-				<Text style={styles.mainContent}>
+				<Text style={mainContentStyle}>
 					{explanation.grammarAnalysis.tense.type}
 				</Text>
-				<Text style={styles.content}>
+				<Text style={contentStyle}>
 					Identifier: {explanation.grammarAnalysis.tense.identifier}
 				</Text>
 			</View>
 
-			<Text style={styles.heading}>Sentence structure</Text>
+			<Text style={titleStyle}>Sentence structure</Text>
 			<View style={styles.structureContainer}>
-				<Text style={styles.mainContent}>
+				<Text style={mainContentStyle}>
 					{explanation.grammarAnalysis.structure.structure}
 				</Text>
-				{/* <Text style={styles.content}>
+				{/* <Text style={contentStyle}>
 					Type: {explanation.grammarAnalysis.structure.type}
 				</Text> */}
-				<Text style={styles.content}>
+				<Text style={contentStyle}>
 					Usage: {explanation.grammarAnalysis.structure.for}
 				</Text>
 			</View>
 
-			<Text style={styles.heading}>Main words in sentence</Text>
+			<Text style={titleStyle}>Main words in sentence</Text>
 			<View style={styles.examplesContainer}>
 				{explanation.keyWords.map((w, index) => {
 					return (
-						<Text style={styles.content} key={index}>
+						<Text style={contentStyle} key={index}>
 							{w}
 						</Text>
 					);
 				})}
 			</View>
 
-			<Text style={styles.heading}>Relevant words</Text>
+			<Text style={titleStyle}>Relevant words</Text>
 			<View style={styles.examplesContainer}>
 				{explanation.expandWords.map((w, index) => {
 					return (
-						<Text style={styles.content} key={index}>
+						<Text style={contentStyle} key={index}>
 							{w}
 						</Text>
 					);
@@ -72,16 +97,7 @@ export const ExplanationBox = forwardRef<View, Props>(_ExplanationBox);
 export default ExplanationBox;
 
 const styles = StyleSheet.create({
-	container: {
-		position: 'absolute',
-		backgroundColor: '#FFFFFF',
-		paddingHorizontal: 16,
-		width: 360,
-		paddingBottom: 50,
-		borderWidth: 1,
-		borderRadius: 20,
-		borderColor: '#B1B6C1',
-	},
+	container: {},
 	tenseContainer: {
 		gap: 4,
 	},

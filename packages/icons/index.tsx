@@ -27,6 +27,7 @@ export * from './components/Quote';
 export * from './components/QuoteRight';
 export * from './components/Search';
 export * from './components/SendIcon';
+export * from './components/Sparkles';
 export * from './components/Speaker';
 export * from './components/Switch';
 export * from './components/Translate';
