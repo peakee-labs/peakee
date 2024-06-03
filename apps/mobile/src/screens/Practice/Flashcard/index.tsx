@@ -65,22 +65,22 @@ export const FlashcardScreen: FC<Props> = ({
 		const fetchFlashcardCollection = async (
 			collectionId: 'default' | string,
 		) => {
-			let col: PracticeFlashCardCollection | undefined;
+			let collection: PracticeFlashCardCollection | undefined;
 			if (collectionId == 'default') {
-				col = await getFlashCardCollectionDefault();
+				collection = await getFlashCardCollectionDefault();
 			} else {
-				col = await getFlashCardCollectionById(collectionId);
+				collection = await getFlashCardCollectionById(collectionId);
 			}
 
-			if (!col || !col.flashcards) {
+			if (!collection || !collection.flashcards) {
 				return;
 			}
 
 			// set theme field of each flashcard in collection
-			for (let i = 0; i < col.flashcards.length; i++) {
-				if (col.flashcards[i].theme === undefined) {
+			for (let i = 0; i < collection.flashcards.length; i++) {
+				if (collection.flashcards[i].theme === undefined) {
 					// set theme value to random key in colorMap
-					col.flashcards[i].theme =
+					collection.flashcards[i].theme =
 						ColorMapKeys[
 							Math.floor(Math.random() * ColorMapKeys.length)
 						];
@@ -90,12 +90,12 @@ export const FlashcardScreen: FC<Props> = ({
 			dispatch(
 				addFlashcards({
 					collectionID: collectionId,
-					flashcards: col.flashcards,
+					flashcards: collection.flashcards,
 				}),
 			);
-			setCollection(col);
+			setCollection(collection);
 
-			setCurrentIndex(col.flashcards.length - 1);
+			setCurrentIndex(collection.flashcards.length - 1);
 			setIsLoading(false);
 		};
 
