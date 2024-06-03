@@ -22,7 +22,6 @@ export const PendingReview = () => {
 			params: { collectionId: collection.id },
 		});
 	};
-	console.log(pendingCollection);
 
 	return pendingCollection && pendingCollection.count ? (
 		<View style={styles.container}>
