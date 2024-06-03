@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
@@ -27,40 +27,46 @@ export const ConversationScreen: FC<Props> = ({
 	const [currentSelection, setCurrentSelection] = useState<Selection>();
 	const [ready, setReady] = useState(false);
 	const dispatch = useDispatch();
+	const conversationId = route.params.conversationId;
 
-	const conversationId = useMemo(() => {
-		return route.params.conversationId;
-	}, []);
-
-	const handleTranslateText = useCallback((text = '') => {
-		const { cleanModal } = showModalWithComponent(TranslateBottomSheet, {
-			id: 'translate-bottom-sheet',
-			align: Align.FullBottom,
-			showBackdrop: true,
-			props: {
-				initText: text,
-				initLanguages: 'en-vi',
-				onPressUseEnglishText: (text) => {
-					dispatch(
-						updatePendingMessageInput({
-							conversationId,
-							input: text,
-						}),
-					);
-					cleanModal();
+	const handleTranslateText = useCallback(
+		(text = '') => {
+			const { cleanModal } = showModalWithComponent(
+				TranslateBottomSheet,
+				{
+					id: 'translate-bottom-sheet',
+					align: Align.FullBottom,
+					showBackdrop: true,
+					props: {
+						initText: text,
+						initLanguages: 'en-vi',
+						onPressUseEnglishText: (text) => {
+							dispatch(
+								updatePendingMessageInput({
+									conversationId,
+									input: text,
+								}),
+							);
+							cleanModal();
+						},
+					},
 				},
-			},
-		});
-	}, []);
+			);
+		},
+		[conversationId],
+	);
 
-	const handleOnChangeInputText = useCallback((text: string) => {
-		dispatch(
-			updatePendingMessageInput({
-				conversationId,
-				input: text,
-			}),
-		);
-	}, []);
+	const handleOnChangeInputText = useCallback(
+		(text: string) => {
+			dispatch(
+				updatePendingMessageInput({
+					conversationId,
+					input: text,
+				}),
+			);
+		},
+		[conversationId],
+	);
 
 	const initConversation = async () => {
 		const isNewConversation = conversationId.startsWith('new-');
@@ -97,7 +103,7 @@ export const ConversationScreen: FC<Props> = ({
 		>
 			{ready ? (
 				<ConversationFeature
-					conversationId={defaultConversationId}
+					conversationId={conversationId}
 					onPressBack={goBack}
 					onPressText={handleTranslateText}
 					onPressTranslateTool={handleTranslateText}
@@ -110,8 +116,6 @@ export const ConversationScreen: FC<Props> = ({
 		</View>
 	);
 };
-
-const defaultConversationId = '664debb95ce86898aa092815';
 
 export default ConversationScreen;
 
