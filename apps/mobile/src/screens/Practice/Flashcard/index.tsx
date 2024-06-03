@@ -156,23 +156,21 @@ export const FlashcardScreen: FC<Props> = ({
 	};
 
 	const handleOk = () => {
-		setCurrentIndex((idx) =>
-			idx != undefined && idx >= 0 ? idx - 1 : idx,
-		);
+		setCurrentIndex((idx) => {
+			const newIndex = idx != undefined && idx >= 0 ? idx - 1 : idx;
+			handleUpdateStatus(newIndex, true);
+			return newIndex;
+		});
 		setRenderNext(false);
-		setTimeout(() => {
-			handleUpdateStatus(currentIndex, true);
-		}, 500);
 	};
 
 	const handleNotOk = () => {
-		setCurrentIndex((idx) =>
-			idx != undefined && idx >= 0 ? idx - 1 : idx,
-		);
+		setCurrentIndex((idx) => {
+			const newIndex = idx != undefined && idx >= 0 ? idx - 1 : idx;
+			handleUpdateStatus(newIndex, false);
+			return newIndex;
+		});
 		setRenderNext(false);
-		setTimeout(() => {
-			handleUpdateStatus(currentIndex, false);
-		}, 500);
 	};
 
 	const handleNext = () => {

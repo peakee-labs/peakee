@@ -39,10 +39,9 @@ export const PracticeScreen = () => {
 
 	const onRefresh = useCallback(() => {
 		setRefreshing(true);
-		fetchCollections();
-		setTimeout(() => {
+		fetchCollections().finally(() => {
 			setRefreshing(false);
-		}, 2000);
+		});
 	}, []);
 
 	useEffect(() => {
