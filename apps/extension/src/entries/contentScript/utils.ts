@@ -26,8 +26,8 @@ export const retrieveSentenceOfWordsInSingleRange = (selection: Selection) => {
 		endSentence += 1;
 
 	const selectedElement = document.createElement('span');
-	const text = selection.toString();
-	selectedElement.innerText = text;
+	const phrase = selection.toString();
+	selectedElement.innerText = phrase;
 
 	// left part of the sentence
 	const leftElement = document.createElement('span');
@@ -73,7 +73,7 @@ export const retrieveSentenceOfWordsInSingleRange = (selection: Selection) => {
 	const selectedSentence = nodeText.slice(startSentence, endSentence + 1);
 
 	return {
-		text: text.trim(),
+		phrase: phrase.trim(),
 		sentence: selectedSentence.trim(),
 		wrappedRects,
 		resetInspecting: () => {

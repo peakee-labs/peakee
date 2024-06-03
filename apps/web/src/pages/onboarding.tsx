@@ -33,12 +33,11 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		marginVertical: 'auto',
 		overflow: 'hidden',
-		width: 760,
-		minHeight: 500,
+		width: 600,
+		minHeight: 700,
 		height: 'auto',
 	},
 	fullContainer: {
 		flex: 1,
-		paddingHorizontal: 20,
 	},
 });

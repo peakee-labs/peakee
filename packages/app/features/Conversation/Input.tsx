@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type {
 	NativeSyntheticEvent,
 	TextInputContentSizeChangeEventData,
@@ -11,14 +11,28 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import { ChevronRight, SendIcon, Translate } from '@peakee/icons';
-import { translate } from '@peakee/utils';
+
+import type { RootState } from '../../state';
+
+import { handleSendMessage as sendMessage } from './shared';
 
 interface Props {
-	onPressSend: (message: string) => void;
+	conversationId: string;
+	onChangeText?: (text: string) => void;
+	onPressTranslateTool?: () => void;
 }
 
-export const Input: FC<Props> = ({ onPressSend }) => {
+export const Input: FC<Props> = ({
+	conversationId,
+	onChangeText,
+	onPressTranslateTool,
+}) => {
+	const pendingMessage = useSelector(
+		(state: RootState) =>
+			state.chat.conversationsMap[conversationId].pendingMessageInput,
+	);
 	const [height, setHeight] = useState(0);
 	const [message, setMessage] = useState('');
 	const [maxHeightOnTextInput, setMaxHeightOnTextInput] = useState(0);
@@ -26,7 +40,7 @@ export const Input: FC<Props> = ({ onPressSend }) => {
 	const [renderFeatures, setRenderFeatures] = useState(false);
 
 	const handleSendMessage = () => {
-		onPressSend(message);
+		sendMessage(conversationId, message);
 		setMessage('');
 	};
 
@@ -36,10 +50,6 @@ export const Input: FC<Props> = ({ onPressSend }) => {
 
 	const closeFeatures = () => {
 		setRenderFeatures(false);
-	};
-
-	const handlePressTranslate = () => {
-		translate?.();
 	};
 
 	const handleOnChangeText = (text: string) => {
@@ -65,11 +75,19 @@ export const Input: FC<Props> = ({ onPressSend }) => {
 		}
 	};
 
+	useEffect(() => {
+		if (pendingMessage) setMessage(pendingMessage);
+	}, [pendingMessage]);
+
+	useEffect(() => {
+		onChangeText?.(message);
+	}, [message]);
+
 	return (
 		<View style={styles.container}>
 			{renderFeatures && (
 				<View style={styles.featuresContainer}>
-					<TouchableOpacity onPress={handlePressTranslate}>
+					<TouchableOpacity onPress={onPressTranslateTool}>
 						<Translate
 							size={20}
 							color="#979797"

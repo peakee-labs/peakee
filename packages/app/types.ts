@@ -50,6 +50,11 @@ export type Conversation = {
 	 * and use this one to send a create conversation request before sending messages
 	 */
 	isNotInitialized?: boolean;
+
+	/**
+	 * client only
+	 */
+	pendingMessageInput?: string;
 };
 
 export type Message = {
@@ -133,6 +138,7 @@ export type ExplainRequest = {
 export type ExplainResponse = {
 	word: string;
 	translate: string;
+	IPA: string;
 	keyWords: string[];
 	expandWords: string[];
 };

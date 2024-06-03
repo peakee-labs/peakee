@@ -7,22 +7,23 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import type { locale } from '@peakee/app/types';
+import type { Locale } from '@peakee/app/types';
 
 import useLocaleMap from '../../utils/hooks/useLocale';
 
 export type ReviewContent = {
 	text: string;
 	content: string;
+	IPA?: string;
 	symnonyms: Array<string>;
 };
 export type Props = {
-	locale: locale;
+	locale: Locale;
 } & ReviewContent;
 
 type Content = Record<string, string>;
 
-const localeMap: Record<locale, Content> = {
+const localeMap: Record<Locale, Content> = {
 	'en-US': {
 		synonyms: 'Synonyms',
 	},
@@ -37,6 +38,7 @@ const localeMap: Record<locale, Content> = {
 export const ReviewWord: FC<Props> = ({
 	text,
 	content,
+	IPA,
 	symnonyms: expandWords,
 	locale,
 }) => {
@@ -56,6 +58,7 @@ export const ReviewWord: FC<Props> = ({
 					);
 				})}
 			</View>
+			<Text style={styles.explainText}>{IPA}</Text>
 			<Text style={styles.explainText}>{content}</Text>
 			{expandWords && (
 				<Text style={styles.synonyms}>
@@ -84,8 +87,15 @@ const styles = StyleSheet.create({
 		fontWeight: '600',
 		textAlign: 'center',
 	},
+	IPAText: {
+		fontSize: 24,
+		fontStyle: 'italic',
+		fontWeight: '300',
+		color: '#636363',
+		textAlign: 'center',
+	},
 	explainText: {
-		fontSize: 20,
+		fontSize: 24,
 		fontStyle: 'italic',
 		fontWeight: '300',
 		color: '#636363',

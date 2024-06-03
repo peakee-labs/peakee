@@ -13,7 +13,6 @@ import {
 } from '@peakee/app/api';
 import type { Locale } from '@peakee/app/types';
 
-import { authInitialized } from '../../utils/auth';
 import useLocaleMap from '../../utils/hooks/useLocale';
 
 import { FeedbackModal } from './feedbackModal';
@@ -22,19 +21,17 @@ import { type ReviewContent, ReviewWord } from './ReviewWord';
 const Newtab = () => {
 	const [locale] = useState<Locale>(navigator.language as Locale);
 	const [isOpen, setIsOpen] = useState(false);
-	const [reviewContent, setReviewContent] = useState<
-		ReviewContent | undefined
-	>(undefined);
+	const [reviewContent, setReviewContent] = useState<ReviewContent>();
 	const { changeLocale, localize } = useLocaleMap(localeMap, locale, 'en');
 
 	const getNewContent = async () => {
-		await authInitialized;
 		try {
 			const data = await getPracticeWordForUser();
 			if (data) {
 				setReviewContent({
 					text: data.request.text,
 					content: data.response.translate,
+					IPA: data.response.IPA,
 					symnonyms: data.response.expandWords,
 				});
 			} else {

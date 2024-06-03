@@ -10,6 +10,29 @@ import {
 	store,
 	updateLatestMessage,
 } from '../state';
+import type { Conversation } from '../types';
+
+export const initializeNewConversationState = async (
+	conversationId: string,
+	friendId: string,
+) => {
+	const friend = await getFriendProfileWithState(friendId);
+	if (!friend) return;
+	const userId = store().getState().user.profile?.id;
+	if (!userId) return;
+
+	const newConversation: Conversation = {
+		id: conversationId,
+		members: [{ userId }, { userId: friend.id }] as never,
+		createdBy: userId,
+		type: 'individual',
+		isNotInitialized: true,
+		createdAt: new Date().toISOString(),
+		updatedAt: new Date().toISOString(),
+	};
+
+	store().dispatch(addConversation(newConversation));
+};
 
 /**
  * first check if this friend is queried in friends state

@@ -1,52 +1,61 @@
 import type { Ref } from 'react';
-import { forwardRef, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { forwardRef, useEffect, useState } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import {
 	AvoidSoftInput,
 	useSoftInputHeightChanged,
 } from 'react-native-avoid-softinput';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
+	runOnJS,
 	SlideInDown,
 	SlideOutDown,
 	useAnimatedStyle,
 	useSharedValue,
+	withTiming,
 } from 'react-native-reanimated';
-import type { Props } from '@peakee/app/features/TranslateBox';
-import TranslateBox from '@peakee/app/features/TranslateBox';
+import type { Selection } from '@peakee/app/components';
+import type { Props } from '@peakee/app/features/ExplanationBox';
+import ExplanationBox from '@peakee/app/features/ExplanationBox';
 
 export type WrappedProps = Props & {
+	style?: StyleProp<ViewStyle>;
+	selection: Selection;
 	onClose?: () => void;
 };
 
-export const _TranslateBottomSheet = (
+export const _ExplanationBottomSheet = (
 	{
 		// this style prop is from ModalContainer (empty-modal), includes layout measurement of float modal
 		style,
+		onClose,
+		selection,
 		...props
 	}: WrappedProps,
 	ref: Ref<View>,
 ) => {
-	const xOffset = useSharedValue<number>(0);
 	const yOffset = useSharedValue<number>(0);
+	const [internalSelection] = useState(selection);
+	const { text, start, end } = internalSelection;
 
 	const pan = Gesture.Pan()
 		.onChange((event) => {
-			yOffset.value += event.changeY;
-			xOffset.value = event.translationX;
+			if (yOffset.value + event.changeY > 0)
+				yOffset.value += event.changeY;
 		})
 		.onFinalize(() => {
-			xOffset.value = 0;
+			if (yOffset.value > 200 && onClose) runOnJS(onClose)();
+			else {
+				yOffset.value = withTiming(0);
+			}
 		});
 
 	const animatedStyles = useAnimatedStyle(() => {
 		return {
 			// top: yOffset.value,
 			// left: xOffset.value,
-			transform: [
-				{ translateY: yOffset.value },
-				{ translateX: xOffset.value },
-			],
+			transform: [{ translateY: yOffset.value }],
 		};
 	});
 
@@ -72,21 +81,30 @@ export const _TranslateBottomSheet = (
 				exiting={SlideOutDown}
 			>
 				<View style={styles.indicator} />
-				<TranslateBox
+				<Text style={styles.text}>
+					{text.slice(0, start)}
+					<Text style={styles.highlightText}>
+						{text.slice(start, end)}
+					</Text>
+					{text.slice(end)}
+				</Text>
+				<ExplanationBox
 					{...props}
-					style={styles.translateContainer}
-					contentFontSize={20}
+					style={[styles.explanationContainer]}
+					contentSize={17}
+					titleSize={14}
+					mainContentSize={18}
 				/>
 			</Animated.View>
 		</GestureDetector>
 	);
 };
 
-export const TranslateBottomSheet = forwardRef<View, WrappedProps>(
-	_TranslateBottomSheet,
+export const ExplanationBottomSheet = forwardRef<View, WrappedProps>(
+	_ExplanationBottomSheet,
 );
 
-export default TranslateBottomSheet;
+export default ExplanationBottomSheet;
 
 const styles = StyleSheet.create({
 	container: {
@@ -102,7 +120,19 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		backgroundColor: '#ccc',
 		alignSelf: 'center',
-		marginBottom: 24,
+		marginBottom: 12,
 	},
-	translateContainer: {},
+	text: {
+		fontSize: 17,
+		marginHorizontal: 16,
+	},
+	highlightText: {
+		fontWeight: '800',
+		color: '#FF7701',
+	},
+	explanationContainer: {
+		paddingHorizontal: 16,
+		paddingBottom: 50,
+		borderRadius: 20,
+	},
 });

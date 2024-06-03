@@ -1,4 +1,5 @@
 export * from './components/Arrow';
+export * from './components/ArrowDownToLine';
 export * from './components/BackCircle';
 export * from './components/Book';
 export * from './components/Camera';
@@ -26,6 +27,7 @@ export * from './components/Quote';
 export * from './components/QuoteRight';
 export * from './components/Search';
 export * from './components/SendIcon';
+export * from './components/Sparkles';
 export * from './components/Speaker';
 export * from './components/Switch';
 export * from './components/Translate';

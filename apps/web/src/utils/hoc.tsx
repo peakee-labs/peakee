@@ -49,7 +49,7 @@ export function withBottomNavigation<P>(WrappedComponent: ComponentType<P>) {
 					<WrappedComponent {...props} as never />
 				</View>
 
-				{width < 500 && (
+				{width < 700 && (
 					<View style={styles.bottomNavigationContainer}>
 						{navigationItems.map(
 							({ component: Component, path }) => {
@@ -70,7 +70,7 @@ export function withBottomNavigation<P>(WrappedComponent: ComponentType<P>) {
 							{user ? (
 								<Avatar
 									size={34}
-									source={{ uri: user.imageURL }}
+									source={{ uri: user.imageURL as never }}
 								/>
 							) : (
 								<User

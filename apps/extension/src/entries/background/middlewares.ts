@@ -1,5 +1,5 @@
 import type { Kernel, Middleware } from '@metacraft/crab/core';
-import { explainTextInSentence, translate } from '@peakee/app/api';
+import { explainPhraseInSentence, translate } from '@peakee/app/api';
 
 import { signIn } from '../../utils/auth';
 import type {
@@ -38,8 +38,8 @@ export const handleRequestExplain: Middleware<Events, ExplainPayload> = async (
 	request,
 	respond,
 ) => {
-	const { text, sentence } = request;
-	const res = await explainTextInSentence(text, sentence);
+	const { phrase, sentence } = request;
+	const res = await explainPhraseInSentence(phrase, sentence);
 	if (res) respond(res);
 	else throw Error("Can't explain");
 };

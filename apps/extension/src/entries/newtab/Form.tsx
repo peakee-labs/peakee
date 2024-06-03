@@ -1,18 +1,18 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import type { locale } from '@peakee/app/types';
+import type { Locale } from '@peakee/app/types';
 
 import useLocaleMap from '../../utils/hooks/useLocale';
 
 type Props = {
 	onSubmit: (value: string) => void;
-	locale: locale;
+	locale: Locale;
 };
 
 type Content = Record<string, string>;
 
-const localeMap: Record<locale, Content> = {
+const localeMap: Record<Locale, Content> = {
 	'en-US': {
 		title: 'Your input is valuable to Peakee',
 		description:

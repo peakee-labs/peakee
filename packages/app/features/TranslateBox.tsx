@@ -11,7 +11,7 @@ import {
 	View,
 } from 'react-native';
 import { TextInput } from 'react-native';
-import { Copy, Switch } from '@peakee/icons';
+import { ArrowDownToLine, Copy, Switch } from '@peakee/icons';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { throttle } from 'lodash';
 
@@ -22,9 +22,13 @@ export type Props = {
 	initText?: string;
 	initLanguages?: 'en-vi' | 'vi-en';
 	style?: StyleProp<ViewStyle>;
+	/**
+	 * allow override translate function or use default function call to translation API
+	 */
 	translate?: TranslateFunction;
 	contentFontSize?: number;
 	experimentalDynamicSize?: boolean;
+	onPressUseEnglishText?: (text: string) => void;
 };
 
 const InternalTranslateBox = (
@@ -35,6 +39,7 @@ const InternalTranslateBox = (
 		translate,
 		contentFontSize,
 		experimentalDynamicSize,
+		onPressUseEnglishText,
 	}: Props,
 	ref: Ref<View>,
 ) => {
@@ -56,9 +61,6 @@ const InternalTranslateBox = (
 			const languages = `${from}-${to}`;
 			let res;
 			if (translate) {
-				/**
-				 * allow override translate function
-				 */
 				res = await translate(text, languages as never);
 			} else {
 				res = await requestTranslateAPI(text, languages as never);
@@ -140,6 +142,19 @@ const InternalTranslateBox = (
 				</Text>
 
 				<View style={styles.icons}>
+					{onPressUseEnglishText && from == 'en' && (
+						<TouchableOpacity
+							onPress={() => onPressUseEnglishText?.(text)}
+							hitSlop={14}
+						>
+							<ArrowDownToLine
+								size={18}
+								color={'#9d9d9d'}
+								strokeWidth="2.5"
+							/>
+						</TouchableOpacity>
+					)}
+
 					<TouchableOpacity onPress={switchLanguages} hitSlop={14}>
 						<Switch size={18} color={'#9d9d9d'} strokeWidth="2.5" />
 					</TouchableOpacity>
@@ -189,6 +204,19 @@ const InternalTranslateBox = (
 				</Text>
 
 				<View style={styles.icons}>
+					{onPressUseEnglishText && to == 'en' && (
+						<TouchableOpacity
+							onPress={() => onPressUseEnglishText?.(translated)}
+							hitSlop={14}
+						>
+							<ArrowDownToLine
+								size={18}
+								color={'#9d9d9d'}
+								strokeWidth="2.5"
+							/>
+						</TouchableOpacity>
+					)}
+
 					<TouchableOpacity
 						onPress={() => copy(translated)}
 						hitSlop={14}

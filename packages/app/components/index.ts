@@ -1,2 +1,2 @@
 export * from './Search';
-export * from './TranslatableText';
+export * from './SelectableText';

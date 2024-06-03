@@ -1,19 +1,34 @@
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import {
+	ActivityIndicator,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+} from 'react-native';
+import Animated, {
+	BounceInUp,
+	BounceOutUp,
+	ZoomIn,
+} from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
 	getConversationWithState,
 	getFriendConversationWithState,
-	getFriendProfileWithState,
+	initializeNewConversationState,
 } from '@peakee/app';
+import { explainPhraseInSentence } from '@peakee/app/api';
+import type { Selection } from '@peakee/app/components';
 import ConversationFeature from '@peakee/app/features/Conversation';
-import type { RootState } from '@peakee/app/state';
-import { addConversation, store } from '@peakee/app/state';
-import type { Conversation } from '@peakee/app/types';
+import { updatePendingMessageInput } from '@peakee/app/state';
+import { Sparkles } from '@peakee/icons';
 import type { StackScreenProps } from '@react-navigation/stack';
+import { Align } from 'empty-modal';
+import { showModalWithComponent } from 'empty-modal/state';
+import ExplanationBottomSheet from 'utils/ExplanationBottomSheet';
 import type { RootStackParamList } from 'utils/navigation';
+import TranslateBottomSheet from 'utils/TranslateBottomSheet';
 
 type Props = StackScreenProps<RootStackParamList, 'Conversation'>;
 
@@ -22,60 +37,103 @@ export const ConversationScreen: FC<Props> = ({
 	navigation: { navigate, goBack },
 }) => {
 	const { top, bottom } = useSafeAreaInsets();
-	const conversationId = route.params.conversationId;
-	const conversation = useSelector(
-		(state: RootState) => state.chat.conversationsMap[conversationId],
-	);
+	const [currentSelection, setCurrentSelection] = useState<Selection>();
+	const [loadingExplanation, setLoadingExplanation] = useState(false);
 	const [ready, setReady] = useState(false);
 	const dispatch = useDispatch();
+	const conversationId = route.params.conversationId;
 
-	const initializeNewConversationState = async (friendId: string) => {
-		const friend = await getFriendProfileWithState(friendId);
-		if (!friend) return;
-		const userId = store().getState().user.profile?.id;
-		if (!userId) return;
+	const handleTranslateText = useCallback(
+		(text = '') => {
+			const { cleanModal } = showModalWithComponent(
+				TranslateBottomSheet,
+				{
+					id: 'translate-bottom-sheet',
+					align: Align.FullBottom,
+					showBackdrop: true,
+					props: {
+						initText: text,
+						initLanguages: 'en-vi',
+						onPressUseEnglishText: (text) => {
+							dispatch(
+								updatePendingMessageInput({
+									conversationId,
+									input: text,
+								}),
+							);
+							cleanModal();
+						},
+					},
+				},
+			);
+		},
+		[conversationId],
+	);
 
-		const newConversation: Conversation = {
-			id: conversationId,
-			members: [{ userId }, { userId: friend.id }] as never,
-			createdBy: userId,
-			type: 'individual',
-			isNotInitialized: true,
-			createdAt: new Date().toISOString(),
-			updatedAt: new Date().toISOString(),
-		};
+	const handleOnChangeInputText = useCallback(
+		(text: string) => {
+			dispatch(
+				updatePendingMessageInput({
+					conversationId,
+					input: text,
+				}),
+			);
+		},
+		[conversationId],
+	);
 
-		dispatch(addConversation(newConversation));
+	const handleShowSuggestion = async () => {
+		if (!currentSelection) return;
+		setLoadingExplanation(true);
+
+		const { text, start, end } = currentSelection;
+		const phrase = text.slice(start, end);
+		const explanation = await explainPhraseInSentence(phrase, text);
+
+		if (explanation) {
+			const { cleanModal } = showModalWithComponent(
+				ExplanationBottomSheet,
+				{
+					id: 'explanation-bottom-sheet',
+					align: Align.FullBottom,
+					showBackdrop: true,
+					props: {
+						explanation,
+						selection: currentSelection,
+						onClose: () => cleanModal(),
+					},
+				},
+			);
+		}
+
+		setLoadingExplanation(false);
 	};
 
-	useEffect(() => {
-		// TODO: navigate to conversation if the conversation exists
+	const initConversation = async () => {
 		const isNewConversation = conversationId.startsWith('new-');
 		if (isNewConversation) {
 			const friendId = conversationId.split('-')[1];
-			getFriendConversationWithState(friendId).then((conversation) => {
-				if (conversation) {
-					navigate('Conversation', {
-						conversationId: conversation.id,
-					});
-				} else {
-					initializeNewConversationState(friendId).finally(() =>
-						setReady(true),
-					);
-				}
-			});
+			const conversation = await getFriendConversationWithState(friendId);
+			if (conversation) {
+				const conversationId = conversation.id;
+				navigate('Conversation', { conversationId });
+			} else {
+				await initializeNewConversationState(conversationId, friendId);
+			}
 		} else {
-			getConversationWithState(conversationId).then(() => {
-				setReady(true);
-			});
+			await getConversationWithState(conversationId);
 		}
+
+		setReady(true);
+	};
+
+	useEffect(() => {
+		initConversation();
 	}, []);
 
 	useEffect(() => {
-		if (conversation && conversation.id !== conversationId) {
-			navigate('Conversation', { conversationId: conversation.id });
-		}
-	}, [conversation]);
+		console.log(currentSelection);
+	}, [currentSelection]);
 
 	return (
 		<View
@@ -84,12 +142,47 @@ export const ConversationScreen: FC<Props> = ({
 				{ paddingBottom: bottom, paddingTop: top },
 			]}
 		>
-			{conversation ? (
-				<ConversationFeature id={conversationId} onPressBack={goBack} />
-			) : !ready ? (
-				<ActivityIndicator style={styles.loading} />
+			{ready ? (
+				<ConversationFeature
+					conversationId={conversationId}
+					onPressBack={goBack}
+					onPressText={handleTranslateText}
+					onPressTranslateTool={handleTranslateText}
+					onChangeInputText={handleOnChangeInputText}
+					onSelection={setCurrentSelection}
+				/>
 			) : (
-				<Text style={styles.notFound}>Not found</Text>
+				<ActivityIndicator style={styles.loading} />
+			)}
+
+			{currentSelection && (
+				<Animated.View
+					style={styles.explainFloatIconContainer}
+					entering={BounceInUp.duration(500)}
+					exiting={BounceOutUp}
+				>
+					<Animated.View
+						entering={ZoomIn.delay(500).damping(100).mass(100)}
+					>
+						{loadingExplanation ? (
+							<ActivityIndicator
+								size={'small'}
+								style={{ margin: 4 }}
+							/>
+						) : (
+							<TouchableOpacity
+								hitSlop={22}
+								onPress={handleShowSuggestion}
+							>
+								<Sparkles
+									size={28}
+									color={'#FF7701'}
+									strokeWidth="2"
+								/>
+							</TouchableOpacity>
+						)}
+					</Animated.View>
+				</Animated.View>
 			)}
 		</View>
 	);
@@ -109,5 +202,13 @@ const styles = StyleSheet.create({
 		marginVertical: 'auto',
 		alignSelf: 'center',
 		fontSize: 24,
+	},
+	explainFloatIconContainer: {
+		position: 'absolute',
+		backgroundColor: '#f3f1f1',
+		right: 20,
+		top: 110,
+		padding: 10,
+		borderRadius: 30,
 	},
 });

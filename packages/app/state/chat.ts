@@ -23,29 +23,28 @@ export const chatSlice = createSlice({
 		reset: () => initialState,
 		addMessage: (
 			state,
-			{
-				payload,
-			}: PayloadAction<{ conversationId: string; message: Message }>,
+			{ payload }: PayloadAction<{ message: Message }>,
 		) => {
-			const { conversationId, message } = payload;
+			const { message } = payload;
+			const { conversationId } = message;
 			if (!state.conversationsMap[conversationId].messages) {
 				state.conversationsMap[conversationId].messages = [message];
 			} else {
-				state.conversationsMap[conversationId].messages?.unshift(
-					message,
-				);
+				const messages =
+					state.conversationsMap[conversationId].messages;
+				messages?.unshift(message);
 			}
 		},
 		resolveMessage: (
 			state,
 			{ payload: message }: PayloadAction<Message>,
 		) => {
-			const messages =
-				state.conversationsMap[message.conversationId].messages;
+			const { conversationId, resolveId } = message;
+			const messages = state.conversationsMap[conversationId].messages;
 			if (!messages) return;
 
 			const targetMessageIndex = messages?.findIndex((m) => {
-				return m.resolveId === message.resolveId;
+				return m.resolveId === resolveId;
 			});
 			messages[targetMessageIndex] = message;
 		},
@@ -104,6 +103,14 @@ export const chatSlice = createSlice({
 			const { conversationId, message } = payload;
 			state.conversationsMap[conversationId].latestMessage = message;
 		},
+		updatePendingMessageInput: (
+			state,
+			{
+				payload: { conversationId, input },
+			}: PayloadAction<{ conversationId: string; input: string }>,
+		) => {
+			state.conversationsMap[conversationId].pendingMessageInput = input;
+		},
 	},
 });
 
@@ -117,6 +124,7 @@ export const {
 	updateMessagesOfConversation,
 	updateConversationsLoading,
 	updateLatestMessage,
+	updatePendingMessageInput,
 } = chatSlice.actions;
 
 export const chatReducer = chatSlice.reducer;

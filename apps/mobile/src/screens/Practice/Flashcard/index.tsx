@@ -1,4 +1,4 @@
-import { type FC, useEffect, useMemo, useRef, useState } from 'react';
+import { type FC, Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import {
 	ActivityIndicator,
 	StyleSheet,
@@ -38,7 +38,10 @@ import Header from './Header';
 
 type Props = StackScreenProps<PracticeParamList, 'Flashcard'>;
 
-export const FlashcardScreen: FC<Props> = ({ route }) => {
+export const FlashcardScreen: FC<Props> = ({
+	route,
+	navigation: { goBack },
+}) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const dispatch = useDispatch();
 	const { collectionId } = route.params;
@@ -56,6 +59,7 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 		useState<PracticeFlashCardCollection>(collectionState);
 	const [currentIndex, setCurrentIndex] = useState<number>();
 	const [isLoading, setIsLoading] = useState(true);
+	const isEnded = currentIndex === -1;
 
 	useEffect(() => {
 		const fetchFlashcardCollection = async (
@@ -208,12 +212,10 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 			<View style={styles.flashcardContainer} ref={cardContainerRef}>
 				{isLoading ? (
 					<View style={styles.skeletonContainer}>
-						<Text>
-							Hold on tight! Your flashcard is being delivered by
-							a fleet of hyperactive squirrels. Please wait a
-							second...
+						<Text style={styles.skeletonText}>
+							Hold on tight! Please wait a second...
 						</Text>
-						<ActivityIndicator />
+						<ActivityIndicator size={'large'} />
 					</View>
 				) : (
 					renderedFlashcards?.map((fc, index) => {
@@ -269,21 +271,46 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 						}
 					})
 				)}
+				{isEnded && (
+					<View>
+						<Text style={styles.endedText}>
+							Congrats! You reviewed this collection
+						</Text>
+						<TouchableOpacity
+							style={styles.goBackButton}
+							onPress={goBack}
+						>
+							<Text style={styles.goBackTitle}>Go to Home</Text>
+						</TouchableOpacity>
+					</View>
+				)}
 			</View>
 
 			<View style={styles.navigateContainer}>
-				<TouchableOpacity
-					style={styles.backButton}
-					onPress={handleBack}
-				>
-					<ChevronLeft size={40} strokeWidth="3" color={'#FE7E38'} />
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={styles.nextButton}
-					onPress={handleNext}
-				>
-					<ChevronRight size={40} strokeWidth="3" color={'#FE7E38'} />
-				</TouchableOpacity>
+				{!isEnded && (
+					<Fragment>
+						<TouchableOpacity
+							style={styles.backButton}
+							onPress={handleBack}
+						>
+							<ChevronLeft
+								size={40}
+								strokeWidth="3"
+								color={'#FE7E38'}
+							/>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={styles.nextButton}
+							onPress={handleNext}
+						>
+							<ChevronRight
+								size={40}
+								strokeWidth="3"
+								color={'#FE7E38'}
+							/>
+						</TouchableOpacity>
+					</Fragment>
+				)}
 			</View>
 		</DefaultContainer>
 	);
@@ -304,6 +331,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+		gap: 14,
+	},
+	skeletonText: {
+		fontSize: 20,
+		textAlign: 'center',
 	},
 	currentCarContainer: {
 		flex: 1,
@@ -332,5 +364,24 @@ const styles = StyleSheet.create({
 		backgroundColor: '#FEEFE1',
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	endedText: {
+		fontSize: 30,
+		textAlign: 'center',
+	},
+	goBackButton: {
+		padding: 10,
+		paddingHorizontal: 24,
+		borderRadius: 30,
+		backgroundColor: '#FEEFE1',
+		justifyContent: 'center',
+		alignItems: 'center',
+		alignSelf: 'center',
+		marginTop: 20,
+	},
+	goBackTitle: {
+		fontSize: 18,
+		fontWeight: '500',
+		color: '#FE7E38',
 	},
 });
