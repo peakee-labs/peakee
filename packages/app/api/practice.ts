@@ -102,9 +102,6 @@ export const updateCardStatus = async (
 	viewStatus: boolean,
 ) => {
 	try {
-		console.log(collectionID, '<====collectionID');
-		console.log(cardID, '<====cardID');
-		console.log(viewStatus, '<====viewStatus');
 		await axios().put(
 			`/practice/flashcards/collections/${collectionID}/${cardID}/status?viewed=${viewStatus}`,
 		);

@@ -75,7 +75,6 @@ export const FlashcardScreen: FC<Props> = ({
 			if (!col || !col.flashcards) {
 				return;
 			}
-			console.log(col, '<===col');
 
 			// set theme field of each flashcard in collection
 			for (let i = 0; i < col.flashcards.length; i++) {

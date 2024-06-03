@@ -16,7 +16,6 @@ export const LatestReview = () => {
 				return col.viewed.length > 0;
 			})
 			.sort((a, b) => b.updatedAt - a.updatedAt);
-		console.log(sorted, '<======latestCollection');
 		if (sorted.length > 0) {
 			return (
 				<View style={styles.container}>
