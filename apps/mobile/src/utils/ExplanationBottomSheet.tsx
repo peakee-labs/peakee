@@ -1,7 +1,7 @@
 import type { Ref } from 'react';
-import { forwardRef, useEffect } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import {
 	AvoidSoftInput,
 	useSoftInputHeightChanged,
@@ -15,11 +15,13 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
+import type { Selection } from '@peakee/app/components';
 import type { Props } from '@peakee/app/features/ExplanationBox';
 import ExplanationBox from '@peakee/app/features/ExplanationBox';
 
 export type WrappedProps = Props & {
 	style?: StyleProp<ViewStyle>;
+	selection: Selection;
 	onClose?: () => void;
 };
 
@@ -28,11 +30,14 @@ export const _ExplanationBottomSheet = (
 		// this style prop is from ModalContainer (empty-modal), includes layout measurement of float modal
 		style,
 		onClose,
+		selection,
 		...props
 	}: WrappedProps,
 	ref: Ref<View>,
 ) => {
 	const yOffset = useSharedValue<number>(0);
+	const [internalSelection] = useState(selection);
+	const { text, start, end } = internalSelection;
 
 	const pan = Gesture.Pan()
 		.onChange((event) => {
@@ -76,6 +81,13 @@ export const _ExplanationBottomSheet = (
 				exiting={SlideOutDown}
 			>
 				<View style={styles.indicator} />
+				<Text style={styles.text}>
+					{text.slice(0, start)}
+					<Text style={styles.highlightText}>
+						{text.slice(start, end)}
+					</Text>
+					{text.slice(end)}
+				</Text>
 				<ExplanationBox
 					{...props}
 					style={[styles.explanationContainer]}
@@ -109,6 +121,14 @@ const styles = StyleSheet.create({
 		backgroundColor: '#ccc',
 		alignSelf: 'center',
 		marginBottom: 12,
+	},
+	text: {
+		fontSize: 17,
+		marginHorizontal: 16,
+	},
+	highlightText: {
+		fontWeight: '800',
+		color: '#FF7701',
 	},
 	explanationContainer: {
 		paddingHorizontal: 16,

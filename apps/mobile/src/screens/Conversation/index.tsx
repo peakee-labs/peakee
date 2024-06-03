@@ -99,6 +99,7 @@ export const ConversationScreen: FC<Props> = ({
 					showBackdrop: true,
 					props: {
 						explanation,
+						selection: currentSelection,
 						onClose: () => cleanModal(),
 					},
 				},
