@@ -1,5 +1,6 @@
 import type { UserExplore } from '../types';
 
+// import { config } from '../utils';
 import { axios } from './axios';
 
 export async function getExploreProfileOfUser(id: string) {

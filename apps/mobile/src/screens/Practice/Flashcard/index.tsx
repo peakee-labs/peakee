@@ -13,10 +13,17 @@ import Animated, {
 	withSpring,
 	ZoomIn,
 } from 'react-native-reanimated';
+import { useDispatch, useSelector } from 'react-redux';
 import {
 	getFlashCardCollectionById,
 	getFlashCardCollectionDefault,
+	updateCardStatus,
 } from '@peakee/app/api';
+import type { RootState } from '@peakee/app/state';
+import {
+	addFlashcards,
+	updateFlashcardViewStatus,
+} from '@peakee/app/state/practice';
 import type { PracticeFlashCardCollection } from '@peakee/app/types';
 import { ChevronLeft, ChevronRight } from '@peakee/icons';
 // can not use animation importing from @peakee/app ??????
@@ -36,19 +43,24 @@ export const FlashcardScreen: FC<Props> = ({
 	navigation: { goBack },
 }) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const dispatch = useDispatch();
 	const { collectionId } = route.params;
+	const collectionState = useSelector(
+		(root: RootState) =>
+			root.practice.flashcardCollectionsMap[collectionId],
+	);
 	const currentCardRef = useRef<View>(null);
 	const cardContainerRef = useRef<View>(null);
 	const [renderNext, setRenderNext] = useState(false);
 	const [nextCardXOffset, setNextCardXOffset] = useState<number>();
 	const [nextCardYOffset, setNextCardYOffset] = useState<number>();
 	const nextCardScale = useSharedValue<number>(1);
-	const [collection, setCollection] = useState<PracticeFlashCardCollection>();
+	const [collection, setCollection] =
+		useState<PracticeFlashCardCollection>(collectionState);
 	const [currentIndex, setCurrentIndex] = useState<number>();
 	const [isLoading, setIsLoading] = useState(true);
 	const isEnded = currentIndex === -1;
 
-	// fetch flashcard collection with collection Id
 	useEffect(() => {
 		const fetchFlashcardCollection = async (
 			collectionId: 'default' | string,
@@ -60,7 +72,7 @@ export const FlashcardScreen: FC<Props> = ({
 				collection = await getFlashCardCollectionById(collectionId);
 			}
 
-			if (!collection) {
+			if (!collection || !collection.flashcards) {
 				return;
 			}
 
@@ -75,16 +87,29 @@ export const FlashcardScreen: FC<Props> = ({
 				}
 			}
 
+			dispatch(
+				addFlashcards({
+					collectionID: collectionId,
+					flashcards: collection.flashcards,
+				}),
+			);
 			setCollection(collection);
+
 			setCurrentIndex(collection.flashcards.length - 1);
 			setIsLoading(false);
 		};
 
-		fetchFlashcardCollection(collectionId);
+		if (!collectionState || !collectionState.flashcards) {
+			fetchFlashcardCollection(collectionId);
+		} else {
+			setCurrentIndex(collectionState.flashcards.length - 1);
+			setCollection(collectionState);
+			setIsLoading(() => false);
+		}
 	}, []);
 
 	const renderedFlashcards = useMemo(() => {
-		return collection?.flashcards.reverse();
+		return [...(collection?.flashcards || [])].reverse();
 	}, [collection]);
 
 	const animatedNextCardStyle = useAnimatedStyle(() => {
@@ -102,17 +127,48 @@ export const FlashcardScreen: FC<Props> = ({
 		}
 	};
 
+	const handleUpdateStatus = async (
+		cardIdx: number | undefined,
+		status: boolean,
+	) => {
+		if (
+			cardIdx == undefined ||
+			!collection?.flashcards ||
+			cardIdx > collection.flashcards.length - 1
+		) {
+			return;
+		}
+		const card = collection.flashcards.at(cardIdx);
+		if (!card || status == collection.viewed.includes(card.id)) {
+			return;
+		}
+
+		const success = await updateCardStatus(collection.id, card.id, status);
+		if (success)
+			dispatch(
+				updateFlashcardViewStatus({
+					collectionID: collection.id,
+					id: card.id,
+					status: status,
+				}),
+			);
+	};
+
 	const handleOk = () => {
-		setCurrentIndex((idx) =>
-			idx != undefined && idx - 1 >= -1 ? idx - 1 : idx,
-		);
+		setCurrentIndex((idx) => {
+			const newIndex = idx != undefined && idx >= 0 ? idx - 1 : idx;
+			handleUpdateStatus(newIndex, true);
+			return newIndex;
+		});
 		setRenderNext(false);
 	};
 
 	const handleNotOk = () => {
-		setCurrentIndex((idx) =>
-			idx != undefined && idx - 1 >= -1 ? idx - 1 : idx,
-		);
+		setCurrentIndex((idx) => {
+			const newIndex = idx != undefined && idx >= 0 ? idx - 1 : idx;
+			handleUpdateStatus(newIndex, false);
+			return newIndex;
+		});
 		setRenderNext(false);
 	};
 
@@ -123,7 +179,7 @@ export const FlashcardScreen: FC<Props> = ({
 	const handleBack = () => {
 		setCurrentIndex((idx) =>
 			idx != undefined &&
-			collection != undefined &&
+			collection?.flashcards &&
 			idx + 1 < collection.flashcards.length
 				? idx + 1
 				: idx,

@@ -161,17 +161,20 @@ export type PracticeFlashCard = {
 	theme: string;
 };
 
-export type PracticeFlashCardCollectionInformation = {
+export type PracticeFlashCardCollection = {
 	id: string;
 	name: string;
 	description: string;
+	viewed: string[];
 	total: string[];
-	reviewed: string[];
+	createdAt: number;
+	updatedAt: number;
+	flashcards?: PracticeFlashCard[];
 };
 
-export type PracticeFlashCardCollection = {
-	flashcards: PracticeFlashCard[];
-	metadata: PracticeFlashCardCollectionInformation;
+export type ExplainFlashcardPendingInformation = {
+	count: number;
+	from: string;
 };
 
 export type UnknownObject = Record<string, never>;

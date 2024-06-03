@@ -1,7 +1,7 @@
 import type {
+	ExplainFlashcardPendingInformation,
 	ExplainLog,
 	PracticeFlashCardCollection,
-	PracticeFlashCardCollectionInformation,
 	PracticeUnit,
 } from '../types';
 
@@ -64,10 +64,49 @@ export const getFlashCardCollectionById = async (collectionID: string) => {
 export const getFlashCardCollectionsInformation = async () => {
 	try {
 		const { data: collections } = await axios().get<
-			PracticeFlashCardCollectionInformation[]
+			PracticeFlashCardCollection[]
 		>(`/practice/flashcards/collections/preview`);
 		return collections;
 	} catch (err) {
 		console.log('Error getting flashcard collections', err);
+	}
+};
+
+export const fetchPendingExplainStatus = async () => {
+	try {
+		const { data: collections } =
+			await axios().get<ExplainFlashcardPendingInformation>(
+				`/practice/explain-log`,
+			);
+		return collections;
+	} catch (err) {
+		console.log('Error getting flashcard collections', err);
+	}
+};
+
+export const syncPendingExplainLog = async () => {
+	try {
+		const { data: collections } =
+			await axios().get<PracticeFlashCardCollection>(
+				`/practice/explain-log/flashcard`,
+			);
+		return collections;
+	} catch (err) {
+		console.log('Error getting flashcard collections', err);
+	}
+};
+
+export const updateCardStatus = async (
+	collectionID: string,
+	cardID: string,
+	viewStatus: boolean,
+) => {
+	try {
+		await axios().put(
+			`/practice/flashcards/collections/${collectionID}/${cardID}/status?viewed=${viewStatus}`,
+		);
+		return true;
+	} catch (err) {
+		console.log('Error updating card status', err);
 	}
 };
