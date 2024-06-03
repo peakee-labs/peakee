@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderRadius: 24,
 		borderColor: '#e3e3e3',
+		gap: 16,
 	},
 	contentContainer: {
 		paddingVertical: 4,
@@ -78,7 +79,6 @@ const styles = StyleSheet.create({
 	},
 	description: {
 		fontSize: 16,
-		maxWidth: '90%',
 		color: '#484C52',
 	},
 	reviewButton: {

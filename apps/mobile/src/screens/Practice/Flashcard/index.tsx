@@ -21,7 +21,7 @@ import {
 } from '@peakee/app/api';
 import type { RootState } from '@peakee/app/state';
 import {
-	addCollectionFlashcards,
+	addFlashcards,
 	updateFlashcardViewStatus,
 } from '@peakee/app/state/practice';
 import type { PracticeFlashCardCollection } from '@peakee/app/types';
@@ -85,7 +85,7 @@ export const FlashcardScreen: FC<Props> = ({ route }) => {
 			}
 
 			dispatch(
-				addCollectionFlashcards({
+				addFlashcards({
 					collectionID: collectionId,
 					flashcards: col.flashcards,
 				}),

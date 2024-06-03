@@ -10,12 +10,14 @@ export const CollectionPreviews: FC = () => {
 		(state: RootState) => state.practice,
 	);
 	const renderedCollections = useMemo(() => {
-		return Object.values(flashcardCollectionsMap).map((collection) => (
-			<FlashCardPreview
-				key={'collection' + collection.id}
-				collection={collection}
-			/>
-		));
+		return Object.values(flashcardCollectionsMap)
+			.sort((a, b) => b.updatedAt - a.updatedAt)
+			.map((collection) => (
+				<FlashCardPreview
+					key={'collection' + collection.id}
+					collection={collection}
+				/>
+			));
 	}, [flashcardCollectionsMap]);
 	return (
 		<View style={styles.container}>
