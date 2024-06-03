@@ -8,9 +8,11 @@ import {
 import { useDispatch } from 'react-redux';
 import {
 	fetchPendingExplainStatus,
+	getFlashCardCollectionDefault,
 	getFlashCardCollectionsInformation,
 } from '@peakee/app/api';
 import {
+	addCollection,
 	addCollectionsInformation,
 	addPendingCollection,
 } from '@peakee/app/state/practice';
@@ -27,6 +29,13 @@ export const PracticeScreen = () => {
 	const dispatch = useDispatch();
 	const fetchCollections = async () => {
 		const collections = await getFlashCardCollectionsInformation();
+		if (!collections || collections.length === 0) {
+			const defaultCollection = await getFlashCardCollectionDefault();
+			if (!defaultCollection) {
+				return;
+			}
+			dispatch(addCollection(defaultCollection));
+		}
 		if (collections) {
 			dispatch(addCollectionsInformation(collections));
 		}
