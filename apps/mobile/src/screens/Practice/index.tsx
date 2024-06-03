@@ -7,8 +7,8 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import {
+	fetchPendingExplainStatus,
 	getFlashCardCollectionsInformation,
-	getPendingExplainLog,
 } from '@peakee/app/api';
 import {
 	addCollectionsInformation,
@@ -30,8 +30,8 @@ export const PracticeScreen = () => {
 		if (collections) {
 			dispatch(addCollectionsInformation(collections));
 		}
-		const pendingCollection = await getPendingExplainLog();
-		if (pendingCollection && pendingCollection.flashcards?.length) {
+		const pendingCollection = await fetchPendingExplainStatus();
+		if (pendingCollection) {
 			dispatch(addPendingCollection(pendingCollection));
 		}
 		setLoading(false);
