@@ -1,4 +1,5 @@
 import type {
+	ExplainFlashcardPendingInformation,
 	ExplainLog,
 	PracticeFlashCardCollection,
 	PracticeUnit,
@@ -71,11 +72,23 @@ export const getFlashCardCollectionsInformation = async () => {
 	}
 };
 
-export const getPendingExplainLog = async () => {
+export const fetchPendingExplainStatus = async () => {
+	try {
+		const { data: collections } =
+			await axios().get<ExplainFlashcardPendingInformation>(
+				`/practice/explain-log`,
+			);
+		return collections;
+	} catch (err) {
+		console.log('Error getting flashcard collections', err);
+	}
+};
+
+export const syncPendingExplainLog = async () => {
 	try {
 		const { data: collections } =
 			await axios().get<PracticeFlashCardCollection>(
-				`/practice/flashcards/sync-explain-logs`,
+				`/practice/explain-log/flashcard`,
 			);
 		return collections;
 	} catch (err) {

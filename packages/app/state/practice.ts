@@ -1,10 +1,14 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { PracticeFlashCard, PracticeFlashCardCollection } from '../types';
+import type {
+	ExplainFlashcardPendingInformation,
+	PracticeFlashCard,
+	PracticeFlashCardCollection,
+} from '../types';
 
 export interface PracticeState {
-	pendingCollection: PracticeFlashCardCollection;
+	pendingCollection?: ExplainFlashcardPendingInformation;
 	flashcardCollectionsMap: Record<string, PracticeFlashCardCollection>;
 }
 
@@ -29,10 +33,12 @@ export const practiceSlice = createSlice({
 		},
 		addPendingCollection: (
 			state,
-			action: PayloadAction<PracticeFlashCardCollection>,
+			action: PayloadAction<ExplainFlashcardPendingInformation>,
 		) => {
 			state.pendingCollection = action.payload;
-			state.flashcardCollectionsMap[action.payload.id] = action.payload;
+		},
+		resetPendingCollection: (state) => {
+			state.pendingCollection = undefined;
 		},
 		updateFlashcardViewStatus: (
 			state,
@@ -59,7 +65,13 @@ export const practiceSlice = createSlice({
 				);
 			}
 		},
-		addCollectionFlashcards: (
+		addCollection: (
+			state,
+			action: PayloadAction<PracticeFlashCardCollection>,
+		) => {
+			state.flashcardCollectionsMap[action.payload.id] = action.payload;
+		},
+		addFlashcards: (
 			state,
 			action: PayloadAction<{
 				collectionID: string;
@@ -78,8 +90,9 @@ export const practiceSlice = createSlice({
 
 export const {
 	reset: resetExplore,
+	addCollection,
 	addPendingCollection,
-	addCollectionFlashcards,
+	addFlashcards,
 	updateFlashcardViewStatus,
 	addCollectionsInformation,
 } = practiceSlice.actions;

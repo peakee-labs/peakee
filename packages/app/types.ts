@@ -166,4 +166,9 @@ export type PracticeFlashCardCollection = {
 	flashcards?: PracticeFlashCard[];
 };
 
+export type ExplainFlashcardPendingInformation = {
+	count: number;
+	from: string;
+};
+
 export type UnknownObject = Record<string, never>;
