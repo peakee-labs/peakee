@@ -59,6 +59,7 @@ export const WrappedMessage: FC<Props> = ({
 					type={type}
 					message={message.content}
 					onPressText={onPressText}
+					onSelection={onSelection}
 					prefix={
 						<View style={styles.avatar}>
 							{isEndReceivedWithAvatar ? (
