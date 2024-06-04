@@ -1,3 +1,4 @@
+import { JWT } from '../api';
 import {
 	addMessage,
 	resolveMessage,
@@ -51,6 +52,12 @@ function initWebsocket(endpoint: string, token: string) {
 
 	ws.onclose = (e) => {
 		console.log('Socket is closed.', e.reason);
+		const userId = store().getState().user.profile?.id;
+		if (userId) {
+			const ws = initWebsocket(config().PEAKEE_WS_URL, JWT);
+			wsMap.set(WS_TYPE.DEFAULT, { connection: ws, id: userId });
+			console.log('Socket reconnected.');
+		}
 	};
 
 	return ws;
