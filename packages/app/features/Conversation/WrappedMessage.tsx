@@ -42,6 +42,7 @@ export const WrappedMessage: FC<Props> = ({
 	const isEnd =
 		index === 0 || message.senderId !== messages[index - 1]?.senderId;
 	const type = isStart ? 'start' : isEnd ? 'end' : undefined;
+	const isEndReceivedWithAvatar = isEnd && friendProfile?.imageURL;
 
 	return (
 		<Animated.View layout={LinearTransition}>
@@ -59,15 +60,16 @@ export const WrappedMessage: FC<Props> = ({
 					message={message.content}
 					onPressText={onPressText}
 					prefix={
-						isEnd &&
-						friendProfile?.imageURL && (
-							<View style={styles.avatar}>
+						<View style={styles.avatar}>
+							{isEndReceivedWithAvatar ? (
 								<Avatar
 									size={34}
 									source={{ uri: friendProfile.imageURL }}
 								/>
-							</View>
-						)
+							) : (
+								<View style={{ width: 34 }} />
+							)}
+						</View>
 					}
 				/>
 			)}
@@ -79,6 +81,6 @@ export default WrappedMessage;
 
 const styles = StyleSheet.create({
 	avatar: {
-		bottom: -14,
+		// bottom: -14,
 	},
 });
