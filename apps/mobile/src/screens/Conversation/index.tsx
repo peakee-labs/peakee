@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import {
 	ActivityIndicator,
+	Platform,
 	StyleSheet,
 	TouchableOpacity,
 	View,
@@ -45,6 +46,7 @@ export const ConversationScreen: FC<Props> = ({
 
 	const handleTranslateText = useCallback(
 		(text = '') => {
+			if (Platform.OS === 'ios') return;
 			const { cleanModal } = showModalWithComponent(
 				TranslateBottomSheet,
 				{
@@ -83,6 +85,7 @@ export const ConversationScreen: FC<Props> = ({
 	);
 
 	const handleShowSuggestion = async () => {
+		if (Platform.OS === 'ios') return;
 		if (!currentSelection) return;
 		setLoadingExplanation(true);
 
