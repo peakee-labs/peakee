@@ -10,7 +10,7 @@ import { axios } from './axios';
 export const getRandomPracticeWord = async () => {
 	try {
 		const { data: word } = await axios().get<PracticeUnit>(
-			`/practice/public/unit`,
+			`/practice/random-review`,
 		);
 		return word;
 	} catch (err) {
@@ -20,23 +20,26 @@ export const getRandomPracticeWord = async () => {
 
 export const getPracticeWordForUser = async () => {
 	try {
-		const { data: word } = await axios().get<ExplainLog>(`/practice/unit`);
+		const { data: word } = await axios().get<ExplainLog>(
+			`/practice/fast-review`,
+		);
 		return word;
 	} catch (err) {
 		console.log('Error getting practice word', err);
 	}
 };
 
-export const getPracticeFlashCard = async () => {
-	try {
-		const { data: flashcard } = await axios().get<PracticeUnit>(
-			`/practice/unit/flashcard`,
-		);
-		return flashcard;
-	} catch (err) {
-		console.log('Error getting practice flashcard', err);
-	}
-};
+// export const getPracticeFlashCard = async () => {
+// 	try {
+// 		const { data: flashcard } = await axios().get<PracticeUnit>(
+// 			`/practice/unit/flashcard`,
+// 		);
+// 		return flashcard;
+// 	} catch (err) {
+// 		console.log('Error getting practice flashcard', err);
+// 	}
+// };
+
 export const getFlashCardCollectionDefault = async () => {
 	try {
 		const { data: collection } =
