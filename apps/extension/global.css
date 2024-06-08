@@ -1,4 +1,11 @@
 @font-face {
   font-family: "Lato";
+  font-style: normal;
   src: url("./assets/fonts/Lato-vn/Lato-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Lato";
+  font-style: italic;
+  src: url("./assets/fonts/Lato-vn/Lato-Italic.ttf") format("truetype");
 }
