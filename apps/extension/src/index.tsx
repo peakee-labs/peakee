@@ -12,6 +12,7 @@ import {
 } from 'react-router-dom';
 import { StateProvider } from '@peakee/app/state';
 
+import './utils/global';
 import './webPolyfill';
 import './entries/background';
 import './entries/contentScript';

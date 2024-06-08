@@ -8,7 +8,8 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const assetFileExtensions = ['jpg', 'jpeg', 'png', 'svg', 'ttf'];
+const imageFileExtensions = ['jpg', 'jpeg', 'png', 'svg'];
+const fontFileExtensions = ['ttf'];
 
 const internalPackages = ['ui', 'icons', 'app', 'logger'];
 
@@ -78,7 +79,15 @@ const configs = {
 	module: {
 		rules: [
 			{
-				test: new RegExp('.(' + assetFileExtensions.join('|') + ')$'),
+				test: /\.css$/,
+				use: ['style-loader', 'css-loader'],
+			},
+			{
+				test: new RegExp('.(' + fontFileExtensions.join('|') + ')$'),
+				type: 'asset/resource',
+			},
+			{
+				test: new RegExp('.(' + imageFileExtensions.join('|') + ')$'),
 				type: 'asset/resource',
 				loader: 'file-loader',
 				options: { name: '[name].[ext]' },
@@ -113,7 +122,7 @@ const configs = {
 		alias: {
 			'react-native$': 'react-native-web',
 		},
-		extensions: assetFileExtensions
+		extensions: [...imageFileExtensions, ...fontFileExtensions]
 			.map((extension) => '.' + extension)
 			.concat([
 				'.ext.js',

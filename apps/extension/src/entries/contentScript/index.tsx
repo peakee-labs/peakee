@@ -7,6 +7,8 @@ applyPersistAppState();
 import { createRoot } from 'react-dom/client';
 import { StateProvider } from '@peakee/app/state';
 
+import '../../utils/global';
+
 import { initApp } from '../../utils/bootstrap';
 
 import ContentApp from './ContentApp';
