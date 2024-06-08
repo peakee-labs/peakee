@@ -1,5 +1,5 @@
 import type { FC, Ref } from 'react';
-import { forwardRef, Fragment, useState } from 'react';
+import { forwardRef, Fragment, useCallback, useState } from 'react';
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -53,6 +53,18 @@ const _ExplanationBoxV2 = (
 
 	const toggleEditMode = () => setEditMode((m) => !m);
 
+	const handleDrag = useCallback((index: number) => {
+		return (offset: number) => {
+			console.log(index, offset);
+		};
+	}, []);
+
+	const handleDrop = useCallback((index: number) => {
+		return (offset: number) => {
+			console.log(index, offset);
+		};
+	}, []);
+
 	return (
 		<View
 			ref={ref}
@@ -80,6 +92,8 @@ const _ExplanationBoxV2 = (
 									titleTextStyle={titleTextStyle}
 									mainTextStyle={mainTextStyle}
 									extendTextStyle={extendTextStyle}
+									onDrag={handleDrag(index)}
+									onDrop={handleDrop(index)}
 								/>
 								{index !== internalPrompt.length - 1 && (
 									<View style={styles.indicator} />
@@ -129,6 +143,8 @@ type PromptItemProps = {
 	titleTextStyle?: StyleProp<TextStyle>;
 	mainTextStyle?: StyleProp<TextStyle>;
 	extendTextStyle?: StyleProp<TextStyle>;
+	onDrag?: (yOffset: number) => void;
+	onDrop?: (yOffset: number) => void;
 };
 
 const PromptItem: FC<PromptItemProps> = ({
@@ -137,6 +153,8 @@ const PromptItem: FC<PromptItemProps> = ({
 	titleTextStyle,
 	mainTextStyle,
 	extendTextStyle,
+	onDrag,
+	onDrop,
 }) => {
 	const [pressed, setPressed] = useState(false);
 	const yOffset = useSharedValue(0);
@@ -148,6 +166,7 @@ const PromptItem: FC<PromptItemProps> = ({
 			runOnJS(setPressed)(true);
 		})
 		.onChange((event) => {
+			if (onDrag) runOnJS(onDrag)(yOffset.value);
 			yOffset.value += event.changeY;
 			if (
 				Math.abs(xOffset.value) < 50 ||
@@ -158,6 +177,7 @@ const PromptItem: FC<PromptItemProps> = ({
 			}
 		})
 		.onFinalize(() => {
+			if (onDrop) runOnJS(onDrop)(yOffset.value);
 			yOffset.value = withSpring(0, {
 				duration: 800,
 				clamp: { max: 8 },
