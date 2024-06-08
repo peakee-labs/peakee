@@ -21,6 +21,7 @@ import Newtab from './entries/newtab/Newtab';
 import Popup from './entries/popup/Popup';
 import withAuth from './utils/withAuth';
 import { App } from './App';
+import Component from './Component';
 import { Container } from './components';
 
 const AuthorizedApp = withAuth(App);
@@ -43,6 +44,14 @@ export const router = createBrowserRouter(
 				element={
 					<Container>
 						<AuthorizedNewtab />
+					</Container>
+				}
+			/>
+			<Route
+				path="component"
+				element={
+					<Container>
+						<Component />
 					</Container>
 				}
 			/>

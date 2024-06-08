@@ -37,6 +37,17 @@ export const AppHeader = () => {
 					Popup
 				</Text>
 			</Link>
+
+			<Link style={{ textDecoration: 'none' }} to="/component">
+				<Text
+					style={[
+						styles.button,
+						location.pathname === '/component' && styles.active,
+					]}
+				>
+					Components
+				</Text>
+			</Link>
 		</View>
 	);
 };

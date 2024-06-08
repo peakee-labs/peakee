@@ -78,6 +78,17 @@ export type ExplainPhraseInSentenceResponse = {
 	expandWords: string[];
 };
 
+export type Explanation = {
+	key: string;
+	title: string;
+	main: string;
+	extend?: string;
+};
+
+export type ExplanationPrompt = Explanation[];
+
+export type Explanations = Explanation[];
+
 export const explainPhraseInSentence = async (
 	phrase: string,
 	sentence: string,
