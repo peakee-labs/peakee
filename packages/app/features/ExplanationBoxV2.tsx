@@ -2,6 +2,13 @@ import type { FC, Ref } from 'react';
 import { forwardRef, Fragment, useState } from 'react';
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, {
+	runOnJS,
+	useAnimatedStyle,
+	useSharedValue,
+	withSpring,
+} from 'react-native-reanimated';
 import type {
 	Explanation,
 	ExplanationPrompt,
@@ -131,12 +138,63 @@ const PromptItem: FC<PromptItemProps> = ({
 	mainTextStyle,
 	extendTextStyle,
 }) => {
+	const [pressed, setPressed] = useState(false);
+	const yOffset = useSharedValue(0);
+	const xOffset = useSharedValue(0);
 	const { title, main, extend } = prompt;
+
+	const pan = Gesture.Pan()
+		.onBegin(() => {
+			runOnJS(setPressed)(true);
+		})
+		.onChange((event) => {
+			yOffset.value += event.changeY;
+			if (
+				Math.abs(xOffset.value) < 50 ||
+				(xOffset.value > 50 && event.changeX < 0) ||
+				(xOffset.value < 50 && event.changeX > 0)
+			) {
+				xOffset.value += event.changeX;
+			}
+		})
+		.onFinalize(() => {
+			yOffset.value = withSpring(0, {
+				duration: 800,
+				clamp: { max: 8 },
+			});
+			xOffset.value = withSpring(0, {
+				duration: 800,
+				clamp: { max: 8 },
+			});
+			runOnJS(setPressed)(false);
+		});
+
+	const dragStyle = useAnimatedStyle(() => {
+		return {
+			transform: [
+				{ translateY: yOffset.value },
+				{ translateX: xOffset.value },
+			],
+		};
+	});
+
 	return (
-		<View style={styles.promptContainer}>
-			<Hoverable style={styles.dragButton}>
-				<HorizontalDrag size={16} color={'#979797'} strokeWidth="3" />
-			</Hoverable>
+		<Animated.View
+			style={[
+				styles.promptContainer,
+				dragStyle,
+				pressed && styles.dragStyle,
+			]}
+		>
+			<GestureDetector gesture={pan}>
+				<Hoverable style={styles.dragButton}>
+					<HorizontalDrag
+						size={16}
+						color={'#979797'}
+						strokeWidth="3"
+					/>
+				</Hoverable>
+			</GestureDetector>
 			<View
 				style={[
 					styles.itemContainer,
@@ -169,7 +227,7 @@ const PromptItem: FC<PromptItemProps> = ({
 					</Text>
 				</View>
 			</View>
-		</View>
+		</Animated.View>
 	);
 };
 
@@ -182,11 +240,12 @@ const styles = StyleSheet.create({
 		borderWidth: 1.6,
 		borderColor: '#DADADA',
 		borderRadius: 20,
-		padding: 20,
-		gap: 20,
+		padding: 10,
+		gap: 10,
 	},
 	itemContainer: {
 		gap: 3,
+		padding: 10,
 	},
 	titleTextStyle: {
 		fontSize: 14,
@@ -208,11 +267,14 @@ const styles = StyleSheet.create({
 	promptContainer: {
 		flexDirection: 'row',
 		gap: 6,
+		borderWidth: 1.6,
+		borderColor: 'transparent',
+		borderRadius: 10,
 	},
 	dragButton: {
 		position: 'absolute',
-		left: -8,
-		top: 0,
+		left: 2,
+		top: 10,
 	},
 	promptItemContainer: {
 		flexDirection: 'row',
@@ -235,5 +297,13 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		backgroundColor: '#DADADA',
 		marginHorizontal: 14,
+	},
+	dragStyle: {
+		zIndex: 1,
+		backgroundColor: '#fff',
+		borderWidth: 1.6,
+		borderColor: '#DADADA',
+		borderRadius: 10,
+		opacity: 0.5,
 	},
 });
