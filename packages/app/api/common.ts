@@ -85,7 +85,14 @@ export type Explanation = {
 	extend?: string;
 };
 
-export type ExplanationPrompt = Explanation[];
+export type ExplanationPrompt = {
+	key: string;
+	title: string;
+	main: string;
+	extend?: string;
+};
+
+export type ExplanationPrompts = ExplanationPrompt[];
 
 export type Explanations = Explanation[];
 
