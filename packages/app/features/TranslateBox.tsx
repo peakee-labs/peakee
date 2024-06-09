@@ -149,19 +149,19 @@ const InternalTranslateBox = (
 						>
 							<ArrowDownToLine
 								size={18}
-								color={'#9d9d9d'}
+								color={'#979797'}
 								strokeWidth="2.5"
 							/>
 						</TouchableOpacity>
 					)}
 
 					<TouchableOpacity onPress={switchLanguages} hitSlop={14}>
-						<Switch size={18} color={'#9d9d9d'} strokeWidth="2.5" />
+						<Switch size={18} color={'#979797'} strokeWidth="2.5" />
 					</TouchableOpacity>
 					<TouchableOpacity onPress={() => copy(text)} hitSlop={14}>
-						<Copy size={18} color={'#9d9d9d'} strokeWidth="2.5" />
+						<Copy size={18} color={'#979797'} strokeWidth="2.5" />
 					</TouchableOpacity>
-					{/* <Speaker size={18} color={'#9d9d9d'} strokeWidth="2.5" /> */}
+					{/* <Speaker size={18} color={'#979797'} strokeWidth="2.5" /> */}
 				</View>
 			</View>
 
@@ -211,7 +211,7 @@ const InternalTranslateBox = (
 						>
 							<ArrowDownToLine
 								size={18}
-								color={'#9d9d9d'}
+								color={'#979797'}
 								strokeWidth="2.5"
 							/>
 						</TouchableOpacity>
@@ -221,9 +221,9 @@ const InternalTranslateBox = (
 						onPress={() => copy(translated)}
 						hitSlop={14}
 					>
-						<Copy size={18} color={'#9d9d9d'} strokeWidth="2.5" />
+						<Copy size={18} color={'#979797'} strokeWidth="2.5" />
 					</TouchableOpacity>
-					{/* <Speaker size={18} color={'#9d9d9d'} strokeWidth="2.5" /> */}
+					{/* <Speaker size={18} color={'#979797'} strokeWidth="2.5" /> */}
 				</View>
 			</View>
 
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 14,
 		fontWeight: '500',
-		color: '#5d5d5d',
+		color: '#3C4043',
 	},
 	header: {
 		flexDirection: 'row',
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 10,
 		height: 1.5,
 		borderRadius: 1,
-		backgroundColor: '#000000',
+		backgroundColor: '#3C4043',
 		opacity: 0.2,
 		marginBottom: 20,
 	},
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
 		// flex: 1,
 		flexGrow: 1,
 		fontSize: 24,
-		color: '#504f4f',
+		color: '#3C4043',
 		paddingHorizontal: 0,
 		paddingVertical: 0,
 		textAlignVertical: 'top',
@@ -313,6 +313,6 @@ const styles = StyleSheet.create({
 	},
 	translated: {
 		fontSize: 24,
-		color: '#504f4f',
+		color: '#3C4043',
 	},
 });

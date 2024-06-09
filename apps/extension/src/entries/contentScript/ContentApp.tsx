@@ -344,8 +344,8 @@ const styles = StyleSheet.create({
 		backgroundColor: '#FFFFFF',
 		position: 'absolute',
 		paddingVertical: 18,
-		borderWidth: 1,
-		borderColor: '#B1B6C1',
+		borderWidth: 2,
+		borderColor: '#DADADA',
 		borderRadius: 10,
 	},
 	explanationBox: {
