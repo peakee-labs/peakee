@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 	},
 	translateContainer: {
 		flex: 1,
-		borderWidth: 2,
+		borderWidth: 1.6,
 		borderColor: '#DADADA',
 		borderRadius: 20,
 		padding: 10,

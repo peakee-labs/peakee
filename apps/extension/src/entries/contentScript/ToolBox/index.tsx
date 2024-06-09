@@ -1,11 +1,10 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, {
 	useAnimatedStyle,
 	useSharedValue,
 	withSpring,
-	ZoomIn,
 } from 'react-native-reanimated';
 
 type Props = {
@@ -48,9 +47,10 @@ export const ToolBox: FC<Props> = ({
 	};
 
 	return (
-		<Animated.View style={[styles.boxContainer, style]} entering={ZoomIn}>
+		<View style={[styles.boxContainer, style]}>
 			<TouchableOpacity
 				onPress={onPressTranslate}
+				// @ts-ignore No overload matches this call
 				onMouseEnter={() => handleHover('translate')}
 				onMouseLeave={() => handleHoverOut('translate')}
 			>
@@ -61,6 +61,7 @@ export const ToolBox: FC<Props> = ({
 
 			<TouchableOpacity
 				onPress={onPressExplain}
+				// @ts-ignore No overload matches this call
 				onMouseEnter={() => handleHover('explain')}
 				onMouseLeave={() => handleHoverOut('explain')}
 			>
@@ -68,7 +69,7 @@ export const ToolBox: FC<Props> = ({
 					Explain
 				</Animated.Text>
 			</TouchableOpacity>
-		</Animated.View>
+		</View>
 	);
 };
 
@@ -82,13 +83,13 @@ const styles = StyleSheet.create({
 		paddingBottom: 20,
 		paddingHorizontal: 18,
 		backgroundColor: '#FFFFFF',
-		borderWidth: 1,
-		borderColor: '#B1B6C1',
+		borderWidth: 1.6,
+		borderColor: '#DADADA',
 		borderRadius: 10,
 		gap: 4,
 	},
 	title: {
 		fontWeight: '500',
-		color: '#5c5c5c',
+		color: '#3C4043',
 	},
 });
