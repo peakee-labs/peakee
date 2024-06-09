@@ -1,5 +1,5 @@
 import type { Ref } from 'react';
-import { forwardRef, useCallback, useEffect, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import {
 	ActivityIndicator,
@@ -44,6 +44,7 @@ const InternalTranslateBox = (
 	ref: Ref<View>,
 ) => {
 	const [loading, setLoading] = useState(false);
+	const latestText = useRef<string>();
 	const [text, setText] = useState(initText);
 	const [translated, setTranslated] = useState('');
 	const [from, setFrom] = useState(initLanguages.split('-')[0]);
@@ -65,12 +66,15 @@ const InternalTranslateBox = (
 			} else {
 				res = await requestTranslateAPI(text, languages as never);
 			}
-			if (res) setTranslated(res.translated);
-		}, 1000),
+			if (res && res.text === latestText.current) {
+				setTranslated(res.translated);
+			}
+		}, 800),
 		[from, to],
 	);
 
 	const handleChangeText = async (text: string) => {
+		latestText.current = text;
 		setText(text);
 		if (text !== '') {
 			fetchTranslation(text);
