@@ -13,7 +13,7 @@
 │ └── web -> web app - NextJS, React Native Web
 ├── cli
 ├── packages
-│ ├── app -> almost implementation goes here
+│ ├── app -> most implementation goes here
 │ ├── ui -> universal UI components
 │ ├── icons -> all app icons
 │ └── utils -> common utils
