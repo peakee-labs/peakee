@@ -54,16 +54,20 @@ const _ExplanationBoxV2 = (
 
 	const handleDrop = useCallback(
 		(layout: WrappedDragLayoutRectangle) => {
-			setDragLayout(layout);
 			const currentIndex = layout.index;
 			const newIndex = currentHighlightIndicator.current;
 			if (newIndex === undefined || newIndex === currentIndex) return;
+
 			const moveUp = newIndex < currentIndex;
 			const moveDown =
 				newIndex > currentIndex && newIndex !== currentIndex + 1;
 			if (moveUp || moveDown) {
 				movePromptItem(currentIndex, newIndex);
 			}
+
+			// reset
+			setDragLayout(layout);
+			currentHighlightIndicator.current = undefined;
 		},
 		[internalPrompt],
 	);
