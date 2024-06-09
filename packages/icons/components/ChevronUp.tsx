@@ -3,7 +3,7 @@ import { Path, Svg } from 'react-native-svg';
 
 import type { IconProps } from './types';
 
-export const ChevronDown: FC<IconProps> = ({ size, color, strokeWidth }) => {
+export const ChevronUp: FC<IconProps> = ({ size, color, strokeWidth }) => {
 	return (
 		<Svg
 			width={size}
@@ -15,7 +15,7 @@ export const ChevronDown: FC<IconProps> = ({ size, color, strokeWidth }) => {
 			strokeLinecap="round"
 			strokeLinejoin="round"
 		>
-			<Path d="m6 9 6 6 6-6" />
+			<Path d="m18 15-6-6-6 6" />
 		</Svg>
 	);
 };

@@ -11,7 +11,13 @@ import {
 	View,
 } from 'react-native';
 import { TextInput } from 'react-native';
-import { ArrowDownToLine, Copy, Switch } from '@peakee/icons';
+import {
+	ArrowDownToLine,
+	ChevronDown,
+	ChevronUp,
+	Copy,
+	Switch,
+} from '@peakee/icons';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { throttle } from 'lodash';
 
@@ -28,6 +34,8 @@ export type Props = {
 	translate?: TranslateFunction;
 	contentFontSize?: number;
 	experimentalDynamicSize?: boolean;
+	collapse?: boolean;
+	collapsible?: boolean;
 	onPressUseEnglishText?: (text: string) => void;
 };
 
@@ -40,10 +48,13 @@ const InternalTranslateBox = (
 		contentFontSize,
 		experimentalDynamicSize,
 		onPressUseEnglishText,
+		collapsible = false,
+		collapse: collapseProp = false,
 	}: Props,
 	ref: Ref<View>,
 ) => {
 	const [loading, setLoading] = useState(false);
+	const [collapse, setCollapse] = useState(!!collapseProp);
 	const latestText = useRef<string>();
 	const [text, setText] = useState(initText);
 	const [translated, setTranslated] = useState('');
@@ -56,6 +67,8 @@ const InternalTranslateBox = (
 	const commonContentStyle = {
 		fontSize: contentFontSize,
 	};
+
+	const renderTranslateInput = !collapsible || (collapsible && !collapse);
 
 	const fetchTranslation = useCallback(
 		throttle(async (text: string) => {
@@ -101,6 +114,14 @@ const InternalTranslateBox = (
 		setTranslated('');
 	};
 
+	const toggleCollapse = () => {
+		setCollapse((c) => !c);
+	};
+
+	useEffect(() => {
+		setCollapse(!!collapseProp);
+	}, [collapseProp]);
+
 	useEffect(() => {
 		if (text.length > 0) {
 			setLoading(true);
@@ -140,67 +161,87 @@ const InternalTranslateBox = (
 				experimentalDynamicSize && { width: dynamicWidth },
 			]}
 		>
-			<View style={styles.header}>
-				<Text style={styles.title}>
-					{from == 'en' ? 'English' : 'Vietnamese'}
-				</Text>
+			{renderTranslateInput && (
+				<View style={styles.header}>
+					<Text style={styles.title}>
+						{from == 'en' ? 'English' : 'Vietnamese'}
+					</Text>
 
-				<View style={styles.icons}>
-					{onPressUseEnglishText && from == 'en' && (
+					<View style={styles.icons}>
+						{onPressUseEnglishText && from == 'en' && (
+							<TouchableOpacity
+								onPress={() => onPressUseEnglishText?.(text)}
+								hitSlop={14}
+							>
+								<ArrowDownToLine
+									size={18}
+									color={'#979797'}
+									strokeWidth="2.5"
+								/>
+							</TouchableOpacity>
+						)}
+
 						<TouchableOpacity
-							onPress={() => onPressUseEnglishText?.(text)}
+							onPress={switchLanguages}
 							hitSlop={14}
 						>
-							<ArrowDownToLine
+							<Switch
 								size={18}
 								color={'#979797'}
 								strokeWidth="2.5"
 							/>
 						</TouchableOpacity>
-					)}
-
-					<TouchableOpacity onPress={switchLanguages} hitSlop={14}>
-						<Switch size={18} color={'#979797'} strokeWidth="2.5" />
-					</TouchableOpacity>
-					<TouchableOpacity onPress={() => copy(text)} hitSlop={14}>
-						<Copy size={18} color={'#979797'} strokeWidth="2.5" />
-					</TouchableOpacity>
-					{/* <Speaker size={18} color={'#979797'} strokeWidth="2.5" /> */}
+						<TouchableOpacity
+							onPress={() => copy(text)}
+							hitSlop={14}
+						>
+							<Copy
+								size={18}
+								color={'#979797'}
+								strokeWidth="2.5"
+							/>
+						</TouchableOpacity>
+						{/* <Speaker size={18} color={'#979797'} strokeWidth="2.5" /> */}
+					</View>
 				</View>
-			</View>
+			)}
 
-			<View
-				style={[
-					styles.textInputContainer,
-					experimentalDynamicSize && { height: dynamicHeight },
-				]}
-			>
-				<TextInput
+			{renderTranslateInput && (
+				<View
 					style={[
-						styles.textInput,
-						Platform.OS === 'web' && styles.textInputWeb,
-						commonContentStyle,
+						styles.textInputContainer,
+						experimentalDynamicSize && {
+							height: dynamicHeight,
+						},
 					]}
-					value={text}
-					onChangeText={handleChangeText}
-					placeholder="Type to translate..."
-					placeholderTextColor={'#8E8E93'}
-					multiline
-					autoCorrect={false}
-					autoCapitalize="none"
-					autoComplete="off"
-				/>
-				{text.length > 0 && (
-					<TouchableOpacity
-						style={styles.clearButton}
-						onPress={clearText}
-					>
-						<Text style={styles.clearText}>Clear</Text>
-					</TouchableOpacity>
-				)}
-			</View>
+				>
+					<TextInput
+						style={[
+							styles.textInput,
+							Platform.OS === 'web' && styles.textInputWeb,
+							commonContentStyle,
+						]}
+						value={text}
+						onChangeText={handleChangeText}
+						placeholder="Type to translate..."
+						placeholderTextColor={'#8E8E93'}
+						multiline
+						autoCorrect={false}
+						autoCapitalize="none"
+						autoComplete="off"
+					/>
+					{text.length > 0 && (
+						<TouchableOpacity
+							style={styles.clearButton}
+							onPress={clearText}
+						>
+							<Text style={styles.clearText}>Clear</Text>
+						</TouchableOpacity>
+					)}
+				</View>
+			)}
 
-			<View style={styles.indicator}></View>
+			{renderTranslateInput && <View style={styles.indicator} />}
 
 			<View style={styles.header}>
 				<Text style={styles.title}>
@@ -227,6 +268,25 @@ const InternalTranslateBox = (
 					>
 						<Copy size={18} color={'#979797'} strokeWidth="2.5" />
 					</TouchableOpacity>
+
+					{collapsible && (
+						<TouchableOpacity onPress={toggleCollapse} hitSlop={14}>
+							{collapse ? (
+								<ChevronDown
+									size={18}
+									color={'#979797'}
+									strokeWidth="3"
+								/>
+							) : (
+								<ChevronUp
+									size={18}
+									color={'#979797'}
+									strokeWidth="3"
+								/>
+							)}
+						</TouchableOpacity>
+					)}
+
 					{/* <Speaker size={18} color={'#979797'} strokeWidth="2.5" /> */}
 				</View>
 			</View>

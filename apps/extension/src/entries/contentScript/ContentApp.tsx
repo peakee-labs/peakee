@@ -295,6 +295,8 @@ export const ContentApp = () => {
 					initText={selectedText}
 					translate={requestTranslateViaMessaging}
 					experimentalDynamicSize
+					collapsible
+					collapse
 				/>
 			)}
 

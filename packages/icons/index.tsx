@@ -8,6 +8,7 @@ export * from './components/Check';
 export * from './components/ChevronDown';
 export * from './components/ChevronLeft';
 export * from './components/ChevronRight';
+export * from './components/ChevronUp';
 export * from './components/Circle';
 export * from './components/CircleCheck';
 export * from './components/CircleExclaimation';
