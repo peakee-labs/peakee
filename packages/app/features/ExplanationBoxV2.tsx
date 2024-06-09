@@ -282,7 +282,8 @@ const styles = StyleSheet.create({
 	},
 	editButton: {
 		position: 'absolute',
-		right: 20,
+		right: 10,
+		top: 8,
 	},
 	promptContainer: {
 		flexDirection: 'row',
