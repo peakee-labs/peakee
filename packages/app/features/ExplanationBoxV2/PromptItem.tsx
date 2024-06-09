@@ -1,4 +1,5 @@
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useRef, useState } from 'react';
+import type { LayoutRectangle } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -12,16 +13,18 @@ import { Hoverable } from '@peakee/ui';
 
 import type { ExplanationPrompt } from '../../api';
 
-import type { SharedProps } from './shared';
+import type { SharedProps, WrappedDragLayoutRectangle } from './shared';
 import { sharedStyles } from './shared';
 
 type PromptItemProps = SharedProps & {
+	index: number;
 	prompt: ExplanationPrompt;
-	onDrag?: (yOffset: number) => void;
-	onDrop?: (yOffset: number) => void;
+	onDrag?: (layout: WrappedDragLayoutRectangle) => void;
+	onDrop?: (layout: WrappedDragLayoutRectangle) => void;
 };
 
 export const PromptItem: FC<PromptItemProps> = ({
+	index,
 	prompt,
 	itemContainerStyle,
 	titleTextStyle,
@@ -30,6 +33,13 @@ export const PromptItem: FC<PromptItemProps> = ({
 	onDrag,
 	onDrop,
 }) => {
+	const ref = useRef<View>(null);
+	const layout = useRef<LayoutRectangle>({
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
+	});
 	const [pressed, setPressed] = useState(false);
 	const yOffset = useSharedValue(0);
 	const xOffset = useSharedValue(0);
@@ -40,7 +50,13 @@ export const PromptItem: FC<PromptItemProps> = ({
 			runOnJS(setPressed)(true);
 		})
 		.onChange((event) => {
-			if (onDrag) runOnJS(onDrag)(yOffset.value);
+			if (onDrag) {
+				runOnJS(onDrag)({
+					index,
+					...layout.current,
+					y: layout.current.y + yOffset.value,
+				});
+			}
 			yOffset.value += event.changeY;
 			if (
 				Math.abs(xOffset.value) < 50 ||
@@ -51,7 +67,9 @@ export const PromptItem: FC<PromptItemProps> = ({
 			}
 		})
 		.onFinalize(() => {
-			if (onDrop) runOnJS(onDrop)(yOffset.value);
+			if (onDrop) {
+				runOnJS(onDrop)({ index, ...layout.current });
+			}
 			yOffset.value = withSpring(0, {
 				duration: 800,
 				clamp: { max: 8 },
@@ -72,8 +90,17 @@ export const PromptItem: FC<PromptItemProps> = ({
 		};
 	});
 
+	useEffect(() => {
+		setTimeout(() => {
+			ref.current?.measure((x, y, width, height) => {
+				layout.current = { x, y, width, height };
+			});
+		}, 0);
+	}, [index]);
+
 	return (
 		<Animated.View
+			ref={ref}
 			style={[styles.container, dragStyle, pressed && styles.dragStyle]}
 		>
 			<GestureDetector gesture={pan}>

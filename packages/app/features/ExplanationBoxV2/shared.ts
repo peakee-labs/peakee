@@ -1,5 +1,17 @@
-import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import type {
+	LayoutRectangle,
+	StyleProp,
+	TextStyle,
+	ViewStyle,
+} from 'react-native';
 import { StyleSheet } from 'react-native';
+
+export type WrappedDragLayoutRectangle = LayoutRectangle & {
+	/**
+	 * index of current draggle item
+	 */
+	index: number;
+};
 
 export type SharedProps = {
 	itemContainerStyle?: StyleProp<ViewStyle>;
