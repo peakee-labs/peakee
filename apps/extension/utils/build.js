@@ -39,7 +39,32 @@ const pdfjsContentPath = path.join(
 );
 
 const copyPDFJSContent = new CopyWebpackPlugin({
-	patterns: [{ from: pdfjsContentPath, to: 'content' }],
+	patterns: [
+		{
+			from: pdfjsContentPath,
+			to: 'content',
+			globOptions: { ignore: '**/web/viewer.html' },
+		},
+	],
+});
+
+const PDFViewerHTMLPath = path.join(pdfjsContentPath, 'web/viewer.html');
+
+const copyPDFViewerHTML = new CopyWebpackPlugin({
+	patterns: [
+		{
+			from: PDFViewerHTMLPath,
+			to: 'content/web/viewer.html',
+			transform: function (content) {
+				let contentStr = content.toString();
+				contentStr = contentStr.replace(
+					'</head>',
+					'<script defer src="../../contentScript.bundle.js"></script></head>',
+				);
+				return Buffer.from(contentStr);
+			},
+		},
+	],
 });
 
 const zipBundle = new ZipPlugin({
@@ -47,7 +72,7 @@ const zipBundle = new ZipPlugin({
 	path: path.join(__dirname, '../build/ext-zip'),
 });
 
-config.plugins.push(copyPDFJS, copyPDFJSContent, zipBundle);
+config.plugins.push(copyPDFJS, copyPDFJSContent, copyPDFViewerHTML, zipBundle);
 
 webpack(config, function (err) {
 	console.log('Build complete.');
