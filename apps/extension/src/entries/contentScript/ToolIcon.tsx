@@ -19,7 +19,7 @@ export default ToolIcon;
 
 const styles = StyleSheet.create({
 	icon: {
-		width: 18,
-		height: 18,
+		width: 25,
+		height: 25,
 	},
 });

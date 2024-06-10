@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#FFFFFF',
 		borderWidth: 1.6,
 		borderColor: '#DADADA',
-		borderRadius: 10,
+		borderRadius: 12,
 		gap: 4,
 	},
 	title: {
