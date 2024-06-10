@@ -5,7 +5,7 @@
   "author": "https://peakee.co",
   "options_page": "options.html",
   "background": {
-     "service_worker": "background.bundle.js"
+    "service_worker": "background.bundle.js"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; frame-ancestors 'none';"
@@ -16,8 +16,21 @@
     "clipboardWrite",
     "identity",
     "storage",
-    "alarms"
+    "alarms",
+    "webRequest",
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess",
+    "declarativeNetRequestFeedback"
   ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "open_pdf_file_peakee",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon-34.png"
@@ -32,6 +45,13 @@
     {
       "matches": ["http://*/*", "https://*/*", "<all_urls>"],
       "js": ["contentScript.bundle.js"]
+    },
+    {
+      "matches": ["http://*/*", "https://*/*", "ftp://*/*", "file://*/*"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "css": ["pdfjs/contentstyle.css"],
+      "js": ["pdfjs/contentscript.js"]
     }
   ],
   "devtools_page": "devtools.html",
@@ -39,6 +59,28 @@
     {
       "resources": ["*.png", "*.svg"],
       "matches": ["http://*/*", "https://*/*", "<all_urls>"]
+    },
+    {
+      "resources": [
+        "content/web/viewer.html",
+        "http:/*",
+        "https:/*",
+        "ftp:/*",
+        "file:/*",
+        "chrome-extension:/*",
+        "blob:*",
+        "data:*",
+        "filesystem:/*",
+        "drive:*"
+      ],
+      "matches": ["http://*/*", "https://*/*", "<all_urls>"]
+    }
+  ],
+  "file_browser_handlers": [
+    {
+      "id": "open-as-pdf",
+      "default_title": "Open with PDF Viewer | Peakee",
+      "file_filters": ["filesystem:*.pdf"]
     }
   ],
   "host_permissions": ["http://*/*", "https://*/*", "<all_urls>"]

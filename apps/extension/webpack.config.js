@@ -167,6 +167,7 @@ const configs = {
 						);
 					},
 				},
+				{ from: 'src/rules.json' },
 				{ from: 'assets/img/', force: true },
 			],
 		}),

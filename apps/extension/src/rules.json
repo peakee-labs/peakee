@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "regexSubstitution": "chrome-extension://hmmkoppbjhfcjndlhkcipbggommjcfeg/content/web/viewer.html?file=\\1.pdf"
+      }
+    },
+    "condition": {
+      "regexFilter": "(.*)\\.pdf$",
+      "resourceTypes": ["main_frame"]
+    }
+  }
+]

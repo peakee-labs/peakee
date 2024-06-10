@@ -1,3 +1,4 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const {
 	getModeFromFlag,
 	loadEnvWithEnvFileFlag,
@@ -24,12 +25,29 @@ const packageInfo = require('../package.json');
 
 console.log('Building version:', packageInfo.version);
 
-config.plugins.push(
-	new ZipPlugin({
-		filename: `peakee-ext-${packageInfo.version}-${mode}.zip`,
-		path: path.join(__dirname, '../build/ext-zip'),
-	}),
+const pdfjsExtensionPath = path.join(
+	__dirname,
+	'../../../vendor/pdf.js/build/chromium',
 );
+const copyPDFJS = new CopyWebpackPlugin({
+	patterns: [{ from: pdfjsExtensionPath, to: 'pdfjs' }],
+});
+
+const pdfjsContentPath = path.join(
+	__dirname,
+	'../../../vendor/pdf.js/build/chromium/content',
+);
+
+const copyPDFJSContent = new CopyWebpackPlugin({
+	patterns: [{ from: pdfjsContentPath, to: 'content' }],
+});
+
+const zipBundle = new ZipPlugin({
+	filename: `peakee-ext-${packageInfo.version}-${mode}.zip`,
+	path: path.join(__dirname, '../build/ext-zip'),
+});
+
+config.plugins.push(copyPDFJS, copyPDFJSContent, zipBundle);
 
 webpack(config, function (err) {
 	console.log('Build complete.');

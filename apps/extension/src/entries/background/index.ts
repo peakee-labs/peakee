@@ -6,6 +6,7 @@ initApp();
 initAppAxios('fetch' as never);
 
 import '../../utils/auth';
+import './vendor/pdfjs';
 
 import { Channels, Events } from '../../utils/messaging';
 
