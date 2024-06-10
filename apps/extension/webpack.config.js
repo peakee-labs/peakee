@@ -84,7 +84,7 @@ const configs = {
 			},
 			{
 				test: new RegExp('.(' + fontFileExtensions.join('|') + ')$'),
-				type: 'asset/resource',
+				type: 'asset/inline',
 			},
 			{
 				test: new RegExp('.(' + imageFileExtensions.join('|') + ')$'),
