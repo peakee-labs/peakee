@@ -1,0 +1,3 @@
+[submodule "vendor/pdf.js"]
+	path = vendor/pdf.js
+	url = https://github.com/mozilla/pdf.js.git
