@@ -44,7 +44,7 @@ const InternalTranslateBox = (
 		initText = '',
 		initLanguages = 'en-vi',
 		style,
-		translate,
+		translate: translateProp,
 		contentFontSize,
 		experimentalDynamicSize,
 		onPressUseEnglishText,
@@ -55,7 +55,7 @@ const InternalTranslateBox = (
 ) => {
 	const [loading, setLoading] = useState(false);
 	const [collapse, setCollapse] = useState(!!collapseProp);
-	const latestText = useRef<string>();
+	const latestText = useRef<string>(initText);
 	const [text, setText] = useState(initText);
 	const [translated, setTranslated] = useState('');
 	const [from, setFrom] = useState(initLanguages.split('-')[0]);
@@ -74,8 +74,8 @@ const InternalTranslateBox = (
 		throttle(async (text: string) => {
 			const languages = `${from}-${to}`;
 			let res;
-			if (translate) {
-				res = await translate(text, languages as never);
+			if (translateProp) {
+				res = await translateProp(text, languages as never);
 			} else {
 				res = await requestTranslateAPI(text, languages as never);
 			}
