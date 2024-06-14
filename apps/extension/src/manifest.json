@@ -35,9 +35,6 @@
     "default_popup": "popup.html",
     "default_icon": "icon-34-no-bg.png"
   },
-  "chrome_url_overrides": {
-    "newtab": "newtab.html"
-  },
   "icons": {
     "128": "icon-128-no-bg.png"
   },
