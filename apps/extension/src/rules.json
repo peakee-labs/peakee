@@ -9,7 +9,7 @@
       }
     },
     "condition": {
-      "regexFilter": "(.*)\\.pdf$",
+      "regexFilter": "^([^?]*)\\.pdf$",
       "resourceTypes": ["main_frame"]
     }
   }
