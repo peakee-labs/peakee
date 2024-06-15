@@ -17,10 +17,7 @@
     "identity",
     "storage",
     "alarms",
-    "webRequest",
-    "declarativeNetRequest",
-    "declarativeNetRequestWithHostAccess",
-    "declarativeNetRequestFeedback"
+    "declarativeNetRequest"
   ],
   "declarative_net_request": {
     "rule_resources": [
