@@ -11,6 +11,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@peakee/config": "*",
         "@peakee/state": "*",
         "@peakee/types": "*",
         "@peakee/ui": "*",

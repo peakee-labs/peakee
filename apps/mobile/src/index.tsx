@@ -27,6 +27,7 @@ import {
 	homeTabOptions,
 } from 'utils/navigation';
 
+import '@peakee/config';
 import '@peakee/auth';
 import 'react-native-url-polyfill/auto';
 

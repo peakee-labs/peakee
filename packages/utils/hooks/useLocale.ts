@@ -1,17 +1,18 @@
 import { useState } from 'react';
+import { logger } from '@peakee/logger';
 import type { Locale } from '@peakee/types';
 
-function useLocaleMap<TypeValue>(
+export const useLocale = <TypeValue>(
 	localeMap: Record<Locale, Record<string, TypeValue>>,
 	locale: Locale,
 	defaultLocale: Locale,
-) {
+) => {
 	const [currLocaleMap, setLocaleMap] = useState(
 		localeMap[locale] || localeMap[defaultLocale],
 	);
 	const changeLocale = (locale: Locale) => {
 		if (!(locale in localeMap)) {
-			console.log('locale', locale, 'not exsited fallback to current');
+			logger.log('locale', locale, 'not existed fallback to current');
 		}
 		setLocaleMap(localeMap[locale] || currLocaleMap);
 	};
@@ -21,6 +22,4 @@ function useLocaleMap<TypeValue>(
 	};
 
 	return { changeLocale, localize };
-}
-
-export default useLocaleMap;
+};

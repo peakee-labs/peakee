@@ -1,21 +1,13 @@
-/**
- * apply persist app state before render
- */
-import { applyPersistAppState } from '../../utils/state';
-applyPersistAppState();
-
 import { createRoot } from 'react-dom/client';
 import { StateProvider } from '@peakee/state';
 
+import './internal';
 import '../../utils/global';
 
-import { initApp } from '../../utils/bootstrap';
 import withAuth from '../../utils/withAuth';
 
 import { signInFromPopupPage } from './internal';
 import Popup from './Popup';
-
-initApp();
 
 const AuthorizedPopup = withAuth(Popup, {
 	customSignIn: signInFromPopupPage,

@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { assets } from '@peakee/config';
 import { type RootState } from '@peakee/state';
 
-import { assets } from '../../../utils';
 import type { OnboardingProps } from '..';
 
 const OnboardingDone: FC<OnboardingProps> = ({ onNext }) => {

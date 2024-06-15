@@ -3,10 +3,9 @@ import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { signInWithGoogle } from '@peakee/auth';
 import SignInFeature from '@peakee/features/SignIn';
+import { useAuth } from '@peakee/utils/hooks';
+import { useWrappedDimensions } from '@peakee/utils/hooks';
 import { useRouter } from 'next/router';
-
-import { useAuth } from '../utils/hooks';
-import { useWrappedDimensions } from '../utils/hooks';
 
 const SignIn: FC = () => {
 	const { user } = useAuth();

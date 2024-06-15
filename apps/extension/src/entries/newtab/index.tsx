@@ -1,20 +1,9 @@
-import './internal';
-
-/**
- * apply persist app state before render
- */
-import { applyPersistAppState } from '../../utils/state';
-
-applyPersistAppState();
-initApp();
-// initAppAxios('fetch' as never);
-
 import { createRoot } from 'react-dom/client';
 import { StateProvider } from '@peakee/state';
 
+import './internal';
 import '../../utils/global';
 
-import { initApp } from '../../utils/bootstrap';
 import withAuth from '../../utils/withAuth';
 
 import Newtab from './Newtab';

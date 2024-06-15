@@ -1,11 +1,10 @@
 import { type FC, useEffect, useMemo } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { postOnboardingForm } from '@peakee/api/onboarding';
+import { assets } from '@peakee/config';
 import { type RootState, updateNumber, updateProgress } from '@peakee/state';
 import { Colors } from '@peakee/ui';
-
-import { postOnboardingForm } from '../../api/onboarding';
-import { assets } from '../../utils';
 
 import OnboardingDob from './dateOfBirth/index';
 import OnboardingLearning from './language/learning';

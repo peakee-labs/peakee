@@ -8,8 +8,7 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-
-import { assets } from '../utils';
+import { assets } from '@peakee/config';
 
 type Props = {
 	onPressSignIn: () => Promise<void>;

@@ -12,8 +12,7 @@ import {
 	postFeedback,
 } from '@peakee/api';
 import type { Locale } from '@peakee/types';
-
-import useLocaleMap from '../../utils/hooks/useLocale';
+import { useLocale } from '@peakee/utils/hooks';
 
 import { FeedbackModal } from './feedbackModal';
 import { type ReviewContent, ReviewWord } from './ReviewWord';
@@ -22,7 +21,7 @@ const Newtab = () => {
 	const [locale] = useState<Locale>(navigator.language as Locale);
 	const [isOpen, setIsOpen] = useState(false);
 	const [reviewContent, setReviewContent] = useState<ReviewContent>();
-	const { changeLocale, localize } = useLocaleMap(localeMap, locale, 'en');
+	const { changeLocale, localize } = useLocale(localeMap, locale, 'en');
 
 	const getNewContent = async () => {
 		try {

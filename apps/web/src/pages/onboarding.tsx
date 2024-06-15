@@ -1,9 +1,8 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import OnboardingFeature from '@peakee/features/Onboarding';
+import { useWrappedDimensions } from '@peakee/utils/hooks';
 import { useRouter } from 'next/router';
-
-import { useWrappedDimensions } from '../utils/hooks';
 
 const SignIn: FC = () => {
 	const router = useRouter();

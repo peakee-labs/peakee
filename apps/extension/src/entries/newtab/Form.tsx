@@ -2,8 +2,7 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import type { Locale } from '@peakee/types';
-
-import useLocaleMap from '../../utils/hooks/useLocale';
+import { useLocale } from '@peakee/utils/hooks';
 
 type Props = {
 	onSubmit: (value: string) => void;
@@ -43,7 +42,7 @@ const localeMap: Record<Locale, Content> = {
 };
 
 const FeedbackForm: FC<Props> = ({ onSubmit, locale }) => {
-	const { localize } = useLocaleMap(localeMap, locale, 'en');
+	const { localize } = useLocale(localeMap, locale, 'en');
 	const [inputValue, setInputValue] = useState('');
 
 	const handleSubmit = () => {

@@ -8,8 +8,7 @@ import Animated, {
 	withTiming,
 } from 'react-native-reanimated';
 import type { Locale } from '@peakee/types';
-
-import useLocaleMap from '../../utils/hooks/useLocale';
+import { useLocale } from '@peakee/utils/hooks';
 
 export type ReviewContent = {
 	text: string;
@@ -42,7 +41,7 @@ export const ReviewWord: FC<Props> = ({
 	symnonyms: expandWords,
 	locale,
 }) => {
-	const { localize } = useLocaleMap(localeMap, locale, 'en');
+	const { localize } = useLocale(localeMap, locale, 'en');
 
 	return (
 		<View style={styles.reviewContainer}>

@@ -4,11 +4,11 @@ import ConversationsFeature from '@peakee/features/Conversations';
 import FriendsFeature from '@peakee/features/Friends';
 import { Quote } from '@peakee/icons';
 import type { Conversation, PublicUserProfile } from '@peakee/types';
+import { useAuth } from '@peakee/utils/hooks';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { withAuth, withBottomNavigation } from '../utils/hoc';
-import { useAuth } from '../utils/hooks';
 
 const Home: FC = () => {
 	const { user } = useAuth();

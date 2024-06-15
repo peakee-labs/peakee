@@ -1,5 +1,11 @@
 import { ChromeChannel } from '@metacraft/crab/chrome';
 
+/**
+ * apply persist app state before render
+ */
+import '@peakee/state/persist';
+import '@peakee/config';
+
 import { Channels, Events } from '../../utils/messaging';
 
 export const channel = new ChromeChannel(Channels.NewTab);

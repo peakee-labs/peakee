@@ -5238,11 +5238,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@peakee/features@workspace:packages/features":
+"@peakee/features@npm:*, @peakee/features@workspace:packages/features":
   version: 0.0.0-use.local
   resolution: "@peakee/features@workspace:packages/features"
   dependencies:
     "@babel/core": "npm:^7.24.0"
+    "@peakee/config": "npm:*"
     "@peakee/state": "npm:*"
     "@peakee/types": "npm:*"
     "@peakee/ui": "npm:*"
@@ -5423,9 +5424,12 @@ __metadata:
   dependencies:
     "@next/eslint-plugin-next": "npm:^14.2.3"
     "@peakee/auth": "npm:*"
+    "@peakee/config": "npm:*"
     "@peakee/eslint-config": "npm:*"
+    "@peakee/features": "npm:*"
     "@peakee/tsconfig": "npm:*"
     "@peakee/ui": "npm:*"
+    "@peakee/utils": "npm:*"
     "@reduxjs/toolkit": "npm:^1.9.6"
     "@types/lodash": "npm:^4.14.200"
     "@types/node": "npm:^20.5.2"

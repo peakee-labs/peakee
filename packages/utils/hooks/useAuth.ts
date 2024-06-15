@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { initAuthPromise, initAuthResolved } from '@peakee/auth';
-import type { UserProfile } from 'firebase/auth';
+import type { UserProfile } from '@peakee/types';
 
 export function useAuth() {
 	const [loading, setLoading] = useState(initAuthResolved);

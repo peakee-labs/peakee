@@ -4,11 +4,9 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { Book, Message, Noti, User, Users } from '@peakee/icons';
 import type { IconProps } from '@peakee/icons/components/types';
 import { Avatar } from '@peakee/ui';
+import { useAuth, useWrappedDimensions } from '@peakee/utils/hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-
-import { useAuth } from './hooks/useAuth';
-import { useWrappedDimensions } from './hooks';
 
 export function withAuth<P>(WrappedComponent: ComponentType<P>) {
 	const AuthenticatedScreen = (props: P) => {
