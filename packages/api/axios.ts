@@ -2,7 +2,7 @@ import { config } from '@peakee/config';
 import type { AxiosAdapter, AxiosInstance } from 'axios';
 import Axios from 'axios';
 
-import { JWT } from './token';
+import { getJWT } from './../auth/jwt';
 
 let defaultAxios: AxiosInstance;
 
@@ -31,6 +31,7 @@ export function initAppAxios(adapter?: AxiosAdapter) {
 	});
 
 	defaultAxios.interceptors.request.use(async (config) => {
+		const JWT = await getJWT();
 		if (JWT) {
 			config.headers.Authorization = 'Bearer ' + JWT;
 		}

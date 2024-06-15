@@ -16,9 +16,6 @@ export const handleIdTokenChange = async (
 		const jwt = await firebaseUser.getIdToken();
 		initWebsocketWithProfile(firebaseUser.uid, jwt);
 
-		const currentUserState = store().getState().user.profile;
-		if (currentUserState) return;
-
 		const user = await getOrInitUserProfile({
 			name: firebaseUser.displayName || unknownUser.name,
 			email: firebaseUser.email || unknownUser.email,
