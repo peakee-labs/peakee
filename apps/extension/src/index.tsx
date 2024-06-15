@@ -1,3 +1,6 @@
+import { createLogger, setDefaultLogger } from '@peakee/logger';
+setDefaultLogger(createLogger('PeakeeDevApp'));
+
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import {

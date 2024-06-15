@@ -1,10 +1,14 @@
 export type Logger = ReturnType<typeof createLogger>;
 
-export let logger: Logger;
+let defaultLogger: Logger;
+
+export const logger = () => {
+	return defaultLogger || console;
+};
 
 export const setDefaultLogger = (_logger: Logger) => {
-	if (logger) throw Error('only set default logger once');
-	logger = _logger;
+	if (defaultLogger) throw Error('only set default logger once');
+	defaultLogger = _logger;
 };
 
 export const createLogger = (name: string) => {

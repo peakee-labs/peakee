@@ -18,7 +18,7 @@ export const handleSignIn: Middleware = async (_, respond) => {
 export const requestLogger = (kernel: Kernel<Channels, Events>): Middleware => {
 	return (request, _, next) => {
 		const { channelId } = kernel.getRequestContext(request.id);
-		logger.log(`Handle ${request.type} from ${channelId}`);
+		logger().log(`Handle ${request.type} from ${channelId}`);
 		next?.(request);
 	};
 };

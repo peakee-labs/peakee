@@ -36,7 +36,7 @@ export const requestTranslateViaMessaging: TranslateFunction = async (
 
 		return res;
 	} catch (error) {
-		logger.warn(error);
+		logger().warn(error);
 	}
 };
 
@@ -56,6 +56,6 @@ export const requestExplainViaMessage = async (
 
 		return res;
 	} catch (error) {
-		logger.warn(error);
+		logger().warn(error);
 	}
 };

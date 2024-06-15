@@ -7,7 +7,7 @@ import '../../utils/global';
 
 import ContentApp from './ContentApp';
 
-logger.log('Content script works');
+logger().log('Content script is running');
 
 const container = document.createElement('div');
 container.id = 'peakee-container';

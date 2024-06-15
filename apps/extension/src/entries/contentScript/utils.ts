@@ -5,7 +5,7 @@ import type { WrappedDOMRect } from './types';
 export const retrieveSentenceOfWordsInSingleRange = (selection: Selection) => {
 	const selectedNode = selection.focusNode as Node;
 	if (!isValidTextNode(selectedNode) || !isSingeSelection(selection)) {
-		logger.log('not valid selection or not text node');
+		logger().log('not valid selection or not text node');
 		return;
 	}
 

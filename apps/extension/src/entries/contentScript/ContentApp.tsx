@@ -62,7 +62,7 @@ export const ContentApp = () => {
 			if (!isEmptySelection) {
 				return handleSelect(selection);
 			} else if (noSelectionRange) {
-				logger.log('no selection');
+				logger().log('no selection');
 				return;
 			}
 
@@ -205,7 +205,7 @@ export const ContentApp = () => {
 	const showSuggest = async () => {
 		const selection = window.getSelection();
 		if (!selection) {
-			logger.log("can't get selection to show suggestion");
+			logger().log("can't get selection to show suggestion");
 			return;
 		}
 		const result = retrieveSentenceOfWordsInSingleRange(selection);

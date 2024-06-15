@@ -15,8 +15,7 @@ import { keepBackgroundAlive } from './utils';
 
 keepBackgroundAlive();
 
-logger.log('This is the background page.');
-logger.log('Put the background scripts here.');
+logger().log('Background script is running');
 
 kernel
 	.use(requestLogger(kernel))

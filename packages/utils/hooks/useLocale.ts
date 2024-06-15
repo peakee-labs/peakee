@@ -12,7 +12,7 @@ export const useLocale = <TypeValue>(
 	);
 	const changeLocale = (locale: Locale) => {
 		if (!(locale in localeMap)) {
-			logger.log('locale', locale, 'not existed fallback to current');
+			logger().log('locale', locale, 'not existed fallback to current');
 		}
 		setLocaleMap(localeMap[locale] || currLocaleMap);
 	};
