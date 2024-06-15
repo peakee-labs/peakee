@@ -8,7 +8,9 @@
     "start:prod": "node utils/webserver.js --envFile .env.production --port 3007",
     "build": "node utils/build.js",
     "build:staging": "node utils/build.js --mode production --envFile .env.staging",
-    "build:prod": "node utils/build.js --mode production --envFile .env.production"
+    "build:prod": "node utils/build.js --mode production --envFile .env.production",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@metacraft/crab": "0.0.5",

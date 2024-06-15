@@ -5,7 +5,8 @@
     "types": "./index.tsx",
     "license": "MIT",
     "scripts": {
-        "lint": "eslint . --fix"
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
     },
     "dependencies": {
         "@gorhom/bottom-sheet": "^4",

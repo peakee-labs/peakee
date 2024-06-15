@@ -4,6 +4,8 @@
     "description": "",
     "main": "index.ts",
     "scripts": {
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
         "test": "jest --passWithNoTests"
     },
     "author": "",

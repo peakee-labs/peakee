@@ -12,7 +12,8 @@
         "start": "next start",
         "start:staging": "env-cmd -f .env.staging next start",
         "start:prod": "env-cmd -f .env.production next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "lint:fix": "next lint --fix"
     },
     "dependencies": {
         "@peakee/app": "*",

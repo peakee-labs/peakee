@@ -10,6 +10,7 @@
         "dev": "turbo run dev",
         "test": "turbo run test",
         "lint": "turbo run lint",
+        "lint:fix": "turbo run lint:fix",
         "deploy": "sst deploy",
         "deploy:prod": "sst deploy --stage prod",
         "remove": "sst remove",
