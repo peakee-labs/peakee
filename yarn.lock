@@ -5130,6 +5130,7 @@ __metadata:
   resolution: "@peakee/api@workspace:packages/api"
   dependencies:
     "@peakee/config": "npm:*"
+    "@peakee/logger": "npm:*"
     "@peakee/utils": "npm:*"
   languageName: unknown
   linkType: soft

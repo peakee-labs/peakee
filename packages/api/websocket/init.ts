@@ -1,4 +1,5 @@
 import { config } from '@peakee/config';
+import { logger } from '@peakee/logger';
 import {
 	addMessage,
 	resolveMessage,
@@ -47,11 +48,11 @@ function initWebsocket(endpoint: string, token: string) {
 	};
 
 	ws.onopen = () => {
-		console.log('Connected to websocket');
+		logger().log('Connected to websocket');
 	};
 
 	ws.onclose = (e) => {
-		console.log('Socket is closed.', e.reason);
+		logger().log('Socket is closed.', e.reason);
 		// const userId = store().getState().user.profile?.id;
 		// if (userId) {
 		// 	const ws = initWebsocket(config().PEAKEE_WS_URL, JWT);

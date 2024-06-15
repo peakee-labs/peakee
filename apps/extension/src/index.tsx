@@ -1,6 +1,3 @@
-import { createLogger, setDefaultLogger } from '@peakee/logger';
-setDefaultLogger(createLogger('PeakeeDevApp'));
-
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import {
@@ -11,6 +8,7 @@ import {
 import { StateProvider } from '@peakee/state';
 
 import '@peakee/config';
+import '@peakee/auth';
 import '@peakee/state/persist';
 import './utils/global';
 import './webPolyfill';

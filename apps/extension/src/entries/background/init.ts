@@ -1,2 +1,3 @@
-import '@peakee/config';
-import '@peakee/auth';
+import { createLogger, setDefaultLogger } from '@peakee/logger';
+
+setDefaultLogger(createLogger('PeakeeDevApp'));

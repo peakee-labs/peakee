@@ -7,7 +7,6 @@ export const logger = () => {
 };
 
 export const setDefaultLogger = (_logger: Logger) => {
-	if (defaultLogger) throw Error('only set default logger once');
 	defaultLogger = _logger;
 };
 

@@ -1,8 +1,8 @@
 import { createRoot } from 'react-dom/client';
 import { StateProvider } from '@peakee/state';
 
-import './internal';
 import '../../utils/global';
+import './init';
 
 import withAuth from '../../utils/withAuth';
 

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@peakee/config": "*",
+    "@peakee/logger": "*",
     "@peakee/utils": "*"
   },
   "author": "",
