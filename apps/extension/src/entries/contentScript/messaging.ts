@@ -2,13 +2,13 @@ import type {
 	ExplainPhraseInSentenceResponse,
 	TranslateFunction,
 	TranslateResponse,
-} from '@peakee/app/api';
+} from '@peakee/api';
+import { logger } from '@peakee/logger';
 
 import type { ExplainPayload, TranslatePayload } from '../../utils/messaging';
 import { Events } from '../../utils/messaging';
 
 import { channel } from './channel';
-import { logger } from './utils';
 
 const ONE_MINUTES = 1000 * 60;
 const FIVE_MINUTES = 1000 * 60 * 5;

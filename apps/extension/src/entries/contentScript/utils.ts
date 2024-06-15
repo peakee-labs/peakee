@@ -1,11 +1,6 @@
-import { createLogger } from '@peakee/logger';
-
-import { setUtilsLogger } from '../../utils/logger';
+import { logger } from '@peakee/logger';
 
 import type { WrappedDOMRect } from './types';
-
-export const logger = createLogger('ContentScript');
-setUtilsLogger(logger);
 
 export const retrieveSentenceOfWordsInSingleRange = (selection: Selection) => {
 	const selectedNode = selection.focusNode as Node;

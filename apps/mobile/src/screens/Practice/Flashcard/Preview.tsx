@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { FlashcardPreview } from '@peakee/app/features/Practice/FlashcardPreview';
-import type { PracticeFlashCardCollection } from '@peakee/app/types';
+import { FlashcardPreview } from '@peakee/features/Practice/FlashcardPreview';
+import type { PracticeFlashCardCollection } from '@peakee/types';
 import { useNavigation } from '@react-navigation/native';
 
 export type Props = {

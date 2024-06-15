@@ -1,0 +1,27 @@
+{
+  "name": "@peakee/auth",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@peakee/state": "*",
+    "@peakee/types": "*",
+    "@react-native-firebase/app": "^18.5.0",
+    "@react-native-firebase/auth": "^18.5.0",
+    "@react-native-google-signin/google-signin": "^10.0.1",
+    "firebase": "^10.4.0",
+    "react-native-config": "^1.5.1"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-native": "^0.73.8"
+  },
+  "author": "",
+  "license": "ISC"
+}

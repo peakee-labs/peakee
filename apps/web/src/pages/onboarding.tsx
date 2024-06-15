@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
-import OnboardingFeature from '@peakee/app/features/Onboarding';
+import OnboardingFeature from '@peakee/features/Onboarding';
 import { useRouter } from 'next/router';
 
 import { useWrappedDimensions } from '../utils/hooks';

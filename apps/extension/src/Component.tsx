@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
-import type { ExplanationPrompts, Explanations } from '@peakee/app/api';
-import ExplanationBoxV2 from '@peakee/app/features/ExplanationBoxV2';
+import type { ExplanationPrompts, Explanations } from '@peakee/api';
+import ExplanationBoxV2 from '@peakee/features/ExplanationBoxV2';
 
 const mockExplanations: Explanations = [
 	{

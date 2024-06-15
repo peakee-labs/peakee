@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
-import ExploreFeature from '@peakee/app/features/Explore';
-import FriendSearch from '@peakee/app/features/Friends/Search';
+import ExploreFeature from '@peakee/features/Explore';
+import FriendSearch from '@peakee/features/Friends/Search';
 import DefaultContainer from 'components/DefaultContainer';
 const ExploreScreen = () => {
 	return (

@@ -5,7 +5,7 @@ import {
 	useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
-import { store } from '@peakee/app/state';
+import { store } from '@peakee/state';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -27,7 +27,7 @@ import {
 	homeTabOptions,
 } from 'utils/navigation';
 
-import 'utils/auth';
+import '@peakee/auth';
 import 'react-native-url-polyfill/auto';
 
 const Stack = createStackNavigator<RootStackParamList>();

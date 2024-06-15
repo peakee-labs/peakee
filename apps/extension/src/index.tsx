@@ -10,7 +10,7 @@ import {
 	createRoutesFromElements,
 	Route,
 } from 'react-router-dom';
-import { StateProvider } from '@peakee/app/state';
+import { StateProvider } from '@peakee/state';
 
 import './utils/global';
 import './webPolyfill';

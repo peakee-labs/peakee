@@ -10,12 +10,12 @@ import {
 	fetchPendingExplainStatus,
 	getFlashCardCollectionDefault,
 	getFlashCardCollectionsInformation,
-} from '@peakee/app/api';
+} from '@peakee/api';
 import {
 	addCollection,
 	addCollectionsInformation,
 	addPendingCollection,
-} from '@peakee/app/state/practice';
+} from '@peakee/state/practice';
 import DefaultContainer from 'components/DefaultContainer';
 
 import { CollectionPreviews } from './CollectionPreview';

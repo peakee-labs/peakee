@@ -1,9 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { syncPendingExplainLog } from '@peakee/app/api';
-import PendingFlashcardPreview from '@peakee/app/features/Practice/PendingFlashcardPreview';
-import type { RootState } from '@peakee/app/state';
-import { addCollection } from '@peakee/app/state/practice';
+import { syncPendingExplainLog } from '@peakee/api';
+import PendingFlashcardPreview from '@peakee/features/Practice/PendingFlashcardPreview';
+import type { RootState } from '@peakee/state';
+import { addCollection } from '@peakee/state/practice';
 import { useNavigation } from '@react-navigation/native';
 
 export const PendingReview = () => {

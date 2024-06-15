@@ -2,13 +2,13 @@ import type { FC } from 'react';
 import { Fragment, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import ConversationFeature from '@peakee/features/Conversation';
+import type { RootState } from '@peakee/state';
 import {
 	getConversationWithState,
 	getFriendConversationWithState,
 	initializeNewConversationState,
-} from '@peakee/app';
-import ConversationFeature from '@peakee/app/features/Conversation';
-import type { RootState } from '@peakee/app/state';
+} from '@peakee/utils';
 import { useRouter } from 'next/router';
 
 import { withAuth } from '../../utils/hoc';

@@ -1,10 +1,3 @@
-import { createLogger } from '@peakee/logger';
-
-import { setUtilsLogger } from '../../utils/logger';
-
-export const logger = createLogger('Background');
-setUtilsLogger(logger);
-
 export const keepBackgroundAlive = () => {
 	if (chrome.runtime) {
 		if (chrome.runtime?.id) {

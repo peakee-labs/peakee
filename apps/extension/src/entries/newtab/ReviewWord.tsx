@@ -7,7 +7,7 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import type { Locale } from '@peakee/app/types';
+import type { Locale } from '@peakee/types';
 
 import useLocaleMap from '../../utils/hooks/useLocale';
 

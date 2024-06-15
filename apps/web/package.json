@@ -13,11 +13,11 @@
         "start:staging": "env-cmd -f .env.staging next start",
         "start:prod": "env-cmd -f .env.production next start",
         "lint": "next lint",
-        "lint:fix": "next lint --fix"
+        "lint:fix": "next lint --fix",
+        "type-check": "tsc --noEmit"
     },
     "dependencies": {
-        "@peakee/app": "*",
-        "@peakee/chat": "*",
+        "@peakee/auth": "*",
         "@peakee/ui": "*",
         "@reduxjs/toolkit": "^1.9.6",
         "@types/lodash": "^4.14.200",

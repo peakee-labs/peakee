@@ -18,16 +18,16 @@ import {
 	getFlashCardCollectionById,
 	getFlashCardCollectionDefault,
 	updateCardStatus,
-} from '@peakee/app/api';
-import type { RootState } from '@peakee/app/state';
+} from '@peakee/api';
+import { ChevronLeft, ChevronRight } from '@peakee/icons';
+import type { RootState } from '@peakee/state';
 import {
 	addFlashcards,
 	updateFlashcardViewStatus,
-} from '@peakee/app/state/practice';
-import type { PracticeFlashCardCollection } from '@peakee/app/types';
-import { ChevronLeft, ChevronRight } from '@peakee/icons';
+} from '@peakee/state/practice';
+import type { PracticeFlashCardCollection } from '@peakee/types';
 // can not use animation importing from @peakee/app ??????
-// import { Flashcard } from '@peakee/app/components';
+// import { Flashcard } from '@peakee/ui/components';
 import type { StackScreenProps } from '@react-navigation/stack';
 import DefaultContainer from 'components/DefaultContainer';
 import type { PracticeParamList } from 'utils/navigation';

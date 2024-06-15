@@ -1,10 +1,4 @@
-import Config from 'react-native-config';
-import { initAppConfig, initAssets } from '@peakee/app';
-import { injectUtils } from '@peakee/utils';
-import { Align } from 'empty-modal';
-import { showModalWithComponent } from 'empty-modal/state';
-
-import TranslateBottomSheet from './TranslateBottomSheet';
+import { initAssets } from '@peakee/utils';
 
 export const initApp = () => {
 	initAssets({
@@ -16,23 +10,17 @@ export const initApp = () => {
 		background: require('assets/onboarding-background.png'),
 	});
 
-	initAppConfig({
-		PEAKEE_API_URL: Config.PEAKEE_API_URL as string,
-		PEAKEE_WS_URL: Config.PEAKEE_WS_URL as string,
-		BLINDERS_EXPLORE_URL: Config.BLINDERS_EXPLORE_URL as string,
-	});
-
-	injectUtils({
-		translate: (text, languages = 'en-vi') => {
-			showModalWithComponent(TranslateBottomSheet, {
-				id: 'translate-bottom-sheet',
-				align: Align.FullBottom,
-				showBackdrop: true,
-				props: {
-					initText: text,
-					initLanguages: languages,
-				},
-			});
-		},
-	});
+	// injectUtils({
+	// 	translate: (text, languages = 'en-vi') => {
+	// 		showModalWithComponent(TranslateBottomSheet, {
+	// 			id: 'translate-bottom-sheet',
+	// 			align: Align.FullBottom,
+	// 			showBackdrop: true,
+	// 			props: {
+	// 				initText: text,
+	// 				initLanguages: languages,
+	// 			},
+	// 		});
+	// 	},
+	// });
 };

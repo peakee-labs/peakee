@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { TranslateBox } from '@peakee/app/features/TranslateBox';
+import { TranslateBox } from '@peakee/features/TranslateBox';
 
 const Popup = () => {
 	return (

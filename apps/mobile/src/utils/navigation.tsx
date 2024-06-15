@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { Image } from 'react-native';
-import { store } from '@peakee/app/state';
 import { Book, Message, Noti, Users } from '@peakee/icons';
 import type { IconProps } from '@peakee/icons/components/types';
+import { store } from '@peakee/state';
 import type { MaterialTopTabNavigationOptions } from '@react-navigation/material-top-tabs';
 import type {
 	NavigatorScreenParams,

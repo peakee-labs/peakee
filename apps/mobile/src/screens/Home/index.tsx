@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import ConversationsFeature from '@peakee/app/features/Conversations';
-import FriendsFeature from '@peakee/app/features/Friends';
-import ProfileFeature from '@peakee/app/features/Profile';
-import type { Conversation, PublicUserProfile } from '@peakee/app/types';
+import ConversationsFeature from '@peakee/features/Conversations';
+import FriendsFeature from '@peakee/features/Friends';
+import ProfileFeature from '@peakee/features/Profile';
+import type { Conversation, PublicUserProfile } from '@peakee/types';
 import type { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import { useNavigation } from '@react-navigation/native';
 import DefaultContainer from 'components/DefaultContainer';

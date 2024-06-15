@@ -5,6 +5,11 @@
     "main": "index.tsx",
     "author": "",
     "license": "ISC",
+    "scripts": {
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "type-check": "tsc --noEmit"
+    },
     "dependencies": {
         "react": "^18.2.0",
         "react-native": "^0.73.8",

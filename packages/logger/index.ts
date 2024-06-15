@@ -1,3 +1,12 @@
+export type Logger = ReturnType<typeof createLogger>;
+
+export let logger: Logger;
+
+export const setDefaultLogger = (_logger: Logger) => {
+	if (logger) throw Error('only set default logger once');
+	logger = _logger;
+};
+
 export const createLogger = (name: string) => {
 	const prefix = name;
 
@@ -12,5 +21,3 @@ export const createLogger = (name: string) => {
 		},
 	};
 };
-
-export type Logger = ReturnType<typeof createLogger>;

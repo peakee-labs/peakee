@@ -1,0 +1,17 @@
+{
+  "name": "@peakee/config",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "react-native-config": "^1.5.1"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -12,8 +12,8 @@ import Animated, {
 	useAnimatedStyle,
 	useSharedValue,
 } from 'react-native-reanimated';
-import type { Props } from '@peakee/app/features/TranslateBox';
-import TranslateBox from '@peakee/app/features/TranslateBox';
+import type { Props } from '@peakee/features/TranslateBox';
+import TranslateBox from '@peakee/features/TranslateBox';
 
 export type WrappedProps = Props & {
 	onClose?: () => void;

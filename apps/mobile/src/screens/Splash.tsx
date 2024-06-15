@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, runOnJS } from 'react-native-reanimated';
-import { initAuthPromise } from '@peakee/app';
+import { initAuthPromise } from '@peakee/auth';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import 'utils/auth';

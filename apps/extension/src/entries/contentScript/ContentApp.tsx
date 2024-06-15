@@ -1,9 +1,10 @@
 import type { ChangeEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import type { ExplainPhraseInSentenceResponse } from '@peakee/app/api';
-import ExplanationBox from '@peakee/app/features/ExplanationBox';
-import TranslateBox from '@peakee/app/features/TranslateBox';
+import type { ExplainPhraseInSentenceResponse } from '@peakee/api';
+import ExplanationBox from '@peakee/features/ExplanationBox';
+import TranslateBox from '@peakee/features/TranslateBox';
+import { logger } from '@peakee/logger';
 
 import { type AskContext, AskBox } from './AskBox';
 import Highlight from './HighLight';
@@ -17,7 +18,6 @@ import ToolIcon from './ToolIcon';
 import type { Position, WrappedDOMRect } from './types';
 import {
 	isInside,
-	logger,
 	measure,
 	retrieveSentenceOfWordsInSingleRange,
 } from './utils';

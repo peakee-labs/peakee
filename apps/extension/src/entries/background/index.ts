@@ -1,12 +1,6 @@
-import { initAppAxios } from '@peakee/app/api/axios';
+import { logger } from '@peakee/logger';
 
-import { initApp } from '../../utils/bootstrap';
-
-initApp();
-initAppAxios('fetch' as never);
-
-import '../../utils/auth';
-import './vendor/pdfjs';
+import './init';
 
 import { Channels, Events } from '../../utils/messaging';
 
@@ -17,7 +11,7 @@ import {
 	handleSignIn,
 	requestLogger,
 } from './middlewares';
-import { keepBackgroundAlive, logger } from './utils';
+import { keepBackgroundAlive } from './utils';
 
 keepBackgroundAlive();
 

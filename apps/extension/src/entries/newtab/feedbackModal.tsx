@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
-import type { locale } from '@peakee/app/types';
 import { CircleXmark } from '@peakee/icons';
+import type { Locale } from '@peakee/types';
 
 import FeedbackForm from './Form';
 
@@ -9,7 +9,7 @@ interface Props {
 	visible: boolean;
 	onClose: () => void;
 	onSubmit: (s: string) => void;
-	locale: locale;
+	locale: Locale;
 }
 export const FeedbackModal: FC<Props> = ({
 	visible,

@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import type { locale } from '@peakee/app/types';
+import type { Locale } from '@peakee/types';
 
 function useLocaleMap<TypeValue>(
-	localeMap: Record<locale, Record<string, TypeValue>>,
-	locale: locale,
-	defaultLocale: locale,
+	localeMap: Record<Locale, Record<string, TypeValue>>,
+	locale: Locale,
+	defaultLocale: Locale,
 ) {
 	const [currLocaleMap, setLocaleMap] = useState(
 		localeMap[locale] || localeMap[defaultLocale],
 	);
-	const changeLocale = (locale: locale) => {
+	const changeLocale = (locale: Locale) => {
 		if (!(locale in localeMap)) {
 			console.log('locale', locale, 'not exsited fallback to current');
 		}

@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import { Provider } from 'react-redux';
-import { store } from '@peakee/app/state';
+import { store } from '@peakee/state';
 import type { AppProps } from 'next/app';
 
 import '../utils/auth';

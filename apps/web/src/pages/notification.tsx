@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import FriendRequests from '@peakee/app/features/Notifications/FriendRequests';
+import FriendRequests from '@peakee/features/Notifications/FriendRequests';
 
 import { withAuth, withBottomNavigation } from '../utils/hoc';
 

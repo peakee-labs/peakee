@@ -13,16 +13,16 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
+import { explainPhraseInSentence } from '@peakee/api';
+import ConversationFeature from '@peakee/features/Conversation';
+import { Sparkles } from '@peakee/icons';
+import { updatePendingMessageInput } from '@peakee/state';
+import type { Selection } from '@peakee/ui/components';
 import {
 	getConversationWithState,
 	getFriendConversationWithState,
 	initializeNewConversationState,
-} from '@peakee/app';
-import { explainPhraseInSentence } from '@peakee/app/api';
-import type { Selection } from '@peakee/app/components';
-import ConversationFeature from '@peakee/app/features/Conversation';
-import { updatePendingMessageInput } from '@peakee/app/state';
-import { Sparkles } from '@peakee/icons';
+} from '@peakee/utils';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { Align } from 'empty-modal';
 import { showModalWithComponent } from 'empty-modal/state';

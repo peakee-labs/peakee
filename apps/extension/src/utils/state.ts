@@ -1,4 +1,4 @@
-import { applyPersistReducers } from '@peakee/app/state';
+import { applyPersistReducers } from '@peakee/state';
 import createWebStorage from 'redux-persist/es/storage/createWebStorage';
 
 export const applyPersistAppState = () => {

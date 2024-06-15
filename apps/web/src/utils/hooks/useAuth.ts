@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { initAuthPromise, initAuthResolved } from '@peakee/app';
+import { initAuthPromise, initAuthResolved } from '@peakee/auth';
 import type { UserProfile } from 'firebase/auth';
 
 export function useAuth() {

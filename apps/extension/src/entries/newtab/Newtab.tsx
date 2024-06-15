@@ -10,8 +10,8 @@ import {
 	getPracticeWordForUser,
 	getRandomPracticeWord,
 	postFeedback,
-} from '@peakee/app/api';
-import type { Locale } from '@peakee/app/types';
+} from '@peakee/api';
+import type { Locale } from '@peakee/types';
 
 import useLocaleMap from '../../utils/hooks/useLocale';
 

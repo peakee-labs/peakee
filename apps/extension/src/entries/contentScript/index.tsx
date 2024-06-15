@@ -1,18 +1,18 @@
 /**
  * apply persist app state before render
  */
-import { applyPersistAppState } from '../../utils/state';
 applyPersistAppState();
 
 import { createRoot } from 'react-dom/client';
-import { StateProvider } from '@peakee/app/state';
+import { logger } from '@peakee/logger';
+import { StateProvider } from '@peakee/state';
 
 import '../../utils/global';
 
 import { initApp } from '../../utils/bootstrap';
+import { applyPersistAppState } from '../../utils/state';
 
 import ContentApp from './ContentApp';
-import { logger } from './utils';
 
 logger.log('Content script works');
 

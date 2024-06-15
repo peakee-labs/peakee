@@ -1,4 +1,4 @@
-import { initAppConfig, initAssets } from '@peakee/app';
+import { initAssets } from '@peakee/utils';
 
 export const initApp = () => {
 	initAssets({
@@ -9,6 +9,4 @@ export const initApp = () => {
 		messagePuzzle: {},
 		background: {},
 	});
-
-	initAppConfig({ PEAKEE_API_URL, PEAKEE_WS_URL, BLINDERS_EXPLORE_URL });
 };

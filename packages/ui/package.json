@@ -6,7 +6,8 @@
     "license": "MIT",
     "scripts": {
         "lint": "eslint .",
-        "lint:fix": "eslint . --fix"
+        "lint:fix": "eslint . --fix",
+        "type-check": "tsc --noEmit"
     },
     "dependencies": {
         "@gorhom/bottom-sheet": "^4",

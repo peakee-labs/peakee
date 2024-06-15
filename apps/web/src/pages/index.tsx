@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import ConversationsFeature from '@peakee/app/features/Conversations';
-import FriendsFeature from '@peakee/app/features/Friends';
-import type { Conversation, PublicUserProfile } from '@peakee/app/types';
+import ConversationsFeature from '@peakee/features/Conversations';
+import FriendsFeature from '@peakee/features/Friends';
 import { Quote } from '@peakee/icons';
+import type { Conversation, PublicUserProfile } from '@peakee/types';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 

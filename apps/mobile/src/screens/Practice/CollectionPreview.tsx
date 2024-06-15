@@ -1,7 +1,7 @@
 import { type FC, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import type { RootState } from '@peakee/app/state';
+import type { RootState } from '@peakee/state';
 
 import { FlashCardPreview } from './Flashcard/Preview';
 

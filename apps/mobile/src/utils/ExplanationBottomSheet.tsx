@@ -15,9 +15,9 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import type { Selection } from '@peakee/app/components';
-import type { Props } from '@peakee/app/features/ExplanationBox';
-import ExplanationBox from '@peakee/app/features/ExplanationBox';
+import type { Props } from '@peakee/features/ExplanationBox';
+import ExplanationBox from '@peakee/features/ExplanationBox';
+import type { Selection } from '@peakee/ui/components';
 
 export type WrappedProps = Props & {
 	style?: StyleProp<ViewStyle>;

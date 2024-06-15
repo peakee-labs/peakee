@@ -1,4 +1,4 @@
-import { applyPersistReducers } from '@peakee/app/state';
+import { applyPersistReducers } from '@peakee/state';
 import createChromeStorage from 'redux-persist-chrome-storage';
 
 // Create a ChromeStorage instance using the chrome runtime and the Sync StorageArea.

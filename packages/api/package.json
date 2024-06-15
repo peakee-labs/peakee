@@ -1,0 +1,18 @@
+{
+  "name": "@peakee/api",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@peakee/config": "*",
+    "@peakee/utils": "*"
+  },
+  "author": "",
+  "license": "ISC"
+}

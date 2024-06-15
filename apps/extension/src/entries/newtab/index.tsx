@@ -10,7 +10,7 @@ initApp();
 // initAppAxios('fetch' as never);
 
 import { createRoot } from 'react-dom/client';
-import { StateProvider } from '@peakee/app/state';
+import { StateProvider } from '@peakee/state';
 
 import '../../utils/global';
 

@@ -1,7 +1,8 @@
 import type { Kernel, Middleware } from '@metacraft/crab/core';
-import { explainPhraseInSentence, translate } from '@peakee/app/api';
+import { explainPhraseInSentence, translate } from '@peakee/api';
+import { signInWithGoogle } from '@peakee/auth';
+import { logger } from '@peakee/logger';
 
-import { signIn } from '../../utils/auth';
 import type {
 	Channels,
 	Events,
@@ -9,10 +10,8 @@ import type {
 	TranslatePayload,
 } from '../../utils/messaging';
 
-import { logger } from './utils';
-
 export const handleSignIn: Middleware = async (_, respond) => {
-	const user = await signIn();
+	const user = await signInWithGoogle();
 	respond({ user });
 };
 

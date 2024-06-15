@@ -10,11 +10,11 @@
     "build:staging": "node utils/build.js --mode production --envFile .env.staging",
     "build:prod": "node utils/build.js --mode production --envFile .env.production",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@metacraft/crab": "0.0.5",
-    "@peakee/app": "*",
     "@peakee/icons": "*",
     "@peakee/logger": "*",
     "@peakee/ui": "*",

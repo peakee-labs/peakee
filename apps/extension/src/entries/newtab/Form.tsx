@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import type { Locale } from '@peakee/app/types';
+import type { Locale } from '@peakee/types';
 
 import useLocaleMap from '../../utils/hooks/useLocale';
 

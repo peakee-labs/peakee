@@ -1,8 +1,8 @@
 import { StyleSheet, View } from 'react-native';
-import SignInFeature from '@peakee/app/features/SignIn';
+import { signInWithGoogle } from '@peakee/auth';
+import SignInFeature from '@peakee/features/SignIn';
 import { SafeAreaContainer } from '@peakee/ui';
 import { useNavigation } from '@react-navigation/native';
-import { signInWithGoogle } from 'utils/auth';
 
 const SignInScreen = () => {
 	const navigation = useNavigation();

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import type { PracticeFlashCardCollection } from '@peakee/app/types';
 import { BackCircle } from '@peakee/icons';
+import type { PracticeFlashCardCollection } from '@peakee/types';
 import { useNavigation } from '@react-navigation/native';
 
 import { OrangeBadge } from './Badges';

@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { getUsers, sendFriendRequest } from '@peakee/app/api';
-import { Search } from '@peakee/app/components';
-import ExploreFeature from '@peakee/app/features/Explore';
-import { type RootState, store } from '@peakee/app/state';
-import type { PublicUserProfile } from '@peakee/app/types';
+import { getUsers, sendFriendRequest } from '@peakee/api';
+import ExploreFeature from '@peakee/features/Explore';
+import { type RootState, store } from '@peakee/state';
+import type { PublicUserProfile } from '@peakee/types';
 import { Avatar, Button } from '@peakee/ui';
+import { Search } from '@peakee/ui/components';
 import { throttle } from 'lodash';
 import { useRouter } from 'next/router';
 

@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
-import SignInFeature from '@peakee/app/features/SignIn';
+import { signInWithGoogle } from '@peakee/auth';
+import SignInFeature from '@peakee/features/SignIn';
 import { useRouter } from 'next/router';
 
-import { signIn } from '../utils/auth';
 import { useAuth } from '../utils/hooks';
 import { useWrappedDimensions } from '../utils/hooks';
 
@@ -16,6 +16,10 @@ const SignIn: FC = () => {
 	const containerStyle =
 		width < 500 ? styles.fullContainer : styles.boxContainer;
 
+	const handleSignIn = async () => {
+		await signInWithGoogle();
+	};
+
 	useEffect(() => {
 		if (user) router.push('/');
 	}, [user]);
@@ -24,7 +28,7 @@ const SignIn: FC = () => {
 		<SignInFeature
 			style={containerStyle}
 			titleContainerStyle={styles.titleContainer}
-			onPressSignIn={signIn}
+			onPressSignIn={handleSignIn}
 		/>
 	);
 };
