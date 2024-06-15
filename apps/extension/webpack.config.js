@@ -11,7 +11,18 @@ dotenv.config();
 const imageFileExtensions = ['jpg', 'jpeg', 'png', 'svg'];
 const fontFileExtensions = ['ttf'];
 
-const internalPackages = ['ui', 'icons', 'app', 'logger'];
+const internalPackages = [
+	'api',
+	'auth',
+	'config',
+	'features',
+	'icons',
+	'logger',
+	'state',
+	'types',
+	'ui',
+	'utils',
+];
 
 const resolvedInternalPackages = internalPackages.map((p) => {
 	return path.resolve(__dirname, '../../packages', p);

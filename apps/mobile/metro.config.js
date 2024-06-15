@@ -2,10 +2,15 @@ const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 const path = require('path');
 
 const monoPackages = {
-	'@peakee/app': path.resolve(__dirname, '../../packages/app'),
-	'@peakee/chat': path.resolve(__dirname, '../../packages/chat'),
-	'@peakee/ui': path.resolve(__dirname, '../../packages/ui'),
+	'@peakee/api': path.resolve(__dirname, '../../packages/api'),
+	'@peakee/auth': path.resolve(__dirname, '../../packages/auth'),
+	'@peakee/config': path.resolve(__dirname, '../../packages/config'),
+	'@peakee/features': path.resolve(__dirname, '../../packages/features'),
 	'@peakee/icons': path.resolve(__dirname, '../../packages/icons'),
+	'@peakee/logger': path.resolve(__dirname, '../../packages/logger'),
+	'@peakee/state': path.resolve(__dirname, '../../packages/state'),
+	'@peakee/types': path.resolve(__dirname, '../../packages/types'),
+	'@peakee/ui': path.resolve(__dirname, '../../packages/ui'),
 	'@peakee/utils': path.resolve(__dirname, '../../packages/utils'),
 };
 

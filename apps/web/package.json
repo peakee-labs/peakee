@@ -17,9 +17,14 @@
         "type-check": "tsc --noEmit"
     },
     "dependencies": {
+        "@peakee/api": "*",
         "@peakee/auth": "*",
         "@peakee/config": "*",
         "@peakee/features": "*",
+        "@peakee/icons": "*",
+        "@peakee/logger": "*",
+        "@peakee/state": "*",
+        "@peakee/types": "*",
         "@peakee/ui": "*",
         "@peakee/utils": "*",
         "@reduxjs/toolkit": "^1.9.6",
