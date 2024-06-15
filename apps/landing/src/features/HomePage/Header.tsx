@@ -15,7 +15,7 @@ export const Header = () => {
 
 	const downloadChromeExtension = () => {
 		window.open(
-			'/peakee-ext-0.0.2-production.zip',
+			'/peakee-ext-0.0.5-production.zip',
 			'_blank',
 			'noopener,noreferrer',
 		);
