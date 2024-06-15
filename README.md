@@ -6,18 +6,23 @@
 
 ```
 ├── apps
-│ ├── dashboard -> admin dashboard
-│ ├── extension -> browser extension - React Native Web, Webpack, Babel
+│ ├── dashboard -> admin dashboard (upcoming)
+│ ├── extension: -> browser extension - React Native Web, Webpack, Babel
 │ ├── landing -> landing page / docs - NextJS, ReactJS, Styled-component
 │ ├── mobile -> mobile app - React Native
 │ └── web -> web app - NextJS, React Native Web
 ├── cli
-├── packages
-│ ├── app -> most implementation goes here
+├── packages -> universal packages
+│ ├── types -> all types definition (atomic)
+│ ├── state -> all app state (atomic)
+│ ├── api -> api query implementation depend on `config` and `auth`
+│ ├── auth -> auth with firebase
+│ ├── config -> react-native-config for mobile, global variables for web/ext
+│ ├── features -> all app features including API integration and app flow
+│ ├── logger -> simple logger
 │ ├── ui -> universal UI components
 │ ├── icons -> all app icons
 │ └── utils -> common utils
-│ ├── chat -> deprecated
 │ ├── eslint-config
 │ ├── tsconfig
 ├── stacks -> setup SST/deployment
