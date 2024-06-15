@@ -29,7 +29,7 @@ export const handleIdTokenChange = async (
 		resolveInitAuthPromise(undefined);
 	}
 
-	logger().log('auth updated');
+	logger().log('Auth updated');
 };
 
 /**
