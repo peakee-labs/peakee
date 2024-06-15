@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import type { AppProps } from 'next/app';
-import { Montserrat } from 'next/font/google';
+import { Lato } from 'next/font/google';
 import { ThemeProvider } from 'styled-components';
 
 import { GlobalStyles } from '../components/GlobalStyled';
@@ -11,7 +11,8 @@ import '../styles/globals.css';
 
 import { Box } from '@/components';
 
-const montserrat = Montserrat({
+const lato = Lato({
+	weight: ['100', '300', '400', '700', '900'],
 	subsets: ['latin'],
 });
 
@@ -21,7 +22,7 @@ export const App: FC<AppProps> = ({ Component, pageProps }) => {
 	return (
 		<ThemeProvider theme={themeMode === 'light' ? lightTheme : darkTheme}>
 			<GlobalStyles />
-			<Box className={`${montserrat.className}`}>
+			<Box className={`${lato.className}`}>
 				<Component {...pageProps} />
 			</Box>
 		</ThemeProvider>
