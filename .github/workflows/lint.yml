@@ -4,7 +4,7 @@ on:
     branches: ["main", "dev"]
   pull_request:
     branches: ["main", "dev"]
-    
+
 jobs:
   lint:
     name: Lint
@@ -26,6 +26,9 @@ jobs:
 
       - name: Lint
         run: yarn lint
+
+      - name: Typecheck
+        run: yarn type-check
 
       - name: Test
         run: yarn test
