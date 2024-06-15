@@ -1,4 +1,4 @@
-import { getOrInitUserProfile, setJWT } from '@peakee/api';
+import { getOrInitUserProfile } from '@peakee/api';
 import {
 	resetChatState,
 	resetUserState,
@@ -26,7 +26,6 @@ export const signInWithGoogle = async () => {
 		);
 
 		const credential = await auth().signInWithCredential(googleCredential);
-		setJWT(await credential.user.getIdToken());
 
 		const user = await getOrInitUserProfile({
 			name: credential.user.displayName as string,
