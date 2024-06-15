@@ -42,13 +42,6 @@
     {
       "matches": ["http://*/*", "https://*/*", "<all_urls>"],
       "js": ["contentScript.bundle.js"]
-    },
-    {
-      "matches": ["http://*/*", "https://*/*", "ftp://*/*", "file://*/*"],
-      "run_at": "document_start",
-      "all_frames": true,
-      "css": ["pdfjs/contentstyle.css"],
-      "js": ["pdfjs/contentscript.js"]
     }
   ],
   "devtools_page": "devtools.html",

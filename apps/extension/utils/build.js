@@ -25,13 +25,19 @@ const packageInfo = require('../package.json');
 
 console.log('Building version:', packageInfo.version);
 
-const pdfjsExtensionPath = path.join(
-	__dirname,
-	'../../../vendor/pdf.js/build/chromium',
-);
-const copyPDFJS = new CopyWebpackPlugin({
-	patterns: [{ from: pdfjsExtensionPath, to: 'pdfjs' }],
-});
+// const pdfjsExtensionPath = path.join(
+// 	__dirname,
+// 	'../../../vendor/pdf.js/build/chromium',
+// );
+// const copyPDFJS = new CopyWebpackPlugin({
+// 	patterns: [
+// 		{
+// 			from: pdfjsExtensionPath,
+// 			to: 'pdfjs',
+// 			globOptions: { ignore: '**/manifest.json' },
+// 		},
+// 	],
+// });
 
 const pdfjsContentPath = path.join(
 	__dirname,
@@ -72,7 +78,7 @@ const zipBundle = new ZipPlugin({
 	path: path.join(__dirname, '../build/ext-zip'),
 });
 
-config.plugins.push(copyPDFJS, copyPDFJSContent, copyPDFViewerHTML, zipBundle);
+config.plugins.push(copyPDFJSContent, copyPDFViewerHTML, zipBundle);
 
 webpack(config, function (err) {
 	console.log('Build complete.');
