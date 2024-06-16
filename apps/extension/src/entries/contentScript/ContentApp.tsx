@@ -20,6 +20,7 @@ import {
 	isInside,
 	measure,
 	retrieveSentenceOfWordsInSingleRange,
+	searchDictionary,
 } from './utils';
 
 export const ContentApp = () => {
@@ -247,6 +248,13 @@ export const ContentApp = () => {
 		setIconPosition(undefined);
 	};
 
+	const openSearchDictionary = () => {
+		const selection = window.getSelection();
+		if (!selection) return;
+		const text = selection.toString();
+		searchDictionary(text);
+	};
+
 	const resetTranslateBox = () => {
 		setTranslatePosition(undefined);
 		setSelectedText('');
@@ -312,6 +320,7 @@ export const ContentApp = () => {
 								style={styles.toolBox}
 								onPressTranslate={showTranslate}
 								onPressExplain={showSuggest}
+								onPressDictionary={openSearchDictionary}
 							/>
 						)}
 						<ToolIcon onPress={handlePressToolIcon} />

@@ -2,6 +2,13 @@ import { logger } from '@peakee/logger';
 
 import type { WrappedDOMRect } from './types';
 
+const OXFORD_SEARCH_URL =
+	'https://www.oxfordlearnersdictionaries.com/search/english/direct';
+
+export const searchDictionary = (text: string) => {
+	window.open(`${OXFORD_SEARCH_URL}/?q=${encodeURI(text)}`);
+};
+
 export const retrieveSentenceOfWordsInSingleRange = (selection: Selection) => {
 	const selectedNode = selection.focusNode as Node;
 	if (!isValidTextNode(selectedNode) || !isSingeSelection(selection)) {
