@@ -179,7 +179,7 @@ const configs = {
 					},
 				},
 				{ from: 'src/rules.json' },
-				{ from: 'assets/img/', force: true },
+				{ from: 'assets/images/', force: true },
 			],
 		}),
 		new HtmlWebpackPlugin({
