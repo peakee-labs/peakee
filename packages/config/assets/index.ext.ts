@@ -7,4 +7,9 @@ initAssets({
 	messageStack: {},
 	messagePuzzle: {},
 	background: {},
+	external: {
+		ai: { uri: chrome.runtime.getURL('ai.png') },
+		oxford: { uri: chrome.runtime.getURL('oxford.png') },
+		yandex: { uri: chrome.runtime.getURL('yandex.png') },
+	},
 });

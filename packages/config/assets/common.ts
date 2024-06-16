@@ -7,6 +7,11 @@ export type AppAssets = {
 	messageStack: ImageSourcePropType;
 	messagePuzzle: ImageSourcePropType;
 	background: ImageSourcePropType;
+	external: {
+		oxford: ImageSourcePropType;
+		yandex: ImageSourcePropType;
+		ai: ImageSourcePropType;
+	};
 };
 
 export let assets: AppAssets;

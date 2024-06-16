@@ -7,4 +7,9 @@ initAssets({
 	messageStack: { uri: '/images/onboarding-message.png' },
 	messagePuzzle: { uri: '/images/onboarding-messagePuzzle.png' },
 	background: { uri: 'onboarding-background.png' },
+	external: {
+		ai: { uri: '/ai.png' },
+		oxford: { uri: '/oxford.png' },
+		yandex: { uri: '/yandex.png' },
+	},
 });
