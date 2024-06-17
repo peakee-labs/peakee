@@ -68,11 +68,11 @@ const styles = StyleSheet.create({
 		gap: 8,
 	},
 	title: {
-		fontSize: 16,
-		fontWeight: '600',
+		fontSize: 15,
+		fontWeight: '500',
 	},
 	icon: {
-		width: 20,
-		height: 20,
+		width: 15,
+		height: 15,
 	},
 });
