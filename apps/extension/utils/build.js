@@ -80,6 +80,16 @@ const zipBundle = new ZipPlugin({
 
 config.plugins.push(copyPDFJSContent, copyPDFViewerHTML, zipBundle);
 
+config.module.rules.push({
+	test: /\.js$/,
+	loader: 'string-replace-loader',
+	options: {
+		search: /https?:\/\/(?!.*redux)[^\s"]+\.js/,
+		replace: '',
+		flags: 'g',
+	},
+});
+
 webpack(config, function (err) {
 	console.log('Build complete.');
 	if (err) throw err;
