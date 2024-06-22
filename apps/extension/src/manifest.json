@@ -3,7 +3,6 @@
   "name": "Peakee",
   "description": "Learn and use English everywhere",
   "author": "https://peakee.co",
-  "options_page": "options.html",
   "background": {
     "service_worker": "background.bundle.js"
   },
@@ -40,7 +39,6 @@
       "js": ["contentScript.bundle.js"]
     }
   ],
-  "devtools_page": "devtools.html",
   "web_accessible_resources": [
     {
       "resources": ["*.png", "*.svg"],
