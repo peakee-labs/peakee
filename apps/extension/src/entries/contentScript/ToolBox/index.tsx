@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { assets } from '@peakee/config';
+import { StyleSheet, Text, View } from 'react-native';
+import { BookA, Bot, Translate } from '@peakee/icons';
 import { Hoverable } from '@peakee/ui';
 
 type Props = {
@@ -24,7 +24,7 @@ export const ToolBox: FC<Props> = ({
 				hoverOpacity={0.5}
 				onPress={onPressTranslate}
 			>
-				<Image style={styles.icon} source={assets.external.yandex} />
+				<Translate color={'#323232'} size={13} strokeWidth="2.5" />
 				<Text style={styles.title}>Translate</Text>
 			</Hoverable>
 			<Hoverable
@@ -32,7 +32,7 @@ export const ToolBox: FC<Props> = ({
 				hoverOpacity={0.5}
 				onPress={onPressDictionary}
 			>
-				<Image style={styles.icon} source={assets.external.oxford} />
+				<BookA color={'#323232'} size={13} strokeWidth="2.5" />
 				<Text style={styles.title}>Dictionary</Text>
 			</Hoverable>
 			<Hoverable
@@ -40,7 +40,7 @@ export const ToolBox: FC<Props> = ({
 				hoverOpacity={0.5}
 				onPress={onPressExplain}
 			>
-				<Image style={styles.icon} source={assets.external.ai} />
+				<Bot color={'#323232'} size={14} strokeWidth="2.5" />
 				<Text style={styles.title}>Explain</Text>
 			</Hoverable>
 		</View>

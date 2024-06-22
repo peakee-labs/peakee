@@ -2,6 +2,8 @@ export * from './components/Arrow';
 export * from './components/ArrowDownToLine';
 export * from './components/BackCircle';
 export * from './components/Book';
+export * from './components/BookA';
+export * from './components/Bot';
 export * from './components/Camera';
 export * from './components/Cancel';
 export * from './components/Check';
