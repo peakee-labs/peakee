@@ -1,7 +1,7 @@
 const {
 	loadEnvWithEnvFileFlag,
 	getPortFromFlag,
-} = require('../../../tools/bundler');
+} = require('../../tools/bundler');
 
 loadEnvWithEnvFileFlag();
 
@@ -11,7 +11,7 @@ const WebpackDevServer = require('webpack-dev-server');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
-const config = require('../webpack.config');
+const config = require('./webpack.config');
 
 config.output = {
 	filename: '[name].bundle.js',

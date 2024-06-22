@@ -3,12 +3,12 @@
   "version": "0.0.8",
   "private": true,
   "scripts": {
-    "start": "node utils/webserver.js --port 3005",
-    "start:staging": "node utils/webserver.js --envFile .env.staging --port 3006",
-    "start:prod": "node utils/webserver.js --envFile .env.production --port 3007",
-    "build": "node utils/build.js",
-    "build:staging": "node utils/build.js --mode production --envFile .env.staging",
-    "build:prod": "node utils/build.js --mode production --envFile .env.production",
+    "start": "node webpack.server.js --port 3005",
+    "start:staging": "node webpack.server.js --envFile .env.staging --port 3006",
+    "start:prod": "node webpack.server.js --envFile .env.production --port 3007",
+    "build": "node webpack.build.js",
+    "build:staging": "node webpack.build.js --mode production --envFile .env.staging",
+    "build:prod": "node webpack.build.js --mode production --envFile .env.production",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit"
