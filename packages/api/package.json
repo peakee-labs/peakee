@@ -9,7 +9,7 @@
     "type-check": "tsc --noEmit",
     "test": "jest --passWithNoTests"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@peakee/config": "*",
     "@peakee/logger": "*",
     "@peakee/utils": "*"

@@ -11,10 +11,6 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@peakee/config": "*",
-        "@peakee/state": "*",
-        "@peakee/types": "*",
-        "@peakee/ui": "*",
         "@reduxjs/toolkit": "^1.9.6",
         "react": "^18.2.0",
         "react-native": "^0.73.8",
@@ -25,6 +21,12 @@
         "react-redux": "^8.1.3",
         "redux": "^5.0.1",
         "redux-persist": "^6.0.0"
+    },
+    "peerDependencies": {
+        "@peakee/config": "*",
+        "@peakee/state": "*",
+        "@peakee/types": "*",
+        "@peakee/ui": "*"
     },
     "devDependencies": {
         "@babel/core": "^7.24.0",
