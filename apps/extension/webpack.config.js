@@ -156,7 +156,7 @@ const configs = {
 		],
 	},
 	plugins: [
-		new CleanWebpackPlugin({ verbose: true }),
+		new CleanWebpackPlugin({}),
 		new webpack.ProgressPlugin(),
 		new webpack.DefinePlugin({
 			__DEV__: process.env.NODE_ENV !== 'production' || true,
