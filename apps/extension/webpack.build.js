@@ -81,12 +81,31 @@ const zipBundle = new ZipPlugin({
 config.plugins.push(copyPDFJSContent, copyPDFViewerHTML, zipBundle);
 
 config.module.rules.push({
-	test: /\.js$/,
+	test: /\.(js|jsx|ts|tsx)$/,
 	loader: 'string-replace-loader',
 	options: {
-		search: /https?:\/\/(?!.*redux)[^\s"]+\.js/,
-		replace: '',
-		flags: 'g',
+		multiple: [
+			{
+				search: /https?:\/\/(?!.*redux)[^\s"]+\.js/,
+				replace(match) {
+					console.log(
+						`\nReplace "${match}" in file "${this.resource}".\n`,
+					);
+					return '';
+				},
+				flags: 'g',
+			},
+			{
+				search: 'https://www.google.com/recaptcha/api.js',
+				replace(match) {
+					console.log(
+						`\nReplace* "${match}" in file "${this.resource}".\n`,
+					);
+					return '';
+				},
+				flags: 'g',
+			},
+		],
 	},
 });
 
