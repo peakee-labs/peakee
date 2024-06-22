@@ -1,29 +1,36 @@
+const TerserPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const {
 	getModeFromFlag,
 	loadEnvWithEnvFileFlag,
 } = require('../../tools/bundler');
 
+const webpack = require('webpack');
+const path = require('path');
+const ZipPlugin = require('zip-webpack-plugin');
+
 loadEnvWithEnvFileFlag();
 
 const mode = getModeFromFlag() || 'development';
-
 console.log('Building mode:', mode);
 
 process.env.BABEL_ENV = mode;
 process.env.NODE_ENV = mode;
 process.env.ASSET_PATH = '/';
 
-const webpack = require('webpack');
-const path = require('path');
 const config = require('./webpack.config');
-const ZipPlugin = require('zip-webpack-plugin');
-
 config.mode = mode;
 
 const packageInfo = require('./package.json');
-
 console.log('Building version:', packageInfo.version);
+
+if (mode === 'production') {
+	console.log('Optimization with TerserPlugin');
+	config.optimization = {
+		minimize: true,
+		minimizer: [new TerserPlugin()],
+	};
+}
 
 // const pdfjsExtensionPath = path.join(
 // 	__dirname,
@@ -87,22 +94,12 @@ config.module.rules.push({
 		multiple: [
 			{
 				search: /https?:\/\/(?!.*redux)[^\s"]+\.js/,
-				replace(match) {
-					console.log(
-						`\nReplace "${match}" in file "${this.resource}".\n`,
-					);
-					return '';
-				},
+				replace: '',
 				flags: 'g',
 			},
 			{
 				search: 'https://www.google.com/recaptcha/api.js',
-				replace(match) {
-					console.log(
-						`\nReplace* "${match}" in file "${this.resource}".\n`,
-					);
-					return '';
-				},
+				replace: '',
 				flags: 'g',
 			},
 		],

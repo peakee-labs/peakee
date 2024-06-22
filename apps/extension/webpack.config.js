@@ -74,13 +74,13 @@ const configs = {
 	target: 'web',
 	devtool: 'cheap-module-source-map',
 	entry: {
-		newtab: './src/entries/newtab/index.tsx',
-		options: './src/entries/options/index.tsx',
 		popup: './src/entries/popup/index.tsx',
 		background: './src/entries/background/index.ts',
 		contentScript: './src/entries/contentScript/index.tsx',
-		devtools: './src/entries/devtools/index.ts',
-		panel: './src/entries/panel/index.tsx',
+		// newtab: './src/entries/newtab/index.tsx',
+		// options: './src/entries/options/index.tsx',
+		// devtools: './src/entries/devtools/index.ts',
+		// panel: './src/entries/panel/index.tsx',
 	},
 	output: {
 		filename: '[name].bundle.js',
@@ -182,31 +182,31 @@ const configs = {
 				{ from: 'assets/images/', force: true },
 			],
 		}),
-		new HtmlWebpackPlugin({
-			template: './src/entries/newtab/index.html',
-			filename: 'newtab.html',
-			chunks: ['newtab', 'contentScript'],
-		}),
-		new HtmlWebpackPlugin({
-			template: './src/entries/options/index.html',
-			filename: 'options.html',
-			chunks: ['options'],
-		}),
+		// new HtmlWebpackPlugin({
+		// 	template: './src/entries/newtab/index.html',
+		// 	filename: 'newtab.html',
+		// 	chunks: ['newtab', 'contentScript'],
+		// }),
+		// new HtmlWebpackPlugin({
+		// 	template: './src/entries/options/index.html',
+		// 	filename: 'options.html',
+		// 	chunks: ['options'],
+		// }),
 		new HtmlWebpackPlugin({
 			template: './src/entries/popup/index.html',
 			filename: 'popup.html',
 			chunks: ['popup'],
 		}),
-		new HtmlWebpackPlugin({
-			template: './src/entries/devtools/index.html',
-			filename: 'devtools.html',
-			chunks: ['devtools'],
-		}),
-		new HtmlWebpackPlugin({
-			template: './src/entries/panel/index.html',
-			filename: 'panel.html',
-			chunks: ['panel'],
-		}),
+		// new HtmlWebpackPlugin({
+		// 	template: './src/entries/devtools/index.html',
+		// 	filename: 'devtools.html',
+		// 	chunks: ['devtools'],
+		// }),
+		// new HtmlWebpackPlugin({
+		// 	template: './src/entries/panel/index.html',
+		// 	filename: 'panel.html',
+		// 	chunks: ['panel'],
+		// }),
 	],
 };
 
