@@ -102,6 +102,16 @@ config.module.rules.push({
 				replace: '',
 				flags: 'g',
 			},
+			{
+				search: 'https://www.google.com/recaptcha/enterprise.js?render=',
+				replace: '',
+				flags: 'g',
+			},
+			{
+				search: 'https://www.google.com',
+				replace: '',
+				flags: 'g',
+			},
 		],
 	},
 });
