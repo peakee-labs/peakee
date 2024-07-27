@@ -2,6 +2,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import type { ExplanationPrompts, Explanations } from '@peakee/api';
 import ExplanationBoxV2 from '@peakee/features/ExplanationBoxV2';
 
+import Toolbox from '../components/Toolbox';
+
 const mockExplanations: Explanations = [
 	{
 		key: 'translate',
@@ -63,6 +65,9 @@ export const Components = () => {
 					explanations={mockExplanations}
 					prompt={mockExplanationPrompt}
 				/>
+
+				<Text style={styles.title}>Toolbox v2</Text>
+				<Toolbox />
 			</View>
 		</View>
 	);
@@ -77,6 +82,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontWeight: '600',
+		marginTop: 30,
 		marginBottom: 20,
 	},
 	explanationContainer: {

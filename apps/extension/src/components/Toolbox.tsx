@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { BookA, Bot, Translate } from '@peakee/icons';
 import { Hoverable } from '@peakee/ui';
 
@@ -11,7 +11,7 @@ type Props = {
 	onPressDictionary?: () => void;
 };
 
-export const ToolBox: FC<Props> = ({
+export const Toolbox: FC<Props> = ({
 	style,
 	onPressTranslate,
 	onPressExplain,
@@ -24,43 +24,39 @@ export const ToolBox: FC<Props> = ({
 				hoverOpacity={0.5}
 				onPress={onPressTranslate}
 			>
-				<Translate color={'#323232'} size={13} strokeWidth="2.5" />
-				<Text style={styles.title}>Translate</Text>
+				<Translate color={'#323232'} size={16} strokeWidth="2.5" />
 			</Hoverable>
 			<Hoverable
 				style={styles.button}
 				hoverOpacity={0.5}
 				onPress={onPressDictionary}
 			>
-				<BookA color={'#323232'} size={13} strokeWidth="2.5" />
-				<Text style={styles.title}>Dictionary</Text>
+				<BookA color={'#323232'} size={16} strokeWidth="2.5" />
 			</Hoverable>
 			<Hoverable
 				style={styles.button}
 				hoverOpacity={0.5}
 				onPress={onPressExplain}
 			>
-				<Bot color={'#323232'} size={14} strokeWidth="2.5" />
-				<Text style={styles.title}>Explain</Text>
+				<Bot color={'#323232'} size={17} strokeWidth="2.5" />
 			</Hoverable>
 		</View>
 	);
 };
 
-export default ToolBox;
+export default Toolbox;
 
 const styles = StyleSheet.create({
 	boxContainer: {
-		position: 'relative',
-		minWidth: 150,
-		paddingTop: 10,
-		paddingBottom: 28,
-		paddingHorizontal: 14,
-		backgroundColor: '#FFFFFF',
+		alignSelf: 'flex-start',
+		flexDirection: 'row',
+		gap: 12,
+		paddingVertical: 4,
+		paddingHorizontal: 10,
+		borderRadius: 20,
 		borderWidth: 1.6,
 		borderColor: '#DADADA',
-		borderRadius: 12,
-		gap: 6,
+		backgroundColor: '#fff',
 	},
 	button: {
 		flexDirection: 'row',

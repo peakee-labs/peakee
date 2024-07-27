@@ -1,191 +1,38 @@
-import type { ChangeEvent } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import type { ExplainPhraseInSentenceResponse } from '@peakee/api';
-import ExplanationBox from '@peakee/features/ExplanationBox';
-import TranslateBox from '@peakee/features/TranslateBox';
-import { logger } from '@peakee/logger';
 
-import { type AskContext, AskBox } from './AskBox';
-import Highlight from './HighLight';
-import {
-	requestExplainViaMessage,
-	requestTranslateViaMessaging,
-} from './messaging';
-import SuggestLoading from './SuggestLoading';
-import ToolBox from './ToolBox';
-import ToolIcon from './ToolIcon';
-import type { Position, WrappedDOMRect } from './types';
-import {
-	isInside,
-	measure,
-	retrieveSentenceOfWordsInSingleRange,
-	searchDictionary,
-} from './utils';
+import { Toolbox } from '../components';
+
+import Explain from './Explain';
+import Translate from './Translate';
+import { type Position, searchDictionary } from './utils';
 
 export const ContentApp = () => {
-	const resetLastSelection = useRef<() => void>();
-	const [loading, setLoading] = useState(false);
-
-	const [iconPosition, setIconPosition] = useState<Position>();
-	const [toolBox, setToolBox] = useState(false);
-
-	const [translatePosition, setTranslatePosition] = useState<Position>();
-	const [selectedText, setSelectedText] = useState('');
-	const translateBoxRef = useRef(null);
-
-	const [explanation, setSuggestion] =
-		useState<ExplainPhraseInSentenceResponse>();
-	const [explanationBoxPosition, setExplanationBoxPosition] =
-		useState<Position>();
-	const explanationBoxRef = useRef(null);
-
-	const [highlight, setHighlight] = useState<boolean>(false);
-	const [rects, setRects] = useState<WrappedDOMRect[]>([]);
-
-	const [askContext, setAskContext] = useState<AskContext>();
-	const [askBoxPosition, setAskBoxPosition] = useState<Position>();
-	const askBoxRef = useRef(null);
+	const [toolboxPosition, setToolboxPosition] = useState<Position>();
+	const [showTranslate, setShowTranslate] = useState(false);
+	const [showExplain, setShowExplain] = useState(false);
 
 	useEffect(() => {
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const handleMouseUp = async function (e: MouseEvent) {
+		const handleMouseUp = async function () {
 			const selection = window.getSelection();
-
-			if (!selection) {
-				setToolBox(false);
-				setIconPosition(undefined);
-				return;
-			}
-
-			const noSelectionRange = selection.rangeCount < 1;
-			const isEmptySelection = !selection.toString() || noSelectionRange;
-			if (!isEmptySelection) {
-				return handleSelect(selection);
-			} else if (noSelectionRange) {
-				logger().log('no selection');
-				return;
-			}
-
-			const { top, left, width, height } = selection
-				.getRangeAt(0)
-				.getBoundingClientRect();
-
-			const selectBox = {
-				x: left + window.scrollX,
-				y: top + window.scrollY,
-				width,
-				height,
-			};
-
-			if (
-				askBoxRef.current &&
-				(explanationBoxRef.current || explanationBoxRef.current)
-			) {
-				const askBox = await measure(askBoxRef.current);
-				const isSelectInsideAskBox = isInside(selectBox, askBox);
-
-				const suggestBox = await measure(explanationBoxRef.current);
-				const isSelectInsideSuggestBox = isInside(
-					selectBox,
-					suggestBox,
-				);
-
-				const translateBox = await measure(translateBoxRef.current);
-				const isSelectInsideTranslateBox = isInside(
-					selectBox,
-					translateBox,
-				);
-
-				if (isSelectInsideAskBox && !isSelectInsideSuggestBox) {
-					resetSuggestBox();
-				} else if (
-					isSelectInsideAskBox &&
-					!isSelectInsideTranslateBox
-				) {
-					resetTranslateBox();
-				} else if (!isSelectInsideAskBox && !isSelectInsideSuggestBox) {
-					resetSuggestBox();
-					resetAskBox();
-				} else if (
-					!isSelectInsideAskBox &&
-					!isSelectInsideTranslateBox
-				) {
-					resetTranslateBox();
-					resetAskBox();
-				}
-			} else if (askBoxRef.current) {
-				const box = await measure(askBoxRef.current);
-				const isSelectInsideAskBox =
-					isInside(selectBox, box) ||
-					// when adding TextInput, the selection below input will create selectBox with empty x, y
-					// it might be not a select, just a mouseup
-					// temporarily fix with compare the focusNode, and use depth == 3
-					askBoxRef.current === selection.focusNode ||
-					askBoxRef.current === selection.focusNode?.parentNode ||
-					askBoxRef.current ===
-						selection.focusNode?.parentNode?.parentNode;
-				if (!isSelectInsideAskBox) resetAskBox();
-				// reset icon position if have a empty select inside ask box
-				else {
-					setIconPosition(undefined);
-					setToolBox(false);
-				}
-			} else if (explanationBoxRef.current) {
-				const box = await measure(explanationBoxRef.current);
-				const isSelectInsideSuggestBox = isInside(selectBox, box);
-				if (!isSelectInsideSuggestBox) resetSuggestBox();
-			} else if (translateBoxRef.current) {
-				const box = await measure(translateBoxRef.current);
-				const isSelectInsideTranslateBox =
-					isInside(selectBox, box) ||
-					// when adding TextInput, the selection below input will create selectBox with empty x, y
-					// it might be not a select, just a mouseup
-					// temporarily fix with compare the focusNode, and use depth == 3
-					translateBoxRef.current === selection.focusNode ||
-					translateBoxRef.current ===
-						selection.focusNode?.parentNode ||
-					translateBoxRef.current ===
-						selection.focusNode?.parentNode?.parentNode;
-				if (!isSelectInsideTranslateBox) resetTranslateBox();
+			if (!selection || selection.isCollapsed) {
+				setToolboxPosition(undefined);
+				setShowTranslate(false);
+				setShowExplain(false);
 			} else {
-				setToolBox(false);
-				setIconPosition(undefined);
-				return;
+				handleSelect();
 			}
 		};
+
 		document.addEventListener('mouseup', handleMouseUp);
 
-		const handleOnSelectInput = (e: ChangeEvent<HTMLInputElement>) => {
-			if (!e.target || !e.target.selectionStart || !e.target.selectionEnd)
-				return;
-
-			const context = e.target.value;
-			const start = e.target.selectionStart;
-			const end = e.target.selectionEnd;
-			const selection = context.substring(start, end);
-
-			setAskContext({ selection, context, start, end });
-
-			const rect = e.target.getBoundingClientRect();
-			setAskBoxPosition({
-				top: window.scrollY + rect.top + rect.height,
-				left: window.scrollX + rect.left,
-			});
-		};
-		// need to wait for a while
-		setTimeout(() => {
-			const inputs = document.querySelectorAll('input');
-			inputs.forEach((input) => {
-				input.addEventListener('select', handleOnSelectInput as never);
-			});
-		}, 0);
-
-		// need to remove listener for all inputs
 		return () => document.removeEventListener('mouseup', handleMouseUp);
 	}, []);
 
-	const handleSelect = (selection: Selection) => {
+	const handleSelect = () => {
+		const selection = window.getSelection();
+		if (!selection) return;
+
 		const range = selection.getRangeAt(0);
 		const rects = range.getClientRects();
 		const rect = rects[0];
@@ -193,59 +40,10 @@ export const ContentApp = () => {
 		// rect might be undefined if the selection is from input component
 		if (!rect) return;
 
-		setIconPosition({
-			left: window.scrollX + rect.x + rect.width - 4,
-			top: window.scrollY + rect.y - rect.height,
+		setToolboxPosition({
+			left: window.scrollX + rect.x + rect.width - 60,
+			top: window.scrollY + rect.y,
 		});
-	};
-
-	const handlePressToolIcon = () => {
-		setToolBox((prev) => !prev);
-	};
-
-	const showSuggest = async () => {
-		const selection = window.getSelection();
-		if (!selection) {
-			logger().log("can't get selection to show suggestion");
-			return;
-		}
-		const result = retrieveSentenceOfWordsInSingleRange(selection);
-		if (!result) return;
-		const { phrase, wrappedRects, sentence, resetInspecting } = result;
-		setRects(wrappedRects);
-		resetLastSelection.current = resetInspecting;
-		setExplanationBoxPosition({
-			top:
-				window.scrollY +
-				wrappedRects[wrappedRects.length - 1].rect.top +
-				wrappedRects[wrappedRects.length - 1].rect.height +
-				10,
-			left: window.scrollX + wrappedRects[0].rect.left,
-		});
-		setHighlight(true);
-		setLoading(true);
-
-		const explanation = await requestExplainViaMessage(phrase, sentence);
-		if (explanation) {
-			setSuggestion(explanation);
-		}
-		setLoading(false);
-		setIconPosition(undefined);
-		setToolBox(false);
-	};
-
-	const showTranslate = () => {
-		const selection = window.getSelection();
-		if (!selection) return;
-		const text = selection.toString();
-		setSelectedText(text.trim());
-		const rect = selection.getRangeAt(0).getBoundingClientRect();
-		setTranslatePosition({
-			top: window.scrollY + rect.top + rect.height + 10,
-			left: window.scrollX + rect.left,
-		});
-		setToolBox(false);
-		setIconPosition(undefined);
 	};
 
 	const openSearchDictionary = () => {
@@ -255,80 +53,20 @@ export const ContentApp = () => {
 		searchDictionary(text);
 	};
 
-	const resetTranslateBox = () => {
-		setTranslatePosition(undefined);
-		setSelectedText('');
-	};
-
-	const resetSuggestBox = () => {
-		resetLastSelection?.current?.();
-		resetLastSelection.current = undefined;
-		setSuggestion(undefined);
-		setExplanationBoxPosition(undefined);
-		setHighlight(false);
-		setRects([]);
-		setIconPosition(undefined);
-		setToolBox(false);
-	};
-
-	const resetAskBox = () => {
-		setAskContext(undefined);
-		setAskBoxPosition(undefined);
-	};
-
 	return (
 		<View style={styles.container}>
-			{askContext && askBoxPosition && (
-				<AskBox
-					ref={askBoxRef}
-					context={askContext}
-					position={askBoxPosition}
-				/>
-			)}
-
-			{explanation && explanationBoxPosition && (
-				<ExplanationBox
-					style={styles.explanationBox}
-					ref={explanationBoxRef}
-					position={explanationBoxPosition}
-					explanation={explanation}
-				/>
-			)}
-
-			{translatePosition && (
-				<TranslateBox
-					ref={translateBoxRef}
-					style={[translatePosition, styles.translateBox]}
-					contentFontSize={18}
-					initText={selectedText}
-					translate={requestTranslateViaMessaging}
-					experimentalDynamicSize
-					collapsible
-					collapse
-				/>
-			)}
-
-			{loading ? (
-				<View style={[styles.absolute, iconPosition]}>
-					<SuggestLoading />
+			{toolboxPosition && (
+				<View style={[styles.absolute, toolboxPosition]}>
+					<Toolbox
+						style={styles.toolBox}
+						onPressTranslate={() => setShowTranslate(true)}
+						onPressExplain={() => setShowExplain(true)}
+						onPressDictionary={openSearchDictionary}
+					/>
 				</View>
-			) : (
-				iconPosition && (
-					<View style={[styles.absolute, iconPosition]}>
-						{toolBox && (
-							<ToolBox
-								style={styles.toolBox}
-								onPressTranslate={showTranslate}
-								onPressExplain={showSuggest}
-								onPressDictionary={openSearchDictionary}
-							/>
-						)}
-						<ToolIcon onPress={handlePressToolIcon} />
-					</View>
-				)
 			)}
-
-			{highlight && rects && <Highlight rects={rects} />}
+			{showTranslate && <Translate />}
+			{showExplain && <Explain />}
 		</View>
 	);
 };
@@ -348,25 +86,5 @@ const styles = StyleSheet.create({
 	toolBox: {
 		position: 'absolute',
 		bottom: 0,
-	},
-	translateBox: {
-		minWidth: 300,
-		maxWidth: 800,
-		backgroundColor: '#FFFFFF',
-		position: 'absolute',
-		paddingVertical: 18,
-		borderWidth: 1.6,
-		borderColor: '#DADADA',
-		borderRadius: 10,
-	},
-	explanationBox: {
-		position: 'absolute',
-		backgroundColor: '#FFFFFF',
-		paddingHorizontal: 16,
-		width: 360,
-		paddingBottom: 50,
-		borderWidth: 1,
-		borderRadius: 20,
-		borderColor: '#B1B6C1',
 	},
 });

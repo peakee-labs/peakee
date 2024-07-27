@@ -1,8 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import { logger } from '@peakee/logger';
-import { StateProvider } from '@peakee/state';
 
-import './init';
+import './utils/init';
 import '../utils/global';
 
 import ContentApp from './ContentApp';
@@ -14,8 +13,6 @@ container.id = 'peakee-container';
 document.body.appendChild(container);
 
 const root = createRoot(container);
-root.render(
-	<StateProvider>
-		<ContentApp />
-	</StateProvider>,
-);
+
+// currently ContentApp is stateless, all needed state coming from background
+root.render(<ContentApp />);
