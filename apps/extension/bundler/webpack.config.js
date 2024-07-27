@@ -30,17 +30,13 @@ loadEnvWithEnvFileFlag();
 const mode = getModeFromFlag() || 'development';
 const version = process.env.npm_package_version;
 
-process.env.BABEL_ENV = mode;
-process.env.NODE_ENV = mode;
-process.env.ASSET_PATH = '/';
-
 console.log(`Building Peakee Extension (Mode: ${mode}, Version: ${version})`);
 
 /** @type { import('webpack').Configuration } */
 const config = {
 	mode,
 	target: 'web',
-	devtool: 'cheap-module-source-map',
+	devtool: mode === 'production' ? false : 'cheap-module-source-map',
 	entry: {
 		popup: entryPath('popup/index.tsx'),
 		background: entryPath('background/index.ts'),
