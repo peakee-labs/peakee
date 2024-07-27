@@ -4703,10 +4703,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metacraft/crab@npm:0.1.0":
-  version: 0.1.0
-  resolution: "@metacraft/crab@npm:0.1.0"
-  checksum: 10/67eae4fea25accf7e235374a363d5d89726bc07cde9bac5cdee69382aa332b505fa7bdfdfb305a762a908af806ca1f20f9db6770fa78e1fe3d27f7bd1275d989
+"@metacraft/crab@npm:0.1.1":
+  version: 0.1.1
+  resolution: "@metacraft/crab@npm:0.1.1"
+  checksum: 10/761f6ec2010f9963c9d6fa3ccb322aeb059885339518abd95a23345b98dfe7fe61b78faad6fe95d790866c9f5e8db943e88beae158022ba1cf92db67c6e48a73
   languageName: node
   linkType: hard
 
@@ -4971,7 +4971,7 @@ __metadata:
     "@babel/plugin-proposal-export-namespace-from": "npm:^7.18.9"
     "@babel/preset-env": "npm:^7.24.0"
     "@babel/preset-react": "npm:^7.18.6"
-    "@metacraft/crab": "npm:0.1.0"
+    "@metacraft/crab": "npm:0.1.1"
     "@peakee/api": "npm:*"
     "@peakee/auth": "npm:*"
     "@peakee/config": "npm:*"
@@ -4983,7 +4983,7 @@ __metadata:
     "@peakee/ui": "npm:*"
     "@peakee/utils": "npm:*"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.11"
-    "@types/chrome": "npm:^0.0.202"
+    "@types/chrome": "npm:^0.0.269"
     "@types/react": "npm:^18.2.0"
     "@types/react-dom": "npm:^18.2.0"
     "@types/webpack-sources": "npm:^3"
@@ -6998,13 +6998,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chrome@npm:^0.0.202":
-  version: 0.0.202
-  resolution: "@types/chrome@npm:0.0.202"
+"@types/chrome@npm:^0.0.269":
+  version: 0.0.269
+  resolution: "@types/chrome@npm:0.0.269"
   dependencies:
     "@types/filesystem": "npm:*"
     "@types/har-format": "npm:*"
-  checksum: 10/cd70c8a0a5b2d875a3e0452595324022a6857bc949160306e76f90f56f004cf2b439114ca7d68fae288bf1a9e9497d547a7318141adcc429334358be1cfe2137
+  checksum: 10/fbc38b8ba33efa8d0dd15422164b38e9dfa9056f43520175b54a417cee9ff4cf0f03846824d589d677f46fa5d458daf5bc0d691722c3c715d3bc17c9934cd69e
   languageName: node
   linkType: hard
 

@@ -42,3 +42,13 @@ export const handleRequestExplain: Middleware<Events, ExplainPayload> = async (
 	if (res) respond(res);
 	else throw Error("Can't explain");
 };
+
+export const handleOpenPanel: Middleware<
+	Events,
+	unknown,
+	chrome.runtime.MessageSender
+> = async (request, respond) => {
+	const windowId = request.context?.tab?.windowId;
+	if (windowId) chrome.sidePanel.open({ windowId });
+	respond({});
+};

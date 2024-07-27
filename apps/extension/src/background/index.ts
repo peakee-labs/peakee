@@ -6,6 +6,7 @@ import { Channels, Events } from '../utils/messaging';
 
 import { kernel } from './kernel';
 import {
+	handleOpenPanel,
 	handleRequestExplain,
 	handleRequestTranslate,
 	handleSignIn,
@@ -29,6 +30,8 @@ kernel
 	.use(handleRequestTranslate)
 	.handle(Events.REQUEST_EXPLAIN)
 	.use(handleRequestExplain)
+	.handle(Events.OPEN_PANEL)
+	.use(handleOpenPanel)
 
 	.unwrap()
 	.run();

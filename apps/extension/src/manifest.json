@@ -15,7 +15,9 @@
     "identity",
     "storage",
     "alarms",
-    "declarativeNetRequest"
+    "declarativeNetRequest",
+    "contextMenus",
+    "sidePanel"
   ],
   "declarative_net_request": {
     "rule_resources": [
@@ -39,6 +41,9 @@
       "js": ["contentScript.bundle.js"]
     }
   ],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
   "web_accessible_resources": [
     {
       "resources": ["*.png", "*.svg"],

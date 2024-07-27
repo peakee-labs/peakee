@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { logger } from '@peakee/logger';
 
 import { Toolbox } from '../components';
+import { getSystemThemeMode } from '../utils/theme';
 
 import Explain from './Explain';
+import Pin from './Pin';
 import Translate from './Translate';
 import { type Position, searchDictionary } from './utils';
+
+logger().log('System theme mode', getSystemThemeMode());
 
 export const ContentApp = () => {
 	const [toolboxPosition, setToolboxPosition] = useState<Position>();
@@ -67,6 +72,8 @@ export const ContentApp = () => {
 			)}
 			{showTranslate && <Translate />}
 			{showExplain && <Explain />}
+
+			<Pin />
 		</View>
 	);
 };

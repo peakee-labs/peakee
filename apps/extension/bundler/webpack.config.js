@@ -71,6 +71,11 @@ const config = {
 			filename: 'popup.html',
 			chunks: ['popup'],
 		}),
+		new HtmlWebpackPlugin({
+			template: entryPath('sidepanel/index.html'),
+			filename: 'sidepanel.html',
+			chunks: [],
+		}),
 		...InjectPDFJsPlugins(),
 		ZipExtBundlePlugin(mode, version),
 	],
