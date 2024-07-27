@@ -14,13 +14,15 @@ export function axios() {
 	return defaultAxios;
 }
 
+type AxiosAdapterName = 'fetch' | 'xhr' | 'http' | string;
+
 /**
  * https://github.com/axios/axios/issues/4458
  * Chrome Extension context:
  * - Requests from Background script and Newtab are not allowed to use XHR adapter (default of axios)
  * - Axios on popup page and content script works fine
  * */
-export function initAppAxios(adapter?: AxiosAdapter) {
+export function initAppAxios(adapter?: AxiosAdapter | AxiosAdapterName) {
 	const url = config().PEAKEE_API_URL;
 	if (!url) throw Error("Missing 'PEAKEE_API_URL' in config");
 

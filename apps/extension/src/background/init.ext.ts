@@ -1,5 +1,5 @@
 import { initAppAxios } from '@peakee/api/axios';
-initAppAxios('fetch' as never);
+initAppAxios('fetch');
 
 import { createLogger, setDefaultLogger } from '@peakee/logger';
 setDefaultLogger(createLogger('Background'));

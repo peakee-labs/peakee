@@ -4987,7 +4987,7 @@ __metadata:
     "@types/react": "npm:^18.2.0"
     "@types/react-dom": "npm:^18.2.0"
     "@types/webpack-sources": "npm:^3"
-    axios: "npm:1.7.0-beta.0"
+    axios: "npm:1.7.2"
     babel-loader: "npm:^9.1.2"
     babel-plugin-react-native-web: "npm:^0.19.10"
     babel-preset-react-app: "npm:^10.0.1"
@@ -5127,7 +5127,7 @@ __metadata:
     "@reduxjs/toolkit": "npm:^1.9.6"
     "@types/react": "npm:^18.2.0"
     "@types/react-test-renderer": "npm:^18.0.0"
-    axios: "npm:^1.6.8"
+    axios: "npm:1.7.2"
     babel-jest: "npm:^29.6.3"
     empty-modal: "npm:^0.0.7"
     jest: "npm:^29.6.3"
@@ -8576,18 +8576,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.7.0-beta.0":
-  version: 1.7.0-beta.0
-  resolution: "axios@npm:1.7.0-beta.0"
+"axios@npm:1.7.2":
+  version: 1.7.2
+  resolution: "axios@npm:1.7.2"
   dependencies:
     follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10/9fac975a7c545f2773db4bd76faf5250eab7e0a8b910ca854f8a2b2ab1055f80ac7d6c8e80a0f098b37293eac2825c28c992dde5448c48763466dfad4ed3f11e
+  checksum: 10/6ae80dda9736bb4762ce717f1a26ff997d94672d3a5799ad9941c24d4fb019c1dff45be8272f08d1975d7950bac281f3ba24aff5ecd49ef5a04d872ec428782f
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.0, axios@npm:^1.6.8":
+"axios@npm:^1.6.0":
   version: 1.6.8
   resolution: "axios@npm:1.6.8"
   dependencies:
