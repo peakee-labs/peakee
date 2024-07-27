@@ -1,4 +1,4 @@
-name: Eslint
+name: Eslint & Typecheck
 on:
   push:
     branches: ["main", "dev"]

@@ -8,7 +8,7 @@ import type {
 	Events,
 	ExplainPayload,
 	TranslatePayload,
-} from '../../utils/messaging';
+} from '../utils/messaging';
 
 export const handleSignIn: Middleware = async (_, respond) => {
 	const user = await signInWithGoogle();
