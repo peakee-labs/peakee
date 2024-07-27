@@ -1,3 +1,5 @@
+import { logger } from '@peakee/logger';
+
 import { axios } from './axios';
 
 export type TranslateResponse = {
@@ -13,13 +15,16 @@ export type TranslateFunction = (
 
 export const translate: TranslateFunction = async (text, languages) => {
 	try {
+		const st = new Date();
 		const res = await axios().get<TranslateResponse>('/translate', {
 			params: { text, languages },
 		});
+		const en = new Date();
+		logger().debug(`translate took ${en.valueOf() - st.valueOf()} ms`);
 
 		return res.data;
 	} catch (error) {
-		console.error('Error translating text', error);
+		logger().error('Error translating text', error);
 	}
 };
 
