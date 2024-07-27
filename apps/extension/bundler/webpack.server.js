@@ -6,7 +6,7 @@ const { ProgressPlugin } = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const { AssetsRules, StyleHtmlRules, BabelJSRule } = require('./rules');
-const { ParseEnvironmentPlugin } = require('./plugins');
+const { PrepareAssetsPlugin, ParseEnvironmentPlugin } = require('./plugins');
 const { ResolveFileExtensions, ResolveNodeModules } = require('./resolve');
 
 const {
@@ -29,11 +29,9 @@ const config = {
 			'./src/dev/index.tsx',
 		],
 	},
-	// output: {
-	// 	filename: '[name].bundle.js',
-	// 	path: path.resolve(__dirname, 'build/dev'),
-	// 	clean: true,
-	// },
+	output: {
+		publicPath: '/',
+	},
 	optimization: {
 		/*
         The value 'single' instead creates a runtime file to be shared for all generated chunks.
@@ -52,6 +50,7 @@ const config = {
 		new ReactRefreshPlugin(),
 		new CleanWebpackPlugin(),
 		new ProgressPlugin(),
+		PrepareAssetsPlugin(),
 		ParseEnvironmentPlugin(),
 		new HtmlWebpackPlugin({
 			template: './src/dev/index.html',
