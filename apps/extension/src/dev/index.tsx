@@ -26,20 +26,19 @@ const WrappedApp = withAuth(withContainer(Playground));
 const WrappedPopup = withAuth(withContainer(Popup));
 const WrappedComponents = withAuth(withContainer(Components));
 
-const App = () => {
-	return (
+export const router = createBrowserRouter(
+	createRoutesFromElements(
 		<Route path="/">
 			<Route path="popup" element={<WrappedPopup />} />
 			<Route path="component" element={<WrappedComponents />} />
 			<Route path="/" element={<WrappedApp />} />
 			<Route path="/*" element={<WrappedApp />} />
-		</Route>
-	);
-};
-
-export const router = createBrowserRouter(createRoutesFromElements(<App />));
+		</Route>,
+	),
+);
 
 const container = document.getElementById('app-container');
+
 if (container) {
 	const root = createRoot(container);
 	root.render(

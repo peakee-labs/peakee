@@ -54,7 +54,7 @@ const config = {
 		new ProgressPlugin(),
 		ParseEnvironmentPlugin(),
 		new HtmlWebpackPlugin({
-			template: './src/index.html',
+			template: './src/dev/index.html',
 			filename: 'index.html',
 			chunks: ['index'],
 		}),
