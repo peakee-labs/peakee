@@ -3,7 +3,7 @@ import { logger } from '@peakee/logger';
 import { StateProvider } from '@peakee/state';
 
 import './init';
-import '../../utils/global';
+import '../utils/global';
 
 import ContentApp from './ContentApp';
 

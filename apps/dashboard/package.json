@@ -1,6 +1,0 @@
-{
-  "name": "@peakee/dashboard",
-  "version": "0.0.1",
-  "description": "Dashboard management for Peakee",
-  "main": "index.js"
-}

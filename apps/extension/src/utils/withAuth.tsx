@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import type { FC } from 'react';
 import { Fragment, useEffect, useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
@@ -14,10 +14,7 @@ type Configs = {
 	signOutButtonStyle?: StyleProp<ViewStyle>;
 };
 
-export const withAuth = (
-	WrappedComponent: () => JSX.Element,
-	configs?: Configs,
-) => {
+export const withAuth = (Component: FC, configs?: Configs) => {
 	const Authorized = () => {
 		const [loading, setLoading] = useState(true);
 		const [signedIn, setSignedIn] = useState(false);
@@ -55,7 +52,7 @@ export const withAuth = (
 					</View>
 				) : (
 					<Fragment>
-						<WrappedComponent />
+						<Component />
 						{configs?.showSignOut && (
 							<Button
 								style={[

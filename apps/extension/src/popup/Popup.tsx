@@ -1,7 +1,8 @@
+import type { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TranslateBox } from '@peakee/features/TranslateBox';
 
-const Popup = () => {
+const Popup: FC = () => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.header}>Peakee Tools</Text>

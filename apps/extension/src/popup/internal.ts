@@ -6,7 +6,7 @@ import { createLogger, setDefaultLogger } from '@peakee/logger';
  */
 import '@peakee/state/persist';
 
-import { Channels, Events } from '../../utils/messaging';
+import { Channels, Events } from '../utils/messaging';
 
 setDefaultLogger(createLogger('Popup'));
 

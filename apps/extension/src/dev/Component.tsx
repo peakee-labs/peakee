@@ -52,7 +52,7 @@ const mockExplanationPrompt: ExplanationPrompts = [
 	},
 ];
 
-export const Component = () => {
+export const Components = () => {
 	return (
 		<View style={styles.container}>
 			<View>
@@ -68,7 +68,7 @@ export const Component = () => {
 	);
 };
 
-export default Component;
+export default Components;
 
 const styles = StyleSheet.create({
 	container: {

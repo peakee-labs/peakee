@@ -5,8 +5,8 @@ import type {
 } from '@peakee/api';
 import { logger } from '@peakee/logger';
 
-import type { ExplainPayload, TranslatePayload } from '../../utils/messaging';
-import { Events } from '../../utils/messaging';
+import type { ExplainPayload, TranslatePayload } from '../utils/messaging';
+import { Events } from '../utils/messaging';
 
 import { channel } from './channel';
 

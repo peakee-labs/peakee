@@ -2,9 +2,9 @@ import { createRoot } from 'react-dom/client';
 import { StateProvider } from '@peakee/state';
 
 import './internal';
-import '../../utils/global';
+import '../utils/global';
 
-import withAuth from '../../utils/withAuth';
+import withAuth from '../utils/withAuth';
 
 import { signInFromPopupPage } from './internal';
 import Popup from './Popup';

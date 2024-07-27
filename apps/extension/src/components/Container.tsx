@@ -18,6 +18,18 @@ export const Container: FC<Props> = ({ children }) => {
 
 export default Container;
 
+export const withContainer = (Component: FC): FC => {
+	const Wrapped = () => {
+		return (
+			<Container>
+				<Component />
+			</Container>
+		);
+	};
+
+	return Wrapped;
+};
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,

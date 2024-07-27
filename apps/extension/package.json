@@ -3,12 +3,10 @@
   "version": "0.0.8",
   "private": true,
   "scripts": {
-    "start": "node webpack.server.js --port 3005",
-    "start:staging": "node webpack.server.js --envFile .env.staging --port 3006",
-    "start:prod": "node webpack.server.js --envFile .env.production --port 3007",
-    "build": "node webpack.build.js",
-    "build:staging": "node webpack.build.js --mode production --envFile .env.staging",
-    "build:prod": "node webpack.build.js --mode production --envFile .env.production",
+    "start": "node ./bundler/webpack.server.js --port 3005",
+    "start:prod": "node ./bundler/webpack.server.js --envFile .env.production --port 3006",
+    "build": "node ./bundler/webpack.config.js",
+    "build:prod": "node ./bundler/webpack.config.js --mode production --envFile .env.production",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit"

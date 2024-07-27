@@ -1,6 +1,7 @@
+import type { FC } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
-export const App = () => {
+export const Playground: FC = () => {
 	return (
 		<View style={styles.container}>
 			<Text>Peakee Extension Development Tools</Text>
@@ -97,7 +98,7 @@ export const App = () => {
 	);
 };
 
-export default App;
+export default Playground;
 
 const styles = StyleSheet.create({
 	container: {

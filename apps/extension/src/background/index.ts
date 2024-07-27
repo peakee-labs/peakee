@@ -2,7 +2,7 @@ import { logger } from '@peakee/logger';
 
 import './init';
 
-import { Channels, Events } from '../../utils/messaging';
+import { Channels, Events } from '../utils/messaging';
 
 import { kernel } from './kernel';
 import {
