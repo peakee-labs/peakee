@@ -12,6 +12,7 @@ export enum Events {
 export enum Channels {
 	Popup = 'Popup',
 	ContentScript = 'ContentScript',
+	SidePanel = 'SidePanel',
 	NewTab = 'NewTab',
 }
 

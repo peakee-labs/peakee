@@ -41,6 +41,7 @@ const config = {
 		popup: entryPath('popup/index.tsx'),
 		background: entryPath('background/index.ts'),
 		contentScript: entryPath('contentScript/index.tsx'),
+		sidePanel: entryPath('sidePanel/index.tsx'),
 	},
 	optimization: optimization(mode),
 	output: {
@@ -72,9 +73,9 @@ const config = {
 			chunks: ['popup'],
 		}),
 		new HtmlWebpackPlugin({
-			template: entryPath('sidepanel/index.html'),
+			template: entryPath('sidePanel/index.html'),
 			filename: 'sidepanel.html',
-			chunks: [],
+			chunks: ['sidePanel'],
 		}),
 		...InjectPDFJsPlugins(),
 		ZipExtBundlePlugin(mode, version),
