@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { logger } from '@peakee/logger';
 
@@ -8,7 +8,12 @@ import { getSystemThemeMode } from '../utils/theme';
 import Explain from './Explain';
 import Pin from './Pin';
 import Translate from './Translate';
-import { type Position, searchDictionary } from './utils';
+import {
+	type Position,
+	isInside,
+	measure,
+	openSearchDictionary,
+} from './utils';
 
 logger().log('System theme mode', getSystemThemeMode());
 
@@ -16,25 +21,43 @@ export const ContentApp = () => {
 	const [toolboxPosition, setToolboxPosition] = useState<Position>();
 	const [showTranslate, setShowTranslate] = useState(false);
 	const [showExplain, setShowExplain] = useState(false);
+	const translateRef = useRef<View>(null);
+	const explainRef = useRef<View>(null);
 
-	useEffect(() => {
-		const handleMouseUp = async function () {
-			const selection = window.getSelection();
-			if (!selection || selection.isCollapsed) {
-				setToolboxPosition(undefined);
-				setShowTranslate(false);
-				setShowExplain(false);
+	const handleMouseUp = useCallback(async function () {
+		const selection = window.getSelection();
+		const hasRef = explainRef.current || translateRef.current;
+		if (selection && !selection.isCollapsed && !hasRef) {
+			handleCurrentSelection();
+		} else if (selection) {
+			const { top, left, width, height } = selection
+				.getRangeAt(0)
+				.getBoundingClientRect();
+
+			const selectedBox = {
+				x: left + window.scrollX,
+				y: top + window.scrollY,
+				width,
+				height,
+			};
+
+			if (explainRef.current) {
+				const explain = await measure(explainRef.current);
+				if (!isInside(selectedBox, explain)) {
+					setShowExplain(false);
+				}
+			} else if (translateRef.current) {
+				const translate = await measure(translateRef.current);
+				if (!isInside(selectedBox, translate)) {
+					setShowTranslate(false);
+				}
 			} else {
-				handleSelect();
+				setToolboxPosition(undefined);
 			}
-		};
-
-		document.addEventListener('mouseup', handleMouseUp);
-
-		return () => document.removeEventListener('mouseup', handleMouseUp);
+		}
 	}, []);
 
-	const handleSelect = () => {
+	const handleCurrentSelection = () => {
 		const selection = window.getSelection();
 		if (!selection) return;
 
@@ -51,15 +74,16 @@ export const ContentApp = () => {
 		});
 	};
 
-	const openSearchDictionary = () => {
-		const selection = window.getSelection();
-		if (!selection) return;
-		const text = selection.toString();
-		searchDictionary(text);
-	};
+	useEffect(() => {
+		document.addEventListener('mouseup', handleMouseUp);
+		return () => document.removeEventListener('mouseup', handleMouseUp);
+	}, []);
 
 	return (
 		<View style={styles.container}>
+			{showTranslate && <Translate ref={translateRef} />}
+			{showExplain && <Explain ref={explainRef} />}
+
 			{toolboxPosition && (
 				<View style={[styles.absolute, toolboxPosition]}>
 					<Toolbox
@@ -70,8 +94,6 @@ export const ContentApp = () => {
 					/>
 				</View>
 			)}
-			{showTranslate && <Translate />}
-			{showExplain && <Explain />}
 
 			<Pin />
 		</View>

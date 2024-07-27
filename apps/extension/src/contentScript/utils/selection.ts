@@ -5,6 +5,13 @@ import type { WrappedDOMRect } from './types';
 const OXFORD_SEARCH_URL =
 	'https://www.oxfordlearnersdictionaries.com/search/english/direct';
 
+export const openSearchDictionary = () => {
+	const selection = window.getSelection();
+	if (!selection) return;
+	const text = selection.toString();
+	searchDictionary(text);
+};
+
 export const searchDictionary = (text: string) => {
 	window.open(`${OXFORD_SEARCH_URL}/?q=${encodeURI(text)}`);
 };

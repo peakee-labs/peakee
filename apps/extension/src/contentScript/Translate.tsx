@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import TranslateBox from '@peakee/features/TranslateBox';
 
+import { withForwardRef } from './utils/withForwardRef';
 import { type Position, requestTranslateViaMessaging } from './utils';
 
-export const Translate = () => {
+export const Translate = withForwardRef((_, ref) => {
 	const [translatePosition, setTranslatePosition] = useState<Position>();
 	const [selectedText, setSelectedText] = useState('');
-	const translateBoxRef = useRef(null);
 
 	const startTranslate = () => {
 		const selection = window.getSelection();
@@ -25,33 +25,30 @@ export const Translate = () => {
 		startTranslate();
 	}, []);
 
+	if (!translatePosition) return null;
+
 	return (
-		<View style={styles.container}>
-			{translatePosition && (
-				<TranslateBox
-					ref={translateBoxRef}
-					style={[translatePosition, styles.translateBox]}
-					contentFontSize={18}
-					initText={selectedText}
-					translate={requestTranslateViaMessaging}
-					experimentalDynamicSize
-					collapsible
-					collapse
-				/>
-			)}
-		</View>
+		<TranslateBox
+			ref={ref}
+			style={[translatePosition, styles.container]}
+			contentFontSize={18}
+			initText={selectedText}
+			translate={requestTranslateViaMessaging}
+			experimentalDynamicSize
+			collapsible
+			collapse
+		/>
 	);
-};
+});
 
 export default Translate;
 
 const styles = StyleSheet.create({
-	container: {},
-	translateBox: {
+	container: {
+		position: 'absolute',
 		minWidth: 300,
 		maxWidth: 800,
 		backgroundColor: '#FFFFFF',
-		position: 'absolute',
 		paddingVertical: 18,
 		borderWidth: 1.6,
 		borderColor: '#DADADA',

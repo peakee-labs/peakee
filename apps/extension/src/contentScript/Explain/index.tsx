@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { ExplainPhraseInSentenceResponse } from '@peakee/api';
 import ExplanationBox from '@peakee/features/ExplanationBox';
@@ -8,17 +8,17 @@ import {
 	requestExplainViaMessage,
 	retrieveSentenceOfWordsInSingleRange,
 } from '../utils';
+import { withForwardRef } from '../utils/withForwardRef';
 
 import { Highlight } from './HighLight';
 
-export const Explain = () => {
+export const Explain = withForwardRef((_, ref) => {
 	const [rects, setRects] = useState<WrappedDOMRect[]>([]);
 	const [highlight, setHighlight] = useState<boolean>(false);
 	const [explanation, setExplanation] =
 		useState<ExplainPhraseInSentenceResponse>();
 	const [explanationBoxPosition, setExplanationBoxPosition] =
 		useState<Position>();
-	const explanationBoxRef = useRef(null);
 
 	const startExplain = async () => {
 		const selection = window.getSelection();
@@ -50,20 +50,19 @@ export const Explain = () => {
 	}, []);
 
 	return (
-		<View style={styles.container}>
+		<View ref={ref} style={styles.container}>
+			{highlight && rects && <Highlight rects={rects} />}
+
 			{explanation && explanationBoxPosition && (
 				<ExplanationBox
 					style={styles.explanationBox}
-					ref={explanationBoxRef}
 					position={explanationBoxPosition}
 					explanation={explanation}
 				/>
 			)}
-
-			{highlight && rects && <Highlight rects={rects} />}
 		</View>
 	);
-};
+});
 
 export default Explain;
 
