@@ -6,18 +6,24 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from './store';
 
 type Props = {
+	/** default to True */
+	enablePersist?: boolean;
 	children: ReactNode;
 };
 
-export const StateProvider: FC<Props> = ({ children }) => {
+export const StateProvider: FC<Props> = ({ children, enablePersist }) => {
 	return (
 		<Provider store={store()}>
-			<PersistGate
-				loading={<ActivityIndicator />}
-				persistor={persistor()}
-			>
-				{children}
-			</PersistGate>
+			{enablePersist ? (
+				<PersistGate
+					loading={<ActivityIndicator size={'large'} />}
+					persistor={persistor()}
+				>
+					{children}
+				</PersistGate>
+			) : (
+				children
+			)}
 		</Provider>
 	);
 };

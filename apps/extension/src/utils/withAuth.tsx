@@ -1,17 +1,15 @@
 import type { FC } from 'react';
 import { Fragment, useEffect, useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { initAuthPromise, signInWithGoogle, signOut } from '@peakee/auth';
+import { StyleSheet, View } from 'react-native';
+import { initAuthPromise, signInWithGoogle } from '@peakee/auth';
+import { getJWT } from '@peakee/auth/jwt';
 import SignInFeature from '@peakee/features/SignIn';
-import { Button } from '@peakee/ui';
 
 type Configs = {
 	customSignIn?: () => Promise<void>;
-	showSignOut?: boolean;
 	containerStyle?: StyleProp<ViewStyle>;
 	signInBoxStyle?: StyleProp<ViewStyle>;
-	signOutButtonStyle?: StyleProp<ViewStyle>;
 };
 
 export const withAuth = (Component: FC, configs?: Configs) => {
@@ -30,19 +28,16 @@ export const withAuth = (Component: FC, configs?: Configs) => {
 		const containerStyle = [styles.container, configs?.containerStyle];
 
 		useEffect(() => {
-			initAuthPromise.then((user) => {
+			initAuthPromise.then(() => {
 				setLoading(false);
-				if (user) setSignedIn(true);
+				const jwt = getJWT();
+				if (jwt) setSignedIn(true);
 			});
 		}, []);
 
 		return (
 			<Fragment>
-				{loading ? (
-					<View style={containerStyle}>
-						<ActivityIndicator />
-					</View>
-				) : !signedIn ? (
+				{!loading && !signedIn ? (
 					<View style={containerStyle}>
 						<SignInFeature
 							style={[styles.signInBox, configs?.signInBoxStyle]}
@@ -51,19 +46,7 @@ export const withAuth = (Component: FC, configs?: Configs) => {
 						/>
 					</View>
 				) : (
-					<Fragment>
-						<Component />
-						{configs?.showSignOut && (
-							<Button
-								style={[
-									styles.signOutButton,
-									configs?.signOutButtonStyle,
-								]}
-								title="Sign out"
-								onPress={signOut}
-							/>
-						)}
-					</Fragment>
+					<Component />
 				)}
 			</Fragment>
 		);
@@ -87,8 +70,5 @@ const styles = StyleSheet.create({
 	},
 	signInTitleStyle: {
 		gap: 20,
-	},
-	signOutButton: {
-		width: 100,
 	},
 });

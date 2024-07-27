@@ -42,7 +42,7 @@ const container = document.getElementById('app-container');
 if (container) {
 	const root = createRoot(container);
 	root.render(
-		<StateProvider>
+		<StateProvider enablePersist={false}>
 			<RouterProvider router={router} />
 		</StateProvider>,
 	);

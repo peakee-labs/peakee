@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, runOnJS } from 'react-native-reanimated';
 import { initAuthPromise } from '@peakee/auth';
+import { getJWT } from '@peakee/auth/jwt';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import 'utils/auth';
@@ -9,10 +10,10 @@ import 'utils/auth';
 const Splash = () => {
 	const { navigate, reset } = useNavigation();
 	const firstRender = useRef(true);
-	const resolveAnimationRef = useRef(() => ({}));
+	const resolveAnimationRef = useRef<() => void>(() => ({}));
 	const animationRef = useRef(
-		new Promise((resolve) => {
-			resolveAnimationRef.current = resolve as never;
+		new Promise<void>((resolve) => {
+			resolveAnimationRef.current = resolve;
 		}),
 	);
 
@@ -22,16 +23,20 @@ const Splash = () => {
 			runOnJS(resolveAnimationRef.current)();
 		});
 
+	const initApp = async () => {
+		await Promise.all([initAuthPromise, animationRef.current]);
+
+		const jwt = await getJWT();
+		if (!jwt) {
+			navigate('SignIn');
+		} else {
+			navigate('Home', { screen: 'Chat' });
+		}
+
+		firstRender.current = false;
+	};
+
 	useEffect(() => {
-		const initApp = async () => {
-			const [user] = await Promise.all([
-				initAuthPromise,
-				animationRef.current,
-			]);
-			if (!user) navigate('SignIn');
-			else navigate('Home', { screen: 'Chat' });
-			firstRender.current = false;
-		};
 		initApp();
 	}, []);
 
