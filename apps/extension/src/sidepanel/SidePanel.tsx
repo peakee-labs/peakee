@@ -15,6 +15,9 @@ export default SidePanel;
 
 const styles = StyleSheet.create({
 	container: {
+		width: '100%',
+		height: '100%',
+		// backgroundColor: '#3C3C3C',
 		paddingVertical: 6,
 		paddingBottom: 20,
 		paddingHorizontal: 10,
@@ -25,7 +28,6 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 	},
 	translateContainer: {
-		flex: 1,
 		borderWidth: 1.6,
 		borderColor: '#DADADA',
 		borderRadius: 20,
