@@ -26,10 +26,14 @@ export const ContentApp = () => {
 
 	const handleMouseUp = useCallback(async function () {
 		const selection = window.getSelection();
-		const hasRef = explainRef.current || translateRef.current;
-		if (selection && !selection.isCollapsed && !hasRef) {
+		const hasAnyToolRef = explainRef.current || translateRef.current;
+		if (selection && !selection.isCollapsed && !hasAnyToolRef) {
 			handleCurrentSelection();
-		} else if (selection) {
+		} else if (!selection || selection.rangeCount < 1) {
+			setToolboxPosition(undefined);
+			setShowExplain(false);
+			setShowTranslate(false);
+		} else {
 			const { top, left, width, height } = selection
 				.getRangeAt(0)
 				.getBoundingClientRect();
