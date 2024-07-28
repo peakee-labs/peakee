@@ -1,12 +1,29 @@
 import type { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TranslateBox } from '@peakee/features/TranslateBox';
+import { ArrowRightV2 } from '@peakee/icons';
+
+import { Input } from '../components';
 
 const SidePanel: FC = () => {
 	return (
 		<View style={styles.container}>
+			<Text style={styles.headerText}>Peakee Panel</Text>
 			<Text style={styles.title}>Translation</Text>
-			<TranslateBox style={styles.translateContainer} />
+			<TranslateBox
+				style={styles.translateContainer}
+				contentFontSize={16}
+			/>
+
+			<Text style={styles.title}>Quick Ask</Text>
+			<Input
+				suffixPlaceholder="tiếng Anh là gì?"
+				suffix={
+					<TouchableOpacity>
+						<ArrowRightV2 strokeWidth="3" color={'#a4a4a4'} />
+					</TouchableOpacity>
+				}
+			/>
 		</View>
 	);
 };
@@ -22,9 +39,17 @@ const styles = StyleSheet.create({
 		paddingBottom: 20,
 		paddingHorizontal: 10,
 		borderRadius: 10,
-		gap: 10,
+	},
+	headerText: {
+		marginTop: 6,
+		textAlign: 'center',
+		fontSize: 14,
+		fontWeight: '600',
 	},
 	title: {
+		marginTop: 20,
+		marginBottom: 10,
+		marginLeft: 10,
 		fontWeight: '500',
 	},
 	translateContainer: {

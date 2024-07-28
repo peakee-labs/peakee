@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { ExplanationPrompts, Explanations } from '@peakee/api';
 import ExplanationBoxV2 from '@peakee/features/ExplanationBoxV2';
+import { ArrowRightV2 } from '@peakee/icons';
 
+import Input from '../components/Input';
 import Toolbox from '../components/Toolbox';
 
 const mockExplanations: Explanations = [
@@ -68,6 +70,16 @@ export const Components = () => {
 
 				<Text style={styles.title}>Toolbox v2</Text>
 				<Toolbox />
+
+				<Text style={styles.title}>Input</Text>
+				<Input
+					suffixPlaceholder="tiếng Anh là gì?"
+					suffix={
+						<TouchableOpacity>
+							<ArrowRightV2 strokeWidth="3" color={'#a4a4a4'} />
+						</TouchableOpacity>
+					}
+				/>
 			</View>
 		</View>
 	);

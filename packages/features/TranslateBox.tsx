@@ -368,6 +368,7 @@ const styles = StyleSheet.create({
 	},
 	clearText: {
 		color: '#a5a5a5',
+		fontSize: 12,
 	},
 	translatedContainer: {
 		minHeight: 80,
