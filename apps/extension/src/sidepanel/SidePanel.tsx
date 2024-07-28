@@ -24,6 +24,18 @@ const SidePanel: FC = () => {
 					</TouchableOpacity>
 				}
 			/>
+
+			<Text style={styles.title}>Quick Note</Text>
+			<Text style={styles.description}>
+				Store your note and review anytime!
+			</Text>
+			<Input
+				suffix={
+					<TouchableOpacity>
+						<ArrowRightV2 strokeWidth="3" color={'#a4a4a4'} />
+					</TouchableOpacity>
+				}
+			/>
 		</View>
 	);
 };
@@ -49,8 +61,16 @@ const styles = StyleSheet.create({
 	title: {
 		marginTop: 20,
 		marginBottom: 10,
-		marginLeft: 10,
+		marginLeft: 6,
 		fontWeight: '500',
+	},
+	description: {
+		marginTop: -4,
+		marginBottom: 10,
+		marginLeft: 6,
+		fontSize: 14,
+		fontWeight: '400',
+		opacity: 0.6,
 	},
 	translateContainer: {
 		borderWidth: 1.6,
