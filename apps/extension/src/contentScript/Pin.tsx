@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
 	useAnimatedStyle,
@@ -9,34 +10,67 @@ import { Events } from '../utils/messaging';
 
 import { channel } from './utils';
 
+type MouseEventListener = (e: MouseEvent) => void;
+
 export const Pin = () => {
+	const xOffset = useSharedValue(0);
 	const yOffset = useSharedValue(0);
+	const [pressedIn, setPressedIn] = useState(false);
+	const mouseListener = useRef<MouseEventListener | undefined>(undefined);
 
 	const animatedStyle = useAnimatedStyle(() => {
-		return { transform: [{ translateX: yOffset.value }] };
+		return {
+			transform: [
+				{ translateX: xOffset.value },
+				{ translateY: yOffset.value },
+			],
+		};
 	});
 
 	const handleMouseEnter = () => {
-		yOffset.value = withTiming(-46);
+		xOffset.value = withTiming(-46);
 	};
 
 	const handleMouseLeave = () => {
-		yOffset.value = withTiming(0);
+		xOffset.value = withTiming(0);
+	};
+
+	const handlePressedIn = () => {
+		setPressedIn(true);
+	};
+
+	const handlePressOut = () => {
+		setPressedIn(false);
 	};
 
 	const handlePress = async () => {
 		await channel.request({ type: Events.OPEN_PANEL });
 	};
 
+	useEffect(() => {
+		if (pressedIn) {
+			mouseListener.current = (e) => {
+				yOffset.value += e.movementY;
+			};
+
+			document.addEventListener('mousemove', mouseListener.current);
+		} else if (mouseListener.current) {
+			document.removeEventListener('mousemove', mouseListener.current);
+		}
+	}, [pressedIn]);
+
 	return (
 		<View style={styles.container}>
 			<Animated.View style={animatedStyle}>
 				<TouchableOpacity
 					style={styles.pinButton}
+					activeOpacity={0.6}
+					onPress={handlePress}
+					onPressIn={handlePressedIn}
+					onPressOut={handlePressOut}
 					// @ts-ignore No overload matches this call
 					onMouseEnter={handleMouseEnter}
 					onMouseLeave={handleMouseLeave}
-					onPress={handlePress}
 				>
 					<Image
 						style={styles.icon}
